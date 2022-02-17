@@ -1,7 +1,5 @@
 #include "Engine/Engine.h"
 
-#include "ImGui/imgui.h"
-
 
 int main() {
 	// Callbacks
@@ -14,13 +12,11 @@ int main() {
 	timer.interval();
 
 	// ImGui
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGui::StyleColorsDark();
+	kl::gui::init();
 
 	// Window
-	win.startNew(kl::ivec2(1600, 900), "Krimz Editor", false, false);
+	win.startNew(kl::ivec2(1600, 900), "Krimz Editor", false, false, true);
 
 	// Cleanup
-	ImGui::DestroyContext();
+	kl::gui::uninit();
 }

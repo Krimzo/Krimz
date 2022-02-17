@@ -9,6 +9,8 @@
 #include "KrimzLib/memory/pbuffer.h"
 #include "KrimzLib/dx/gpu.h"
 #include "KrimzLib/dx/fbuffer.h"
+#include "KrimzLib/dx/dbuffer.h"
+#include "KrimzLib/dx/ibuffer.h"
 #include "KrimzLib/dx/raster.h"
 #include "KrimzLib/dx/shaders.h"
 #include "KrimzLib/dx/cbuffer.h"
@@ -30,9 +32,11 @@ namespace kl {
 		ID3D11Device* dev = nullptr;
 		ID3D11DeviceContext* devcon = nullptr;
 		IDXGISwapChain* chain = nullptr;
-		kl::fbuffer* frameBuff = nullptr;
 
 		// Buffers
+		kl::fbuffer* frameBuff = nullptr;
+		kl::dbuffer* depthBuff = nullptr;
+		kl::ibuffer* indexBuff = nullptr;
 		kl::pbuffer<kl::raster>   rasters;
 		kl::pbuffer<kl::shaders>  shaders;
 		kl::pbuffer<kl::cbuffer> cbuffers;
@@ -40,23 +44,30 @@ namespace kl {
 		kl::pbuffer<kl::texture> textures;
 		kl::pbuffer<kl::sampler> samplers;
 
+		// ImGui
+		bool usingImGui = false;
+
 	public:
 		// Constructor
-		gpu(HWND hwnd);
+		gpu(HWND hwnd, bool imgui = false);
 
 		// Destructor
 		~gpu();
 
 		// Getters
 		ID3D11Device* getDev();
-		ID3D11DeviceContext* getDevCon();
+		ID3D11DeviceContext* getCon();
 
 		// Sets the viewport
 		void setViewport(const kl::ivec2& pos, const kl::ivec2& size);
 
+		// Binds the internal render targets
+		void bindInternal();
+
 		// Clears the buffer
 		void clearColor(const kl::vec4& color);
 		void clearDepth();
+		void clearIndex();
 		void clear(const kl::vec4& color);
 
 		// Swaps the buffers
@@ -91,6 +102,6 @@ namespace kl {
 		bool delSampler(kl::sampler* samp);
 
 		// Returns the picking index
-		int getPickingIndex(const kl::ivec2& pos);
+		int getIndex(const kl::ivec2& pos);
 	};
 }

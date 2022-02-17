@@ -5,26 +5,33 @@
 #include <windowsx.h>
 #include <d3d11.h>
 
-#include "KrimzLib/vecmath/vec4.h"
+#include "KrimzLib/vecmath/ivec2.h"
 
 
 namespace kl {
-	class fbuffer {
+	class ibuffer {
 	private:
 		ID3D11DeviceContext* devcon = nullptr;
 		ID3D11RenderTargetView* view = nullptr;
+		ID3D11Texture2D* indTex = nullptr;
+		ID3D11Texture2D* stagTex = nullptr;
+		int width = 0;
+		int height = 0;
 
 	public:
 		// Constructor
-		fbuffer(IDXGISwapChain* chain, ID3D11Device* dev, ID3D11DeviceContext* devcon, int width, int height);
+		ibuffer(ID3D11Device* dev, ID3D11DeviceContext* devcon, int width, int height);
 
 		// Desctructor
-		~fbuffer();
+		~ibuffer();
 
 		// Returns the view pointer
 		ID3D11RenderTargetView* getView();
 
 		// Clears the buffer
-		void clear(const kl::vec4& color);
+		void clear();
+
+		// Returns the picking index
+		int getIndex(const kl::ivec2& pos);
 	};
 }

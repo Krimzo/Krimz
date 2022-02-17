@@ -1,14 +1,9 @@
 #include "Engine/Engine.h"
 
-#include "ImGui/imgui_impl_dx11.h"
-
 
 void Start() {
 	// Creating the gpu
-	gpu = new kl::gpu(win.getHWND());
-
-	// ImGui
-	ImGui_ImplDX11_Init(gpu->getDev(), gpu->getDevCon());
+	gpu = new kl::gpu(win.getHWND(), true);
 
 	// Creating the rasters
 	solid_ra = gpu->newRaster(false, true);
@@ -29,19 +24,10 @@ void Start() {
 
 	/* DEBUG */
 	kl::mesh* cube = gpu->newMesh("res/objects/cube.obj", true);
-	kl::mesh* horse = gpu->newMesh("res/objects/horse.obj", true);
-
 	kl::texture* dogo = gpu->newTexture("res/textures/dogo.jpg");
-	kl::texture* konj = gpu->newTexture("res/textures/horse.jpg");
-
 	kl::entity* cogo1 = entities.newInst(new kl::entity(cube, dogo));
 	kl::entity* cogo2 = entities.newInst(new kl::entity(cube, dogo));
-	kl::entity* kohnj = entities.newInst(new kl::entity(horse, konj));
-
 	cogo1->position.z = 2;
-
 	cogo2->position.z = 2;
 	cogo2->position.x = 2;
-
-	kohnj->position.x = -2;
 }

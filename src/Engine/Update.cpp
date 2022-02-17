@@ -1,8 +1,6 @@
 #include "Engine/Engine.h"
 
-#include "ImGui/imgui.h"
-#include "ImGui/imgui_impl_win32.h"
-#include "ImGui/imgui_impl_dx11.h"
+#include "KrimzLib/gui/gui.h"
 
 
 void Update() {
@@ -72,28 +70,21 @@ void Update() {
 	}
 
 	// Drawing the gui
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-
-	// Entity properties
-	if (ImGui::Begin("Entity Properties")) {
-		if (selected) {
-			ImGui::Checkbox("Visible", &selected->visible);
-			ImGui::Checkbox("Shadows", &selected->shadows);
-			ImGui::SliderFloat3("Size", (float*)&selected->size, 0, 2.5f);
-			ImGui::SliderFloat3("Position", (float*)&selected->position, -5, 5);
-			ImGui::SliderFloat3("Rotation", (float*)&selected->rotation, 0, 360);
-			ImGui::Checkbox("Physics", &selected->physics);
-			ImGui::SliderFloat3("Acceleration", (float*)&selected->acceler, 0, 3);
-			ImGui::SliderFloat3("Veloctiy", (float*)&selected->velocity, 0, 5);
-			ImGui::SliderFloat3("Angular", (float*)&selected->angular, -60, 60);
+	kl::gui::draw([&]() {
+		if (ImGui::Begin("Entity Properties")) {
+			if (selected) {
+				ImGui::Checkbox("Visible", &selected->visible);
+				ImGui::Checkbox("Shadows", &selected->shadows);
+				ImGui::DragFloat3("Size", (float*)&selected->size, 0.1f, 0, 0);
+				ImGui::DragFloat3("Position", (float*)&selected->position, 0.1f, 0, 0);
+				ImGui::DragFloat3("Rotation", (float*)&selected->rotation, 0.1f, 0, 0);
+				ImGui::Checkbox("Physics", &selected->physics);
+				ImGui::DragFloat3("Acceleration", (float*)&selected->acceler, 0.1f, 0, 0);
+				ImGui::DragFloat3("Veloctiy", (float*)&selected->velocity, 0.1f, 0, 0);
+				ImGui::DragFloat3("Angular", (float*)&selected->angular, 0.1f, 0, 0);
+			}
 		}
-	}
-	ImGui::End();
-
-	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	});
 
 	// Swapping the frame buffers
 	gpu->swap(true);

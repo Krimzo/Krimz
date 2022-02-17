@@ -168,8 +168,10 @@
     <ClCompile Include="src\KrimzLib\console.cpp" />
     <ClCompile Include="src\KrimzLib\convert.cpp" />
     <ClCompile Include="src\KrimzLib\dx\cbuffer.cpp" />
+    <ClCompile Include="src\KrimzLib\dx\dbuffer.cpp" />
     <ClCompile Include="src\KrimzLib\dx\fbuffer.cpp" />
     <ClCompile Include="src\KrimzLib\dx\gpu.cpp" />
+    <ClCompile Include="src\KrimzLib\dx\ibuffer.cpp" />
     <ClCompile Include="src\KrimzLib\dx\mesh.cpp" />
     <ClCompile Include="src\KrimzLib\dx\raster.cpp" />
     <ClCompile Include="src\KrimzLib\dx\sampler.cpp" />
@@ -181,6 +183,7 @@
     <ClCompile Include="src\KrimzLib\geometry\vertex.cpp" />
     <ClCompile Include="src\KrimzLib\graphics\color.cpp" />
     <ClCompile Include="src\KrimzLib\graphics\image.cpp" />
+    <ClCompile Include="src\KrimzLib\gui\gui.cpp" />
     <ClCompile Include="src\KrimzLib\light\ambient.cpp" />
     <ClCompile Include="src\KrimzLib\light\direct.cpp" />
     <ClCompile Include="src\KrimzLib\math.cpp" />
@@ -214,8 +217,10 @@
     <ClInclude Include="incl\KrimzLib\console.h" />
     <ClInclude Include="incl\KrimzLib\convert.h" />
     <ClInclude Include="incl\KrimzLib\dx\cbuffer.h" />
+    <ClInclude Include="incl\KrimzLib\dx\dbuffer.h" />
     <ClInclude Include="incl\KrimzLib\dx\fbuffer.h" />
     <ClInclude Include="incl\KrimzLib\dx\gpu.h" />
+    <ClInclude Include="incl\KrimzLib\dx\ibuffer.h" />
     <ClInclude Include="incl\KrimzLib\dx\mesh.h" />
     <ClInclude Include="incl\KrimzLib\dx\raster.h" />
     <ClInclude Include="incl\KrimzLib\dx\sampler.h" />
@@ -227,6 +232,7 @@
     <ClInclude Include="incl\KrimzLib\geometry\vertex.h" />
     <ClInclude Include="incl\KrimzLib\graphics\color.h" />
     <ClInclude Include="incl\KrimzLib\graphics\image.h" />
+    <ClInclude Include="incl\KrimzLib\gui\gui.h" />
     <ClInclude Include="incl\KrimzLib\KrimzLib.hpp" />
     <ClInclude Include="incl\KrimzLib\light\ambient.h" />
     <ClInclude Include="incl\KrimzLib\light\direct.h" />

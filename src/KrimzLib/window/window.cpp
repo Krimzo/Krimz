@@ -1,6 +1,7 @@
 #include "KrimzLib/window/window.h"
 
 #include "KrimzLib/convert.h"
+
 #include "ImGui/imgui_impl_win32.h"
 
 
@@ -34,7 +35,7 @@ kl::window::~window() {
 }
 
 // Window creation
-void kl::window::startNew(const kl::ivec2& size, const std::string& name, bool resizeable, bool continuous) {
+void kl::window::startNew(const kl::ivec2& size, const std::string& name, bool resizeable, bool continuous, bool imgui) {
 	// Converting window name to a wstring
 	const std::wstring wName = kl::convert::toWString(name);
 
@@ -51,7 +52,10 @@ void kl::window::startNew(const kl::ivec2& size, const std::string& name, bool r
 	this->mouse.bind(hwnd);
 
 	// ImGui setup
-	ImGui_ImplWin32_Init(hwnd);
+	this->usingImGui = imgui;
+	if (imgui) {
+		ImGui_ImplWin32_Init(hwnd);
+	}
 
 	// Starting the update loops
 	SetCursor(LoadCursor(NULL, IDC_ARROW));
@@ -76,7 +80,9 @@ void kl::window::startNew(const kl::ivec2& size, const std::string& name, bool r
 	}
 
 	// ImGui cleanup
-	ImGui_ImplWin32_Shutdown();
+	if (imgui) {
+		ImGui_ImplWin32_Shutdown();
+	}
 
 	// Cleanup
 	UnregisterClassW(wName.c_str(), hInstance);
@@ -204,8 +210,10 @@ void kl::window::setupBitmapInfo() {
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void kl::window::handleMessage() {
 	// ImGui
-	if (ImGui_ImplWin32_WndProcHandler(wndMsg.hwnd, wndMsg.message, wndMsg.wParam, wndMsg.lParam)) {
-		return;
+	if (usingImGui) {
+		if (ImGui_ImplWin32_WndProcHandler(wndMsg.hwnd, wndMsg.message, wndMsg.wParam, wndMsg.lParam)) {
+			return;
+		}
 	}
 
 	// Default

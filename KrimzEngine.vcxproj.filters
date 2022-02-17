@@ -153,6 +153,15 @@
     <ClCompile Include="src\KrimzLib\web.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\KrimzLib\dx\ibuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KrimzLib\dx\dbuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KrimzLib\gui\gui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="incl\Engine\Engine.h">
@@ -291,6 +300,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\KrimzLib\web.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\dx\ibuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\dx\dbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\gui\gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

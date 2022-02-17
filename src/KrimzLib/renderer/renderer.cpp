@@ -180,10 +180,10 @@ bool kl::renderer::delEntity(kl::entity* ent) {
 
 // Skybox
 kl::skybox* kl::renderer::newSkybox(const kl::image& fullBox) {
-	return skyboxes.newInst(new kl::skybox(gpu->getDev(), gpu->getDevCon(), fullBox));
+	return skyboxes.newInst(new kl::skybox(gpu->getDev(), gpu->getCon(), fullBox));
 }
 kl::skybox* kl::renderer::newSkybox(const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom) {
-	return skyboxes.newInst(new kl::skybox(gpu->getDev(), gpu->getDevCon(), front, back, left, right, top, bottom));
+	return skyboxes.newInst(new kl::skybox(gpu->getDev(), gpu->getCon(), front, back, left, right, top, bottom));
 }
 bool kl::renderer::delSkybox(kl::skybox* sky) {
 	return skyboxes.delInst(sky);

@@ -1,8 +1,6 @@
 #include "Engine/Engine.h"
 
 
-bool camMoving = false;
-
 void Input() {
 	// Exit
 	if (win.keys.esc) win.stop();
@@ -24,30 +22,37 @@ void Input() {
 	}
 
 	// Camera rotation
-	if (win.keys.shift && win.mouse.lmb) {
-		camMoving = true;
-		win.mouse.hide();
+	static bool camMoving = false;
+	if (win.mouse.mmb) {
+		// Getting the frame center
+		const kl::ivec2 frameCenter = win.getCenter();
 
 		// Fixing the camera jump on the first click
-		win.mouse.position = win.getCenter();
-	}
-	if (win.keys.shift && win.mouse.rmb) {
-		camMoving = false;
-		win.mouse.show();
-	}
-	if (camMoving) {
-		const kl::ivec2 frameCenter = win.getCenter();
+		if (!camMoving) {
+			win.mouse.position = frameCenter;
+		}
+
+		// Saving info
+		win.mouse.hide();
+		camMoving = true;
+
+		// Updating the cam
 		camera.rotate(win.mouse.position, frameCenter);
 		win.mouse.move(frameCenter);
 	}
+	else {
+		// Saving info
+		win.mouse.show();
+		camMoving = false;
+	}
 
 	// Picking
-	if (!win.keys.shift && win.mouse.rmb) {
-		const int ind = gpu->getPickingIndex(win.mouse.position);
+	if (win.mouse.lmb) {
+		const int ind = gpu->getIndex(win.mouse.position);
 		if (ind >= 0) {
 			selected = entities[ind];
 		}
-		else {
+		else if (win.keys.shift) {
 			selected = nullptr;
 		}
 	}

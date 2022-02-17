@@ -51,6 +51,9 @@ namespace kl {
 		// Handles the windows message
 		void handleMessage();
 
+		// ImGui
+		bool usingImGui = false;
+
 	public:
 		// Screen
 		class screen {
@@ -76,7 +79,7 @@ namespace kl {
 		~window();
 
 		// Window creation
-		void startNew(const kl::ivec2& size, const std::string& name, bool resizeable, bool continuous);
+		void startNew(const kl::ivec2& size, const std::string& name, bool resizeable, bool continuous, bool imgui = false);
 		
 		// Window stop
 		void stop() const;
