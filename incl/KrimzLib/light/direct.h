@@ -19,7 +19,7 @@ namespace kl {
 
 	public:
 		kl::vec3 color = kl::colors::white;
-		kl::vec3 direction = kl::vec3(0.0f, -1.0f, -2.0f);
+		kl::vec3 direction = kl::vec3(0.0f, -1.0f, 2.0f);
 		float intensity = 1.0f;
 		
 		// Returns the true light color

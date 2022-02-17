@@ -42,7 +42,7 @@ namespace kl {
 
 	public:
 		// Constructor
-		gpu(HWND hwnd, int msaa = 2);
+		gpu(HWND hwnd);
 
 		// Destructor
 		~gpu();
@@ -89,5 +89,8 @@ namespace kl {
 		// Sampler
 		kl::sampler* newSampler(bool linear, bool mirror);
 		bool delSampler(kl::sampler* samp);
+
+		// Returns the picking index
+		int getPickingIndex(const kl::ivec2& pos);
 	};
 }

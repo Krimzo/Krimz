@@ -10,7 +10,7 @@
 
 
 // Constructor
-kl::gpu::gpu(HWND hwnd, int msaa) {
+kl::gpu::gpu(HWND hwnd) {
     // Getting the window size
     RECT clientArea = {};
     GetClientRect(hwnd, &clientArea);
@@ -23,7 +23,7 @@ kl::gpu::gpu(HWND hwnd, int msaa) {
     chaindes.BufferDesc.Height = clientArea.bottom;           // Setting the backbuffer height
     chaindes.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;   // Usage
     chaindes.OutputWindow = hwnd;                             // Window
-    chaindes.SampleDesc.Count = msaa;                         // MSAA
+    chaindes.SampleDesc.Count = 1;                            // MSAA
     chaindes.Windowed = true;                                 // Windowed/fullscreen
     chaindes.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;  // Allowing fullscreen switching
 
@@ -59,7 +59,7 @@ kl::gpu::gpu(HWND hwnd, int msaa) {
     }
 
     // Frame buffer creation
-    frameBuff = new kl::fbuffer(chain, dev, devcon, clientArea.right, clientArea.bottom, msaa);
+    frameBuff = new kl::fbuffer(chain, dev, devcon, clientArea.right, clientArea.bottom);
     frameBuff->bind(true);
 
     // Viewport setup
@@ -178,4 +178,9 @@ kl::sampler* kl::gpu::newSampler(bool linear, bool mirror) {
 }
 bool kl::gpu::delSampler(kl::sampler* samp) {
     return samplers.delInst(samp);
+}
+
+// Returns the picking index
+int kl::gpu::getPickingIndex(const kl::ivec2& pos) {
+    return this->frameBuff->getPickingIndex(pos);
 }
