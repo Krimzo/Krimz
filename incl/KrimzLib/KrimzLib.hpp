@@ -42,7 +42,7 @@
 #include "KrimzLib/dx/sampler.h"
 
 // Including ImGui
-#include "KrimzLib/gui/gui.h"
+#include "KrimzLib/igui/igui.h"
 
 // Including the geometry
 #include "KrimzLib/geometry/vertex.h"

@@ -58,6 +58,9 @@ namespace kl {
 		ID3D11Device* getDev();
 		ID3D11DeviceContext* getCon();
 
+		// Regenerates the buffers
+		void regenBuffers(const kl::ivec2& size);
+
 		// Sets the viewport
 		void setViewport(const kl::ivec2& pos, const kl::ivec2& size);
 

@@ -23,7 +23,7 @@ void Input() {
 
 	// Camera rotation
 	static bool camMoving = false;
-	if (win.mouse.mmb) {
+	if (win.mouse.rmb) {
 		// Getting the frame center
 		const kl::ivec2 frameCenter = win.getCenter();
 
@@ -48,12 +48,15 @@ void Input() {
 
 	// Picking
 	if (win.mouse.lmb) {
-		const int ind = gpu->getIndex(win.mouse.position);
-		if (ind >= 0) {
-			selected = entities[ind];
-		}
-		else if (win.keys.shift) {
-			selected = nullptr;
+		// Mouse over GUI check
+		if (!ImGui::GetIO().WantCaptureMouse) {
+			const int ind = gpu->getIndex(win.mouse.position);
+			if (ind >= 0) {
+				selected = entities[ind];
+			}
+			else {
+				selected = nullptr;
+			}
 		}
 	}
 }

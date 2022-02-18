@@ -1,7 +1,5 @@
 #include "Engine/Engine.h"
 
-#include "KrimzLib/gui/gui.h"
-
 
 void Update() {
 	// Time
@@ -21,70 +19,14 @@ void Update() {
 		gpu->setDepthTest(true);
 	}
 
-	// Setting the camera data
-	EDI_VS_CB edi_vert_data = {};
-	edi_vert_data.vp = camera.matrix();
-
-	// Setting the lighting data
-	EDI_PS_CB edi_pixl_data = {};
-	edi_pixl_data.ambient = ambient.getCol();
-	edi_pixl_data.dirCol = sun.getCol();
-	edi_pixl_data.dirDir = sun.getDir();
-
-	// Rendering objects
-	for (int i = 0; i < entities.size(); i++) {
-		if (entities[i]->visible) {
-			// Setting the world matrix
-			edi_vert_data.w = entities[i]->matrix();
-
-			// Updating the vert data
-			editor_sh->setVertData(&edi_vert_data);
-
-			// Setting the obj index
-			edi_pixl_data.objIndex.x = *(float*)&i;
-
-			// Updating the pixl data
-			editor_sh->setPixlData(&edi_pixl_data);
-
-			// Rendering the object
-			entities[i]->render();
-		}
-	}	
+	// Drawing entities
+	Draw();
 
 	// Highlighting
-	if (selected) {
-		// Setting the highlight vertex data
-		kl::mat4 wvp = camera.matrix() * selected->matrix();
-		highlight_sh->setVertData(&wvp);
-
-		// Setting the highlight pixel data
-		kl::vec4 hig_col = highlight;
-		highlight_sh->setPixlData(&hig_col);
-
-		// Rendering
-		gpu->setDepthTest(false);
-		wire_ra->bind();
-		selected->render();
-		solid_ra->bind();
-		gpu->setDepthTest(true);
-	}
+	Highlight();
 
 	// Drawing the gui
-	kl::gui::draw([&]() {
-		if (ImGui::Begin("Entity Properties")) {
-			if (selected) {
-				ImGui::Checkbox("Visible", &selected->visible);
-				ImGui::Checkbox("Shadows", &selected->shadows);
-				ImGui::DragFloat3("Size", (float*)&selected->size, 0.1f, 0, 0);
-				ImGui::DragFloat3("Position", (float*)&selected->position, 0.1f, 0, 0);
-				ImGui::DragFloat3("Rotation", (float*)&selected->rotation, 0.1f, 0, 0);
-				ImGui::Checkbox("Physics", &selected->physics);
-				ImGui::DragFloat3("Acceleration", (float*)&selected->acceler, 0.1f, 0, 0);
-				ImGui::DragFloat3("Veloctiy", (float*)&selected->velocity, 0.1f, 0, 0);
-				ImGui::DragFloat3("Angular", (float*)&selected->angular, 0.1f, 0, 0);
-			}
-		}
-	});
+	kl::igui::draw(GUI);
 
 	// Swapping the frame buffers
 	gpu->swap(true);

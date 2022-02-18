@@ -2,6 +2,9 @@
 
 
 int main() {
+	// Hiding the console
+	kl::console::hide();
+
 	// Callbacks
 	win.start = Start;
 	win.update = Update;
@@ -12,11 +15,14 @@ int main() {
 	timer.interval();
 
 	// ImGui
-	kl::gui::init();
+	kl::igui::init();
+
+	// Loading my theme
+	kl::igui::loadKrimzTheme();
 
 	// Window
-	win.startNew(kl::ivec2(1600, 900), "Krimz Editor", false, false, true);
+	win.startNew(kl::ivec2(1600, 900), "rimz Editor", true, false, true);
 
 	// Cleanup
-	kl::gui::uninit();
+	kl::igui::uninit();
 }

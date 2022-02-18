@@ -8,12 +8,15 @@
 
 
 namespace kl {
-	namespace gui {
+	namespace igui {
 		// Inits the ImGui context
 		void init();
 
 		// Destroys the ImGui context
 		void uninit();
+
+		// Loads my custom theme
+		void loadKrimzTheme();
 
 		// Draws the ImGui data
 		void draw(const std::function<void()>& func);

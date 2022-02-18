@@ -60,14 +60,8 @@ kl::gpu::gpu(HWND hwnd, bool imgui) {
         exit(69);
     }
 
-    // Buffer creation
-    frameBuff = new kl::fbuffer(chain, dev, devcon, clientArea.right, clientArea.bottom);
-    depthBuff = new kl::dbuffer(dev, devcon, clientArea.right, clientArea.bottom);
-    indexBuff = new kl::ibuffer(dev, devcon, clientArea.right, clientArea.bottom);
-
-    // Buffer binding
-    this->bindInternal();
-    this->setDepthTest(true);
+    // Generating the buffers
+    this->regenBuffers(kl::ivec2(clientArea.right, clientArea.bottom));
 
     // Viewport setup
     this->setViewport(kl::ivec2(clientArea.left, clientArea.top), kl::ivec2(clientArea.right, clientArea.bottom));
@@ -117,6 +111,25 @@ ID3D11Device* kl::gpu::getDev() {
 }
 ID3D11DeviceContext* kl::gpu::getCon() {
     return devcon;
+}
+
+// Resizes the buffers
+void kl::gpu::regenBuffers(const kl::ivec2& size) {
+    // Cleanup
+    devcon->OMSetRenderTargets(0, nullptr, nullptr);
+    if (frameBuff) delete frameBuff;
+    if (depthBuff) delete depthBuff;
+    if (indexBuff) delete indexBuff;
+    chain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
+
+    // New buffer creation
+    frameBuff = new kl::fbuffer(chain, dev, devcon, size.x, size.y);
+    depthBuff = new kl::dbuffer(dev, devcon, size.x, size.y);
+    indexBuff = new kl::ibuffer(dev, devcon, size.x, size.y);
+
+    // Buffer binding
+    this->bindInternal();
+    this->setDepthTest(true);
 }
 
 // Sets the viewport

@@ -2,8 +2,21 @@
 
 
 void Start() {
+	// Setting the icon
+	win.setIcon("res/icons/k.ico");
+
+	// Maximizing the window
+	win.maximize();
+
 	// Creating the gpu
 	gpu = new kl::gpu(win.getHWND(), true);
+
+	// On resize callback
+	win.onResize = [&](const kl::ivec2& size) {
+		gpu->regenBuffers(size);
+		gpu->setViewport(kl::ivec2(0, 0), size);
+		camera.aspect = float(size.x) / size.y;
+	};
 
 	// Creating the rasters
 	solid_ra = gpu->newRaster(false, true);
@@ -19,15 +32,27 @@ void Start() {
 	samp->bind(0);
 
 	// Camera setup
-	camera.position = kl::vec3(-1.4f, 1.25f, -1.1f);
-	camera.forward = kl::vec3(0.35f, -0.3f, 0.9f);
+	camera.position = kl::vec3(-1.4f, 1.25f, 6.0f);
+	camera.forward = kl::vec3(0.55f, -0.3f, -0.9f);
 
 	/* DEBUG */
+	kl::skybox* clouds = skyboxes.newInst(new kl::skybox(gpu->getDev(), gpu->getCon(), "Clouds",
+		"res/textures/skyboxes/clouds/front.jpg",
+		"res/textures/skyboxes/clouds/back.jpg",
+		"res/textures/skyboxes/clouds/left.jpg",
+		"res/textures/skyboxes/clouds/right.jpg",
+		"res/textures/skyboxes/clouds/top.jpg",
+		"res/textures/skyboxes/clouds/bottom.jpg"
+	));
+	kl::skybox* night = skyboxes.newInst(new kl::skybox(gpu->getDev(), gpu->getCon(), "Night",
+		"res/textures/skyboxes/night/night.jpg"
+	));
+	skybox = clouds;
 	kl::mesh* cube = gpu->newMesh("res/objects/cube.obj", true);
-	kl::texture* dogo = gpu->newTexture("res/textures/dogo.jpg");
-	kl::entity* cogo1 = entities.newInst(new kl::entity(cube, dogo));
-	kl::entity* cogo2 = entities.newInst(new kl::entity(cube, dogo));
-	cogo1->position.z = 2;
-	cogo2->position.z = 2;
-	cogo2->position.x = 2;
+	kl::texture* peace = gpu->newTexture("res/textures/peace.jpg");
+	kl::entity* mcube1 = entities.newInst(new kl::entity("Cube1", cube, peace));
+	kl::entity* mcube2 = entities.newInst(new kl::entity("Cube2", cube, peace));
+	mcube1->position.z = 2;
+	mcube2->position.z = 2;
+	mcube2->position.x = 2;
 }

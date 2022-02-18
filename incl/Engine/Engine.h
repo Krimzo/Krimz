@@ -39,8 +39,11 @@ inline kl::raster* wire_ra = nullptr;
 inline kl::shaders* editor_sh = nullptr;
 inline kl::shaders* highlight_sh = nullptr;
 
-// Window callbacks
+// Frame stages
 void Start();
 void Input();
+void Draw();
+void Highlight();
+void GUI();
 void Update();
 void End();

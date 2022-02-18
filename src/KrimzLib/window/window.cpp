@@ -15,6 +15,7 @@ kl::window::window() {
 	this->start = []() {};
 	this->update = []() {};
 	this->end = []() {};
+	this->onResize = [](const kl::ivec2& size) {};
 	
 	// Winapi variables
 	this->hInstance = GetModuleHandle(nullptr);
@@ -32,6 +33,126 @@ kl::window::window() {
 // Destructor
 kl::window::~window() {
 	this->stop();
+}
+
+// Registers a new window class
+void kl::window::registerWindowClass(const std::wstring& name) {
+	WNDCLASSEXW windowClass = {};
+	windowClass.cbSize = sizeof(WNDCLASSEX);
+	windowClass.style = CS_OWNDC;
+	windowClass.lpfnWndProc = [](HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+		kl::window* callingWin = (kl::window*)GetWindowLongPtrW(hwnd, GWLP_USERDATA);
+		return callingWin->WndProc(hwnd, msg, wParam, lParam);
+	};
+	windowClass.cbClsExtra = 0;
+	windowClass.cbWndExtra = 0;
+	windowClass.hInstance = hInstance;
+	windowClass.hIcon = nullptr;
+	windowClass.hCursor = nullptr;
+	windowClass.hbrBackground = nullptr;
+	windowClass.lpszMenuName = nullptr;
+	windowClass.lpszClassName = name.c_str();
+	windowClass.hIconSm = nullptr;
+	if (!RegisterClassExW(&windowClass)) {
+		std::cout << "WinApi: Could not register a window class!";
+		std::cin.get();
+		exit(69);
+	}
+}
+
+// Creates a new window
+void kl::window::createWindow(const kl::ivec2& size, const std::wstring& name, bool resizeable) {
+	// Setting the window properties
+	winStyle = resizeable ? WS_OVERLAPPEDWINDOW : (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
+	RECT adjustedWindowSize = { 0, 0, (LONG)size.x, (LONG)size.y };
+	AdjustWindowRect(&adjustedWindowSize, winStyle, FALSE);
+	const kl::ivec2 adjSize(adjustedWindowSize.right - adjustedWindowSize.left, adjustedWindowSize.bottom - adjustedWindowSize.top);
+
+	// Creating the window
+	hwnd = CreateWindowExW(0, name.c_str(), name.c_str(), winStyle, (kl::window::screen::width / 2 - adjSize.x / 2), (kl::window::screen::height / 2 - adjSize.y / 2), adjSize.x, adjSize.y, nullptr, nullptr, hInstance, nullptr);
+	if (!hwnd) {
+		std::cout << "WinApi: Could not create a window!";
+		std::cin.get();
+		exit(69);
+	}
+	SetWindowLongPtrW(hwnd, GWLP_USERDATA, (long long)this);
+
+	// Setting and getting window info
+	ShowWindow(hwnd, SW_SHOW);
+	hdc = GetDC(hwnd);
+
+	// Saving a complete window style
+	winStyle = GetWindowLong(hwnd, GWL_STYLE);
+}
+
+// Sets up the bitmap properties
+void kl::window::setupBitmapInfo() {
+	bmpInfo.bmiHeader.biSize = sizeof(bmpInfo.bmiHeader);
+	bmpInfo.bmiHeader.biPlanes = 1;
+	bmpInfo.bmiHeader.biBitCount = 24;
+	bmpInfo.bmiHeader.biCompression = BI_RGB;
+}
+
+// Handles the windows message
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK kl::window::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	switch (msg) {
+	case WM_SIZE:
+		this->onResize(kl::ivec2(LOWORD(lParam), HIWORD(lParam)));
+		break;
+	}
+	return DefWindowProc(hwnd, msg, wParam, lParam);
+}
+void kl::window::handleMessage() {
+	// ImGui
+	if (usingImGui) {
+		if (ImGui_ImplWin32_WndProcHandler(wndMsg.hwnd, wndMsg.message, wndMsg.wParam, wndMsg.lParam)) {
+			return;
+		}
+	}
+
+	// Default
+	switch (wndMsg.message) {
+	case WM_KEYDOWN:
+		this->keys.setKey(wndMsg.wParam, true);
+		break;
+
+	case WM_KEYUP:
+		this->keys.setKey(wndMsg.wParam, false);
+		break;
+
+	case WM_LBUTTONDOWN:
+		this->mouse.lmb = true;
+		break;
+
+	case WM_LBUTTONUP:
+		this->mouse.lmb = false;
+		break;
+
+	case WM_MBUTTONDOWN:
+		this->mouse.mmb = true;
+		break;
+
+	case WM_MBUTTONUP:
+		this->mouse.mmb = false;
+		break;
+
+	case WM_RBUTTONDOWN:
+		this->mouse.rmb = true;
+		break;
+
+	case WM_RBUTTONUP:
+		this->mouse.rmb = false;
+		break;
+
+	case WM_MOUSEMOVE:
+		this->mouse.position = kl::ivec2(GET_X_LPARAM(wndMsg.lParam), GET_Y_LPARAM(wndMsg.lParam));
+		break;
+
+	default:
+		DispatchMessageW(&wndMsg);
+		break;
+	}
 }
 
 // Window creation
@@ -122,6 +243,14 @@ void kl::window::setFullscreen(bool enable) {
 	}
 }
 
+// Max/min functions
+void kl::window::maximize() {
+	ShowWindow(this->hwnd, SW_MAXIMIZE);
+}
+void kl::window::minimize() {
+	ShowWindow(this->hwnd, SW_MINIMIZE);
+}
+
 // Returns the window size
 kl::ivec2 kl::window::getSize() const {
 	RECT clientArea = {};
@@ -145,117 +274,24 @@ void kl::window::setTitle(const std::string& data) {
 	SetWindowTextA(hwnd, data.c_str());
 }
 
+// Sets the window icons
+void kl::window::setIcon(const std::string& filePath) {
+	// Loading the icon
+	HICON loadedIcon = ExtractIconA(nullptr, filePath.c_str(), NULL);
+	if (!loadedIcon) {
+		std::cout << "WinApi: Could not load an icon file \"" << filePath << "\"";
+		std::cin.get();
+		exit(69);
+	}
+
+	// Sending the icon
+	SendMessageA(this->hwnd, WM_SETICON, ICON_BIG, (LPARAM)loadedIcon);
+	SendMessageA(this->hwnd, WM_SETICON, ICON_SMALL, (LPARAM)loadedIcon);
+}
+
 // Sets the pixels of the window
 void kl::window::drawImage(const kl::image& toDraw, const kl::ivec2& position) {
 	bmpInfo.bmiHeader.biWidth = toDraw.getWidth();
 	bmpInfo.bmiHeader.biHeight = toDraw.getHeight();
 	StretchDIBits(hdc, position.x, (toDraw.getHeight() - 1) + position.y, toDraw.getWidth(), -toDraw.getHeight(), 0, 0, toDraw.getWidth(), toDraw.getHeight(), toDraw.pointer(), &bmpInfo, DIB_RGB_COLORS, SRCCOPY);
-}
-
-// Registers a new window class
-void kl::window::registerWindowClass(const std::wstring& name) {
-	WNDCLASSEXW windowClass = {};
-	windowClass.cbSize = sizeof(WNDCLASSEX);
-	windowClass.style = CS_OWNDC;
-	windowClass.lpfnWndProc = DefWindowProc;
-	windowClass.cbClsExtra = 0;
-	windowClass.cbWndExtra = 0;
-	windowClass.hInstance = hInstance;
-	windowClass.hIcon = nullptr;
-	windowClass.hCursor = nullptr;
-	windowClass.hbrBackground = nullptr;
-	windowClass.lpszMenuName = nullptr;
-	windowClass.lpszClassName = name.c_str();
-	windowClass.hIconSm = nullptr;
-	if (!RegisterClassExW(&windowClass)) {
-		std::cout << "WinApi: Could not register a window class!";
-		std::cin.get();
-		exit(69);
-	}
-}
-
-// Creates a new window
-void kl::window::createWindow(const kl::ivec2& size, const std::wstring& name, bool resizeable) {
-	// Setting the window properties
-	winStyle = resizeable ? WS_OVERLAPPEDWINDOW : (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
-	RECT adjustedWindowSize = { 0, 0, (LONG)size.x, (LONG)size.y };
-	AdjustWindowRect(&adjustedWindowSize, winStyle, FALSE);
-	const kl::ivec2 adjSize(adjustedWindowSize.right - adjustedWindowSize.left, adjustedWindowSize.bottom - adjustedWindowSize.top);
-
-	// Creating the window
-	hwnd = CreateWindowExW(0, name.c_str(), name.c_str(), winStyle, (kl::window::screen::width / 2 - adjSize.x / 2), (kl::window::screen::height / 2 - adjSize.y / 2), adjSize.x, adjSize.y, nullptr, nullptr, hInstance, nullptr);
-	if (!hwnd) {
-		std::cout << "WinApi: Could not create a window!";
-		std::cin.get();
-		exit(69);
-	}
-
-	// Setting and getting window info
-	ShowWindow(hwnd, SW_SHOW);
-	hdc = GetDC(hwnd);
-
-	// Saving a complete window style
-	winStyle = GetWindowLong(hwnd, GWL_STYLE);
-}
-
-// Sets up the bitmap properties
-void kl::window::setupBitmapInfo() {
-	bmpInfo.bmiHeader.biSize = sizeof(bmpInfo.bmiHeader);
-	bmpInfo.bmiHeader.biPlanes = 1;
-	bmpInfo.bmiHeader.biBitCount = 24;
-	bmpInfo.bmiHeader.biCompression = BI_RGB;
-}
-
-// Handles the windows message
-extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-void kl::window::handleMessage() {
-	// ImGui
-	if (usingImGui) {
-		if (ImGui_ImplWin32_WndProcHandler(wndMsg.hwnd, wndMsg.message, wndMsg.wParam, wndMsg.lParam)) {
-			return;
-		}
-	}
-
-	// Default
-	switch (wndMsg.message) {
-	case WM_KEYDOWN:
-		this->keys.setKey(wndMsg.wParam, true);
-		break;
-
-	case WM_KEYUP:
-		this->keys.setKey(wndMsg.wParam, false);
-		break;
-
-	case WM_LBUTTONDOWN:
-		this->mouse.lmb = true;
-		break;
-
-	case WM_LBUTTONUP:
-		this->mouse.lmb = false;
-		break;
-
-	case WM_MBUTTONDOWN:
-		this->mouse.mmb = true;
-		break;
-
-	case WM_MBUTTONUP:
-		this->mouse.mmb = false;
-		break;
-
-	case WM_RBUTTONDOWN:
-		this->mouse.rmb = true;
-		break;
-
-	case WM_RBUTTONUP:
-		this->mouse.rmb = false;
-		break;
-
-	case WM_MOUSEMOVE:
-		this->mouse.position = kl::ivec2(GET_X_LPARAM(wndMsg.lParam), GET_Y_LPARAM(wndMsg.lParam));
-		break;
-
-	default:
-		DispatchMessageW(&wndMsg);
-		break;
-	}
 }
