@@ -89,7 +89,7 @@ void kl::window::createWindow(const kl::ivec2& size, const std::wstring& name, b
 void kl::window::setupBitmapInfo() {
 	bmpInfo.bmiHeader.biSize = sizeof(bmpInfo.bmiHeader);
 	bmpInfo.bmiHeader.biPlanes = 1;
-	bmpInfo.bmiHeader.biBitCount = 24;
+	bmpInfo.bmiHeader.biBitCount = 32;
 	bmpInfo.bmiHeader.biCompression = BI_RGB;
 }
 
