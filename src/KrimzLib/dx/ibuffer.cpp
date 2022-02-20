@@ -18,7 +18,7 @@ kl::ibuffer::ibuffer(ID3D11Device* dev, ID3D11DeviceContext* devcon, int width, 
     indTexDes.Height = height;
     indTexDes.MipLevels = 1;
     indTexDes.ArraySize = 1;
-    indTexDes.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+    indTexDes.Format = DXGI_FORMAT_R32_FLOAT;
     indTexDes.SampleDesc.Count = 1;
     indTexDes.Usage = D3D11_USAGE_DEFAULT;
     indTexDes.BindFlags = D3D11_BIND_RENDER_TARGET;
@@ -43,7 +43,7 @@ kl::ibuffer::ibuffer(ID3D11Device* dev, ID3D11DeviceContext* devcon, int width, 
     stagTexDes.Height = 1;
     stagTexDes.MipLevels = 1;
     stagTexDes.ArraySize = 1;
-    stagTexDes.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+    stagTexDes.Format = indTexDes.Format;
     stagTexDes.SampleDesc.Count = 1;
     stagTexDes.Usage = D3D11_USAGE_STAGING;
     stagTexDes.BindFlags = NULL;
@@ -70,11 +70,7 @@ ID3D11RenderTargetView* kl::ibuffer::getView() {
 
 // Clears the buffer
 void kl::ibuffer::clear() {
-    // Picking target reset value
-    static const int pickResetValue = -1;
-    static const kl::vec4 pickCol(*(float*)&pickResetValue, 0, 0, 0);
-
-    // Clearing the render targets
+    static const kl::vec4 pickCol(-1, 0, 0, 0);
     devcon->ClearRenderTargetView(view, (float*)&pickCol);
 }
 
@@ -104,7 +100,7 @@ int kl::ibuffer::getIndex(const kl::ivec2& pos) {
         devcon->Unmap(stagTex, NULL);
 
         // Getting the index
-        return *(int*)&index;
+        return int(index);
     }
     return -2;
 }

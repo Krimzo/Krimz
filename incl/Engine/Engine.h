@@ -34,16 +34,34 @@ inline float elapsedT = 0;
 
 // DirectX
 inline kl::gpu* gpu = nullptr;
+
+// Rasterizers
 inline kl::raster* solid_ra = nullptr;
 inline kl::raster* wire_ra = nullptr;
+
+// Shaders
 inline kl::shaders* editor_sh = nullptr;
 inline kl::shaders* highlight_sh = nullptr;
+inline kl::shaders* gizmo_sh = nullptr;
+
+// Gizmo meshes
+enum GIZMO_TYPE {
+	GIZMO_NONE = 0,
+	GIZMO_SCALE,
+	GIZMO_MOVE,
+	GIZMO_ROTATE
+};
+inline int chosenGizmo = GIZMO_NONE;
+inline kl::mesh* gizmo_scale = nullptr;
+inline kl::mesh* gizmo_move = nullptr;
+inline kl::mesh* gizmo_rotate = nullptr;
 
 // Frame stages
 void Start();
 void Input();
 void Draw();
 void Highlight();
+void Gizmo();
 void GUI();
 void Update();
 void End();

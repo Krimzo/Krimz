@@ -171,12 +171,12 @@
     <ClCompile Include="src\Engine\Highlight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine\Gizmo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="incl\Engine\Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\Engine\Struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\ImGui\imconfig.h">
@@ -318,6 +318,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\KrimzLib\igui\igui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

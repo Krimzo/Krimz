@@ -24,8 +24,9 @@ void Start() {
 	solid_ra->bind();
 
 	// Compiling shaders
-	editor_sh = gpu->newShaders("res/shaders/editor.hlsl", sizeof(EDI_VS_CB), sizeof(EDI_PS_CB));
-	highlight_sh = gpu->newShaders("res/shaders/highlight.hlsl", sizeof(kl::mat4), sizeof(kl::vec4));
+	editor_sh = gpu->newShaders("res/shaders/editor.hlsl", sizeof(DRAW_VS_CB), sizeof(DRAW_PS_CB));
+	highlight_sh = gpu->newShaders("res/shaders/highlight.hlsl", sizeof(HIGH_VS_CB), sizeof(HIGH_PS_CB));
+	gizmo_sh = gpu->newShaders("res/shaders/gizmo.hlsl", sizeof(GIZM_VS_CB), sizeof(GIZM_PS_CB));
 
 	// Sampler setup
 	kl::sampler* samp = gpu->newSampler(true, true);
@@ -34,6 +35,11 @@ void Start() {
 	// Camera setup
 	camera.position = kl::vec3(-1.4f, 1.25f, 6.0f);
 	camera.forward = kl::vec3(0.55f, -0.3f, -0.9f);
+
+	// Gizmo meshe loading
+	gizmo_scale = gpu->newMesh("res/objects/gizmos/scale.obj", true);
+	gizmo_move = gpu->newMesh("res/objects/gizmos/move.obj", true);
+	gizmo_rotate = gpu->newMesh("res/objects/gizmos/rotate.obj", true);
 
 	/* DEBUG */
 	kl::skybox* clouds = skyboxes.newInst(new kl::skybox(gpu->getDev(), gpu->getCon(), "Clouds",
@@ -48,11 +54,18 @@ void Start() {
 		"res/textures/skyboxes/night/night.jpg"
 	));
 	skybox = clouds;
+
+
 	kl::mesh* cube = gpu->newMesh("res/objects/cube.obj", true);
-	kl::texture* peace = gpu->newTexture("res/textures/peace.jpg");
-	kl::entity* mcube1 = entities.newInst(new kl::entity("Cube1", cube, peace));
-	kl::entity* mcube2 = entities.newInst(new kl::entity("Cube2", cube, peace));
-	mcube1->position.z = 2;
-	mcube2->position.z = 2;
-	mcube2->position.x = 2;
+	kl::texture* dogo = gpu->newTexture("res/textures/dogo.jpg");
+
+	const int size = 3;
+
+	for (int x = 0; x < size; x++) {
+		for (int y = 0; y < size; y++) {
+			const int i = y * size + x;
+			kl::entity* tempDogo = entities.newInst(new kl::entity("Dogo" + std::to_string(i), cube, dogo));
+			tempDogo->position = kl::vec3(x * 2, y * 2, i * 0.5f);
+		}
+	}
 }

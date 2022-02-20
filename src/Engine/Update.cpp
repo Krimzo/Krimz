@@ -22,8 +22,14 @@ void Update() {
 	// Drawing entities
 	Draw();
 
-	// Highlighting
-	Highlight();
+	// Selected postproces
+	if (selected) {
+		// Wireframe highlight
+		Highlight();
+
+		// Drawing the gizmos
+		Gizmo();
+	}
 
 	// Drawing the gui
 	kl::igui::draw(GUI);

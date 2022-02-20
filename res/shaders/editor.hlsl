@@ -37,7 +37,7 @@ Texture2D tex0 : register(t0);
 
 struct PS_OUT {
     float4 color : SV_TARGET0;
-    float4 index : SV_TARGET1;
+    float index : SV_TARGET1;
 };
 
 PS_OUT pShader(VS_OUT data) {
@@ -64,7 +64,7 @@ PS_OUT pShader(VS_OUT data) {
     output.color = float4(textureColor * (directColor + ambientColor), 1);
 
     // Setting the index
-    output.index = objIndex;
+    output.index = objIndex.x;
 
     // Returning
     return output;
