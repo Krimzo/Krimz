@@ -22,7 +22,7 @@ void Update() {
 	// Drawing entities
 	Draw();
 
-	// Selected postproces
+	// Selected postprocess
 	if (selected) {
 		// Wireframe highlight
 		Highlight();

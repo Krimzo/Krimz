@@ -9,7 +9,7 @@ void Start() {
 	win.maximize();
 
 	// Creating the gpu
-	gpu = new kl::gpu(win.getHWND(), true);
+	gpu = new kl::gpu(win.getWND(), true);
 
 	// On resize callback
 	win.onResize = [&](const kl::ivec2& size) {
@@ -56,16 +56,17 @@ void Start() {
 	skybox = clouds;
 
 
-	kl::mesh* cube = gpu->newMesh("res/objects/cube.obj", true);
-	kl::texture* dogo = gpu->newTexture("res/textures/dogo.jpg");
+	kl::mesh* monke = gpu->newMesh("res/objects/monke.obj", true);
+	kl::texture* check = gpu->newTexture("res/textures/checkers.jpg");
 
 	const int size = 3;
 
 	for (int x = 0; x < size; x++) {
 		for (int y = 0; y < size; y++) {
 			const int i = y * size + x;
-			kl::entity* tempDogo = entities.newInst(new kl::entity("Dogo" + std::to_string(i), cube, dogo));
-			tempDogo->position = kl::vec3(x * 2, y * 2, i * 0.5f);
+			kl::entity* temp = entities.newInst(new kl::entity("Monke" + std::to_string(i), monke, check));
+			temp->position = kl::vec3(x * 2.0f, y * 2.0f, 0);
+			temp->rotation.y = 180;
 		}
 	}
 }

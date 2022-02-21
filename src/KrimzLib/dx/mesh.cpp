@@ -24,7 +24,7 @@ kl::mesh::mesh(ID3D11Device* dev, ID3D11DeviceContext* devcon, const std::vector
     bufferDescriptor.MiscFlags = NULL;
     bufferDescriptor.StructureByteStride = 0;
 
-    // Buffer data setting
+    // Buffer data descriptor creation
     D3D11_SUBRESOURCE_DATA bufferData = {};
     bufferData.pSysMem = &vertexData[0];
     bufferData.SysMemPitch = 0;
@@ -38,7 +38,9 @@ kl::mesh::mesh(ID3D11Device* dev, ID3D11DeviceContext* devcon, const std::vector
         exit(69);
     }
 }
-kl::mesh::mesh(ID3D11Device* dev, ID3D11DeviceContext* devcon, const std::string& filePath, bool flipZ) : kl::mesh(dev, devcon, kl::mesh::parseFile(filePath, flipZ)) {}
+kl::mesh::mesh(ID3D11Device* dev, ID3D11DeviceContext* devcon, const std::string& filePath, bool flipZ) {
+    this->mesh::mesh(dev, devcon, kl::mesh::parseFile(filePath, flipZ));
+}
 
 // Destructor
 kl::mesh::~mesh() {
