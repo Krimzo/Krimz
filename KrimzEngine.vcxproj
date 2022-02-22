@@ -39,6 +39,7 @@
     <ClInclude Include="incl\KrimzLib\dx\mesh.h" />
     <ClInclude Include="incl\KrimzLib\dx\raster.h" />
     <ClInclude Include="incl\KrimzLib\dx\sampler.h" />
+    <ClInclude Include="incl\KrimzLib\dx\sbuffer.h" />
     <ClInclude Include="incl\KrimzLib\dx\shaders.h" />
     <ClInclude Include="incl\KrimzLib\dx\texture.h" />
     <ClInclude Include="incl\KrimzLib\entity\entity.h" />
@@ -77,6 +78,7 @@
     <ClCompile Include="src\Engine\GUI.cpp" />
     <ClCompile Include="src\Engine\Highlight.cpp" />
     <ClCompile Include="src\Engine\Input.cpp" />
+    <ClCompile Include="src\Engine\Shadows.cpp" />
     <ClCompile Include="src\Engine\Start.cpp" />
     <ClCompile Include="src\Engine\Update.cpp" />
     <ClCompile Include="src\ImGui\imgui.cpp" />
@@ -96,6 +98,7 @@
     <ClCompile Include="src\KrimzLib\dx\mesh.cpp" />
     <ClCompile Include="src\KrimzLib\dx\raster.cpp" />
     <ClCompile Include="src\KrimzLib\dx\sampler.cpp" />
+    <ClCompile Include="src\KrimzLib\dx\sbuffer.cpp" />
     <ClCompile Include="src\KrimzLib\dx\shaders.cpp" />
     <ClCompile Include="src\KrimzLib\dx\texture.cpp" />
     <ClCompile Include="src\KrimzLib\entity\entity.cpp" />

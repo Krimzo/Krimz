@@ -43,6 +43,6 @@ namespace kl {
 		kl::mat4 matrix() const;
 
 		// Renders the mesh
-		void render() const;
+		void render(bool useTex) const;
 	};
 }

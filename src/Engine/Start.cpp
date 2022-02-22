@@ -21,10 +21,12 @@ void Start() {
 	// Creating the rasters
 	solid_ra = gpu->newRaster(false, true);
 	wire_ra = gpu->newRaster(true, true);
+	shadow_ra = gpu->newRaster(false, true, false);
 	solid_ra->bind();
 
 	// Compiling shaders
 	editor_sh = gpu->newShaders("res/shaders/editor.hlsl", sizeof(DRAW_VS_CB), sizeof(DRAW_PS_CB));
+	shadow_sh = gpu->newShaders("res/shaders/shadows.hlsl", sizeof(kl::mat4), 0);
 	highlight_sh = gpu->newShaders("res/shaders/highlight.hlsl", sizeof(HIGH_VS_CB), sizeof(HIGH_PS_CB));
 	gizmo_sh = gpu->newShaders("res/shaders/gizmo.hlsl", sizeof(GIZM_VS_CB), sizeof(GIZM_PS_CB));
 
@@ -36,12 +38,16 @@ void Start() {
 	camera.position = kl::vec3(-1.4f, 1.25f, 6.0f);
 	camera.forward = kl::vec3(0.55f, -0.3f, -0.9f);
 
+	// Sun shadowmap setup
+	sun.shadowMap = gpu->newSBuffer(4096);
+
 	// Gizmo meshe loading
 	gizmo_scale = gpu->newMesh("res/objects/gizmos/scale.obj", true);
 	gizmo_move = gpu->newMesh("res/objects/gizmos/move.obj", true);
 	gizmo_rotate = gpu->newMesh("res/objects/gizmos/rotate.obj", true);
 
 	/* DEBUG */
+	// Skybox
 	kl::skybox* clouds = skyboxes.newInst(new kl::skybox(gpu->getDev(), gpu->getCon(), "Clouds",
 		"res/textures/skyboxes/clouds/front.jpg",
 		"res/textures/skyboxes/clouds/back.jpg",
@@ -55,12 +61,20 @@ void Start() {
 	));
 	skybox = clouds;
 
-
+	// Mesh
+	kl::mesh* cube = gpu->newMesh("res/objects/cube.obj", true);
 	kl::mesh* monke = gpu->newMesh("res/objects/monke.obj", true);
+
+	// Texture
+	kl::texture* wheat = gpu->newTexture(kl::image(kl::ivec2(1, 1), kl::colors::wheat));
 	kl::texture* check = gpu->newTexture("res/textures/checkers.jpg");
 
-	const int size = 3;
+	// Entity
+	kl::entity* plane = entities.newInst(new kl::entity("Plane", cube, wheat));
+	plane->size = kl::vec3(50.0f, 0.25f, 50.0f);
+	plane->position.y = -2.0f;
 
+	const int size = 3;
 	for (int x = 0; x < size; x++) {
 		for (int y = 0; y < size; y++) {
 			const int i = y * size + x;

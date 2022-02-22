@@ -11,6 +11,7 @@
 #include "KrimzLib/dx/fbuffer.h"
 #include "KrimzLib/dx/dbuffer.h"
 #include "KrimzLib/dx/ibuffer.h"
+#include "KrimzLib/dx/sbuffer.h"
 #include "KrimzLib/dx/raster.h"
 #include "KrimzLib/dx/shaders.h"
 #include "KrimzLib/dx/cbuffer.h"
@@ -43,6 +44,7 @@ namespace kl {
 		kl::pbuffer<kl::mesh>      meshes;
 		kl::pbuffer<kl::texture> textures;
 		kl::pbuffer<kl::sampler> samplers;
+		kl::pbuffer<kl::sbuffer> sbuffers;
 
 		// ImGui
 		bool usingImGui = false;
@@ -103,6 +105,10 @@ namespace kl {
 		// Sampler
 		kl::sampler* newSampler(bool linear, bool mirror);
 		bool delSampler(kl::sampler* samp);
+
+		// SBuffer
+		kl::sbuffer* newSBuffer(uint32_t size);
+		bool delSBuffer(kl::sbuffer* sbuff);
 
 		// Returns the picking index
 		int getIndex(const kl::ivec2& pos);

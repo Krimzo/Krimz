@@ -27,8 +27,5 @@ namespace kl {
 
 		// Draws the mesh
 		void draw() const;
-
-		// Parses .obj file
-		static std::vector<kl::vertex> parseFile(const std::string& filePath, bool flipZ);
 	};
 }

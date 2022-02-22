@@ -93,8 +93,9 @@ kl::gpu::~gpu() {
     cbuffers.clear();
     shaders.clear();
     rasters.clear();
+    sbuffers.clear();
     
-    // Buffer cleanup
+    // Internal cleanup
     delete indexBuff;
     delete depthBuff;
     delete frameBuff;
@@ -225,6 +226,14 @@ kl::sampler* kl::gpu::newSampler(bool linear, bool mirror) {
 }
 bool kl::gpu::delSampler(kl::sampler* samp) {
     return samplers.delInst(samp);
+}
+
+// SBuffer
+kl::sbuffer* kl::gpu::newSBuffer(uint32_t size) {
+    return sbuffers.newInst(new kl::sbuffer(dev, devcon, size));
+}
+bool kl::gpu::delSBuffer(kl::sbuffer* sbuff) {
+    return sbuffers.delInst(sbuff);
 }
 
 // Returns the picking index

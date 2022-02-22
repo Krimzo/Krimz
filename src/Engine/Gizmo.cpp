@@ -17,8 +17,8 @@ void DrawGizmo(kl::mesh* toDraw, const kl::vec3& rot, const kl::vec4& col, int i
 	gizmo_sh->setVertData(&gizm_vert_data);
 
 	// Setting the pixl data
-	gizm_pixl_data.objColor = col;
-	gizm_pixl_data.objIndex = float(index);
+	gizm_pixl_data.objCol = col;
+	gizm_pixl_data.objInd = float(index);
 	gizmo_sh->setPixlData(&gizm_pixl_data);
 
 	// Drawing the mesh

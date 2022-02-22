@@ -11,7 +11,6 @@ kl::dbuffer::dbuffer(ID3D11Device* dev, ID3D11DeviceContext* devcon, int width, 
     dsDesc_e.DepthEnable = true;
     dsDesc_e.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
     dsDesc_e.DepthFunc = D3D11_COMPARISON_LESS;
-    dsDesc_e.StencilEnable = false;
     dsDesc_e.StencilEnable = true;
     dsDesc_e.StencilReadMask = 0xFF;
     dsDesc_e.StencilWriteMask = 0xFF;
@@ -60,10 +59,7 @@ kl::dbuffer::dbuffer(ID3D11Device* dev, ID3D11DeviceContext* devcon, int width, 
     }
 
     // Creating the texture view
-    D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
-    dsvDesc.Format = dsTexDesc.Format;
-    dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
-    dev->CreateDepthStencilView(dsTex, &dsvDesc, &view);
+    dev->CreateDepthStencilView(dsTex, nullptr, &view);
     if (!view) {
         std::cout << "DirectX: Could not create a depth/stencil buffer view!";
         std::cin.get();
@@ -93,5 +89,5 @@ ID3D11DepthStencilView* kl::dbuffer::getView() {
 
 // Clears the buffer
 void kl::dbuffer::clear() {
-    devcon->ClearDepthStencilView(view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+    devcon->ClearDepthStencilView(view, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }

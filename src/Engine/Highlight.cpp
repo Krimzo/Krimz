@@ -9,13 +9,13 @@ void Highlight() {
 
 	// Setting the highlight pixel data
 	HIGH_PS_CB high_pixl_data = {};
-	high_pixl_data.highCol = highlight;
+	high_pixl_data.higCol = highlight;
 	highlight_sh->setPixlData(&high_pixl_data);
 
 	// Rendering
 	gpu->setDepthTest(false);
 	wire_ra->bind();
-	selected->render();
+	selected->render(false);
 	solid_ra->bind();
 	gpu->setDepthTest(true);
 }

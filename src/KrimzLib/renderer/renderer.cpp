@@ -97,7 +97,7 @@ void kl::renderer::startNew(const kl::ivec2& frameSize) {
 				default_sh->setVertData(&def_vert_data);
 
 				// Rendering the object
-				entities[i]->render();
+				entities[i]->render(true);
 			}
 		}
 

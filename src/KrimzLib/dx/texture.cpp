@@ -21,8 +21,6 @@ kl::texture::texture(ID3D11Device* dev, ID3D11DeviceContext* devcon, const kl::i
     texDesc.SampleDesc.Count = 1;
     texDesc.Usage = D3D11_USAGE_DEFAULT;
     texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-    texDesc.CPUAccessFlags = NULL;
-    texDesc.MiscFlags = NULL;
 
     // Texture data descriptor creation
     D3D11_SUBRESOURCE_DATA texData = {};
@@ -70,7 +68,6 @@ kl::texture::texture(ID3D11Device* dev, ID3D11DeviceContext* devcon, const kl::i
     texDesc.SampleDesc.Count = 1;
     texDesc.Usage = D3D11_USAGE_DEFAULT;
     texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-    texDesc.CPUAccessFlags = NULL;
     texDesc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
 
     // Texture data descriptor creation

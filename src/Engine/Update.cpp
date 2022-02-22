@@ -9,7 +9,10 @@ void Update() {
 	// Input call
 	Input();
 
-	// Clearing the frame buffer
+	// Rendering the shadows
+	Shadows();
+
+	// Clearing the buffers
 	gpu->clear(background);
 
 	// Rendering skybox

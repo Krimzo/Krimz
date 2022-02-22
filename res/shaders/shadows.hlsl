@@ -16,21 +16,6 @@ VS_OUT vShader(float3 pos : POS_IN, float2 tex : TEX_IN, float3 norm : NORM_IN) 
 }
 
 // Pixel shader
-cbuffer PS_CB : register(b0) {
-    float4 objCol;
-    float4 objInd;
-}
-
-struct PS_OUT {
-    float4 color : SV_TARGET0;
-    float4 index : SV_TARGET1;
-};
-
-PS_OUT pShader(VS_OUT data) {
-    PS_OUT output;
-
-    output.color = objCol;
-    output.index = objInd;
-
-    return output;
+float4 pShader(VS_OUT data) : SV_TARGET {
+    return float4(0, 0, 0, 0);
 }

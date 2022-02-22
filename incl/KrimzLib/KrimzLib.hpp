@@ -34,6 +34,7 @@
 #include "KrimzLib/dx/fbuffer.h"
 #include "KrimzLib/dx/dbuffer.h"
 #include "KrimzLib/dx/ibuffer.h"
+#include "KrimzLib/dx/sbuffer.h"
 #include "KrimzLib/dx/raster.h"
 #include "KrimzLib/dx/shaders.h"
 #include "KrimzLib/dx/cbuffer.h"

@@ -38,9 +38,11 @@ inline kl::gpu* gpu = nullptr;
 // Rasterizers
 inline kl::raster* solid_ra = nullptr;
 inline kl::raster* wire_ra = nullptr;
+inline kl::raster* shadow_ra = nullptr;
 
 // Shaders
 inline kl::shaders* editor_sh = nullptr;
+inline kl::shaders* shadow_sh = nullptr;
 inline kl::shaders* highlight_sh = nullptr;
 inline kl::shaders* gizmo_sh = nullptr;
 
@@ -59,6 +61,7 @@ inline kl::mesh* gizmo_rotate = nullptr;
 // Frame stages
 void Start();
 void Input();
+void Shadows();
 void Draw();
 void Highlight();
 void Gizmo();

@@ -39,27 +39,6 @@ kl::mesh::mesh(ID3D11Device* dev, ID3D11DeviceContext* devcon, const std::vector
     }
 }
 kl::mesh::mesh(ID3D11Device* dev, ID3D11DeviceContext* devcon, const std::string& filePath, bool flipZ) {
-    this->mesh::mesh(dev, devcon, kl::mesh::parseFile(filePath, flipZ));
-}
-
-// Destructor
-kl::mesh::~mesh() {
-	buff->Release();
-}
-
-// Renders the mesh
-void kl::mesh::draw() const {
-	// Binding the mesh
-	const UINT tempStride = sizeof(kl::vertex);
-	const UINT tempOffset = 0;
-	devcon->IASetVertexBuffers(0, 1, &buff, &tempStride, &tempOffset);
-
-	// Drawing
-	devcon->Draw(UINT(vertices.size()), 0);
-}
-
-// Parses .obj file
-std::vector<kl::vertex> kl::mesh::parseFile(const std::string& filePath, bool flipZ) {
     // Temp vertex buffer
     std::vector<kl::vertex> vertexData;
 
@@ -124,6 +103,22 @@ std::vector<kl::vertex> kl::mesh::parseFile(const std::string& filePath, bool fl
     // Closing the file
     fileStream.close();
 
-    // Returning
-    return vertexData;
+    // Mesh creation
+    this->mesh::mesh(dev, devcon, vertexData);
+}
+
+// Destructor
+kl::mesh::~mesh() {
+	buff->Release();
+}
+
+// Renders the mesh
+void kl::mesh::draw() const {
+	// Binding the mesh
+	const UINT tempStride = sizeof(kl::vertex);
+	const UINT tempOffset = 0;
+	devcon->IASetVertexBuffers(0, 1, &buff, &tempStride, &tempOffset);
+
+	// Drawing
+	devcon->Draw(UINT(vertices.size()), 0);
 }

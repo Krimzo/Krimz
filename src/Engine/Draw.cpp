@@ -2,13 +2,20 @@
 
 
 void Draw() {
+	// Binding the editor shaders
+	editor_sh->bind();
+
+	// Binding the shadow map
+	sun.shadowMap->bindTexture(1, 1);
+
 	// Setting the camera data
 	DRAW_VS_CB draw_vert_data = {};
-	draw_vert_data.vp = camera.matrix();
+	draw_vert_data.vpCam = camera.matrix();
+	draw_vert_data.vpSun = sun.matrix(camera);
 
 	// Setting the lighting data
 	DRAW_PS_CB draw_pixl_data = {};
-	draw_pixl_data.ambient = ambient.getCol();
+	draw_pixl_data.ambCol = ambient.getCol();
 	draw_pixl_data.dirCol = sun.getCol();
 	draw_pixl_data.dirDir = sun.getDir();
 
@@ -22,13 +29,13 @@ void Draw() {
 			editor_sh->setVertData(&draw_vert_data);
 
 			// Setting the obj index
-			draw_pixl_data.objIndex.x = float(i);
+			draw_pixl_data.objInd.x = float(i);
 
 			// Updating the pixl data
 			editor_sh->setPixlData(&draw_pixl_data);
 
 			// Rendering the entity
-			entities[i]->render();
+			entities[i]->render(true);
 		}
 	}
 }
