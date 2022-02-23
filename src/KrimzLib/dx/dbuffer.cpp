@@ -46,7 +46,7 @@ kl::dbuffer::dbuffer(ID3D11Device* dev, ID3D11DeviceContext* devcon, int width, 
     dsTexDesc.Height = height;
     dsTexDesc.MipLevels = 1;
     dsTexDesc.ArraySize = 1;
-    dsTexDesc.Format = DXGI_FORMAT_D32_FLOAT;
+    dsTexDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
     dsTexDesc.SampleDesc.Count = 1;
     dsTexDesc.Usage = D3D11_USAGE_DEFAULT;
     dsTexDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;

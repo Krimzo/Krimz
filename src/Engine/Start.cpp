@@ -13,9 +13,11 @@ void Start() {
 
 	// On resize callback
 	win.onResize = [&](const kl::ivec2& size) {
-		gpu->regenBuffers(size);
-		gpu->setViewport(kl::ivec2(0, 0), size);
-		camera.aspect = float(size.x) / size.y;
+		if (size.x > 0 && size.y > 0) {
+			gpu->regenBuffers(size);
+			gpu->setViewport(kl::ivec2(0, 0), size);
+			camera.aspect = float(size.x) / size.y;
+		}
 	};
 
 	// Creating the rasters
@@ -27,8 +29,8 @@ void Start() {
 	// Compiling shaders
 	editor_sh = gpu->newShaders("res/shaders/editor.hlsl", sizeof(DRAW_VS_CB), sizeof(DRAW_PS_CB));
 	shadow_sh = gpu->newShaders("res/shaders/shadows.hlsl", sizeof(kl::mat4), 0);
-	highlight_sh = gpu->newShaders("res/shaders/highlight.hlsl", sizeof(HIGH_VS_CB), sizeof(HIGH_PS_CB));
-	gizmo_sh = gpu->newShaders("res/shaders/gizmo.hlsl", sizeof(GIZM_VS_CB), sizeof(GIZM_PS_CB));
+	highlight_sh = gpu->newShaders("res/shaders/highlight.hlsl", sizeof(kl::mat4), sizeof(kl::vec4));
+	gizmo_sh = gpu->newShaders("res/shaders/gizmo.hlsl", sizeof(kl::mat4), sizeof(GIZM_PS_CB));
 
 	// Sampler setup
 	kl::sampler* samp = gpu->newSampler(true, true);
@@ -38,8 +40,9 @@ void Start() {
 	camera.position = kl::vec3(-1.4f, 1.25f, 6.0f);
 	camera.forward = kl::vec3(0.55f, -0.3f, -0.9f);
 
-	// Sun shadowmap setup
+	// Sun setup
 	sun.shadowMap = gpu->newSBuffer(4096);
+	sun.direction = kl::vec3(-0.575f, -0.75f, -2.0f);
 
 	// Gizmo meshe loading
 	gizmo_scale = gpu->newMesh("res/objects/gizmos/scale.obj", true);
@@ -66,20 +69,21 @@ void Start() {
 	kl::mesh* monke = gpu->newMesh("res/objects/monke.obj", true);
 
 	// Texture
-	kl::texture* wheat = gpu->newTexture(kl::image(kl::ivec2(1, 1), kl::colors::wheat));
+	kl::texture* lgray = gpu->newTexture(kl::image(kl::ivec2(1, 1), kl::colors::lgray));
 	kl::texture* check = gpu->newTexture("res/textures/checkers.jpg");
 
 	// Entity
-	kl::entity* plane = entities.newInst(new kl::entity("Plane", cube, wheat));
+	kl::entity* plane = entities.newInst(new kl::entity("Plane", cube, lgray));
 	plane->size = kl::vec3(50.0f, 0.25f, 50.0f);
 	plane->position.y = -2.0f;
+	plane->roughness = 0.9f;
 
 	const int size = 3;
 	for (int x = 0; x < size; x++) {
 		for (int y = 0; y < size; y++) {
 			const int i = y * size + x;
 			kl::entity* temp = entities.newInst(new kl::entity("Monke" + std::to_string(i), monke, check));
-			temp->position = kl::vec3(x * 2.0f, y * 2.0f, 0);
+			temp->position = kl::vec3(x * 2.0f, y * 2.0f, -y * 2.0f);
 			temp->rotation.y = 180;
 		}
 	}

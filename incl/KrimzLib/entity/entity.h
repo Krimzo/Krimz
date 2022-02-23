@@ -15,6 +15,7 @@ namespace kl {
 		// View
 		bool visible = true;
 		bool shadows = true;
+		float roughness = 0.5f;
 
 		// Geometry
 		kl::vec3 size = kl::vec3(1);

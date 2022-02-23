@@ -6,7 +6,8 @@ cbuffer VS_CB : register(b0) {
 }
 
 struct VS_OUT {
-    float4 world : SV_POSITION;
+    float4 screen : SV_POSITION;
+    float3 world : WRLD;
     float2 textur : TEX;
     float3 normal : NORM;
     float4 sunPos : SUN;
@@ -16,7 +17,10 @@ VS_OUT vShader(float3 pos : POS_IN, float2 tex : TEX_IN, float3 norm : NORM_IN) 
     VS_OUT data;
 
     // World transform
-    data.world = mul(float4(pos, 1.0f), mul(w, vpCam));
+    data.world = mul(float4(pos, 1.0f), w);
+
+    // Screen transform
+    data.screen = mul(float4(data.world, 1.0f), vpCam);
 
     // Texture transform
     data.textur = tex;
@@ -36,6 +40,8 @@ cbuffer PS_CB : register(b0) {
     float4 ambCol;
     float4 dirCol;
     float4 dirDir;
+    float4 camPos;
+    float4 rghFac;
     float4 objInd;
 }
 
@@ -54,45 +60,41 @@ float CalcShadow(float3 lightPos, float lightNormDot);
 PS_OUT pShader(VS_OUT data) {
     PS_OUT output;
 
-    // Texture color
-    float3 textureColor = tex0.Sample(samp0, data.textur).xyz;
+    // Base pixel color
+    const float4 baseCol = tex0.Sample(samp0, data.textur);
 
-    // Ambient light color
-    float3 ambientColor = ambCol.xyz;
+    // Diffuse
+    const float3 norm = normalize(data.normal);
+    const float diffuseFac = max(dot(-dirDir.xyz, norm), 0.0f);
+    const float3 diffuse = dirCol.rgb * diffuseFac;
 
-    // Directional light color
-    float3 directColor = float3(0.0f, 0.0f, 0.0f);
+    // Specular
+    const float specStr = 1.0f - rghFac.x;
+    const float3 viewDir = normalize(camPos.xyz - data.world);
+    const float3 reflDir = reflect(dirDir.xyz, norm);
+    const float specFac = pow(max(dot(viewDir, reflDir), 0.0f), 64.0f);
+    const float3 specular = specStr * specFac * dirCol.rgb;
 
-    // Calculating the directional light intensity
-    float diffuseFactor = dot(-dirDir.xyz, normalize(data.normal));
-
-    // Checking the diffuse factor
-    if (diffuseFactor > 0.0f) {
-        directColor = (dirCol * diffuseFactor).xyz;
-    }
-
-    // Dividing the sun coords
+    // Shadow
     data.sunPos /= data.sunPos.w;
-
-    // Clamping the light z
     data.sunPos.z = min(data.sunPos.z, 1.0f);
+    const float shadow = CalcShadow(data.sunPos.xyz, diffuseFac);
 
-    // Computing the shadow factor
-    float shadowFac = CalcShadow(data.sunPos.xyz, diffuseFactor);
+    // Full light
+    const float4 light = float4(shadow * (diffuse + specular) + ambCol.rgb, 1.0f);
 
-    // Setting the pixel color
-    output.color = float4(textureColor * (shadowFac * directColor + ambientColor), 1);
+    // Pixel color
+    output.color = baseCol * light;
 
-    // Setting the index
+    // Pixel object index
     output.index = objInd.x;
 
-    // Returning
     return output;
 }
 
 float CalcShadow(float3 lightPos, float lightNormDot) {
     // Shadow factor
-    float shadow = 0.0f;
+    float shadowFac = 0.0f;
 
     // Calculating bias
     const float biasMin = 0.0001f;
@@ -110,10 +112,10 @@ float CalcShadow(float3 lightPos, float lightNormDot) {
     for (int y = -1; y <= 1; y++) {
         for (int x = -1; x <= 1; x++) {
             const float depth = tex1.Sample(samp1, lightPos.xy + float2(x, y) * texelSize).r;
-            shadow += ((depth + bias) < lightPos.z) ? 0.0f : 1.0f;
+            shadowFac += ((depth + bias) < lightPos.z) ? 0.0f : 1.0f;
         }
     }
 
     // Returing the shadow
-    return shadow * 0.111f;
+    return shadowFac * 0.111f;
 }

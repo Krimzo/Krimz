@@ -1,9 +1,6 @@
 #include "Engine/Engine.h"
 
 
-GIZM_VS_CB gizm_vert_data = {};
-GIZM_PS_CB gizm_pixl_data = {};
-
 kl::mat4 camMat;
 kl::mat4 objMoveMat;
 
@@ -12,11 +9,12 @@ const kl::vec4 yCol = kl::color(115, 175,  40);
 const kl::vec4 zCol = kl::color( 55, 120, 205);
 
 void DrawGizmo(kl::mesh* toDraw, const kl::vec3& rot, const kl::vec4& col, int index) {
-	// Setting the vert data
-	gizm_vert_data.wvp = camMat * (objMoveMat * kl::mat4::rotate(rot));
-	gizmo_sh->setVertData(&gizm_vert_data);
+	// Setting the wvp matrix
+	kl::mat4 wvp = camMat * (objMoveMat * kl::mat4::rotate(rot));
+	gizmo_sh->setVertData(&wvp);
 
 	// Setting the pixl data
+	GIZM_PS_CB gizm_pixl_data = {};
 	gizm_pixl_data.objCol = col;
 	gizm_pixl_data.objInd = float(index);
 	gizmo_sh->setPixlData(&gizm_pixl_data);

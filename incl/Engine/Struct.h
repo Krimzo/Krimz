@@ -14,21 +14,12 @@ struct DRAW_PS_CB {
 	kl::vec4 ambCol;
 	kl::vec4 dirCol;
 	kl::vec4 dirDir;
+	kl::vec4 camPos;
+	kl::vec4 rghFac;
 	kl::vec4 objInd;
 };
 
-// Editor hightlight shader buffers
-struct HIGH_VS_CB {
-	kl::mat4 wvp;
-};
-struct HIGH_PS_CB {
-	kl::vec4 higCol;
-};
-
 // Editor gizmo shader buffers
-struct GIZM_VS_CB {
-	kl::mat4 wvp;
-};
 struct GIZM_PS_CB {
 	kl::vec4 objCol;
 	kl::vec4 objInd;
