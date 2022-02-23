@@ -21,7 +21,7 @@ int main() {
 	kl::igui::loadKrimzTheme();
 
 	// Window
-	win.startNew(kl::ivec2(1600, 900), "rimz Editor", true, false, true);
+	win.startNew(kl::ivec2(1600, 900), "Editor", true, false, true);
 
 	// Cleanup
 	kl::igui::uninit();

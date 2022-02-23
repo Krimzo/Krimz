@@ -17,9 +17,9 @@ void Update() {
 
 	// Rendering skybox
 	if (skybox) {
-		gpu->setDepthTest(false);
+		gpu->setDSState(kl::dbuffer::Disabled);
 		skybox->render(camera.matrix());
-		gpu->setDepthTest(true);
+		gpu->setDSState(kl::dbuffer::Default);
 	}
 
 	// Drawing entities
@@ -27,8 +27,8 @@ void Update() {
 
 	// Selected postprocess
 	if (selected) {
-		// Wireframe highlight
-		Highlight();
+		// Entity outline
+		Outline();
 
 		// Drawing the gizmos
 		Gizmo();

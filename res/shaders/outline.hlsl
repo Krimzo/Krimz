@@ -10,7 +10,7 @@ struct vOut {
 vOut vShader(float3 pos : POS_IN, float2 tex : TEX_IN, float3 norm : NORM_IN) {
     vOut data;
 
-    data.world = mul(float4(pos, 1), wvp);
+    data.world = mul(float4(pos, 1.0f), wvp);
 
     return data;
 }

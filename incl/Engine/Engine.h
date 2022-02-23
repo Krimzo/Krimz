@@ -24,7 +24,7 @@ inline kl::direct sun;
 inline kl::skybox* skybox = nullptr;
 
 // Highlight
-inline kl::color highlight = kl::colors::white;
+inline kl::color outline = kl::colors::orange;
 inline kl::entity* selected = nullptr;
 
 // Time
@@ -43,7 +43,7 @@ inline kl::raster* shadow_ra = nullptr;
 // Shaders
 inline kl::shaders* editor_sh = nullptr;
 inline kl::shaders* shadow_sh = nullptr;
-inline kl::shaders* highlight_sh = nullptr;
+inline kl::shaders* outline_sh = nullptr;
 inline kl::shaders* gizmo_sh = nullptr;
 
 // Gizmo meshes
@@ -63,7 +63,7 @@ void Start();
 void Input();
 void Shadows();
 void Draw();
-void Highlight();
+void Outline();
 void Gizmo();
 void GUI();
 void Update();

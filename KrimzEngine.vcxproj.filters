@@ -182,7 +182,7 @@
     <ClCompile Include="src\Engine\GUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Highlight.cpp">
+    <ClCompile Include="src\Engine\Outline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Input.cpp">

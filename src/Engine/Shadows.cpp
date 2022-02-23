@@ -34,7 +34,7 @@ void Shadows() {
 
 	// Binding the default states
 	gpu->bindInternal();
-	gpu->setDepthTest(true);
+	gpu->setDSState(kl::dbuffer::Default);
 
 	// Viewport reset
 	gpu->setViewport(kl::ivec2(0, 0), win.getSize());

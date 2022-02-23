@@ -78,8 +78,8 @@ namespace kl {
 		// Swaps the buffers
 		void swap(bool vSync);
 
-		// Sets the depth testing state
-		void setDepthTest(bool enabled);
+		// Sets the depth/stencil state
+		void setDSState(kl::dbuffer::STATE state);
 
 		// Raster
 		kl::raster* newRaster(bool wireframe, bool cull, bool cullBack = true);
@@ -95,7 +95,7 @@ namespace kl {
 
 		// Mesh
 		kl::mesh* newMesh(const std::vector<kl::vertex>& vertexData);
-		kl::mesh* newMesh(const std::string& filePath, bool flipZ);
+		kl::mesh* newMesh(const std::string& filePath, bool flipZ = true);
 		bool delMesh(kl::mesh* mes);
 
 		// Texture

@@ -33,7 +33,14 @@ void Draw() {
 			editor_sh->setPixlData(&draw_pixl_data);
 
 			// Rendering the entity
-			entities[i]->render(true);
+			if (entities[i] == selected) {
+				gpu->setDSState(kl::dbuffer::Write);
+				entities[i]->render(true);
+				gpu->setDSState(kl::dbuffer::Default);
+			}
+			else {
+				entities[i]->render(true);
+			}
 		}
 	}
 }

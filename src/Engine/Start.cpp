@@ -29,7 +29,7 @@ void Start() {
 	// Compiling shaders
 	editor_sh = gpu->newShaders("res/shaders/editor.hlsl", sizeof(DRAW_VS_CB), sizeof(DRAW_PS_CB));
 	shadow_sh = gpu->newShaders("res/shaders/shadows.hlsl", sizeof(kl::mat4), 0);
-	highlight_sh = gpu->newShaders("res/shaders/highlight.hlsl", sizeof(kl::mat4), sizeof(kl::vec4));
+	outline_sh = gpu->newShaders("res/shaders/outline.hlsl", sizeof(kl::mat4), sizeof(kl::vec4));
 	gizmo_sh = gpu->newShaders("res/shaders/gizmo.hlsl", sizeof(kl::mat4), sizeof(GIZM_PS_CB));
 
 	// Sampler setup
@@ -65,8 +65,8 @@ void Start() {
 	skybox = clouds;
 
 	// Mesh
-	kl::mesh* cube = gpu->newMesh("res/objects/cube.obj", true);
-	kl::mesh* monke = gpu->newMesh("res/objects/monke.obj", true);
+	kl::mesh* cube = gpu->newMesh("res/objects/cube.obj");
+	kl::mesh* monke = gpu->newMesh("res/objects/monke.obj");
 
 	// Texture
 	kl::texture* lgray = gpu->newTexture(kl::image(kl::ivec2(1, 1), kl::colors::lgray));

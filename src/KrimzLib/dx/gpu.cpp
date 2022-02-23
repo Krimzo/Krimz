@@ -130,7 +130,7 @@ void kl::gpu::regenBuffers(const kl::ivec2& size) {
 
     // Buffer binding
     this->bindInternal();
-    this->setDepthTest(true);
+    this->setDSState(kl::dbuffer::Default);
 }
 
 // Sets the viewport
@@ -172,9 +172,9 @@ void kl::gpu::swap(bool vSync) {
     chain->Present(vSync, NULL);
 }
 
-// Sets the depth testing state
-void kl::gpu::setDepthTest(bool enabled) {
-    depthBuff->setState(enabled);
+// Sets the depth/stencil state
+void kl::gpu::setDSState(kl::dbuffer::STATE state) {
+    depthBuff->setState(state);
 }
 
 // Creates a new rasterizer state
