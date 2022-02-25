@@ -28,7 +28,7 @@ void Draw() {
 			editor_sh->setVertData(&draw_vert_data);
 
 			// Updating the pixl data
-			draw_pixl_data.rghFac.x = min(max(entities[i]->roughness, 0.0f), 1.0f);
+			draw_pixl_data.rghFac.x = entities[i]->roughness;
 			draw_pixl_data.objInd.x = float(i);
 			editor_sh->setPixlData(&draw_pixl_data);
 

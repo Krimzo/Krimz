@@ -101,7 +101,6 @@ void Input() {
 
 
 bool firstLmb = true;
-bool dontSelect = false;
 int lastInd = -1;
 kl::vec3 offsPos;
 kl::vec3 firstSize;
@@ -115,98 +114,93 @@ void LMB() {
 			const int ind = gpu->getIndex(win.mouse.position);
 
 			// Index test
-			if (ind >= 0 && firstLmb && !dontSelect) {
-				// Entity select
+			if (ind >= 0 && firstLmb) {
 				selected = entities[ind];
 			}
-			else if (ind >= -2 && firstLmb && !dontSelect) {
-				// Entity deselect
+			else if (ind >= -2 && firstLmb) {
 				selected = nullptr;
 			}
-			else {
-				if (selected) {
-					// Far mouse point calculation
-					kl::vec4 farMousePoint = camera.matrix().inverse() * kl::vec4(win.mouse.normPos(win.getSize()), 1.0f, 1.0f);
-					farMousePoint /= farMousePoint.w;
+			else if (selected) {
+				// Far mouse point calculation
+				kl::vec4 farMousePoint = camera.matrix().inverse() * kl::vec4(win.mouse.normPos(win.getSize()), 1.0f, 1.0f);
+				farMousePoint /= farMousePoint.w;
 
-					// Mouse pos ray constuction
-					const kl::ray mouseRay(camera.position, farMousePoint.xyz() - camera.position);
+				// Mouse pos ray constuction
+				const kl::ray mouseRay(camera.position, farMousePoint.xyz() - camera.position);
 					
-					// Getting the cam forward vector
-					const kl::vec3 camFor = camera.getForward();
+				// Getting the cam forward vector
+				const kl::vec3 camFor = camera.getForward();
 
-					// Saving the first click info
-					if (firstLmb) {
-						dontSelect = true;
-						lastInd = ind;
+				// Saving the first click info
+				if (firstLmb) {
+					lastInd = ind;
 
-						// Saving position offset
-						offsPos.x = mouseRay.intersect(kl::vec3::pos_y, selected->position).x - selected->position.x;
-						offsPos.y = mouseRay.intersect(abs(camFor.x) > abs(camFor.z) ? kl::vec3::pos_x : kl::vec3::pos_z, selected->position).y - selected->position.y;
-						offsPos.z = mouseRay.intersect(kl::vec3::pos_y, selected->position).z - selected->position.z;
+					// Saving position offset
+					offsPos.x = mouseRay.intersect(kl::plane(kl::vec3::pos_y, selected->position)).x - selected->position.x;
+					offsPos.y = mouseRay.intersect(kl::plane(abs(camFor.x) > abs(camFor.z) ? kl::vec3::pos_x : kl::vec3::pos_z, selected->position)).y - selected->position.y;
+					offsPos.z = mouseRay.intersect(kl::plane(kl::vec3::pos_y, selected->position)).z - selected->position.z;
 
-						// Saving the angle offset
-						const kl::vec3 intersectX = mouseRay.intersect(kl::vec3::pos_x, selected->position);
-						const kl::vec2 secondVecX = kl::vec2(intersectX.z, intersectX.y) - kl::vec2(selected->position.z, selected->position.y);
-						offsRot.x = kl::vec2::pos_x.angle(secondVecX, true);
-						const kl::vec3 intersectY = mouseRay.intersect(kl::vec3::pos_y, selected->position);
-						const kl::vec2 secondVecY = kl::vec2(intersectY.z, intersectY.x) - kl::vec2(selected->position.z, selected->position.x);
-						offsRot.y = kl::vec2::pos_x.angle(secondVecY, true);
-						const kl::vec3 intersectZ = mouseRay.intersect(kl::vec3::pos_z, selected->position);
-						const kl::vec2 secondVecZ = kl::vec2(intersectZ.x, intersectZ.y) - kl::vec2(selected->position.x, selected->position.y);
-						offsRot.z = kl::vec2::pos_x.angle(secondVecZ, true);
+					// Saving the angle offset
+					const kl::vec3 intersectX = mouseRay.intersect(kl::plane(kl::vec3::pos_x, selected->position));
+					const kl::vec2 secondVecX = kl::vec2(intersectX.z, intersectX.y) - kl::vec2(selected->position.z, selected->position.y);
+					offsRot.x = kl::vec2::pos_x.angle(secondVecX, true);
+					const kl::vec3 intersectY = mouseRay.intersect(kl::plane(kl::vec3::pos_y, selected->position));
+					const kl::vec2 secondVecY = kl::vec2(intersectY.z, intersectY.x) - kl::vec2(selected->position.z, selected->position.x);
+					offsRot.y = kl::vec2::pos_x.angle(secondVecY, true);
+					const kl::vec3 intersectZ = mouseRay.intersect(kl::plane(kl::vec3::pos_z, selected->position));
+					const kl::vec2 secondVecZ = kl::vec2(intersectZ.x, intersectZ.y) - kl::vec2(selected->position.x, selected->position.y);
+					offsRot.z = kl::vec2::pos_x.angle(secondVecZ, true);
 
-						// Saving properties
-						firstSize = selected->size;
-						firstRota = selected->rotation;
+					// Saving properties
+					firstSize = selected->size;
+					firstRota = selected->rotation;
+				}
+				else {
+					// Intersect calculation
+					const kl::vec3 currPos = kl::vec3(
+						mouseRay.intersect(kl::plane(kl::vec3::pos_y, selected->position)).x,
+						mouseRay.intersect(kl::plane(abs(camFor.x) > abs(camFor.z) ? kl::vec3::pos_x : kl::vec3::pos_z, selected->position)).y,
+						mouseRay.intersect(kl::plane(kl::vec3::pos_y, selected->position)).z
+					) - offsPos;
+
+					// Entity edit
+					if (chosenGizmo == GIZMO_SCALE) {
+						if (lastInd == -3) {
+							selected->size.x = firstSize.x + (currPos.x - selected->position.x);
+						}
+						else if (lastInd == -4) {
+							selected->size.y = firstSize.y + (currPos.y - selected->position.y);
+						}
+						else if (lastInd == -5) {
+							selected->size.z = firstSize.z + (currPos.z - selected->position.z);
+						}
 					}
-					else {
-						// Intersect calculation
-						const kl::vec3 currPos = kl::vec3(
-							mouseRay.intersect(kl::vec3::pos_y, selected->position).x,
-							mouseRay.intersect(abs(camFor.x) > abs(camFor.z) ? kl::vec3::pos_x : kl::vec3::pos_z, selected->position).y,
-							mouseRay.intersect(kl::vec3::pos_y, selected->position).z
-						) - offsPos;
-
-						// Entity edit
-						if (chosenGizmo == GIZMO_SCALE) {
-							if (lastInd == -3) {
-								selected->size.x = firstSize.x + (currPos.x - selected->position.x);
-							}
-							else if (lastInd == -4) {
-								selected->size.y = firstSize.y + (currPos.y - selected->position.y);
-							}
-							else if (lastInd == -5) {
-								selected->size.z = firstSize.z + (currPos.z - selected->position.z);
-							}
+					else if (chosenGizmo == GIZMO_MOVE) {
+						if (lastInd == -3) {
+							selected->position.x = currPos.x;
 						}
-						else if (chosenGizmo == GIZMO_MOVE) {
-							if (lastInd == -3) {
-								selected->position.x = currPos.x;
-							}
-							else if (lastInd == -4) {
-								selected->position.y = currPos.y;
-							}
-							else if (lastInd == -5) {
-								selected->position.z = currPos.z;
-							}
+						else if (lastInd == -4) {
+							selected->position.y = currPos.y;
 						}
-						else if (chosenGizmo == GIZMO_ROTATE) {
-							if (lastInd == -3) {
-								const kl::vec3 intersect = mouseRay.intersect(kl::vec3::pos_x, selected->position);
-								const kl::vec2 secondVec = kl::vec2(intersect.z, intersect.y) - kl::vec2(selected->position.z, selected->position.y);
-								selected->rotation.x = firstRota.x + kl::vec2::pos_x.angle(secondVec, true) - offsRot.x;
-							}
-							else if (lastInd == -4) {
-								const kl::vec3 intersect = mouseRay.intersect(kl::vec3::pos_y, selected->position);
-								const kl::vec2 secondVec = kl::vec2(intersect.z, intersect.x) - kl::vec2(selected->position.z, selected->position.x);
-								selected->rotation.y = firstRota.y + kl::vec2::pos_x.angle(secondVec, true) - offsRot.y;
-							}
-							else if (lastInd == -5) {
-								const kl::vec3 intersect = mouseRay.intersect(kl::vec3::pos_z, selected->position);
-								const kl::vec2 secondVec = kl::vec2(intersect.x, intersect.y) - kl::vec2(selected->position.x, selected->position.y);
-								selected->rotation.z = firstRota.z + kl::vec2::pos_x.angle(secondVec, true) - offsRot.z;
-							}
+						else if (lastInd == -5) {
+							selected->position.z = currPos.z;
+						}
+					}
+					else if (chosenGizmo == GIZMO_ROTATE) {
+						if (lastInd == -3) {
+							const kl::vec3 intersect = mouseRay.intersect(kl::plane(kl::vec3::pos_x, selected->position));
+							const kl::vec2 secondVec = kl::vec2(intersect.z, intersect.y) - kl::vec2(selected->position.z, selected->position.y);
+							selected->rotation.x = firstRota.x + kl::vec2::pos_x.angle(secondVec, true) - offsRot.x;
+						}
+						else if (lastInd == -4) {
+							const kl::vec3 intersect = mouseRay.intersect(kl::plane(kl::vec3::pos_y, selected->position));
+							const kl::vec2 secondVec = kl::vec2(intersect.z, intersect.x) - kl::vec2(selected->position.z, selected->position.x);
+							selected->rotation.y = firstRota.y + kl::vec2::pos_x.angle(secondVec, true) - offsRot.y;
+						}
+						else if (lastInd == -5) {
+							const kl::vec3 intersect = mouseRay.intersect(kl::plane(kl::vec3::pos_z, selected->position));
+							const kl::vec2 secondVec = kl::vec2(intersect.x, intersect.y) - kl::vec2(selected->position.x, selected->position.y);
+							selected->rotation.z = firstRota.z + kl::vec2::pos_x.angle(secondVec, true) - offsRot.z;
 						}
 					}
 				}
@@ -216,7 +210,6 @@ void LMB() {
 	}
 	else {
 		firstLmb = true;
-		dontSelect = false;
 		lastInd = -1;
 	}
 }
