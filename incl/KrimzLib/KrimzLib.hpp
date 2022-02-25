@@ -8,6 +8,7 @@
 #include "KrimzLib/vecmath/vec4.h"
 #include "KrimzLib/vecmath/mat3.h"
 #include "KrimzLib/vecmath/mat4.h"
+#include "KrimzLib/vecmath/ray.h"
 
 // Including graphics
 #include "KrimzLib/graphics/image.h"

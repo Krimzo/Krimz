@@ -86,7 +86,7 @@ PS_OUT pShader(VS_OUT data) {
     // Pixel color
     output.color = baseCol * light;
 
-    // Pixel object index
+    // Object index
     output.index = objInd.x;
 
     return output;
