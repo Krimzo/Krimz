@@ -8,9 +8,6 @@ void Start() {
 	// Maximizing the window
 	win.maximize();
 
-	// Creating the gpu
-	gpu = new kl::gpu(win.getWND(), true);
-
 	// On resize callback
 	win.onResize = [&](const kl::ivec2& size) {
 		if (size.x > 0 && size.y > 0) {
@@ -19,6 +16,9 @@ void Start() {
 			camera.aspect = float(size.x) / size.y;
 		}
 	};
+
+	// Creating the gpu
+	gpu = new kl::gpu(win.getWND(), true);
 
 	// Creating the rasters
 	solid_ra = gpu->newRaster(false, true);
@@ -37,14 +37,14 @@ void Start() {
 	samp->bind(0);
 
 	// Camera setup
-	camera.position = kl::vec3(-1.4f, 1.25f, 6.0f);
-	camera.forward = kl::vec3(0.55f, -0.3f, -0.9f);
+	camera.position = kl::vec3(-1.4f, 1.25f, -6.0f);
+	camera.forward = kl::vec3(0.55f, -0.3f, 0.9f);
 
 	// Sun setup
 	sun.shadowMap = gpu->newSBuffer(4096);
-	sun.direction = kl::vec3(-0.575f, -0.75f, -2.0f);
+	sun.direction = kl::vec3(0.575f, -0.75f, 2.0f);
 
-	// Gizmo meshe loading
+	// Gizmo mesh loading
 	gizmo_scale = gpu->newMesh("res/objects/gizmos/scale.obj", true);
 	gizmo_move = gpu->newMesh("res/objects/gizmos/move.obj", true);
 	gizmo_rotate = gpu->newMesh("res/objects/gizmos/rotate.obj", true);
@@ -95,8 +95,7 @@ void Start() {
 		for (int y = 0; y < size; y++) {
 			const int i = y * size + x;
 			kl::entity* temp = entities.newInst(new kl::entity("Monke" + std::to_string(i), monke_mes, checker_tex));
-			temp->position = kl::vec3((x - 1.0f) * 2.0f, y * 2.0f, -y * 2.0f);
-			temp->rotation.y = 180;
+			temp->position = kl::vec3((x - 1.0f) * 2.0f, y * 2.0f, y * 2.0f);
 		}
 	}
 }

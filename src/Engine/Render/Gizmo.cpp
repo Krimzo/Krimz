@@ -1,10 +1,6 @@
 #include "Engine/Engine.h"
 
 
-const kl::vec4 xCol = kl::color(205,  55,  75);
-const kl::vec4 yCol = kl::color(115, 175,  40);
-const kl::vec4 zCol = kl::color( 55, 120, 205);
-
 const float gizmoScale = 0.2f;
 
 void DrawGizmo(kl::mesh* toDraw, const kl::vec3& rot, const kl::vec4& col, int index) {
@@ -50,8 +46,8 @@ void Gizmo() {
 		gpu->clearDepth();
 
 		// Drawing the gizmos
-		DrawGizmo(gizmoMesh, xRot, xCol, -3);
-		DrawGizmo(gizmoMesh, yRot, yCol, -4);
-		DrawGizmo(gizmoMesh, zRot, zCol, -5);
+		DrawGizmo(gizmoMesh, xRot, gizmoColX, -3);
+		DrawGizmo(gizmoMesh, yRot, gizmoColY, -4);
+		DrawGizmo(gizmoMesh, zRot, gizmoColZ, -5);
 	}
 }
