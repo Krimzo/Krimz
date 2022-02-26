@@ -142,7 +142,7 @@ void LMB() {
 
 					// Saving the angle offset
 					const kl::vec3 intersectX = mouseRay.intersect(kl::plane(kl::vec3::pos_x, selected->position));
-					const kl::vec2 secondVecX = kl::vec2(intersectX.z, intersectX.y) - kl::vec2(selected->position.z, selected->position.y);
+					const kl::vec2 secondVecX = kl::vec2(intersectX.y, intersectX.z) - kl::vec2(selected->position.y, selected->position.z);
 					offsRot.x = kl::vec2::pos_x.angle(secondVecX, true);
 					const kl::vec3 intersectY = mouseRay.intersect(kl::plane(kl::vec3::pos_y, selected->position));
 					const kl::vec2 secondVecY = kl::vec2(intersectY.z, intersectY.x) - kl::vec2(selected->position.z, selected->position.x);
@@ -189,7 +189,7 @@ void LMB() {
 					else if (chosenGizmo == GIZMO_ROTATE) {
 						if (lastInd == -3) {
 							const kl::vec3 intersect = mouseRay.intersect(kl::plane(kl::vec3::pos_x, selected->position));
-							const kl::vec2 secondVec = kl::vec2(intersect.z, intersect.y) - kl::vec2(selected->position.z, selected->position.y);
+							const kl::vec2 secondVec = kl::vec2(intersect.y, intersect.z) - kl::vec2(selected->position.y, selected->position.z);
 							selected->rotation.x = firstRota.x + kl::vec2::pos_x.angle(secondVec, true) - offsRot.x;
 						}
 						else if (lastInd == -4) {

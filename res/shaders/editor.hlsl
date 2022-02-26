@@ -98,7 +98,7 @@ float CalcShadow(float3 lightPos, float lightNormDot) {
 
     // Calculating bias
     const float biasMin = 0.0001f;
-    const float biasMax = 0.0005f;
+    const float biasMax = 0.00025f;
     const float bias = max(biasMax * (1.0f - lightNormDot), biasMin);
 
     // Getting the texture size

@@ -65,25 +65,37 @@ void Start() {
 	skybox = clouds;
 
 	// Mesh
-	kl::mesh* cube = gpu->newMesh("res/objects/cube.obj");
-	kl::mesh* monke = gpu->newMesh("res/objects/monke.obj");
+	kl::mesh* cube_mes = gpu->newMesh("res/objects/cube.obj");
+	kl::mesh* monke_mes = gpu->newMesh("res/objects/monke.obj");
+	kl::mesh* horse_mes = gpu->newMesh("res/objects/horse.obj");
 
 	// Texture
-	kl::texture* lgray = gpu->newTexture(kl::image(kl::ivec2(1, 1), kl::colors::lgray));
-	kl::texture* check = gpu->newTexture("res/textures/checkers.jpg");
+	kl::texture* lgray_tex = gpu->newTexture(kl::image(kl::ivec2(1, 1), kl::colors::lgray));
+	kl::texture* checker_tex = gpu->newTexture("res/textures/checkers.jpg");
+	kl::texture* horse_tex = gpu->newTexture("res/textures/horse.jpg");
 
 	// Entity
-	kl::entity* plane = entities.newInst(new kl::entity("Plane", cube, lgray));
+	kl::entity* plane = entities.newInst(new kl::entity("Plane", cube_mes, lgray_tex));
 	plane->size = kl::vec3(50.0f, 0.25f, 50.0f);
 	plane->position.y = -2.0f;
 	plane->roughness = 0.9f;
+
+	kl::entity* horse1 = entities.newInst(new kl::entity("Horse1", horse_mes, horse_tex));
+	kl::entity* horse2 = entities.newInst(new kl::entity("Horse2", horse_mes, horse_tex));
+	horse1->size *= 50.0f;
+	horse2->size *= 50.0f;
+	horse1->position.y = -1.8f;
+	horse2->position.y = -1.8f;
+	horse1->position.x =  15.0f;
+	horse2->position.x = -15.0f;
+	horse2->rotation.y = 180.0f;
 
 	const int size = 3;
 	for (int x = 0; x < size; x++) {
 		for (int y = 0; y < size; y++) {
 			const int i = y * size + x;
-			kl::entity* temp = entities.newInst(new kl::entity("Monke" + std::to_string(i), monke, check));
-			temp->position = kl::vec3(x * 2.0f, y * 2.0f, -y * 2.0f);
+			kl::entity* temp = entities.newInst(new kl::entity("Monke" + std::to_string(i), monke_mes, checker_tex));
+			temp->position = kl::vec3((x - 1.0f) * 2.0f, y * 2.0f, -y * 2.0f);
 			temp->rotation.y = 180;
 		}
 	}

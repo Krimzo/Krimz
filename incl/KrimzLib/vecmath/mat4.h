@@ -73,7 +73,6 @@ namespace kl {
 
 		// Returns the "look at" matrix
 		static kl::mat4 lookAt(const kl::vec3& position, const kl::vec3& target, const kl::vec3& up);
-		static kl::mat4 lookAtR(const kl::vec3& position, const kl::vec3& target, const kl::vec3& up);
 	};
 
 	// Overloading std::cout

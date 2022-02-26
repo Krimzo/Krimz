@@ -375,23 +375,3 @@ kl::mat4 kl::mat4::lookAt(const kl::vec3& position, const kl::vec3& target, cons
 	temp[11] = -f.dot(position);
 	return temp;
 }
-kl::mat4 kl::mat4::lookAtR(const kl::vec3& position, const kl::vec3& target, const kl::vec3& up) {
-	const kl::vec3 f = (position - target).normalize();
-	const kl::vec3 s = f.cross(up).normalize();
-	const kl::vec3 u = s.cross(f);
-
-	kl::mat4 temp;
-	temp[ 0] = s.x;
-	temp[ 1] = s.y;
-	temp[ 2] = s.z;
-	temp[ 3] = -s.dot(position);
-	temp[ 4] = u.x;
-	temp[ 5] = u.y;
-	temp[ 6] = u.z;
-	temp[ 7] = -u.dot(position);
-	temp[ 8] = f.x;
-	temp[ 9] = f.y;
-	temp[10] = f.z;
-	temp[11] = -f.dot(position);
-	return temp;
-}

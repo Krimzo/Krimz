@@ -61,11 +61,11 @@ void kl::camera::rotate(const kl::ivec2& mousePos, const kl::ivec2& frameCenter,
 
 // Computes and returns the camera matrix
 kl::mat4 kl::camera::matrix() const {
-	// Building the proj matrix
-	const kl::mat4 proj = kl::mat4::perspective(fov, aspect, nearPlane, farPlane);
-
 	// Building the view matrix
 	const kl::mat4 view = kl::mat4::lookAt(position, position + getForward(), getUp());
+
+	// Building the proj matrix
+	const kl::mat4 proj = kl::mat4::perspective(fov, aspect, nearPlane, farPlane);
 
 	// Multiplying and returning
 	return proj * view;
