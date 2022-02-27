@@ -15,7 +15,7 @@ namespace kl {
 	private:
 		ID3D11DeviceContext* devcon = nullptr;
 		ID3D11Buffer* buff = nullptr;
-		std::vector<kl::vertex> vertices;
+		UINT vertexCount = 0;
 
 	public:
 		// Constructors

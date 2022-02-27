@@ -45,9 +45,9 @@ void Start() {
 	sun.direction = kl::vec3(0.575f, -0.75f, 2.0f);
 
 	// Gizmo mesh loading
-	gizmo_scale = gpu->newMesh("res/objects/gizmos/scale.obj", true);
-	gizmo_move = gpu->newMesh("res/objects/gizmos/move.obj", true);
-	gizmo_rotate = gpu->newMesh("res/objects/gizmos/rotate.obj", true);
+	gizmo_scale = gpu->newMesh("res/objects/gizmos/scale.obj");
+	gizmo_move = gpu->newMesh("res/objects/gizmos/move.obj");
+	gizmo_rotate = gpu->newMesh("res/objects/gizmos/rotate.obj");
 
 	/* DEBUG */
 	// Skybox
@@ -76,7 +76,7 @@ void Start() {
 
 	// Entity
 	kl::entity* plane = entities.newInst(new kl::entity("Plane", cube_mes, lgray_tex));
-	plane->size = kl::vec3(50.0f, 0.25f, 50.0f);
+	plane->size = kl::vec3(45.0f, 0.25f, 45.0f);
 	plane->position.y = -2.0f;
 	plane->roughness = 0.9f;
 

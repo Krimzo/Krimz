@@ -13,7 +13,7 @@ kl::mesh::mesh(ID3D11Device* dev, ID3D11DeviceContext* devcon, const std::vector
 	this->devcon = devcon;
 
     // Saving the vertices
-    this->vertices = vertexData;
+    this->vertexCount = UINT(vertexData.size());
 
     // Buffer descriptor creation
     D3D11_BUFFER_DESC bufferDescriptor = {};
@@ -120,5 +120,5 @@ void kl::mesh::draw() const {
 	devcon->IASetVertexBuffers(0, 1, &buff, &tempStride, &tempOffset);
 
 	// Drawing
-	devcon->Draw(UINT(vertices.size()), 0);
+	devcon->Draw(vertexCount, 0);
 }

@@ -8,13 +8,26 @@ void GizmoHigh() {
 	gizmoColZ = kl::color(55, 120, 205);
 
 	// Entity id check
-	if (heldIndex == -3 || entityIndex == -3) {
-		gizmoColX *= 1.45f;
+	if (heldIndex >= -2) {
+		if (entityIndex == -3) {
+			gizmoColX *= 1.45f;
+		}
+		else if (entityIndex == -4) {
+			gizmoColY *= 1.45f;
+		}
+		else if (entityIndex == -5) {
+			gizmoColZ *= 1.45f;
+		}
 	}
-	else if (heldIndex == -4 || entityIndex == -4) {
-		gizmoColY *= 1.45f;
-	}
-	else if (heldIndex == -5 || entityIndex == -5) {
-		gizmoColZ *= 1.45f;
+	else {
+		if (heldIndex == -3) {
+			gizmoColX *= 1.45f;
+		}
+		else if (heldIndex == -4) {
+			gizmoColY *= 1.45f;
+		}
+		else if (heldIndex == -5) {
+			gizmoColZ *= 1.45f;
+		}
 	}
 }
