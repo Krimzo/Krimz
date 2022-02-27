@@ -18,20 +18,17 @@ namespace kl {
 		triangle(const kl::vertex& a, const kl::vertex& b, const kl::vertex& c);
 
 		// Computes and stores the barycentric constants
-		void calcConsts();
+		kl::vec4 getConsts();
 
 		// Checks if the point is inside the triangle
-		bool inTriangle(const kl::vec2& pos) const;
+		bool inTriangle(const kl::vec4& interConsts, const kl::vec2& pos) const;
 
 		// Interpolates and returns the given values
-		float interpolate(const kl::vec3& values, const kl::vec2& pos) const;
-		kl::vertex interpolate(const kl::vec2& pos) const;
+		float interpolate(const kl::vec4& interConsts, const kl::vec3& values, const kl::vec2& pos) const;
+		kl::vertex interpolate(const kl::vec4& interConsts, const kl::vec2& pos) const;
 
 	private:
-		// Interpolation constants
-		kl::vec4 interConsts;
-
 		// Calculates and returns the 3 barycentric weights of a triangle and a point
-		kl::vec3 getWeights(const kl::vec2& pos) const;
+		kl::vec3 getWeights(const kl::vec4& interConsts, const kl::vec2& pos) const;
 	};
 }

@@ -66,7 +66,7 @@ namespace kl {
 		static kl::mat4 scale(const kl::vec3& size);
 
 		// Returns the perspective projection matrix
-		static kl::mat4 perspective(float fov, float ar, float zNear, float zFar);
+		static kl::mat4 persp(float fov, float ar, float zNear, float zFar);
 
 		// Returns the orthographics projection matrix
 		static kl::mat4 ortho(float left, float right, float bottom, float top, float nearZ, float farZ);

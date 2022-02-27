@@ -328,7 +328,7 @@ kl::mat4 kl::mat4::scale(const kl::vec3& size) {
 }
 
 // Returns the perspective projection matrix
-kl::mat4 kl::mat4::perspective(float fov, float ar, float zNear, float zFar) {
+kl::mat4 kl::mat4::persp(float fov, float ar, float zNear, float zFar) {
 	const float tanHalf = 1 / tan(kl::convert::toRadians(fov) * 0.5f);
 	kl::mat4 temp;
 	temp[ 0] = tanHalf / ar;

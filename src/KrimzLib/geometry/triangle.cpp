@@ -12,9 +12,9 @@ kl::triangle::triangle(const kl::vertex& a, const kl::vertex& b, const kl::verte
 }
 
 // Computes and stores the barycentric constants
-void kl::triangle::calcConsts() {
+kl::vec4 kl::triangle::getConsts() {
 	const float tempConst = 1.0f / ((b.world.y - c.world.y) * (a.world.x - c.world.x) + (c.world.x - b.world.x) * (a.world.y - c.world.y));
-	interConsts = kl::vec4(
+	return kl::vec4(
 		(b.world.y - c.world.y) * tempConst,
 		(c.world.x - b.world.x) * tempConst,
 		(c.world.y - a.world.y) * tempConst,
@@ -23,7 +23,7 @@ void kl::triangle::calcConsts() {
 }
 
 // Calculates and returns the 3 barycentric weights of a triangle and a point
-kl::vec3 kl::triangle::getWeights(const kl::vec2& pos) const {
+kl::vec3 kl::triangle::getWeights(const kl::vec4& interConsts, const kl::vec2& pos) const {
 	const float dx = pos.x - c.world.x;
 	const float dy = pos.y - c.world.y;
 	const float interWeight1 = dx * interConsts.x + dy * interConsts.y;
@@ -32,18 +32,18 @@ kl::vec3 kl::triangle::getWeights(const kl::vec2& pos) const {
 }
 
 // Checks if the point is inside the triangle
-bool kl::triangle::inTriangle(const kl::vec2& pos) const {
-	const kl::vec3 weights = getWeights(pos);
+bool kl::triangle::inTriangle(const kl::vec4& interConsts, const kl::vec2& pos) const {
+	const kl::vec3 weights = getWeights(interConsts, pos);
 	return !(weights.x < 0 || weights.y < 0 || weights.z < 0);
 }
 
 // Interpolates and returns the depth
-float kl::triangle::interpolate(const kl::vec3& values, const kl::vec2& pos) const {
-	const kl::vec3 weights = getWeights(pos);
+float kl::triangle::interpolate(const kl::vec4& interConsts, const kl::vec3& values, const kl::vec2& pos) const {
+	const kl::vec3 weights = getWeights(interConsts, pos);
 	return values.x * weights.x + values.y * weights.y + values.z * weights.z;
 }
-kl::vertex kl::triangle::interpolate(const kl::vec2& pos) const {
-	const kl::vec3 weights = getWeights(pos);
+kl::vertex kl::triangle::interpolate(const kl::vec4& interConsts, const kl::vec2& pos) const {
+	const kl::vec3 weights = getWeights(interConsts, pos);
 	return kl::vertex(
 		kl::vec3(
 			a.world.x * weights.x + b.world.x * weights.y + c.world.x * weights.z,
