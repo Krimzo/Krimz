@@ -39,8 +39,8 @@ void kl::igui::loadKrimzTheme() {
     style.Colors[ImGuiCol_Border]               = ImVec4(1.00f, 1.00f, 1.00f, 0.39f);
     style.Colors[ImGuiCol_BorderShadow]         = ImVec4(0.06f, 0.06f, 0.06f, 0.10f);
     style.Colors[ImGuiCol_FrameBg]              = ImVec4(0.10f, 0.10f, 0.10f, 0.94f);
-    style.Colors[ImGuiCol_FrameBgHovered]       = ImVec4(0.70f, 0.41f, 0.02f, 0.40f);
-    style.Colors[ImGuiCol_FrameBgActive]        = ImVec4(0.70f, 0.41f, 0.02f, 0.67f);
+    style.Colors[ImGuiCol_FrameBgHovered]       = ImVec4(0.65f, 0.41f, 0.02f, 0.35f);
+    style.Colors[ImGuiCol_FrameBgActive]        = ImVec4(0.65f, 0.41f, 0.02f, 0.70f);
     style.Colors[ImGuiCol_TitleBg]              = ImVec4(0.09f, 0.09f, 0.09f, 1.00f);
     style.Colors[ImGuiCol_TitleBgCollapsed]     = ImVec4(0.08f, 0.08f, 0.08f, 0.50f);
     style.Colors[ImGuiCol_TitleBgActive]        = ImVec4(0.20f, 0.20f, 0.20f, 1.00f);
