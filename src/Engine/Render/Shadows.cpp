@@ -37,7 +37,7 @@ void Shadows() {
 	gpu->setDSState(kl::dbuffer::Default);
 
 	// Viewport reset
-	gpu->setViewport(kl::ivec2(0, 0), win.getSize());
+	gpu->setViewport(kl::int2(0, 0), win.getSize());
 
 	// Raster reset
 	solid_ra->bind();

@@ -10,7 +10,7 @@ inline const float sidePanelsWidth = 0.2f;
 inline const float explorerHeight = 0.2f;
 
 // Size buffers
-inline kl::ivec2 winSize;
+inline kl::int2 winSize;
 inline ImVec2 mainMenuSize;
 
 // GUI functions

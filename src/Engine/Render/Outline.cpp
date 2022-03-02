@@ -5,7 +5,7 @@ const float outlineFac = 1.025f;
 
 void Outline() {
 	// Saving the entity size
-	const kl::vec3 savedSize = selected->size;
+	const kl::float3 savedSize = selected->size;
 
 	// Resizing the entity
 	selected->size *= outlineFac;
@@ -15,7 +15,7 @@ void Outline() {
 	outline_sh->setVertData(&wvp);
 	
 	// Setting the pixel data
-	kl::vec4 hig = outline;
+	kl::float4 hig = outline;
 	outline_sh->setPixlData(&hig);
 
 	// Drawing the outline

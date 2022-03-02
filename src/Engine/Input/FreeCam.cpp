@@ -22,7 +22,7 @@ void FreeCam() {
 	static bool camMoving = false;
 	if (win.mouse.rmb) {
 		// Getting the frame center
-		const kl::ivec2 frameCenter = win.getCenter();
+		const kl::int2 frameCenter = win.getCenter();
 
 		// Fixing the camera jump on the first click
 		if (!camMoving) {

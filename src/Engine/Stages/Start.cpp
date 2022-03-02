@@ -9,10 +9,10 @@ void Start() {
 	win.maximize();
 
 	// On resize callback
-	win.onResize = [&](const kl::ivec2& size) {
+	win.resize = [&](const kl::int2& size) {
 		if (size.x > 0 && size.y > 0) {
 			gpu->regenBuffers(size);
-			gpu->setViewport(kl::ivec2(0, 0), size);
+			gpu->setViewport(kl::int2(0, 0), size);
 			camera.aspect = float(size.x) / size.y;
 		}
 	};
@@ -29,7 +29,7 @@ void Start() {
 	// Compiling shaders
 	editor_sh = gpu->newShaders("res/shaders/editor.hlsl", sizeof(DRAW_VS_CB), sizeof(DRAW_PS_CB));
 	shadow_sh = gpu->newShaders("res/shaders/shadows.hlsl", sizeof(kl::mat4), 0);
-	outline_sh = gpu->newShaders("res/shaders/outline.hlsl", sizeof(kl::mat4), sizeof(kl::vec4));
+	outline_sh = gpu->newShaders("res/shaders/outline.hlsl", sizeof(kl::mat4), sizeof(kl::float4));
 	gizmo_sh = gpu->newShaders("res/shaders/gizmo.hlsl", sizeof(kl::mat4), sizeof(GIZM_PS_CB));
 
 	// Sampler setup
@@ -37,12 +37,12 @@ void Start() {
 	samp->bind(0);
 
 	// Camera setup
-	camera.position = kl::vec3(-1.4f, 1.25f, -6.0f);
-	camera.forward = kl::vec3(0.55f, -0.3f, 0.9f);
+	camera.position = kl::float3(-1.4f, 1.25f, -6.0f);
+	camera.forward = kl::float3(0.55f, -0.3f, 0.9f);
 
 	// Sun setup
 	sun.shadowMap = gpu->newSBuffer(4096);
-	sun.direction = kl::vec3(0.575f, -0.75f, 2.0f);
+	sun.direction = kl::float3(0.575f, -0.75f, 2.0f);
 
 	// Gizmo mesh loading
 	gizmo_scale = gpu->newMesh("res/objects/gizmos/scale.obj");
@@ -70,13 +70,13 @@ void Start() {
 	kl::mesh* horse_mes = gpu->newMesh("res/objects/horse.obj");
 
 	// Texture
-	kl::texture* lgray_tex = gpu->newTexture(kl::image(kl::ivec2(1, 1), kl::colors::lgray));
+	kl::texture* lgray_tex = gpu->newTexture(kl::image(kl::int2(1, 1), kl::colors::lgray));
 	kl::texture* checker_tex = gpu->newTexture("res/textures/checkers.jpg");
 	kl::texture* horse_tex = gpu->newTexture("res/textures/horse.jpg");
 
 	// Entity
 	kl::entity* plane = entities.newInst(new kl::entity("Plane", cube_mes, lgray_tex));
-	plane->size = kl::vec3(45.0f, 0.25f, 45.0f);
+	plane->size = kl::float3(45.0f, 0.25f, 45.0f);
 	plane->position.y = -2.0f;
 	plane->roughness = 0.9f;
 
@@ -95,7 +95,7 @@ void Start() {
 		for (int y = 0; y < size; y++) {
 			const int i = y * size + x;
 			kl::entity* temp = entities.newInst(new kl::entity("Monke" + std::to_string(i), monke_mes, checker_tex));
-			temp->position = kl::vec3((x - 1.0f) * 2.0f, y * 2.0f, y * 2.0f);
+			temp->position = kl::float3((x - 1.0f) * 2.0f, y * 2.0f, y * 2.0f);
 		}
 	}
 }

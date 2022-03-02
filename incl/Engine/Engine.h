@@ -57,9 +57,9 @@ inline int chosenGizmo = GIZMO_NONE;
 inline kl::mesh* gizmo_scale = nullptr;
 inline kl::mesh* gizmo_move = nullptr;
 inline kl::mesh* gizmo_rotate = nullptr;
-inline kl::vec4 gizmoColX = kl::color(205,  55,  75);
-inline kl::vec4 gizmoColY = kl::color(115, 175,  40);
-inline kl::vec4 gizmoColZ = kl::color( 55, 120, 205);
+inline kl::float4 gizmoColX = kl::color(205,  55,  75);
+inline kl::float4 gizmoColY = kl::color(115, 175,  40);
+inline kl::float4 gizmoColZ = kl::color( 55, 120, 205);
 
 // Engine stages
 void Start();
