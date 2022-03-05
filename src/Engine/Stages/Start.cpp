@@ -52,15 +52,15 @@ void Start() {
 	/* DEBUG */
 	// Skybox
 	kl::skybox* clouds = skyboxes.newInst(new kl::skybox(gpu->getDev(), gpu->getCon(), "Clouds",
-		"res/textures/skyboxes/clouds/front.jpg",
-		"res/textures/skyboxes/clouds/back.jpg",
-		"res/textures/skyboxes/clouds/left.jpg",
-		"res/textures/skyboxes/clouds/right.jpg",
-		"res/textures/skyboxes/clouds/top.jpg",
-		"res/textures/skyboxes/clouds/bottom.jpg"
+		kl::image("res/textures/skyboxes/clouds/front.jpg"),
+		kl::image("res/textures/skyboxes/clouds/back.jpg"),
+		kl::image("res/textures/skyboxes/clouds/left.jpg"),
+		kl::image("res/textures/skyboxes/clouds/right.jpg"),
+		kl::image("res/textures/skyboxes/clouds/top.jpg"),
+		kl::image("res/textures/skyboxes/clouds/bottom.jpg")
 	));
 	kl::skybox* night = skyboxes.newInst(new kl::skybox(gpu->getDev(), gpu->getCon(), "Night",
-		"res/textures/skyboxes/night/night.jpg"
+		kl::image("res/textures/skyboxes/night/night.jpg")
 	));
 	skybox = clouds;
 
@@ -71,8 +71,8 @@ void Start() {
 
 	// Texture
 	kl::texture* lgray_tex = gpu->newTexture(kl::image(kl::int2(1, 1), kl::colors::lgray));
-	kl::texture* checker_tex = gpu->newTexture("res/textures/checkers.jpg");
-	kl::texture* horse_tex = gpu->newTexture("res/textures/horse.jpg");
+	kl::texture* checker_tex = gpu->newTexture(kl::image("res/textures/checkers.jpg"));
+	kl::texture* horse_tex = gpu->newTexture(kl::image("res/textures/horse.jpg"));
 
 	// Entity
 	kl::entity* plane = entities.newInst(new kl::entity("Plane", cube_mes, lgray_tex));
