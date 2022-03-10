@@ -70,7 +70,7 @@ void Start() {
 	kl::mesh* horse_mes = gpu->newMesh("res/objects/horse.obj");
 
 	// Texture
-	kl::texture* lgray_tex = gpu->newTexture(kl::image(kl::int2(1, 1), kl::colors::lgray));
+	kl::texture* lgray_tex = gpu->newTexture(kl::image(kl::int2(1), kl::colors::lgray));
 	kl::texture* checker_tex = gpu->newTexture(kl::image("res/textures/checkers.jpg"));
 	kl::texture* horse_tex = gpu->newTexture(kl::image("res/textures/horse.jpg"));
 

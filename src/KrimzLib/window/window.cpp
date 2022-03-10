@@ -2,7 +2,9 @@
 
 #include "KrimzLib/utility/convert.h"
 
+#ifdef KL_USING_IMGUI
 #include "ImGui/imgui_impl_win32.h"
+#endif
 
 
 // Screen
@@ -95,12 +97,14 @@ LRESULT CALLBACK kl::window::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	return DefWindowProcA(hwnd, msg, wParam, lParam);
 }
 void kl::window::handleMessage() {
+#ifdef KL_USING_IMGUI
 	// ImGui
 	if (usingImGui) {
 		if (ImGui_ImplWin32_WndProcHandler(wndMsg.hwnd, wndMsg.message, wndMsg.wParam, wndMsg.lParam)) {
 			return;
 		}
 	}
+#endif
 
 	// Default
 	switch (wndMsg.message) {
@@ -140,6 +144,10 @@ void kl::window::handleMessage() {
 		this->mouse.position = kl::int2(GET_X_LPARAM(wndMsg.lParam), GET_Y_LPARAM(wndMsg.lParam));
 		break;
 
+	case WM_MOUSEWHEEL:
+		this->mouse.scroll += GET_WHEEL_DELTA_WPARAM(wndMsg.wParam) / 120;
+		break;
+
 	default:
 		DispatchMessageA(&wndMsg);
 		break;
@@ -157,11 +165,13 @@ void kl::window::startNew(const kl::int2& size, const std::string& name, bool re
 	// Binding the mouse
 	this->mouse.bind(hwnd);
 
+#ifdef KL_USING_IMGUI
 	// ImGui setup
 	this->usingImGui = imgui;
 	if (imgui) {
 		ImGui_ImplWin32_Init(hwnd);
 	}
+#endif
 
 	// Starting the update loops
 	SetCursor(LoadCursorA(nullptr, LPCSTR(IDC_ARROW)));
@@ -185,15 +195,15 @@ void kl::window::startNew(const kl::int2& size, const std::string& name, bool re
 		end();
 	}
 
+#ifdef KL_USING_IMGUI
 	// ImGui cleanup
 	if (imgui) {
 		ImGui_ImplWin32_Shutdown();
 	}
+#endif
 
 	// Cleanup
 	UnregisterClassA(name.c_str(), hInstance);
-	hdc = nullptr;
-	hwnd = nullptr;
 }
 void kl::window::stop() const {
 	PostMessageA(hwnd, WM_CLOSE, 0, 0);

@@ -19,66 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="incl\Engine\Engine.h" />
-    <ClInclude Include="incl\Engine\GUI.h" />
-    <ClInclude Include="incl\Engine\Input.h" />
-    <ClInclude Include="incl\Engine\Struct.h" />
-    <ClInclude Include="incl\ImGui\imconfig.h" />
-    <ClInclude Include="incl\ImGui\imgui.h" />
-    <ClInclude Include="incl\ImGui\imgui_impl_dx11.h" />
-    <ClInclude Include="incl\ImGui\imgui_impl_win32.h" />
-    <ClInclude Include="incl\ImGui\imgui_internal.h" />
-    <ClInclude Include="incl\ImGui\imstb_rectpack.h" />
-    <ClInclude Include="incl\ImGui\imstb_textedit.h" />
-    <ClInclude Include="incl\ImGui\imstb_truetype.h" />
-    <ClInclude Include="incl\KrimzLib\color\color.h" />
-    <ClInclude Include="incl\KrimzLib\color\image.h" />
-    <ClInclude Include="incl\KrimzLib\dx\cbuffer.h" />
-    <ClInclude Include="incl\KrimzLib\dx\dbuffer.h" />
-    <ClInclude Include="incl\KrimzLib\dx\fbuffer.h" />
-    <ClInclude Include="incl\KrimzLib\dx\gpu.h" />
-    <ClInclude Include="incl\KrimzLib\dx\ibuffer.h" />
-    <ClInclude Include="incl\KrimzLib\dx\mesh.h" />
-    <ClInclude Include="incl\KrimzLib\dx\raster.h" />
-    <ClInclude Include="incl\KrimzLib\dx\sampler.h" />
-    <ClInclude Include="incl\KrimzLib\dx\sbuffer.h" />
-    <ClInclude Include="incl\KrimzLib\dx\shaders.h" />
-    <ClInclude Include="incl\KrimzLib\dx\texture.h" />
-    <ClInclude Include="incl\KrimzLib\entity\entity.h" />
-    <ClInclude Include="incl\KrimzLib\geometry\plane.h" />
-    <ClInclude Include="incl\KrimzLib\geometry\ray.h" />
-    <ClInclude Include="incl\KrimzLib\geometry\sphere.h" />
-    <ClInclude Include="incl\KrimzLib\geometry\triangle.h" />
-    <ClInclude Include="incl\KrimzLib\geometry\vertex.h" />
-    <ClInclude Include="incl\KrimzLib\igui\igui.h" />
-    <ClInclude Include="incl\KrimzLib\KrimzLib.hpp" />
-    <ClInclude Include="incl\KrimzLib\light\ambient.h" />
-    <ClInclude Include="incl\KrimzLib\light\direct.h" />
-    <ClInclude Include="incl\KrimzLib\math\float2.h" />
-    <ClInclude Include="incl\KrimzLib\math\float3.h" />
-    <ClInclude Include="incl\KrimzLib\math\float4.h" />
-    <ClInclude Include="incl\KrimzLib\math\int2.h" />
-    <ClInclude Include="incl\KrimzLib\math\int3.h" />
-    <ClInclude Include="incl\KrimzLib\math\int4.h" />
-    <ClInclude Include="incl\KrimzLib\math\mat3.h" />
-    <ClInclude Include="incl\KrimzLib\math\mat4.h" />
-    <ClInclude Include="incl\KrimzLib\math\math.h" />
-    <ClInclude Include="incl\KrimzLib\memory\pbuffer.h" />
-    <ClInclude Include="incl\KrimzLib\renderer\camera.h" />
-    <ClInclude Include="incl\KrimzLib\renderer\renderer.h" />
-    <ClInclude Include="incl\KrimzLib\renderer\skybox.h" />
-    <ClInclude Include="incl\KrimzLib\utility\console.h" />
-    <ClInclude Include="incl\KrimzLib\utility\convert.h" />
-    <ClInclude Include="incl\KrimzLib\utility\file.h" />
-    <ClInclude Include="incl\KrimzLib\utility\random.h" />
-    <ClInclude Include="incl\KrimzLib\utility\thread.h" />
-    <ClInclude Include="incl\KrimzLib\utility\time.h" />
-    <ClInclude Include="incl\KrimzLib\utility\web.h" />
-    <ClInclude Include="incl\KrimzLib\window\keys.h" />
-    <ClInclude Include="incl\KrimzLib\window\mouse.h" />
-    <ClInclude Include="incl\KrimzLib\window\window.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="src\Engine\Engine.cpp" />
     <ClCompile Include="src\Engine\GUI\Explorer.cpp" />
     <ClCompile Include="src\Engine\GUI\GUI.cpp" />
@@ -149,6 +89,66 @@
     <ClCompile Include="src\KrimzLib\window\mouse.cpp" />
     <ClCompile Include="src\KrimzLib\window\window.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="incl\Engine\Engine.h" />
+    <ClInclude Include="incl\Engine\GUI.h" />
+    <ClInclude Include="incl\Engine\Input.h" />
+    <ClInclude Include="incl\Engine\Struct.h" />
+    <ClInclude Include="incl\ImGui\imconfig.h" />
+    <ClInclude Include="incl\ImGui\imgui.h" />
+    <ClInclude Include="incl\ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="incl\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="incl\ImGui\imgui_internal.h" />
+    <ClInclude Include="incl\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="incl\ImGui\imstb_textedit.h" />
+    <ClInclude Include="incl\ImGui\imstb_truetype.h" />
+    <ClInclude Include="incl\KrimzLib\color\color.h" />
+    <ClInclude Include="incl\KrimzLib\color\image.h" />
+    <ClInclude Include="incl\KrimzLib\dx\cbuffer.h" />
+    <ClInclude Include="incl\KrimzLib\dx\dbuffer.h" />
+    <ClInclude Include="incl\KrimzLib\dx\fbuffer.h" />
+    <ClInclude Include="incl\KrimzLib\dx\gpu.h" />
+    <ClInclude Include="incl\KrimzLib\dx\ibuffer.h" />
+    <ClInclude Include="incl\KrimzLib\dx\mesh.h" />
+    <ClInclude Include="incl\KrimzLib\dx\raster.h" />
+    <ClInclude Include="incl\KrimzLib\dx\sampler.h" />
+    <ClInclude Include="incl\KrimzLib\dx\sbuffer.h" />
+    <ClInclude Include="incl\KrimzLib\dx\shaders.h" />
+    <ClInclude Include="incl\KrimzLib\dx\texture.h" />
+    <ClInclude Include="incl\KrimzLib\entity\entity.h" />
+    <ClInclude Include="incl\KrimzLib\geometry\plane.h" />
+    <ClInclude Include="incl\KrimzLib\geometry\ray.h" />
+    <ClInclude Include="incl\KrimzLib\geometry\sphere.h" />
+    <ClInclude Include="incl\KrimzLib\geometry\triangle.h" />
+    <ClInclude Include="incl\KrimzLib\geometry\vertex.h" />
+    <ClInclude Include="incl\KrimzLib\igui\igui.h" />
+    <ClInclude Include="incl\KrimzLib\KrimzLib.hpp" />
+    <ClInclude Include="incl\KrimzLib\light\ambient.h" />
+    <ClInclude Include="incl\KrimzLib\light\direct.h" />
+    <ClInclude Include="incl\KrimzLib\math\float2.h" />
+    <ClInclude Include="incl\KrimzLib\math\float3.h" />
+    <ClInclude Include="incl\KrimzLib\math\float4.h" />
+    <ClInclude Include="incl\KrimzLib\math\int2.h" />
+    <ClInclude Include="incl\KrimzLib\math\int3.h" />
+    <ClInclude Include="incl\KrimzLib\math\int4.h" />
+    <ClInclude Include="incl\KrimzLib\math\mat3.h" />
+    <ClInclude Include="incl\KrimzLib\math\mat4.h" />
+    <ClInclude Include="incl\KrimzLib\math\math.h" />
+    <ClInclude Include="incl\KrimzLib\memory\pbuffer.h" />
+    <ClInclude Include="incl\KrimzLib\renderer\camera.h" />
+    <ClInclude Include="incl\KrimzLib\renderer\renderer.h" />
+    <ClInclude Include="incl\KrimzLib\renderer\skybox.h" />
+    <ClInclude Include="incl\KrimzLib\utility\console.h" />
+    <ClInclude Include="incl\KrimzLib\utility\convert.h" />
+    <ClInclude Include="incl\KrimzLib\utility\file.h" />
+    <ClInclude Include="incl\KrimzLib\utility\random.h" />
+    <ClInclude Include="incl\KrimzLib\utility\thread.h" />
+    <ClInclude Include="incl\KrimzLib\utility\time.h" />
+    <ClInclude Include="incl\KrimzLib\utility\web.h" />
+    <ClInclude Include="incl\KrimzLib\window\keys.h" />
+    <ClInclude Include="incl\KrimzLib\window\mouse.h" />
+    <ClInclude Include="incl\KrimzLib\window\window.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -217,7 +217,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);KL_USING_IMGUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)incl\</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
@@ -235,7 +235,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);KL_USING_IMGUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)incl\</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -252,7 +252,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);KL_USING_IMGUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)incl\</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
@@ -270,7 +270,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);KL_USING_IMGUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)incl\</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>

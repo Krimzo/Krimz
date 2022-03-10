@@ -1,6 +1,5 @@
 #pragma once
 
-
 // Including math
 #include "KrimzLib/math/math.h"
 #include "KrimzLib/math/int2.h"
@@ -51,8 +50,10 @@
 #include "KrimzLib/dx/texture.h"
 #include "KrimzLib/dx/sampler.h"
 
+#ifdef KL_USING_IMGUI
 // Including ImGui
 #include "KrimzLib/igui/igui.h"
+#endif
 
 // Including the light
 #include "KrimzLib/light/ambient.h"

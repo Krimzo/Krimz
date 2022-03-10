@@ -15,182 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="incl\Engine\Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\Engine\GUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\Engine\Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\Engine\Struct.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\ImGui\imconfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\ImGui\imgui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\ImGui\imgui_impl_dx11.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\ImGui\imgui_impl_win32.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\ImGui\imgui_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\ImGui\imstb_rectpack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\ImGui\imstb_textedit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\ImGui\imstb_truetype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\color\color.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\color\image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\cbuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\dbuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\fbuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\gpu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\ibuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\raster.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\sampler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\sbuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\shaders.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\entity\entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\geometry\plane.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\geometry\ray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\geometry\sphere.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\geometry\triangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\geometry\vertex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\igui\igui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\light\ambient.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\light\direct.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\math\float2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\math\float3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\math\float4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\math\int2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\math\int3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\math\int4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\math\mat3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\math\mat4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\math\math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\memory\pbuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\renderer\camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\renderer\renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\renderer\skybox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\utility\console.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\utility\convert.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\utility\file.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\utility\random.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\utility\thread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\utility\time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\utility\web.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\window\keys.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\window\mouse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\window\window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\KrimzLib.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="src\Engine\GUI\Explorer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -398,5 +222,181 @@
     <ClCompile Include="src\KrimzLib\window\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="incl\Engine\Engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\GUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Struct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\ImGui\imconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\ImGui\imgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\ImGui\imgui_impl_dx11.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\ImGui\imgui_impl_win32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\ImGui\imgui_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\ImGui\imstb_rectpack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\ImGui\imstb_textedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\ImGui\imstb_truetype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\color\color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\color\image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\dx\cbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\dx\dbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\dx\fbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\dx\gpu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\dx\ibuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\dx\mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\dx\raster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\dx\sampler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\dx\sbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\dx\shaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\dx\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\entity\entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\geometry\plane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\geometry\ray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\geometry\sphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\geometry\triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\geometry\vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\igui\igui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\light\ambient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\light\direct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\math\float2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\math\float3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\math\float4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\math\int2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\math\int3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\math\int4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\math\mat3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\math\mat4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\math\math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\memory\pbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\renderer\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\renderer\renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\renderer\skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\utility\console.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\utility\convert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\utility\file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\utility\random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\utility\thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\utility\time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\utility\web.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\window\keys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\window\mouse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\window\window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\KrimzLib.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
