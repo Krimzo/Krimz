@@ -19,9 +19,9 @@ void Outline() {
 	outline_sh->setPixlData(&hig);
 
 	// Drawing the outline
-	gpu->setDSState(kl::dbuffer::Mask);
+	gpu->setDSState(kl::dbuffer::State::Mask);
 	selected->render(false);
-	gpu->setDSState(kl::dbuffer::Default);
+	gpu->setDSState(kl::dbuffer::State::Default);
 
 	// Resetting the size
 	selected->size = savedSize;

@@ -78,9 +78,9 @@ void kl::renderer::startNew(const kl::int2& frameSize) {
 
 		// Rendering skybox
 		if (skybox) {
-			gpu->setDSState(kl::dbuffer::Disabled);
+			gpu->setDSState(kl::dbuffer::State::Disabled);
 			skybox->render(camera.matrix());
-			gpu->setDSState(kl::dbuffer::Default);
+			gpu->setDSState(kl::dbuffer::State::Default);
 		}
 
 		// Setting the camera data

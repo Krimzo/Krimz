@@ -26,13 +26,13 @@ namespace kl {
 		~dbuffer();
 
 		// Binds the buffer
-		enum STATE {
+		enum class State {
 			Default = 0,
 			Disabled,
 			Write,
 			Mask
 		};
-		void setState(STATE state);
+		void setState(State state);
 
 		// Returns the view pointer
 		ID3D11DepthStencilView* getView();

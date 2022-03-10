@@ -81,7 +81,7 @@ namespace kl {
 		void swap(bool vSync);
 
 		// Sets the depth/stencil state
-		void setDSState(kl::dbuffer::STATE state);
+		void setDSState(kl::dbuffer::State state);
 
 		// Raster
 		kl::raster* newRaster(bool wireframe, bool cull, bool cullBack = true);

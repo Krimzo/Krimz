@@ -34,9 +34,9 @@ void Draw() {
 
 			// Rendering the entity
 			if (entities[i] == selected) {
-				gpu->setDSState(kl::dbuffer::Write);
+				gpu->setDSState(kl::dbuffer::State::Write);
 				entities[i]->render(true);
-				gpu->setDSState(kl::dbuffer::Default);
+				gpu->setDSState(kl::dbuffer::State::Default);
 			}
 			else {
 				entities[i]->render(true);

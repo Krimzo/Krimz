@@ -139,7 +139,7 @@ void kl::gpu::regenBuffers(const kl::int2& size) {
 
     // Buffer binding
     this->bindInternal();
-    this->setDSState(kl::dbuffer::Default);
+    this->setDSState(kl::dbuffer::State::Default);
 }
 
 // Sets the viewport
@@ -182,7 +182,7 @@ void kl::gpu::swap(bool vSync) {
 }
 
 // Sets the depth/stencil state
-void kl::gpu::setDSState(kl::dbuffer::STATE state) {
+void kl::gpu::setDSState(kl::dbuffer::State state) {
     depthBuff->setState(state);
 }
 

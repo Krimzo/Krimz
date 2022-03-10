@@ -34,7 +34,7 @@ void Shadows() {
 
 	// Binding the default states
 	gpu->bindInternal();
-	gpu->setDSState(kl::dbuffer::Default);
+	gpu->setDSState(kl::dbuffer::State::Default);
 
 	// Viewport reset
 	gpu->setViewport(kl::int2(0, 0), win.getSize());

@@ -114,18 +114,18 @@ kl::dbuffer::~dbuffer() {
 }
 
 // Binds the depth/stencil buffer
-void kl::dbuffer::setState(kl::dbuffer::STATE state) {
+void kl::dbuffer::setState(kl::dbuffer::State state) {
     ID3D11DepthStencilState* toSet = nullptr;
     switch (state) {
-    case kl::dbuffer::Disabled:
+    case kl::dbuffer::State::Disabled:
         toSet = stateDisabled;
         break;
 
-    case kl::dbuffer::Write:
+    case kl::dbuffer::State::Write:
         toSet = stateWrite;
         break;
 
-    case kl::dbuffer::Mask:
+    case kl::dbuffer::State::Mask:
         toSet = stateMask;
         break;
 
