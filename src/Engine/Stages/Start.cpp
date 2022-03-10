@@ -29,7 +29,7 @@ void Start() {
 	// Compiling shaders
 	editor_sh = gpu->newShaders("res/shaders/editor.hlsl", sizeof(DRAW_VS_CB), sizeof(DRAW_PS_CB));
 	shadow_sh = gpu->newShaders("res/shaders/shadows.hlsl", sizeof(kl::mat4), 0);
-	outline_sh = gpu->newShaders("res/shaders/outline.hlsl", sizeof(kl::mat4), sizeof(kl::float4));
+	outline_sh = gpu->newShaders("res/shaders/outline.hlsl", 0, sizeof(OUTL_PS_CB));
 	gizmo_sh = gpu->newShaders("res/shaders/gizmo.hlsl", sizeof(kl::mat4), sizeof(GIZM_PS_CB));
 
 	// Sampler setup

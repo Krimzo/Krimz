@@ -13,9 +13,11 @@ void LMBInput() {
 			// Index test
 			if (entityIndex >= 0 && firstLmb) {
 				selected = entities[entityIndex];
+				selectedInd = entityIndex;
 			}
 			else if (entityIndex >= -2 && firstLmb) {
 				selected = nullptr;
+				selectedInd = -2;
 			}
 			else if (selected) {
 				// Far mouse point calculation

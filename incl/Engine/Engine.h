@@ -23,6 +23,7 @@ inline kl::shaders* outline_sh = nullptr;
 inline kl::shaders* gizmo_sh = nullptr;
 
 // Entities
+inline int selectedInd = -2;
 inline kl::entity* selected = nullptr;
 inline kl::pbuffer<kl::entity> entities;
 

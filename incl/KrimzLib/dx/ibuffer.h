@@ -12,7 +12,8 @@ namespace kl {
 	class ibuffer {
 	private:
 		ID3D11DeviceContext* devcon = nullptr;
-		ID3D11RenderTargetView* view = nullptr;
+		ID3D11RenderTargetView* targetView = nullptr;
+		ID3D11ShaderResourceView* shaderView = nullptr;
 		ID3D11Texture2D* indTex = nullptr;
 		ID3D11Texture2D* stagTex = nullptr;
 		int width = 0;
@@ -30,6 +31,9 @@ namespace kl {
 
 		// Clears the buffer
 		void clear();
+
+		// Binds the shader resource
+		void bind(int slot);
 
 		// Returns the picking index
 		int getIndex(const kl::int2& pos);

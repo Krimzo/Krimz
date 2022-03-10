@@ -186,6 +186,13 @@ void kl::gpu::setDSState(kl::dbuffer::State state) {
     depthBuff->setState(state);
 }
 
+// Binds the index texture
+void kl::gpu::bindIndRes(int slot) {
+    ID3D11RenderTargetView* tempBuff[1] = { frameBuff->getView() };
+    devcon->OMSetRenderTargets(1, tempBuff, depthBuff->getView());
+    indexBuff->bind(slot);
+}
+
 // Creates a new rasterizer state
 kl::raster* kl::gpu::newRaster(bool wireframe, bool cull, bool cullBack) {
     return rasters.newInst(new kl::raster(dev, devcon, wireframe, cull, cullBack));

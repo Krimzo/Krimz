@@ -21,7 +21,7 @@ kl::ibuffer::ibuffer(ID3D11Device* dev, ID3D11DeviceContext* devcon, int width, 
     indTexDes.Format = DXGI_FORMAT_R32_FLOAT;
     indTexDes.SampleDesc.Count = 1;
     indTexDes.Usage = D3D11_USAGE_DEFAULT;
-    indTexDes.BindFlags = D3D11_BIND_RENDER_TARGET;
+    indTexDes.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
     dev->CreateTexture2D(&indTexDes, nullptr, &indTex);
     if (!indTex) {
         std::cout << "DirectX: Could not create a picking texture!";
@@ -30,9 +30,17 @@ kl::ibuffer::ibuffer(ID3D11Device* dev, ID3D11DeviceContext* devcon, int width, 
     }
 
     // Creating the index texture view
-    dev->CreateRenderTargetView(indTex, nullptr, &view);
-    if (!view) {
-        std::cout << "DirectX: Could not create a picking render target!";
+    dev->CreateRenderTargetView(indTex, nullptr, &targetView);
+    if (!targetView) {
+        std::cout << "DirectX: Could not create a picking texture render target!";
+        std::cin.get();
+        exit(69);
+    }
+
+    // Creating the shader res view
+    dev->CreateShaderResourceView(indTex, nullptr, &shaderView);
+    if (!shaderView) {
+        std::cout << "DirectX: Could not create a picking texture shader view!";
         std::cin.get();
         exit(69);
     }
@@ -59,18 +67,24 @@ kl::ibuffer::ibuffer(ID3D11Device* dev, ID3D11DeviceContext* devcon, int width, 
 kl::ibuffer::~ibuffer() {
     indTex->Release();
     stagTex->Release();
-    view->Release();
+    targetView->Release();
+    shaderView->Release();
 }
 
 // Returns the view pointer
 ID3D11RenderTargetView* kl::ibuffer::getView() {
-    return view;
+    return targetView;
 }
 
 // Clears the buffer
 void kl::ibuffer::clear() {
     static const kl::float4 pickCol(-1, 0, 0, 0);
-    devcon->ClearRenderTargetView(view, (float*)&pickCol);
+    devcon->ClearRenderTargetView(targetView, (float*)&pickCol);
+}
+
+// Binds the shader resource
+void kl::ibuffer::bind(int slot) {
+    devcon->PSSetShaderResources(slot, 1, &shaderView);
 }
 
 // Returns the picking index
@@ -101,5 +115,5 @@ int kl::ibuffer::getIndex(const kl::int2& pos) {
         // Getting the index
         return int(index);
     }
-    return -2;
+    return -1;
 }

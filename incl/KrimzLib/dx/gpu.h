@@ -83,6 +83,9 @@ namespace kl {
 		// Sets the depth/stencil state
 		void setDSState(kl::dbuffer::State state);
 
+		// Binds the index texture
+		void bindIndRes(int slot);
+
 		// Raster
 		kl::raster* newRaster(bool wireframe, bool cull, bool cullBack = true);
 		bool delRaster(kl::raster* ras);

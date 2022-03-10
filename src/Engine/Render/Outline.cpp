@@ -1,28 +1,27 @@
 #include "Engine/Engine.h"
 
 
-const float outlineFac = 1.025f;
-
 void Outline() {
-	// Saving the entity size
-	const kl::float3 savedSize = selected->size;
-
-	// Resizing the entity
-	selected->size *= outlineFac;
-
-	// Setting the vertex data
-	kl::mat4 wvp = camera.matrix() * selected->matrix();
-	outline_sh->setVertData(&wvp);
+	// Screen mesh
+	static kl::mesh* screen = gpu->newMesh({
+		kl::vertex(kl::float3(1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)),
+		kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, 1.0f, 0.5f))
+	});	
 	
 	// Setting the pixel data
-	kl::float4 hig = outline;
-	outline_sh->setPixlData(&hig);
+	OUTL_PS_CB pxlData = {};
+	pxlData.higCol = outline;
+	pxlData.selInd = float(selectedInd);
+	outline_sh->setPixlData(&pxlData);
+
+	// Binding the index texture
+	gpu->bindIndRes(0);
 
 	// Drawing the outline
 	gpu->setDSState(kl::dbuffer::State::Mask);
-	selected->render(false);
+	screen->draw();
 	gpu->setDSState(kl::dbuffer::State::Default);
 
-	// Resetting the size
-	selected->size = savedSize;
+	// Render target reset
+	gpu->bindInternal();
 }
