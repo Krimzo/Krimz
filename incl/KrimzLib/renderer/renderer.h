@@ -5,10 +5,10 @@
 
 #include "KrimzLib/memory/pbuffer.h"
 #include "KrimzLib/dx/gpu.h"
-#include "KrimzLib/dx/fbuffer.h"
+#include "KrimzLib/dx/buffer/fbuffer.h"
 #include "KrimzLib/dx/raster.h"
 #include "KrimzLib/dx/shaders.h"
-#include "KrimzLib/dx/cbuffer.h"
+#include "KrimzLib/dx/buffer/cbuffer.h"
 #include "KrimzLib/dx/mesh.h"
 #include "KrimzLib/dx/texture.h"
 #include "KrimzLib/dx/sampler.h"

@@ -1,4 +1,4 @@
-#include "KrimzLib/dx/ibuffer.h"
+#include "KrimzLib/dx/buffer/ibuffer.h"
 
 #include "KrimzLib/math/float4.h"
 

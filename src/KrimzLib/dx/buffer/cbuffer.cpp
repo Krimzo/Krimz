@@ -1,4 +1,4 @@
-#include "KrimzLib/dx/cbuffer.h"
+#include "KrimzLib/dx/buffer/cbuffer.h"
 
 
 // Constructor

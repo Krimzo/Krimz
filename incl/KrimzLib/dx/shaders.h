@@ -6,7 +6,7 @@
 #include <d3d11.h>
 #include <d3dcompiler.h>
 
-#include "KrimzLib/dx/cbuffer.h"
+#include "KrimzLib/dx/buffer/cbuffer.h"
 
 #pragma comment (lib, "d3dcompiler.lib")
 

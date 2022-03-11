@@ -21,9 +21,6 @@ kl::mesh::mesh(ID3D11Device* dev, ID3D11DeviceContext* devcon, const std::vector
     bufferDescriptor.ByteWidth = UINT(sizeof(kl::vertex) * vertexData.size());
     bufferDescriptor.Usage = D3D11_USAGE_DEFAULT;
     bufferDescriptor.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    bufferDescriptor.CPUAccessFlags = NULL;
-    bufferDescriptor.MiscFlags = NULL;
-    bufferDescriptor.StructureByteStride = 0;
 
     // Buffer data descriptor creation
     D3D11_SUBRESOURCE_DATA bufferData = {};

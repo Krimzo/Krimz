@@ -1,4 +1,4 @@
-#include "KrimzLib/dx/fbuffer.h"
+#include "KrimzLib/dx/buffer/fbuffer.h"
 
 
 // Constructor

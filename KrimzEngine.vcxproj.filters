@@ -96,19 +96,19 @@
     <ClCompile Include="src\KrimzLib\color\image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\cbuffer.cpp">
+    <ClCompile Include="src\KrimzLib\dx\buffer\cbuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\dbuffer.cpp">
+    <ClCompile Include="src\KrimzLib\dx\buffer\dbuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\fbuffer.cpp">
+    <ClCompile Include="src\KrimzLib\dx\buffer\fbuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\KrimzLib\dx\gpu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\ibuffer.cpp">
+    <ClCompile Include="src\KrimzLib\dx\buffer\ibuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\KrimzLib\dx\mesh.cpp">
@@ -120,7 +120,7 @@
     <ClCompile Include="src\KrimzLib\dx\sampler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\sbuffer.cpp">
+    <ClCompile Include="src\KrimzLib\dx\buffer\sbuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\KrimzLib\dx\shaders.cpp">
@@ -266,19 +266,19 @@
     <ClInclude Include="incl\KrimzLib\color\image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\cbuffer.h">
+    <ClInclude Include="incl\KrimzLib\dx\buffer\cbuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\dbuffer.h">
+    <ClInclude Include="incl\KrimzLib\dx\buffer\dbuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\fbuffer.h">
+    <ClInclude Include="incl\KrimzLib\dx\buffer\fbuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\KrimzLib\dx\gpu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\ibuffer.h">
+    <ClInclude Include="incl\KrimzLib\dx\buffer\ibuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\KrimzLib\dx\mesh.h">
@@ -290,7 +290,7 @@
     <ClInclude Include="incl\KrimzLib\dx\sampler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\sbuffer.h">
+    <ClInclude Include="incl\KrimzLib\dx\buffer\sbuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\KrimzLib\dx\shaders.h">
