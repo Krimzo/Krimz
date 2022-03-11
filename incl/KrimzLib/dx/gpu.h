@@ -6,18 +6,7 @@
 #include <windowsx.h>
 #include <d3d11.h>
 
-#include "KrimzLib/memory/pbuffer.h"
 #include "KrimzLib/dx/gpu.h"
-#include "KrimzLib/dx/raster.h"
-#include "KrimzLib/dx/shaders.h"
-#include "KrimzLib/dx/mesh.h"
-#include "KrimzLib/dx/texture.h"
-#include "KrimzLib/dx/sampler.h"
-#include "KrimzLib/dx/buffer/cbuffer.h"
-#include "KrimzLib/dx/buffer/dbuffer.h"
-#include "KrimzLib/dx/buffer/fbuffer.h"
-#include "KrimzLib/dx/buffer/ibuffer.h"
-#include "KrimzLib/dx/buffer/sbuffer.h"
 #include "KrimzLib/math/int2.h"
 #include "KrimzLib/math/float4.h"
 #include "KrimzLib/geometry/vertex.h"
@@ -30,21 +19,16 @@ namespace kl {
 	class gpu {
 	private:
 		// DirectX pointers
-		ID3D11Device* dev = nullptr;
+		ID3D11Device* device = nullptr;
 		ID3D11DeviceContext* devcon = nullptr;
 		IDXGISwapChain* chain = nullptr;
 
+		// Internal buffers
+		ID3D11RenderTargetView* interFrameBuff = nullptr;
+		ID3D11DepthStencilView* interDepthBuff = nullptr;
+
 		// Buffers
-		kl::fbuffer* frameBuff = nullptr;
-		kl::dbuffer* depthBuff = nullptr;
-		kl::ibuffer* indexBuff = nullptr;
-		kl::pbuffer<kl::raster>   rasters;
-		kl::pbuffer<kl::shaders>  shaders;
-		kl::pbuffer<kl::cbuffer> cbuffers;
-		kl::pbuffer<kl::mesh>      meshes;
-		kl::pbuffer<kl::texture> textures;
-		kl::pbuffer<kl::sampler> samplers;
-		kl::pbuffer<kl::sbuffer> sbuffers;
+		std::vector<IUnknown*> childs;
 
 #ifdef KL_USING_IMGUI
 		// ImGui
@@ -59,14 +43,14 @@ namespace kl {
 		~gpu();
 
 		// Getters
-		ID3D11Device* getDev();
-		ID3D11DeviceContext* getCon();
+		ID3D11Device* dev();
+		ID3D11DeviceContext* con();
+
+		// Sets the viewport
+		void viewport(const kl::int2& pos, const kl::int2& size);
 
 		// Regenerates the buffers
 		void regenBuffers(const kl::int2& size);
-
-		// Sets the viewport
-		void setViewport(const kl::int2& pos, const kl::int2& size);
 
 		// Binds the internal render targets
 		void bindInternal();
@@ -77,48 +61,66 @@ namespace kl {
 		// Clears the buffer
 		void clearColor(const kl::float4& color);
 		void clearDepth();
-		void clearIndex();
 		void clear(const kl::float4& color);
 
 		// Swaps the buffers
-		void swap(bool vSync);
+		void swap(bool vSync);		
 
-		// Sets the depth/stencil state
-		void setDSState(kl::dbuffer::State state);
+		// Raster state
+		ID3D11RasterizerState* newRasterState(D3D11_RASTERIZER_DESC* desc);
+		ID3D11RasterizerState* newRasterState(bool wireframe, bool cull, bool cullBack = true);
+		void bind(ID3D11RasterizerState* state);
 
-		// Binds the index texture
-		void bindIndRes(int slot);
-
-		// Raster
-		kl::raster* newRaster(bool wireframe, bool cull, bool cullBack = true);
-		bool delRaster(kl::raster* ras);
+		// Depth stenicl state
+		ID3D11DepthStencilState* newDepthState(D3D11_DEPTH_STENCIL_DESC* desc);
+		ID3D11DepthStencilState* newDepthState(bool depth, bool stencil, bool mask);
+		void bind(ID3D11DepthStencilState* state);
 
 		// Shaders
-		kl::shaders* newShaders(const std::string& filePath, uint32_t vertBuffSize, uint32_t pixlBuffSize);
-		bool delShaders(kl::shaders* sha);
+		ID3D11VertexShader* newVertexShader(const std::string& source);
+		ID3D11PixelShader* newPixelShader(const std::string& source);
+		void bind(ID3D11VertexShader* sha);
+		void bind(ID3D11PixelShader* sha);
+
+		// Buffer
+		ID3D11Buffer* newBuffer(D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* subData = nullptr);
 
 		// Constant buffer
-		kl::cbuffer* newCBuffer(int byteSize);
-		bool delCBuffer(kl::cbuffer* cbuf);
-
+		ID3D11Buffer* newConstBuffer(int byteSize);
+		void setBuffData(ID3D11Buffer* buff, void* data);
+		void bindVertShaBuff(ID3D11Buffer* buff, int slot);
+		void bindPixlShaBuff(ID3D11Buffer* buff, int slot);
+		
 		// Mesh
-		kl::mesh* newMesh(const std::vector<kl::vertex>& vertexData);
-		kl::mesh* newMesh(const std::string& filePath, bool flipZ = true);
-		bool delMesh(kl::mesh* mes);
-
-		// Texture
-		kl::texture* newTexture(const kl::image& img);
-		bool delTexture(kl::texture* tex);
+		ID3D11Buffer* newVertBuffer(const std::vector<kl::vertex>& vertexData);
+		ID3D11Buffer* newVertBuffer(const std::string& filePath, bool flipZ = true);
+		void draw(ID3D11Buffer* mesh);
 
 		// Sampler
-		kl::sampler* newSampler(bool linear, bool mirror);
-		bool delSampler(kl::sampler* samp);
+		ID3D11SamplerState* newSamplerState(D3D11_SAMPLER_DESC* desc);
+		ID3D11SamplerState* newSamplerState(bool linear, bool mirror);
+		void bind(ID3D11SamplerState* sampState, int slot);
 
-		// SBuffer
-		kl::sbuffer* newSBuffer(uint32_t size);
-		bool delSBuffer(kl::sbuffer* sbuff);
+		// Texture
+		ID3D11Texture2D* newTextureBB();
+		ID3D11Texture2D* newTexture(D3D11_TEXTURE2D_DESC* desc, D3D11_SUBRESOURCE_DATA* subData = nullptr);
+		ID3D11Texture2D* newTexture(const kl::image& img);
+		ID3D11Texture2D* newTexture(const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom);
+		ID3D11Texture2D* newTextureST(ID3D11Texture2D* tex, const kl::int2& size = {});
 
-		// Returns the picking index
-		int getIndex(const kl::int2& pos);
+		// Render target view
+		ID3D11RenderTargetView* newTargetView(ID3D11Texture2D* tex);
+		void clear(ID3D11RenderTargetView* view, const kl::float4& color);
+
+		// Depth stencil view
+		ID3D11DepthStencilView* newDepthView(ID3D11Texture2D* tex);
+		void clear(ID3D11DepthStencilView* view, float depth = 1.0f, byte stencil = 0);
+
+		// Shader resource view
+		ID3D11ShaderResourceView* newShaderView(ID3D11Texture2D* tex);
+		void bindPixlView(ID3D11ShaderResourceView* buff, int slot);
+
+		// Deletes child instance
+		bool destroy(IUnknown* child);
 	};
 }

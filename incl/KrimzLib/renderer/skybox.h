@@ -4,10 +4,6 @@
 #include <vector>
 
 #include "KrimzLib/dx/gpu.h"
-#include "KrimzLib/dx/mesh.h"
-#include "KrimzLib/dx/texture.h"
-#include "KrimzLib/dx/shaders.h"
-#include "KrimzLib/dx/buffer/cbuffer.h"
 #include "KrimzLib/color/image.h"
 #include "KrimzLib/math/mat4.h"
 #include "KrimzLib/geometry/vertex.h"

@@ -99,34 +99,22 @@
     <ClCompile Include="src\KrimzLib\dx\buffer\cbuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\buffer\dbuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\buffer\fbuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\KrimzLib\dx\gpu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\buffer\ibuffer.cpp">
+    <ClCompile Include="src\KrimzLib\dx\util\vbuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\mesh.cpp">
+    <ClCompile Include="src\KrimzLib\dx\states\rstate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\raster.cpp">
+    <ClCompile Include="src\KrimzLib\dx\states\sstate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\sampler.cpp">
+    <ClCompile Include="src\KrimzLib\dx\util\shaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\buffer\sbuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\shaders.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KrimzLib\dx\texture.cpp">
+    <ClCompile Include="src\KrimzLib\dx\util\texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\KrimzLib\entity\entity.cpp">
@@ -225,6 +213,21 @@
     <ClCompile Include="src\Engine\Stages\Resize.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\KrimzLib\dx\buffer\buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KrimzLib\dx\views\tview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KrimzLib\dx\views\dview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KrimzLib\dx\views\sview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KrimzLib\dx\states\dstate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="incl\Engine\Engine.h">
@@ -269,37 +272,7 @@
     <ClInclude Include="incl\KrimzLib\color\image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\buffer\cbuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\buffer\dbuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\buffer\fbuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="incl\KrimzLib\dx\gpu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\buffer\ibuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\raster.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\sampler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\buffer\sbuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\shaders.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\dx\texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\KrimzLib\entity\entity.h">

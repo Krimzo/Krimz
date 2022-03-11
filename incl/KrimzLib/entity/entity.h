@@ -1,7 +1,5 @@
 #pragma once
 
-#include "KrimzLib/dx/mesh.h"
-#include "KrimzLib/dx/texture.h"
 #include "KrimzLib/math/float3.h"
 #include "KrimzLib/math/mat4.h"
 

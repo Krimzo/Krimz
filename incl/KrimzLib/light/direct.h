@@ -3,8 +3,6 @@
 #include <functional>
 #include <vector>
 
-#include "KrimzLib/dx/shaders.h"
-#include "KrimzLib/dx/buffer/sbuffer.h"
 #include "KrimzLib/utility/convert.h"
 #include "KrimzLib/math/float4.h"
 #include "KrimzLib/math/mat4.h"

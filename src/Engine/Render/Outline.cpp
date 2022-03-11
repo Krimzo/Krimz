@@ -18,7 +18,7 @@ void Outline() {
 
 	// Clearing the outline index target
 	kl::float4 clearInd = -1.0f;
-	gpu->getCon()->ClearRenderTargetView(outlineBuff->getView(), (float*)&clearInd);
+	gpu->con()->ClearRenderTargetView(outlineBuff->getView(), (float*)&clearInd);
 
 	// Drawing the selected
 	gpu->bindTargets({ outlineBuff->getView() });
