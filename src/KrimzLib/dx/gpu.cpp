@@ -160,6 +160,12 @@ void kl::gpu::bindInternal() {
     devcon->OMSetRenderTargets(2, tempBuff, depthBuff->getView());
 }
 
+// Binds given render target
+void kl::gpu::bindTargets(const std::vector<ID3D11RenderTargetView*> targets, ID3D11DepthStencilView* depthView) {
+    devcon->OMSetRenderTargets(targets.size(), &targets[0], depthView);
+}
+
+
 // Clears the buffer
 void kl::gpu::clearColor(const kl::float4& color) {
     frameBuff->clear(color);

@@ -78,7 +78,7 @@ ID3D11RenderTargetView* kl::ibuffer::getView() {
 
 // Clears the buffer
 void kl::ibuffer::clear() {
-    static const kl::float4 pickCol(-1, 0, 0, 0);
+    static const kl::float4 pickCol(-1.0f);
     devcon->ClearRenderTargetView(targetView, (float*)&pickCol);
 }
 

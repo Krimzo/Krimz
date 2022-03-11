@@ -35,6 +35,7 @@
     <ClCompile Include="src\Engine\Render\Outline.cpp" />
     <ClCompile Include="src\Engine\Render\Shadows.cpp" />
     <ClCompile Include="src\Engine\Stages\End.cpp" />
+    <ClCompile Include="src\Engine\Stages\Resize.cpp" />
     <ClCompile Include="src\Engine\Stages\Start.cpp" />
     <ClCompile Include="src\Engine\Stages\Update.cpp" />
     <ClCompile Include="src\ImGui\imgui.cpp" />

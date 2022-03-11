@@ -19,8 +19,12 @@ inline kl::raster* shadow_ra = nullptr;
 // Shaders
 inline kl::shaders* editor_sh = nullptr;
 inline kl::shaders* shadow_sh = nullptr;
+inline kl::shaders* index_sh = nullptr;
 inline kl::shaders* outline_sh = nullptr;
 inline kl::shaders* gizmo_sh = nullptr;
+
+// Buffers
+inline kl::ibuffer* outlineBuff = nullptr;
 
 // Entities
 inline int selectedInd = -2;
@@ -65,6 +69,7 @@ inline kl::float4 gizmoColZ = kl::color( 55, 120, 205);
 // Engine stages
 void Start();
 void Update();
+void Resize(const kl::int2& siz);
 void End();
 
 // Update stages

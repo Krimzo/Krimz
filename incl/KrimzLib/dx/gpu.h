@@ -71,6 +71,9 @@ namespace kl {
 		// Binds the internal render targets
 		void bindInternal();
 
+		// Binds given render target
+		void bindTargets(const std::vector<ID3D11RenderTargetView*> targets, ID3D11DepthStencilView* depthView = nullptr);
+
 		// Clears the buffer
 		void clearColor(const kl::float4& color);
 		void clearDepth();

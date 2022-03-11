@@ -8,17 +8,11 @@ void Start() {
 	// Maximizing the window
 	win.maximize();
 
-	// On resize callback
-	win.resize = [&](const kl::int2& size) {
-		if (size.x > 0 && size.y > 0) {
-			gpu->regenBuffers(size);
-			gpu->setViewport(kl::int2(0, 0), size);
-			camera.aspect = float(size.x) / size.y;
-		}
-	};
-
 	// Creating the gpu
 	gpu = new kl::gpu(win.getWND(), true);
+
+	// Resize callback
+	win.resize = Resize;
 
 	// Creating the rasters
 	solid_ra = gpu->newRaster(false, true);
@@ -29,12 +23,16 @@ void Start() {
 	// Compiling shaders
 	editor_sh = gpu->newShaders("res/shaders/editor.hlsl", sizeof(DRAW_VS_CB), sizeof(DRAW_PS_CB));
 	shadow_sh = gpu->newShaders("res/shaders/shadows.hlsl", sizeof(kl::mat4), 0);
+	index_sh = gpu->newShaders("res/shaders/index.hlsl", sizeof(kl::mat4), sizeof(kl::float4));
 	outline_sh = gpu->newShaders("res/shaders/outline.hlsl", 0, sizeof(OUTL_PS_CB));
 	gizmo_sh = gpu->newShaders("res/shaders/gizmo.hlsl", sizeof(kl::mat4), sizeof(GIZM_PS_CB));
 
 	// Sampler setup
 	kl::sampler* samp = gpu->newSampler(true, true);
 	samp->bind(0);
+
+	// Buffer setup
+	outlineBuff = new kl::ibuffer(gpu->getDev(), gpu->getCon(), win.getSize().x, win.getSize().y);
 
 	// Camera setup
 	camera.position = kl::float3(-1.4f, 1.25f, -6.0f);
