@@ -19,12 +19,6 @@ struct DRAW_PS_CB {
 	kl::float4 objInd;
 };
 
-// Outline shader buffer
-struct OUTL_PS_CB {
-	kl::float4 higCol;
-	kl::float4 selInd;
-};
-
 // Editor gizmo shader buffers
 struct GIZM_PS_CB {
 	kl::float4 objCol;

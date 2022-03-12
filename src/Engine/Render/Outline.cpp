@@ -12,15 +12,10 @@ void Outline() {
 	gpu->bind(index_vtx);
 	gpu->bind(index_pxl);
 	gpu->bindVertCBuff(index_vtx_cb, 0);
-	gpu->bindPixlCBuff(index_pxl_cb, 0);
 
 	// Setting the index vertex data
 	kl::mat4 wvp = camera.matrix() * selected->matrix();
 	gpu->setBuffData(index_vtx_cb, &wvp);
-
-	// Setting the index pixel data
-	kl::float4 indx = float(selectedInd);
-	gpu->setBuffData(index_pxl_cb, &indx);
 
 	// Clearing the outline index target
 	gpu->clear(outlineTargetV, kl::float4(-1.0f));
@@ -38,10 +33,8 @@ void Outline() {
 	gpu->bindPixlCBuff(outline_pxl_cb, 0);
 
 	// Setting the outline pixel data
-	OUTL_PS_CB pxlData = {};
-	pxlData.higCol = outline;
-	pxlData.selInd = float(selectedInd);
-	gpu->setBuffData(outline_pxl_cb, &pxlData);
+	kl::float4 higCol = outline;
+	gpu->setBuffData(outline_pxl_cb, &higCol);
 
 	// Binding the outline index tex
 	gpu->bindPixlTex(outlineShaderV, 0);

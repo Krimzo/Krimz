@@ -27,7 +27,8 @@ void Start() {
 	mask_ds = gpu->newDepthState(false, true, true);
 
 	// Shaders
-	editor_vtx = gpu->newVertexShader(kl::file::read("res/shaders/editor.hlsl"));
+	ID3D11InputLayout* defaultLayout = nullptr;
+	editor_vtx = gpu->newVertexShader(kl::file::read("res/shaders/editor.hlsl"), &defaultLayout);
 	editor_pxl = gpu->newPixelShader(kl::file::read("res/shaders/editor.hlsl"));
 	shadow_vtx = gpu->newVertexShader(kl::file::read("res/shaders/shadows.hlsl"));
 	shadow_pxl = gpu->newPixelShader(kl::file::read("res/shaders/shadows.hlsl"));
@@ -37,14 +38,14 @@ void Start() {
 	outline_pxl = gpu->newPixelShader(kl::file::read("res/shaders/outline.hlsl"));
 	gizmo_vtx = gpu->newVertexShader(kl::file::read("res/shaders/gizmo.hlsl"));
 	gizmo_pxl = gpu->newPixelShader(kl::file::read("res/shaders/gizmo.hlsl"));
+	gpu->bind(defaultLayout);
 
 	// Constant buffers
 	editor_vtx_cb =	gpu->newConstBuffer(sizeof(DRAW_VS_CB));
 	editor_pxl_cb =	gpu->newConstBuffer(sizeof(DRAW_PS_CB));
 	shadow_vtx_cb =	gpu->newConstBuffer(sizeof(kl::mat4));
 	index_vtx_cb = gpu->newConstBuffer(sizeof(kl::mat4));
-	index_pxl_cb = gpu->newConstBuffer(sizeof(kl::float4));
-	outline_pxl_cb = gpu->newConstBuffer(sizeof(OUTL_PS_CB));
+	outline_pxl_cb = gpu->newConstBuffer(sizeof(kl::float4));
 	gizmo_vtx_cb = gpu->newConstBuffer(sizeof(kl::mat4));
 	gizmo_pxl_cb = gpu->newConstBuffer(sizeof(GIZM_PS_CB));
 
