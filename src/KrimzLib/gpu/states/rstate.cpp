@@ -1,4 +1,4 @@
-#include "KrimzLib/dx/gpu.h"
+#include "KrimzLib/gpu/gpu.h"
 
 
 ID3D11RasterizerState* kl::gpu::newRasterState(D3D11_RASTERIZER_DESC* desc) {
@@ -12,7 +12,7 @@ ID3D11RasterizerState* kl::gpu::newRasterState(D3D11_RASTERIZER_DESC* desc) {
     }
 
     // Saving child
-    childs.push_back(rasterState);
+    children.push_back(rasterState);
 
     // Return
     return rasterState;

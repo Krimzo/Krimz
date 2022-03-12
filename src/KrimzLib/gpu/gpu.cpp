@@ -1,4 +1,4 @@
-#include "KrimzLib/dx/gpu.h"
+#include "KrimzLib/gpu/gpu.h"
 
 #include <iostream>
 #include <sstream>
@@ -96,7 +96,7 @@ kl::gpu::~gpu() {
     chain->SetFullscreenState(false, nullptr);
 
     // Child cleanup
-    for (auto& ref : childs) {
+    for (auto& ref : children) {
         ref->Release();
     }
 
@@ -158,8 +158,10 @@ void kl::gpu::viewport(const kl::int2& pos, const kl::int2& size) {
 }
 
 // Binds the internal render targets
-void kl::gpu::bindInternal() {
-    devcon->OMSetRenderTargets(1, &interFrameBuff, interDepthBuff);
+void kl::gpu::bindInternal(const std::vector<ID3D11RenderTargetView*> targets, ID3D11DepthStencilView* depthView) {
+    std::vector<ID3D11RenderTargetView*> combinedTargets = { interFrameBuff };
+    for (const auto& ref : targets) combinedTargets.push_back(ref);
+    devcon->OMSetRenderTargets(UINT(combinedTargets.size()), &combinedTargets[0], depthView ? depthView : interDepthBuff);
 }
 
 // Binds given render target
@@ -186,10 +188,10 @@ void kl::gpu::swap(bool vSync) {
 
 // Deletes child instance
 bool kl::gpu::destroy(IUnknown* child) {
-    for (int i = 0; i < childs.size(); i++) {
-        if (childs[i] == child) {
-            childs[i]->Release();
-            childs.erase(childs.begin() + i);
+    for (int i = 0; i < children.size(); i++) {
+        if (children[i] == child) {
+            children[i]->Release();
+            children.erase(children.begin() + i);
             return true;
         }
     }

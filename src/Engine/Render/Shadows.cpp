@@ -3,19 +3,24 @@
 
 void Shadows() {
 	// Binding the shadow render target
-	sun.shadowMap->bindTarget();
+	gpu->bindTargets({}, sun.shadowMapDV);
 
 	// Setting the viewport
-	sun.shadowMap->fixViewport();
+	gpu->viewport(kl::int2(0), kl::int2(4096));
 
-	// Clearing the depth
-	sun.shadowMap->clear();
+	// Setting default depth state
+	gpu->bind(depth_ds);
 
 	// Front culling
-	shadow_ra->bind();
+	gpu->bind(shadow_ra);
+
+	// Clearing the shadow depth
+	gpu->clear(sun.shadowMapDV);
 
 	// Binding the shadow shaders
-	shadow_sh->bind();
+	gpu->bind(shadow_vtx);
+	gpu->bind(shadow_pxl);
+	gpu->bindVertCBuff(shadow_vtx_cb, 0);
 
 	// Getting the sun vp matrix
 	const kl::mat4 vpSun = sun.matrix(camera);
@@ -25,20 +30,19 @@ void Shadows() {
 		if (entities[i]->shadows) {
 			// Getting the full wvp matrix
 			kl::mat4 wvp = vpSun * entities[i]->matrix();
-			shadow_sh->setVertData(&wvp);
-	
+			gpu->setBuffData(shadow_vtx_cb, &wvp);
+
 			// Rendering the entity
-			entities[i]->render(false);
+			entities[i]->render(gpu, false);
 		}
 	}
 
 	// Binding the default states
 	gpu->bindInternal();
-	gpu->setDSState(kl::dbuffer::State::Default);
 
 	// Viewport reset
-	gpu->viewport(kl::int2(0, 0), win.getSize());
+	gpu->viewport(kl::int2(0), win.getSize());
 
 	// Raster reset
-	solid_ra->bind();
+	gpu->bind(solid_ra);
 }

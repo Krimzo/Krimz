@@ -1,4 +1,4 @@
-#include "KrimzLib/dx/gpu.h"
+#include "KrimzLib/gpu/gpu.h"
 
 #include <d3dcompiler.h>
 
@@ -15,8 +15,13 @@ ID3D11VertexShader* kl::gpu::newVertexShader(const std::string& source) {
 
     // Compilation
     D3DCompile(source.c_str(), source.size(), nullptr, nullptr, nullptr, "vShader", "vs_5_0", NULL, NULL, &blobData, &blobError);
-    if (blobError) {
-        std::cout << "DirectX: Could not compile vertex shader!\nError: " << (char*)blobError->GetBufferPointer();
+    if (!blobData) {
+        if (blobError) {
+            std::cout << "DirectX: Could not compile vertex shader!\nError: " << (char*)blobError->GetBufferPointer();
+        }
+        else {
+            std::cout << "DirectX: Could not compile vertex shader!\nError: Unknown";
+        }
         std::cin.get();
         exit(69);
     }
@@ -54,7 +59,7 @@ ID3D11VertexShader* kl::gpu::newVertexShader(const std::string& source) {
     blobData->Release();
 
     // Saving child
-    childs.push_back(vertShader);
+    children.push_back(vertShader);
 
     // Return
     return vertShader;
@@ -66,8 +71,13 @@ ID3D11PixelShader* kl::gpu::newPixelShader(const std::string& source) {
 
     // Compilation
     D3DCompile(source.c_str(), source.size(), nullptr, nullptr, nullptr, "pShader", "ps_5_0", NULL, NULL, &blobData, &blobError);
-    if (blobError) {
-        std::cout << "DirectX: Could not compile pixel shader!\nError: " << (char*)blobError->GetBufferPointer();
+    if (!blobData) {
+        if (blobError) {
+            std::cout << "DirectX: Could not compile pixel shader!\nError: " << (char*)blobError->GetBufferPointer();
+        }
+        else {
+            std::cout << "DirectX: Could not compile pixel shader!\nError: Unknown";
+        }
         std::cin.get();
         exit(69);
     }
@@ -85,7 +95,7 @@ ID3D11PixelShader* kl::gpu::newPixelShader(const std::string& source) {
     blobData->Release();
 
     // Saving child
-    childs.push_back(pixlShader);
+    children.push_back(pixlShader);
 
     // Return
     return pixlShader;

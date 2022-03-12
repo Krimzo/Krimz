@@ -1,10 +1,10 @@
-#include "KrimzLib/dx/gpu.h"
+#include "KrimzLib/gpu/gpu.h"
 
 
-ID3D11RenderTargetView* kl::gpu::newTargetView(ID3D11Texture2D* tex) {
+ID3D11RenderTargetView* kl::gpu::newTargetView(ID3D11Texture2D* tex, D3D11_RENDER_TARGET_VIEW_DESC* desc) {
     // Creating the render target view
     ID3D11RenderTargetView* targetView = nullptr;
-    device->CreateRenderTargetView(tex, nullptr, &targetView);
+    device->CreateRenderTargetView(tex, desc, &targetView);
     if (!targetView) {
         std::cout << "DirectX: Could not create a backbuffer!";
         std::cin.get();
@@ -12,7 +12,7 @@ ID3D11RenderTargetView* kl::gpu::newTargetView(ID3D11Texture2D* tex) {
     }
 
     // Saving child
-    childs.push_back(targetView);
+    children.push_back(targetView);
 
     // Return
     return targetView;

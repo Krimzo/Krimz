@@ -1,10 +1,10 @@
-#include "KrimzLib/dx/gpu.h"
+#include "KrimzLib/gpu/gpu.h"
 
 
-ID3D11DepthStencilView* kl::gpu::newDepthView(ID3D11Texture2D* tex) {
+ID3D11DepthStencilView* kl::gpu::newDepthView(ID3D11Texture2D* tex, D3D11_DEPTH_STENCIL_VIEW_DESC* desc) {
     // Creating the render target view
     ID3D11DepthStencilView* depthView = nullptr;
-    device->CreateDepthStencilView(tex, nullptr, &depthView);
+    device->CreateDepthStencilView(tex, desc, &depthView);
     if (!depthView) {
         std::cout << "DirectX: Could not create a backbuffer!";
         std::cin.get();
@@ -12,7 +12,7 @@ ID3D11DepthStencilView* kl::gpu::newDepthView(ID3D11Texture2D* tex) {
     }
 
     // Saving child
-    childs.push_back(depthView);
+    children.push_back(depthView);
 
     // Return
     return depthView;

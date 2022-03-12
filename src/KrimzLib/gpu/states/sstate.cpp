@@ -1,4 +1,4 @@
-#include "KrimzLib/dx/gpu.h"
+#include "KrimzLib/gpu/gpu.h"
 
 
 ID3D11SamplerState* kl::gpu::newSamplerState(D3D11_SAMPLER_DESC* desc) {
@@ -12,7 +12,7 @@ ID3D11SamplerState* kl::gpu::newSamplerState(D3D11_SAMPLER_DESC* desc) {
     }
 
     // Saving child
-    childs.push_back(sampState);
+    children.push_back(sampState);
 
     // Return
     return sampState;

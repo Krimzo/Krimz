@@ -6,7 +6,7 @@
 #include <windowsx.h>
 #include <d3d11.h>
 
-#include "KrimzLib/dx/gpu.h"
+#include "KrimzLib/gpu/gpu.h"
 #include "KrimzLib/math/int2.h"
 #include "KrimzLib/math/float4.h"
 #include "KrimzLib/geometry/vertex.h"
@@ -28,7 +28,7 @@ namespace kl {
 		ID3D11DepthStencilView* interDepthBuff = nullptr;
 
 		// Buffers
-		std::vector<IUnknown*> childs;
+		std::vector<IUnknown*> children;
 
 #ifdef KL_USING_IMGUI
 		// ImGui
@@ -53,7 +53,7 @@ namespace kl {
 		void regenBuffers(const kl::int2& size);
 
 		// Binds the internal render targets
-		void bindInternal();
+		void bindInternal(const std::vector<ID3D11RenderTargetView*> targets = {}, ID3D11DepthStencilView* depthView = nullptr);
 
 		// Binds given render target
 		void bindTargets(const std::vector<ID3D11RenderTargetView*> targets, ID3D11DepthStencilView* depthView = nullptr);
@@ -88,8 +88,8 @@ namespace kl {
 		// Constant buffer
 		ID3D11Buffer* newConstBuffer(int byteSize);
 		void setBuffData(ID3D11Buffer* buff, void* data);
-		void bindVertShaBuff(ID3D11Buffer* buff, int slot);
-		void bindPixlShaBuff(ID3D11Buffer* buff, int slot);
+		void bindVertCBuff(ID3D11Buffer* buff, int slot);
+		void bindPixlCBuff(ID3D11Buffer* buff, int slot);
 		
 		// Mesh
 		ID3D11Buffer* newVertBuffer(const std::vector<kl::vertex>& vertexData);
@@ -109,16 +109,16 @@ namespace kl {
 		ID3D11Texture2D* newTextureST(ID3D11Texture2D* tex, const kl::int2& size = {});
 
 		// Render target view
-		ID3D11RenderTargetView* newTargetView(ID3D11Texture2D* tex);
+		ID3D11RenderTargetView* newTargetView(ID3D11Texture2D* tex, D3D11_RENDER_TARGET_VIEW_DESC* desc = nullptr);
 		void clear(ID3D11RenderTargetView* view, const kl::float4& color);
 
 		// Depth stencil view
-		ID3D11DepthStencilView* newDepthView(ID3D11Texture2D* tex);
+		ID3D11DepthStencilView* newDepthView(ID3D11Texture2D* tex, D3D11_DEPTH_STENCIL_VIEW_DESC* desc = nullptr);
 		void clear(ID3D11DepthStencilView* view, float depth = 1.0f, byte stencil = 0);
 
 		// Shader resource view
-		ID3D11ShaderResourceView* newShaderView(ID3D11Texture2D* tex);
-		void bindPixlView(ID3D11ShaderResourceView* buff, int slot);
+		ID3D11ShaderResourceView* newShaderView(ID3D11Texture2D* tex, D3D11_SHADER_RESOURCE_VIEW_DESC* desc = nullptr);
+		void bindPixlTex(ID3D11ShaderResourceView* buff, int slot);
 
 		// Deletes child instance
 		bool destroy(IUnknown* child);

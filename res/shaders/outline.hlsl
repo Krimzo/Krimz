@@ -18,7 +18,7 @@ cbuffer PS_CB : register(b0) {
 Texture2D indexBuff : register(t0);
 
 float4 pShader(vOut data) : SV_TARGET {
-    const float lineThick = 2.0f;
+    const float lineThick = 1.0f;
 
     for (int y = -lineThick; y <= lineThick; y++) {
         for (int x = -lineThick; x <= lineThick; x++) {

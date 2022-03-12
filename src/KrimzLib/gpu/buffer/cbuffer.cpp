@@ -1,4 +1,4 @@
-#include "KrimzLib/dx/gpu.h"
+#include "KrimzLib/gpu/gpu.h"
 
 
 // Constant buffer
@@ -35,9 +35,9 @@ void kl::gpu::setBuffData(ID3D11Buffer* buff, void* data) {
 }
 
 // Binds the buffer to shader
-void kl::gpu::bindVertShaBuff(ID3D11Buffer* buff, int slot) {
+void kl::gpu::bindVertCBuff(ID3D11Buffer* buff, int slot) {
     devcon->VSSetConstantBuffers(slot, 1, &buff);
 }
-void kl::gpu::bindPixlShaBuff(ID3D11Buffer* buff, int slot) {
+void kl::gpu::bindPixlCBuff(ID3D11Buffer* buff, int slot) {
     devcon->PSSetConstantBuffers(slot, 1, &buff);
 }

@@ -2,9 +2,6 @@
 
 
 void End() {
-	// Delete buffers
-	delete outlineBuff;
-
 	// Deleting entities
 	entities.clear();
 

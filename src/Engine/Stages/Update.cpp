@@ -17,9 +17,9 @@ void Update() {
 
 	// Rendering skybox
 	if (skybox) {
-		gpu->setDSState(kl::dbuffer::State::Disabled);
+		gpu->bind(disabled_ds);
 		skybox->render(camera.matrix());
-		gpu->setDSState(kl::dbuffer::State::Default);
+		gpu->bind(depth_ds);
 	}
 
 	// Drawing entities

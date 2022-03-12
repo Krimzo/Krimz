@@ -1,4 +1,4 @@
-#include "KrimzLib/dx/gpu.h"
+#include "KrimzLib/gpu/gpu.h"
 
 
 // Texture from backbuffer
@@ -13,7 +13,7 @@ ID3D11Texture2D* kl::gpu::newTextureBB() {
     }
 
     // Saving child
-    childs.push_back(buffAddrs);
+    children.push_back(buffAddrs);
 
     // Return
     return buffAddrs;
@@ -31,7 +31,7 @@ ID3D11Texture2D* kl::gpu::newTexture(D3D11_TEXTURE2D_DESC* desc, D3D11_SUBRESOUR
     }
 
     // Saving child
-    childs.push_back(tex);
+    children.push_back(tex);
 
     // Return
     return tex;

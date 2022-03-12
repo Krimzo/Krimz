@@ -1,4 +1,4 @@
-#include "KrimzLib/dx/gpu.h"
+#include "KrimzLib/gpu/gpu.h"
 
 
 ID3D11DepthStencilState* kl::gpu::newDepthState(D3D11_DEPTH_STENCIL_DESC* desc) {
@@ -12,7 +12,7 @@ ID3D11DepthStencilState* kl::gpu::newDepthState(D3D11_DEPTH_STENCIL_DESC* desc) 
     }
 
     // Saving child
-    childs.push_back(depthState);
+    children.push_back(depthState);
 
     // Return
     return depthState;
