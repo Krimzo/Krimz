@@ -106,8 +106,8 @@ void Start() {
 	sunShaderVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	sunShaderVDesc.Texture2D.MipLevels = 1;
 	sun.shadowMapSV = gpu->newShaderView(sunTex, &sunShaderVDesc);
-	gpu->destroy(sunTex);
 	sun.direction = kl::float3(0.575f, -0.75f, 2.0f);
+	gpu->destroy(sunTex);
 
 	// Gizmos
 	gizmo_scale = gpu->newVertBuffer("res/objects/gizmos/scale.obj");

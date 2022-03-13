@@ -1,42 +1,50 @@
 #include "Engine/Engine.h"
 
+#include "Engine/GUI.h"
+
 
 void Update() {
 	// Time
 	deltaT = timer.interval();
 	elapsedT = timer.elapsed();
 
-	// Input call
-	Input();
-
-	// Rendering the shadows
-	Shadows();
-
 	// Clearing the buffers
 	gpu->clear(background);
 
-	// Rendering skybox
-	if (skybox) {
-		gpu->bind(disabled_ds);
-		skybox->render(camera.matrix());
-		gpu->bind(depth_ds);
-	}
+	// Input call
+	Input();
 
-	// Drawing entities
-	Draw();
+	// Rendering shadows
+	Shadows();
 
-	// Selected postprocess
-	if (selected) {
-		// Entity outline
-		Outline();
-
-		// Drawing the gizmos
-		Gizmo();
-	}
-
-	// Drawing the gui
+	//  Gui render
 	kl::igui::draw(GUI);
 
-	// Swapping the frame buffers
+	/* Viewport render */ {
+		// Viewport fix
+		gpu->viewport(guiViewportPos, guiViewportSize);
+		camera.aspect = float(guiViewportSize.x) / guiViewportSize.y;
+
+		// Skybox draw
+		if (skybox) {
+			gpu->bind(disabled_ds);
+			skybox->render(camera.matrix());
+			gpu->bind(depth_ds);
+		}
+
+		// Entity render
+		Draw();
+
+		// Selected postprocess
+		if (selected) {
+			// Outline draw
+			Outline();
+
+			// Gizmo render
+			Gizmo();
+		}
+	}
+
+	// Backbuffer swap
 	gpu->swap(true);
 }

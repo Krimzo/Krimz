@@ -2,9 +2,11 @@
 
 
 void Properties() {
-	ImGui::SetNextWindowPos(ImVec2(winSize.x * (1 - sidePanelsWidth) - 1, mainMenuSize.y - 1));
-	ImGui::SetNextWindowSize(ImVec2(winSize.x * sidePanelsWidth + 1, winSize.y - mainMenuSize.y + 1));
-	if (ImGui::Begin("Properties")) {
+	guiPropsPos = kl::int2(guiSceneSize.x + guiExplorSize.x, guiScenePos.y);
+	guiPropsSize = guiSceneSize;
+	ImGui::SetNextWindowPos(ImVec2(float(guiPropsPos.x), float(guiPropsPos.y)));
+	ImGui::SetNextWindowSize(ImVec2(float(guiPropsSize.x), float(guiPropsSize.y)));
+	if (ImGui::Begin("Properties", nullptr, panelWinFlags)) {
 		if (selected) {
 			ImGui::Checkbox("Visible", &selected->visible);
 			ImGui::Checkbox("Shadows", &selected->shadows);

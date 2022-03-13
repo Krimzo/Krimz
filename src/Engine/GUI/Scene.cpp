@@ -2,9 +2,11 @@
 
 
 void Scene() {
-	ImGui::SetNextWindowPos(ImVec2(0, mainMenuSize.y - 1));
-	ImGui::SetNextWindowSize(ImVec2(winSize.x * sidePanelsWidth, winSize.y - mainMenuSize.y + 1));
-	if (ImGui::Begin("Scene")) {
+	guiScenePos = kl::int2(int(0), int(mainMenuSize.y));
+	guiSceneSize = kl::int2(int(winSize.x * sidePanelsRatio), int(winSize.y - mainMenuSize.y));
+	ImGui::SetNextWindowPos(ImVec2(float(guiScenePos.x), float(guiScenePos.y)));
+	ImGui::SetNextWindowSize(ImVec2(float(guiSceneSize.x), float(guiSceneSize.y)));
+	if (ImGui::Begin("Scene", nullptr, panelWinFlags)) {
 		// Meshes
 
 

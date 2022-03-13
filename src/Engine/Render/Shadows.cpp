@@ -40,9 +40,6 @@ void Shadows() {
 	// Binding the default states
 	gpu->bindInternal();
 
-	// Viewport reset
-	gpu->viewport(kl::int2(0), win.getSize());
-
 	// Raster reset
 	gpu->bind(solid_ra);
 }

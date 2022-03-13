@@ -1,5 +1,7 @@
 #include "Engine/Input.h"
 
+#include "Engine/GUI.h"
+
 
 bool firstLmb = true;
 kl::float3 offsPos;
@@ -20,8 +22,15 @@ void LMBInput() {
 				selectedInd = -2;
 			}
 			else if (selected) {
-				// Far mouse point calculation
-				kl::float4 farMousePoint = camera.matrix().inverse() * kl::float4(win.mouse.normPos(win.getSize()), 1.0f, 1.0f);
+				// Mouse UV
+				kl::float2 mouseUV = win.mouse.position;
+				mouseUV -= guiViewportPos;
+				mouseUV = kl::float2(mouseUV.x / guiViewportSize.x, (guiViewportSize.y - mouseUV.y) / guiViewportSize.y);
+				mouseUV *= 2.0f;
+				mouseUV -= 1.0f;
+
+				// Far mouse point
+				kl::float4 farMousePoint = camera.matrix().inverse() * kl::float4(mouseUV, 1.0f, 1.0f);
 				farMousePoint /= farMousePoint.w;
 
 				// Mouse pos ray constuction
