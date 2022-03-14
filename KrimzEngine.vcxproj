@@ -146,6 +146,9 @@
     <ClInclude Include="incl\KrimzLib\window\mouse.h" />
     <ClInclude Include="incl\KrimzLib\window\window.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="todo.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
