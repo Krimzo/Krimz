@@ -10,15 +10,18 @@ int main() {
 	win.update = Update;
 	win.end = End;
 
-	// Time
-	timer.reset();
-	timer.interval();
+	// Input setup
+	InputSetup();
 
 	// ImGui
 	kl::igui::init();
 
 	// Loading my theme
 	kl::igui::loadKrimzTheme();
+
+	// Time
+	timer.reset();
+	timer.interval();
 
 	// Window
 	win.startNew(kl::int2(1600, 900), "Editor", true, true, true);

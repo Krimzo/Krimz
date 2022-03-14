@@ -6,6 +6,7 @@ void Properties() {
 	guiPropsSize = guiSceneSize;
 	ImGui::SetNextWindowPos(ImVec2(float(guiPropsPos.x), float(guiPropsPos.y)));
 	ImGui::SetNextWindowSize(ImVec2(float(guiPropsSize.x), float(guiPropsSize.y)));
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowTitleAlign, ImVec2(0.5f, 0.5f));
 	if (ImGui::Begin("Properties", nullptr, panelWinFlags)) {
 		if (selected) {
 			ImGui::Checkbox("Visible", &selected->visible);
@@ -23,4 +24,5 @@ void Properties() {
 		// End draw
 		ImGui::End();
 	}
+	ImGui::PopStyleVar();
 }

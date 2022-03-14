@@ -3,6 +3,8 @@
 #include "KrimzLib/KrimzLib.hpp"
 
 
+inline const float gizmoScale = 0.25f;
+
 enum GIZMO_TYPE {
 	GIZMO_NONE = 0,
 	GIZMO_SCALE,

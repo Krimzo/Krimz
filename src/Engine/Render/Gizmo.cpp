@@ -1,8 +1,6 @@
 #include "Engine/Engine.h"
 
 
-const float gizmoScale = 0.2f;
-
 void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& col, int index) {
 	// Binding gizmo shaders
 	gpu->bind(gizmo_vtx);
@@ -29,6 +27,35 @@ void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& co
 
 void Gizmo() {
 	if (chosenGizmo != GIZMO_NONE) {
+		// Color reset
+		gizmoColX = kl::color(205, 55, 75);
+		gizmoColY = kl::color(115, 175, 40);
+		gizmoColZ = kl::color(55, 120, 205);
+
+		// Entity id check
+		if (heldIndex >= -2) {
+			if (mouseIndex == -3) {
+				gizmoColX *= 1.45f;
+			}
+			else if (mouseIndex == -4) {
+				gizmoColY *= 1.45f;
+			}
+			else if (mouseIndex == -5) {
+				gizmoColZ *= 1.45f;
+			}
+		}
+		else {
+			if (heldIndex == -3) {
+				gizmoColX *= 1.45f;
+			}
+			else if (heldIndex == -4) {
+				gizmoColY *= 1.45f;
+			}
+			else if (heldIndex == -5) {
+				gizmoColZ *= 1.45f;
+			}
+		}
+
 		// Setting the rotations and mesh pointer
 		kl::float3 xRot;
 		kl::float3 zRot;

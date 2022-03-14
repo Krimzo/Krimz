@@ -16,6 +16,9 @@
 // Window
 inline kl::window win;
 
+// Input
+void InputSetup();
+
 // Gpu
 inline kl::gpu* gpu = nullptr;
 

@@ -25,11 +25,10 @@
     <ClCompile Include="src\Engine\GUI\MainMenu.cpp" />
     <ClCompile Include="src\Engine\GUI\Properties.cpp" />
     <ClCompile Include="src\Engine\GUI\Scene.cpp" />
-    <ClCompile Include="src\Engine\Input\FreeCam.cpp" />
-    <ClCompile Include="src\Engine\Input\GizmoHigh.cpp" />
+    <ClCompile Include="src\Engine\Input\CamInput.cpp" />
     <ClCompile Include="src\Engine\Input\GizmoInput.cpp" />
-    <ClCompile Include="src\Engine\Input\Input.cpp" />
-    <ClCompile Include="src\Engine\Input\LMBInput.cpp" />
+    <ClCompile Include="src\Engine\Input\InputSetup.cpp" />
+    <ClCompile Include="src\Engine\Input\LButtSetup.cpp" />
     <ClCompile Include="src\Engine\Render\Draw.cpp" />
     <ClCompile Include="src\Engine\Render\Gizmo.cpp" />
     <ClCompile Include="src\Engine\Render\Outline.cpp" />

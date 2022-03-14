@@ -10,7 +10,6 @@ void Resize(const kl::int2& siz);
 void End();
 
 // Update stages
-void Input();
 void Shadows();
 void Draw();
 void Outline();

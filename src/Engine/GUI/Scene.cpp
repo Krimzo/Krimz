@@ -6,6 +6,7 @@ void Scene() {
 	guiSceneSize = kl::int2(int(winSize.x * sidePanelsRatio), int(winSize.y - mainMenuSize.y));
 	ImGui::SetNextWindowPos(ImVec2(float(guiScenePos.x), float(guiScenePos.y)));
 	ImGui::SetNextWindowSize(ImVec2(float(guiSceneSize.x), float(guiSceneSize.y)));
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowTitleAlign, ImVec2(0.5f, 0.5f));
 	if (ImGui::Begin("Scene", nullptr, panelWinFlags)) {
 		// Meshes
 
@@ -32,4 +33,5 @@ void Scene() {
 		// End draw
 		ImGui::End();
 	}
+	ImGui::PopStyleVar();
 }

@@ -30,19 +30,16 @@
     <ClCompile Include="src\Engine\GUI\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Input\FreeCam.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Engine\Input\GizmoHigh.cpp">
+    <ClCompile Include="src\Engine\Input\CamInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Input\GizmoInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Input\Input.cpp">
+    <ClCompile Include="src\Engine\Input\InputSetup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Input\LMBInput.cpp">
+    <ClCompile Include="src\Engine\Input\LButtSetup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Render\Draw.cpp">
