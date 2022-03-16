@@ -19,6 +19,7 @@
 #include "KrimzLib/utility/random.h"
 #include "KrimzLib/utility/console.h"
 #include "KrimzLib/utility/file.h"
+#include "KrimzLib/utility/socket.h"
 #include "KrimzLib/utility/web.h"
 #include "KrimzLib/utility/thread.h"
 
@@ -33,6 +34,7 @@
 #include "KrimzLib/geometry/triangle.h"
 
 // Window
+#include "KrimzLib/window/key.h"
 #include "KrimzLib/window/keys.h"
 #include "KrimzLib/window/mouse.h"
 #include "KrimzLib/window/window.h"

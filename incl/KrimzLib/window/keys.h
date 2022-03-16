@@ -1,36 +1,10 @@
 #pragma once
 
-#include <functional>
+#include "KrimzLib/window/key.h"
 
 
 namespace kl {
 	typedef unsigned long long id;
-	class key {
-	private:
-		bool state;
-
-	public:
-		std::function<void()> press;
-		std::function<void()> down;
-		std::function<void()> release;
-
-		key() {
-			state = false;
-			press = []() {};
-			down = []() {};
-			release = []() {};
-		}
-
-		operator bool() {
-			return state;
-		}
-
-		void update(bool newState) {
-			if (!state && newState) this->press();
-			else if (state && !newState) this->release();
-			state = newState;
-		}
-	};
 	class keys {
 	public:
 		// Letters

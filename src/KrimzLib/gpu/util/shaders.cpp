@@ -45,7 +45,7 @@ ID3D11VertexShader* kl::gpu::newVertexShader(const std::string& source, ID3D11In
         };
 
         // Creating the input layout
-        device->CreateInputLayout(desc.size() > 0 ? &desc[0] : defaulDesc, desc.size() > 0 ? desc.size() : 3, blobData->GetBufferPointer(), blobData->GetBufferSize(), outLayout);
+        device->CreateInputLayout(desc.size() > 0 ? &desc[0] : defaulDesc, desc.size() > 0 ? UINT(desc.size()) : 3, blobData->GetBufferPointer(), blobData->GetBufferSize(), outLayout);
         if (!*outLayout) {
             std::cout << "DirectX: Could not create an input layout!";
             std::cin.get();

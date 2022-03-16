@@ -36,6 +36,7 @@ void LMBPress() {
 			selectedInd = -1;
 		}
 
+		// Selected test
 		if (selected) {
 			// Saving
 			firstSize = selected->size;
@@ -135,10 +136,12 @@ void LMBDown() {
 	}
 }
 
+void LMBRelease() {
+	heldIndex = -1;
+}
+
 void LButtSetup() {
 	win.mouse.lmb.press = LMBPress;
 	win.mouse.lmb.down = LMBDown;
-	win.mouse.lmb.release = [&]() {
-		heldIndex = -1;
-	};
+	win.mouse.lmb.release = LMBRelease;
 }
