@@ -5,7 +5,6 @@
 
 // Inits the ImGui context
 void kl::igui::init() {
-	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
 }
@@ -74,14 +73,17 @@ void kl::igui::loadKrimzTheme() {
     io.Fonts->AddFontFromFileTTF("res/fonts/Balsamiq.ttf", 15);
 }
 
-// Draws the ImGui data
-void kl::igui::draw(const std::function<void()>& func) {
-	ImGui_ImplDX11_NewFrame();
-	ImGui_ImplWin32_NewFrame();
-	ImGui::NewFrame();
-	func();
+// New ImGui frame
+void kl::igui::startDraw() {
+    ImGui_ImplDX11_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+}
+
+// ImGui data render
+void kl::igui::endDraw() {
 	ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
 #endif

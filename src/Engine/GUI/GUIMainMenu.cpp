@@ -1,12 +1,12 @@
-#include "Engine/GUI.h"
+#include "Engine/GUI/GUI.h"
 
 
-void MainMenu() {
+void Engine::GUI::MainMenu() {
 	if (ImGui::BeginMainMenuBar()) {
 		// File
 		if (ImGui::BeginMenu("File")) {
 			if (ImGui::MenuItem("Exit")) {
-				win.stop();
+				Engine::Window::win.stop();
 			}
 			ImGui::EndMenu();
 		}
@@ -23,16 +23,16 @@ void MainMenu() {
 		if (ImGui::BeginMenu("View")) {
 			if (ImGui::BeginMenu("Skybox")) {
 				bool noSelection = true;
-				for (int i = 0; i < skyboxes.size(); i++) {
-					bool state = (skybox == skyboxes[i]);
-					ImGui::Selectable(skyboxes[i]->name.c_str(), &state);
+				for (int i = 0; i < Engine::Background::skyboxes.size(); i++) {
+					bool state = (Engine::Background::skybox == Engine::Background::skyboxes[i]);
+					ImGui::Selectable(Engine::Background::skyboxes[i]->name.c_str(), &state);
 					if (state) {
-						skybox = skyboxes[i];
+						Engine::Background::skybox = Engine::Background::skyboxes[i];
 						noSelection = false;
 					}
 				}
 				if (noSelection) {
-					skybox = nullptr;
+					Engine::Background::skybox = nullptr;
 				}
 				ImGui::EndMenu();
 			}
@@ -40,7 +40,7 @@ void MainMenu() {
 		}
 
 		// Getting the menu size
-		mainMenuSize = ImGui::GetWindowSize();
+		Engine::GUI::mMenuSize = ImGui::GetWindowSize();
 
 		// End draw
 		ImGui::EndMainMenuBar();

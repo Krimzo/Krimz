@@ -22,18 +22,18 @@
     <Text Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="incl\Engine\Callbacks.h" />
-    <ClInclude Include="incl\Engine\CBuffers.h" />
-    <ClInclude Include="incl\Engine\DStates.h" />
+    <ClInclude Include="incl\Engine\Callbacks\Callbacks.h" />
+    <ClInclude Include="incl\Engine\Render\CBuffers.h" />
+    <ClInclude Include="incl\Engine\Render\DStates.h" />
     <ClInclude Include="incl\Engine\Engine.h" />
-    <ClInclude Include="incl\Engine\Gizmo.h" />
-    <ClInclude Include="incl\Engine\GUI.h" />
-    <ClInclude Include="incl\Engine\Input.h" />
-    <ClInclude Include="incl\Engine\Outline.h" />
-    <ClInclude Include="incl\Engine\Picking.h" />
-    <ClInclude Include="incl\Engine\Rasters.h" />
-    <ClInclude Include="incl\Engine\Shaders.h" />
-    <ClInclude Include="incl\Engine\Struct.h" />
+    <ClInclude Include="incl\Engine\Edit\Gizmo.h" />
+    <ClInclude Include="incl\Engine\GUI\GUI.h" />
+    <ClInclude Include="incl\Engine\Input\Input.h" />
+    <ClInclude Include="incl\Engine\Picking\Outline.h" />
+    <ClInclude Include="incl\Engine\Picking\Picking.h" />
+    <ClInclude Include="incl\Engine\Render\Rasters.h" />
+    <ClInclude Include="incl\Engine\Render\Shaders.h" />
+    <ClInclude Include="incl\Engine\Data\Struct.h" />
     <ClInclude Include="incl\ImGui\imconfig.h" />
     <ClInclude Include="incl\ImGui\imgui.h" />
     <ClInclude Include="incl\ImGui\imgui_impl_dx11.h" />
@@ -82,15 +82,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Engine.cpp" />
-    <ClCompile Include="src\Engine\GUI\Explorer.cpp" />
-    <ClCompile Include="src\Engine\GUI\GUI.cpp" />
-    <ClCompile Include="src\Engine\GUI\MainMenu.cpp" />
-    <ClCompile Include="src\Engine\GUI\Properties.cpp" />
-    <ClCompile Include="src\Engine\GUI\Scene.cpp" />
-    <ClCompile Include="src\Engine\Input\CamInput.cpp" />
-    <ClCompile Include="src\Engine\Input\GizmoInput.cpp" />
+    <ClCompile Include="src\Engine\GUI\GUIExplorer.cpp" />
+    <ClCompile Include="src\Engine\GUI\GUIAfter.cpp" />
+    <ClCompile Include="src\Engine\GUI\GUIBefore.cpp" />
+    <ClCompile Include="src\Engine\GUI\GUIMainMenu.cpp" />
+    <ClCompile Include="src\Engine\GUI\GUIPlayButton.cpp" />
+    <ClCompile Include="src\Engine\GUI\GUIProperties.cpp" />
+    <ClCompile Include="src\Engine\GUI\GUIScene.cpp" />
+    <ClCompile Include="src\Engine\Input\InputCamera.cpp" />
+    <ClCompile Include="src\Engine\Input\InputGizmo.cpp" />
     <ClCompile Include="src\Engine\Input\InputSetup.cpp" />
-    <ClCompile Include="src\Engine\Input\LButtSetup.cpp" />
+    <ClCompile Include="src\Engine\Input\InputLMB.cpp" />
     <ClCompile Include="src\Engine\Render\Draw.cpp" />
     <ClCompile Include="src\Engine\Render\Gizmo.cpp" />
     <ClCompile Include="src\Engine\Render\Outline.cpp" />

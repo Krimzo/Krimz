@@ -1,13 +1,13 @@
-#include "Engine/Input.h"
+#include "Engine/Input/Input.h"
 
 
-void InputSetup() {
+void Engine::Input::Setup() {
 	// LMB
-	LButtSetup();
+	Engine::Input::LMB();
 
 	// Gizmo input
-	GizmoInputSetup();
+	Engine::Input::Gizmo();
 
 	// Free cam
-	CamInputSetup();
+	Engine::Input::Camera();
 }

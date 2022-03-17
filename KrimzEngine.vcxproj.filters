@@ -18,40 +18,40 @@
     <Text Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="incl\Engine\Callbacks.h">
+    <ClInclude Include="incl\Engine\Callbacks\Callbacks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\Engine\CBuffers.h">
+    <ClInclude Include="incl\Engine\Render\CBuffers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\Engine\DStates.h">
+    <ClInclude Include="incl\Engine\Render\DStates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\Engine\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\Engine\Gizmo.h">
+    <ClInclude Include="incl\Engine\Edit\Gizmo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\Engine\GUI.h">
+    <ClInclude Include="incl\Engine\GUI\GUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\Engine\Input.h">
+    <ClInclude Include="incl\Engine\Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\Engine\Outline.h">
+    <ClInclude Include="incl\Engine\Picking\Outline.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\Engine\Picking.h">
+    <ClInclude Include="incl\Engine\Picking\Picking.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\Engine\Rasters.h">
+    <ClInclude Include="incl\Engine\Render\Rasters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\Engine\Shaders.h">
+    <ClInclude Include="incl\Engine\Render\Shaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\Engine\Struct.h">
+    <ClInclude Include="incl\Engine\Data\Struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\ImGui\imconfig.h">
@@ -191,31 +191,31 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Engine\GUI\Explorer.cpp">
+    <ClCompile Include="src\Engine\GUI\GUIExplorer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\GUI\GUI.cpp">
+    <ClCompile Include="src\Engine\GUI\GUIBefore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\GUI\MainMenu.cpp">
+    <ClCompile Include="src\Engine\GUI\GUIMainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\GUI\Properties.cpp">
+    <ClCompile Include="src\Engine\GUI\GUIProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\GUI\Scene.cpp">
+    <ClCompile Include="src\Engine\GUI\GUIScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Input\CamInput.cpp">
+    <ClCompile Include="src\Engine\Input\InputCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Input\GizmoInput.cpp">
+    <ClCompile Include="src\Engine\Input\InputGizmo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Input\InputSetup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Input\LButtSetup.cpp">
+    <ClCompile Include="src\Engine\Input\InputLMB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Render\Draw.cpp">
@@ -402,6 +402,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\KrimzLib\window\window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\GUI\GUIPlayButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\GUI\GUIAfter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

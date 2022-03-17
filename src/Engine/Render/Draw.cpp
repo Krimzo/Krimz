@@ -1,54 +1,54 @@
 #include "Engine/Engine.h"
 
 
-void Draw() {
+void Engine::Update::Draw() {
 	// Binding internal + index texture
-	gpu->bindInternal({ pickingTargetV });
+	Engine::Render::gpu->bindInternal({ Engine::Picking::targetV });
 
 	// Clearing picking tex
-	gpu->clear(pickingTargetV, kl::float4(-1.0f));
+	Engine::Render::gpu->clear(Engine::Picking::targetV, kl::float4(-1.0f));
 
 	// Binding the editor shaders
-	gpu->bind(editor_vtx);
-	gpu->bind(editor_pxl);
-	gpu->bindVertCBuff(editor_vtx_cb, 0);
-	gpu->bindPixlCBuff(editor_pxl_cb, 0);
+	Engine::Render::gpu->bind(Engine::Shaders::Vertex::editor);
+	Engine::Render::gpu->bind(Engine::Shaders::Pixel::editor);
+	Engine::Render::gpu->bindVertCBuff(Engine::CBuffers::Vertex::editor, 0);
+	Engine::Render::gpu->bindPixlCBuff(Engine::CBuffers::Pixel::editor, 0);
 
 	// Binding the shadow map
-	gpu->bindPixlTex(sun.shadowMapSV, 1);
+	Engine::Render::gpu->bindPixlTex(Engine::Light::sun.shadowMapSV, 1);
 
 	// Setting the camera data
-	DRAW_VS_CB draw_vert_data = {};
-	draw_vert_data.vpCam = camera.matrix();
-	draw_vert_data.vpSun = sun.matrix(camera);
+	Engine::Struct::DRAW_VS_CB draw_vert_data = {};
+	draw_vert_data.vpCam = Engine::Render::camera.matrix();
+	draw_vert_data.vpSun = Engine::Light::sun.matrix(Engine::Render::camera);
 
 	// Setting the lighting data
-	DRAW_PS_CB draw_pixl_data = {};
-	draw_pixl_data.ambCol = ambient.getCol();
-	draw_pixl_data.dirCol = sun.getCol();
-	draw_pixl_data.dirDir = sun.getDir();
-	draw_pixl_data.camPos = camera.position;
+	Engine::Struct::DRAW_PS_CB draw_pixl_data = {};
+	draw_pixl_data.ambCol = Engine::Light::ambient.getCol();
+	draw_pixl_data.dirCol = Engine::Light::sun.getCol();
+	draw_pixl_data.dirDir = Engine::Light::sun.getDir();
+	draw_pixl_data.camPos = Engine::Render::camera.position;
 
 	// Rendering entities
-	for (int i = 0; i < entities.size(); i++) {
-		if (entities[i]->visible) {
+	for (int i = 0; i < Engine::Game::entities.size(); i++) {
+		if (Engine::Game::entities[i]->visible) {
 			// Updating the vert data
-			draw_vert_data.w = entities[i]->matrix();
-			gpu->setBuffData(editor_vtx_cb, &draw_vert_data);
+			draw_vert_data.w = Engine::Game::entities[i]->matrix();
+			Engine::Render::gpu->setBuffData(Engine::CBuffers::Vertex::editor, &draw_vert_data);
 
 			// Updating the pixl data
-			draw_pixl_data.rghFac.x = entities[i]->roughness;
+			draw_pixl_data.rghFac.x = Engine::Game::entities[i]->roughness;
 			draw_pixl_data.objInd.x = float(i);
-			gpu->setBuffData(editor_pxl_cb, &draw_pixl_data);
+			Engine::Render::gpu->setBuffData(Engine::CBuffers::Pixel::editor, &draw_pixl_data);
 
 			// Rendering the entity
-			if (entities[i] == selected) {
-				gpu->bind(write_ds);
-				entities[i]->render(gpu, true);
-				gpu->bind(depth_ds);
+			if (Engine::Game::entities[i] == Engine::Picking::selected) {
+				Engine::Render::gpu->bind(Engine::DepthStencil::write);
+				Engine::Game::entities[i]->render(Engine::Render::gpu, true);
+				Engine::Render::gpu->bind(Engine::DepthStencil::depth);
 			}
 			else {
-				entities[i]->render(gpu, true);
+				Engine::Game::entities[i]->render(Engine::Render::gpu, true);
 			}
 		}
 	}

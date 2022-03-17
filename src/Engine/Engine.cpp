@@ -6,12 +6,12 @@ int main() {
 	kl::console::hide();
 
 	// Callbacks
-	win.start = Start;
-	win.update = Update;
-	win.end = End;
+	Engine::Window::win.start = Engine::Stage::Start;
+	Engine::Window::win.update = Engine::Stage::Update;
+	Engine::Window::win.end = Engine::Stage::End;
 
 	// Input setup
-	InputSetup();
+	Engine::Input::Setup();
 
 	// ImGui
 	kl::igui::init();
@@ -20,11 +20,11 @@ int main() {
 	kl::igui::loadKrimzTheme();
 
 	// Time
-	timer.reset();
-	timer.interval();
+	Engine::Time::timer.reset();
+	Engine::Time::timer.interval();
 
 	// Window
-	win.startNew(kl::int2(1600, 900), "Editor", true, true, true);
+	Engine::Window::win.startNew(kl::int2(1600, 900), "Editor", true, true, true);
 
 	// Cleanup
 	kl::igui::uninit();

@@ -1,13 +1,13 @@
 #include "Engine/Engine.h"
 
 
-void End() {
+void Engine::Stage::End() {
 	// Deleting entities
-	entities.clear();
+	Engine::Game::entities.clear();
 
 	// Deleting skyboxes
-	skyboxes.clear();
+	Engine::Background::skyboxes.clear();
 
 	// Deleting the gpu
-	delete gpu;
+	delete Engine::Render::gpu;
 }

@@ -20,8 +20,11 @@ namespace kl {
 		// Loads my custom theme
 		void loadKrimzTheme();
 
-		// Draws the ImGui data
-		void draw(const std::function<void()>& func);
+		// New ImGui frame
+		void startDraw();
+
+		// ImGui data render
+		void endDraw();
 	}
 }
 

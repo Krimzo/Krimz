@@ -3,56 +3,57 @@
 
 void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& col, int index) {
 	// Binding gizmo shaders
-	gpu->bind(gizmo_vtx);
-	gpu->bind(gizmo_pxl);
-	gpu->bindVertCBuff(gizmo_vtx_cb, 0);
-	gpu->bindPixlCBuff(gizmo_pxl_cb, 0);
+	Engine::Render::gpu->bind(Engine::Shaders::Vertex::gizmo);
+	Engine::Render::gpu->bind(Engine::Shaders::Pixel::gizmo);
+	Engine::Render::gpu->bindVertCBuff(Engine::CBuffers::Vertex::gizmo, 0);
+	Engine::Render::gpu->bindPixlCBuff(Engine::CBuffers::Pixel::gizmo, 0);
 
 	// Building the wvp matrix
-	const kl::mat4 sc = kl::mat4::scale((camera.position - selected->position).length() * gizmoScale);
+	const kl::mat4 sc = kl::mat4::scale(
+		(Engine::Render::camera.position - Engine::Picking::selected->position).length() * Engine::Gizmo::scale);
 	const kl::mat4 ro = kl::mat4::rotate(rot);
-	const kl::mat4 tr = kl::mat4::translate(selected->position);
-	kl::mat4 wvp = camera.matrix() * tr * ro * sc;
-	gpu->setBuffData(gizmo_vtx_cb, &wvp);
+	const kl::mat4 tr = kl::mat4::translate(Engine::Picking::selected->position);
+	kl::mat4 wvp = Engine::Render::camera.matrix() * tr * ro * sc;
+	Engine::Render::gpu->setBuffData(Engine::CBuffers::Vertex::gizmo, &wvp);
 
 	// Setting the pixl data
-	GIZM_PS_CB gizm_pixl_data = {};
+	Engine::Struct::GIZM_PS_CB gizm_pixl_data = {};
 	gizm_pixl_data.objCol = col;
 	gizm_pixl_data.objInd = float(index);
-	gpu->setBuffData(gizmo_pxl_cb, &gizm_pixl_data);
+	Engine::Render::gpu->setBuffData(Engine::CBuffers::Pixel::gizmo, &gizm_pixl_data);
 
 	// Drawing the mesh
-	gpu->draw(toDraw);
+	Engine::Render::gpu->draw(toDraw);
 }
 
-void Gizmo() {
-	if (chosenGizmo != GIZMO_NONE) {
+void Engine::Update::Gizmo() {
+	if (Engine::Gizmo::selected != Engine::Gizmo::Type::NONE) {
 		// Color reset
-		gizmoColX = kl::color(205, 55, 75);
-		gizmoColY = kl::color(115, 175, 40);
-		gizmoColZ = kl::color(55, 120, 205);
+		Engine::Gizmo::colX = kl::color(205, 55, 75);
+		Engine::Gizmo::colY = kl::color(115, 175, 40);
+		Engine::Gizmo::colZ = kl::color(55, 120, 205);
 
 		// Entity id check
-		if (heldIndex >= -2) {
-			if (mouseIndex == -3) {
-				gizmoColX *= 1.45f;
+		if (Engine::Picking::heldIndex >= -2) {
+			if (Engine::Picking::mouseIndex == -3) {
+				Engine::Gizmo::colX *= 1.45f;
 			}
-			else if (mouseIndex == -4) {
-				gizmoColY *= 1.45f;
+			else if (Engine::Picking::mouseIndex == -4) {
+				Engine::Gizmo::colY *= 1.45f;
 			}
-			else if (mouseIndex == -5) {
-				gizmoColZ *= 1.45f;
+			else if (Engine::Picking::mouseIndex == -5) {
+				Engine::Gizmo::colZ *= 1.45f;
 			}
 		}
 		else {
-			if (heldIndex == -3) {
-				gizmoColX *= 1.45f;
+			if (Engine::Picking::heldIndex == -3) {
+				Engine::Gizmo::colX *= 1.45f;
 			}
-			else if (heldIndex == -4) {
-				gizmoColY *= 1.45f;
+			else if (Engine::Picking::heldIndex == -4) {
+				Engine::Gizmo::colY *= 1.45f;
 			}
-			else if (heldIndex == -5) {
-				gizmoColZ *= 1.45f;
+			else if (Engine::Picking::heldIndex == -5) {
+				Engine::Gizmo::colZ *= 1.45f;
 			}
 		}
 
@@ -61,29 +62,29 @@ void Gizmo() {
 		kl::float3 zRot;
 		kl::float3 yRot;
 		ID3D11Buffer* gizmoMesh = nullptr;
-		if (chosenGizmo == GIZMO_ROTATE) {
-			const kl::float3 posDif = (camera.position - selected->position).normalize();
+		if (Engine::Gizmo::selected == Engine::Gizmo::Type::ROTATE) {
+			const kl::float3 posDif = (Engine::Render::camera.position - Engine::Picking::selected->position).normalize();
 			xRot = kl::float3((posDif.y < 0.0f) ? 180.0f : 0.0f, (posDif.z < 0.0f) ? 90.0f : -90.0f, 0.0f);
 			yRot = kl::float3(90.0f, ((posDif.x < 0.0f) ? ((posDif.z < 0.0f) ? 180.0f : 270.0f) : ((posDif.z < 0.0f) ? 90.0f : 0.0f)), 0.0f);
 			zRot = kl::float3((posDif.y < 0.0f) ? 180.0f : 0.0f, (posDif.x < 0.0f) ? 180.0f : 0.0f, 0.0f);
-			gizmoMesh = gizmo_rotate;
+			gizmoMesh = Engine::Gizmo::rotateM;
 		}
 		else {
 			xRot = kl::float3( 0, 0, -90);
 			yRot = kl::float3( 0, 0,   0);
 			zRot = kl::float3(90, 0,   0);
-			gizmoMesh = (chosenGizmo == GIZMO_SCALE) ? gizmo_scale : gizmo_move;
+			gizmoMesh = (Engine::Gizmo::selected == Engine::Gizmo::Type::SCALE) ? Engine::Gizmo::scaleM : Engine::Gizmo::moveM;
 		}
 
 		// Binding internal
-		gpu->bindInternal({ pickingTargetV });
+		Engine::Render::gpu->bindInternal({ Engine::Picking::targetV });
 
 		// Clearing the depth
-		gpu->clearDepth();
+		Engine::Render::gpu->clearDepth();
 
 		// Drawing the gizmos
-		DrawGizmo(gizmoMesh, xRot, gizmoColX, -3);
-		DrawGizmo(gizmoMesh, yRot, gizmoColY, -4);
-		DrawGizmo(gizmoMesh, zRot, gizmoColZ, -5);
+		DrawGizmo(gizmoMesh, xRot, Engine::Gizmo::colX, -3);
+		DrawGizmo(gizmoMesh, yRot, Engine::Gizmo::colY, -4);
+		DrawGizmo(gizmoMesh, zRot, Engine::Gizmo::colZ, -5);
 	}
 }
