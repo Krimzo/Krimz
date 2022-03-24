@@ -18,7 +18,34 @@
     <Text Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="incl\Engine\Callbacks\Callbacks.h">
+    <ClInclude Include="incl\Engine\Data\Types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Game\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Game\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Gizmo\Gizmo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\GUI\GUIProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\GUI\GUISetup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\GUI\GUIStage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Input\Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Input\Picking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Light\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\Engine\Render\CBuffers.h">
@@ -27,31 +54,34 @@
     <ClInclude Include="incl\Engine\Render\DStates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\Engine\Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\Engine\Edit\Gizmo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\Engine\GUI\GUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\Engine\Input\Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\Engine\Picking\Outline.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\Engine\Picking\Picking.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="incl\Engine\Render\Rasters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Render\Render.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\Engine\Render\Shaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\Engine\Data\Struct.h">
+    <ClInclude Include="incl\Engine\Scripting\ScriptHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Scripting\Scripting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Stage\Stage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Time\Time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\View\Background.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\View\Outline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Window\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\ImGui\imconfig.h">
@@ -84,9 +114,6 @@
     <ClInclude Include="incl\KrimzLib\color\image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\KrimzLib\entity\entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="incl\KrimzLib\geometry\plane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -103,9 +130,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\KrimzLib\gpu\gpu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\igui\igui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\KrimzLib\light\ambient.h">
@@ -144,12 +168,6 @@
     <ClInclude Include="incl\KrimzLib\memory\pbuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\KrimzLib\render\camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="incl\KrimzLib\render\skybox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="incl\KrimzLib\utility\console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -174,6 +192,12 @@
     <ClInclude Include="incl\KrimzLib\utility\web.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="incl\KrimzLib\view\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\KrimzLib\view\skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="incl\KrimzLib\window\key.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -189,15 +213,33 @@
     <ClInclude Include="incl\KrimzLib\KrimzLib.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="incl\Engine\GUI\GUIDraw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Scripting\Script.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Engine\GUI\GUIExplorer.cpp">
+    <ClCompile Include="src\Engine\Game\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\GUI\GUISetup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\GUI\GUIAfter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\GUI\GUIBefore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine\GUI\GUIExplorer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Engine\GUI\GUIMainMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\GUI\GUIPlayButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\GUI\GUIProperties.cpp">
@@ -212,34 +254,37 @@
     <ClCompile Include="src\Engine\Input\InputGizmo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Input\InputSetup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Engine\Input\InputLMB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Render\Draw.cpp">
+    <ClCompile Include="src\Engine\Input\InputSetup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Render\Gizmo.cpp">
+    <ClCompile Include="src\Engine\Render\RenderEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Render\Outline.cpp">
+    <ClCompile Include="src\Engine\Render\RenderGizmo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Render\Shadows.cpp">
+    <ClCompile Include="src\Engine\Render\RenderOutline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Stages\End.cpp">
+    <ClCompile Include="src\Engine\Render\RenderShadows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Stages\Resize.cpp">
+    <ClCompile Include="src\Engine\Scripting\ScriptHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Stages\Start.cpp">
+    <ClCompile Include="src\Engine\Stages\StageEnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Stages\Update.cpp">
+    <ClCompile Include="src\Engine\Stages\StageResize.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Stages\StageStart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Stages\StageUpdate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Engine.cpp">
@@ -270,9 +315,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\KrimzLib\color\image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KrimzLib\entity\entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\KrimzLib\geometry\plane.cpp">
@@ -326,9 +368,6 @@
     <ClCompile Include="src\KrimzLib\gpu\gpu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KrimzLib\igui\igui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\KrimzLib\light\ambient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -362,12 +401,6 @@
     <ClCompile Include="src\KrimzLib\math\math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KrimzLib\render\camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\KrimzLib\render\skybox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\KrimzLib\utility\console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -392,6 +425,12 @@
     <ClCompile Include="src\KrimzLib\utility\web.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\KrimzLib\view\camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KrimzLib\view\skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\KrimzLib\window\key.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -404,10 +443,13 @@
     <ClCompile Include="src\KrimzLib\window\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\GUI\GUIPlayButton.cpp">
+    <ClCompile Include="src\Engine\GUI\GUIDraw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\GUI\GUIAfter.cpp">
+    <ClCompile Include="src\Engine\Scripting\Script.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Scripting\Scripting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

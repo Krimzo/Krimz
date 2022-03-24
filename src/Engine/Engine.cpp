@@ -1,11 +1,18 @@
-#include "Engine/Engine.h"
+#include "KrimzLib/KrimzLib.hpp"
+
+#include "Engine/Window/Window.h"
+#include "Engine/Stage/Stage.h"
+#include "Engine/Time/Time.h"
+#include "Engine/Input/Input.h"
+#include "Engine/GUI/GUISetup.h"
+#include "Engine/Scripting/Scripting.h"
 
 
 int main() {
-	// Hiding the console
+	// Console setup
 	kl::console::hide();
 
-	// Callbacks
+	// Callback setup
 	Engine::Window::win.start = Engine::Stage::Start;
 	Engine::Window::win.update = Engine::Stage::Update;
 	Engine::Window::win.end = Engine::Stage::End;
@@ -13,19 +20,17 @@ int main() {
 	// Input setup
 	Engine::Input::Setup();
 
-	// ImGui
-	kl::igui::init();
+	// GUI setup
+	Engine::GUI::Init();
+	Engine::GUI::LoadKrimzTheme();
 
-	// Loading my theme
-	kl::igui::loadKrimzTheme();
+	// Script setup
+	Engine::Scripting::handler = new Engine::ScriptHandler();
 
 	// Time
 	Engine::Time::timer.reset();
 	Engine::Time::timer.interval();
 
-	// Window
+	// Window start
 	Engine::Window::win.startNew(kl::int2(1600, 900), "Editor", true, true, true);
-
-	// Cleanup
-	kl::igui::uninit();
 }

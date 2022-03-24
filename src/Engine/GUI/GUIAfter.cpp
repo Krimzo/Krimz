@@ -1,7 +1,7 @@
-#include "Engine/GUI/GUI.h"
+#include "Engine/Render/Render.h"
+#include "Engine/GUI/GUIStage.h"
 
 
-void Engine::Update::GUIAfter() {
-	// Play button
+void Engine::Render::GUIAfter() {
 	Engine::GUI::ViewportOverlay();
 }

@@ -1,4 +1,8 @@
-#include "Engine/GUI/GUI.h"
+#include "Engine/GUI/GUIStage.h"
+#include "Engine/GUI/GUIProperties.h"
+#include "Engine/Window/Window.h"
+#include "Engine/Game/Game.h"
+#include "Engine/Input/Picking.h"
 
 
 void Engine::GUI::Scene() {

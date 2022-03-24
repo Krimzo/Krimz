@@ -1,6 +1,7 @@
 #include "Engine/Input/Input.h"
-
-#include "KrimzLib/utility/time.h"
+#include "Engine/Window/Window.h"
+#include "Engine/Render/Render.h"
+#include "Engine/Time/Time.h"
 
 
 void MovementSetup() {

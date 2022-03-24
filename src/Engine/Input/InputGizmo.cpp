@@ -1,4 +1,6 @@
 #include "Engine/Input/Input.h"
+#include "Engine/Window/Window.h"
+#include "Engine/Gizmo/Gizmo.h"
 
 
 void Engine::Input::Gizmo() {

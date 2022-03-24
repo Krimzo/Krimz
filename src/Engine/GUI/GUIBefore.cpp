@@ -1,7 +1,10 @@
-#include "Engine/GUI/GUI.h"
+#include "Engine/Render/Render.h"
+#include "Engine/GUI/GUIStage.h"
+#include "Engine/GUI/GUIProperties.h"
+#include "Engine/Window/Window.h"
 
 
-void Engine::Update::GUIBefore() {
+void Engine::Render::GUIBefore() {
 	// Main menu
 	Engine::GUI::MainMenu();
 

@@ -1,4 +1,6 @@
-#include "Engine/GUI/GUI.h"
+#include "Engine/GUI/GUIStage.h"
+#include "Engine/GUI/GUIProperties.h"
+#include "Engine/Window/Window.h"
 
 
 void Engine::GUI::Explorer() {

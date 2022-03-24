@@ -1,4 +1,7 @@
-#include "Engine/GUI/GUI.h"
+#include "Engine/GUI/GUIStage.h"
+#include "Engine/GUI/GUIProperties.h"
+#include "Engine/Window/Window.h"
+#include "Engine/View/Background.h"
 
 
 void Engine::GUI::MainMenu() {

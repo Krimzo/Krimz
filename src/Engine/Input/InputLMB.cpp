@@ -1,6 +1,10 @@
 #include "Engine/Input/Input.h"
-
-#include "Engine/GUI/GUI.h"
+#include "Engine/Window/Window.h"
+#include "Engine/Render/Render.h"
+#include "Engine/Input/Picking.h"
+#include "Engine/Game/Game.h"
+#include "Engine/Gizmo/Gizmo.h"
+#include "Engine/GUI/GUIProperties.h"
 
 
 kl::float3 offsPos;

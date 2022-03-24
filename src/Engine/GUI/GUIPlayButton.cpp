@@ -1,5 +1,13 @@
-#include "Engine/GUI/GUI.h"
+#include "Engine/GUI/GUIStage.h"
+#include "Engine/GUI/GUIProperties.h"
+#include "Engine/Game/Entity.h"
+#include "Engine/Game/Game.h"
+#include "Engine/Input/Picking.h"
+#include "Engine/Time/Time.h"
+#include "Engine/Scripting/Scripting.h"
 
+
+std::vector<Engine::Game::Entity> savedEntities;
 
 void Engine::GUI::ViewportOverlay() {
 	// Saving old
@@ -21,12 +29,25 @@ void Engine::GUI::ViewportOverlay() {
 		if (!Engine::Game::running) {
 			// Button draw
 			if (ImGui::Button("PLAY")) {
+				savedEntities.resize(Engine::Game::entities.size());
+				for (int i = 0; i < Engine::Game::entities.size(); i++) {
+					savedEntities[i] = *Engine::Game::entities[i];
+				}
+				Engine::Scripting::CallStarts();
+				Engine::Time::timer.reset();
 				Engine::Game::running = true;
 			}
 		}
 		else {
 			// Button draw
 			if (ImGui::Button("STOP")) {
+				Engine::Game::entities.clear();
+				for (Engine::Game::Entity& ent : savedEntities) {
+					Engine::Game::entities.newInst(new Engine::Game::Entity(ent));
+				}
+				savedEntities.clear();
+				Engine::Picking::selected = nullptr;
+				Engine::Picking::selectedInd = -1;
 				Engine::Game::running = false;
 			}
 		}

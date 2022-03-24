@@ -9,7 +9,7 @@
 #include "KrimzLib/utility/convert.h"
 #include "KrimzLib/math/float4.h"
 #include "KrimzLib/math/mat4.h"
-#include "KrimzLib/render/camera.h"
+#include "KrimzLib/view/camera.h"
 #include "KrimzLib/window/window.h"
 
 

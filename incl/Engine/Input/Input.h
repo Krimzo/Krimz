@@ -1,10 +1,9 @@
 #pragma once
 
-#include "Engine/Engine.h"
-
 
 namespace Engine {
 	namespace Input {
+		void Setup();
 		void LMB();
 		void Gizmo();
 		void Camera();
