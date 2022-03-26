@@ -2,7 +2,7 @@ package engine;
 
 public abstract class Entity extends Engine {
     // Name
-    public String name;
+    public String name = "";
 
     // View
     public boolean visible = true;

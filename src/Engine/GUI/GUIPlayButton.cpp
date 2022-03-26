@@ -26,6 +26,7 @@ void Engine::GUI::ViewportOverlay() {
 		Engine::GUI::viewportFocus = ImGui::IsWindowHovered();
 		
 		// Play button
+		ImGui::SetCursorPos(ImVec2(Engine::GUI::explorSize.x * 0.5f - 22.0f, 10.0f));
 		if (!Engine::Game::running) {
 			// Button draw
 			if (ImGui::Button("PLAY")) {

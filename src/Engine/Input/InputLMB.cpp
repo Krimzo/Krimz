@@ -2,6 +2,7 @@
 #include "Engine/Window/Window.h"
 #include "Engine/Render/Render.h"
 #include "Engine/Input/Picking.h"
+#include "Engine/Game/Entity.h"
 #include "Engine/Game/Game.h"
 #include "Engine/Gizmo/Gizmo.h"
 #include "Engine/GUI/GUIProperties.h"

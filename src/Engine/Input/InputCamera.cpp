@@ -2,6 +2,7 @@
 #include "Engine/Window/Window.h"
 #include "Engine/Render/Render.h"
 #include "Engine/Time/Time.h"
+#include "Engine/GUI/GUIProperties.h"
 
 
 void MovementSetup() {
@@ -16,27 +17,34 @@ void MovementSetup() {
 }
 
 bool firstClick = true;
+bool camMoving = false;
 void RotationSetup() {
 	Engine::Window::win.mouse.rmb.press = [&]() {
-		Engine::Window::win.mouse.hide();
+		if (Engine::GUI::viewportFocus) {
+			Engine::Window::win.mouse.hide();
+			camMoving = true;
+		}
 	};
 	Engine::Window::win.mouse.rmb.down = [&]() {
-		// Window center
-		const kl::int2 frameCenter = Engine::Window::win.getCenter();
+		if (camMoving) {
+			// Window center
+			const kl::int2 frameCenter = Engine::Window::win.getCenter();
 
-		// First click jump fix
-		if (firstClick) {
-			Engine::Window::win.mouse.position = frameCenter;
-			firstClick = false;
+			// First click jump fix
+			if (firstClick) {
+				Engine::Window::win.mouse.position = frameCenter;
+				firstClick = false;
+			}
+
+			// Camera rotation
+			Engine::Render::camera.rotate(Engine::Window::win.mouse.position, frameCenter);
+			Engine::Window::win.mouse.move(frameCenter);
 		}
-
-		// Camera rotation
-		Engine::Render::camera.rotate(Engine::Window::win.mouse.position, frameCenter);
-		Engine::Window::win.mouse.move(frameCenter);
 	};
 	Engine::Window::win.mouse.rmb.release = [&]() {
 		Engine::Window::win.mouse.show();
 		firstClick = true;
+		camMoving = false;
 	};
 }
 

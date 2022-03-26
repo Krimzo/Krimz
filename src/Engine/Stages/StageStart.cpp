@@ -103,27 +103,8 @@ void Engine::Stage::Start() {
 	Engine::Render::camera.forward = kl::float3(0.55f, -0.3f, 0.9f);
 
 	// Sun
-	D3D11_TEXTURE2D_DESC sunTexDesc = {};
-	sunTexDesc.Width = 4096;
-	sunTexDesc.Height = 4096;
-	sunTexDesc.MipLevels = 1;
-	sunTexDesc.ArraySize = 1;
-	sunTexDesc.Format = DXGI_FORMAT_R32_TYPELESS;
-	sunTexDesc.SampleDesc.Count = 1;
-	sunTexDesc.Usage = D3D11_USAGE_DEFAULT;
-	sunTexDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
-	ID3D11Texture2D* sunTex = Engine::Render::gpu->newTexture(&sunTexDesc);
-	D3D11_DEPTH_STENCIL_VIEW_DESC sunDepthVDesc = {};
-	sunDepthVDesc.Format = DXGI_FORMAT_D32_FLOAT;
-	sunDepthVDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	Engine::Light::sun.shadowMapDV = Engine::Render::gpu->newDepthView(sunTex, &sunDepthVDesc);
-	D3D11_SHADER_RESOURCE_VIEW_DESC sunShaderVDesc = {};
-	sunShaderVDesc.Format = DXGI_FORMAT_R32_FLOAT;
-	sunShaderVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	sunShaderVDesc.Texture2D.MipLevels = 1;
-	Engine::Light::sun.shadowMapSV = Engine::Render::gpu->newShaderView(sunTex, &sunShaderVDesc);
+	Engine::Light::sun.genBuff(Engine::Render::gpu, 4096);
 	Engine::Light::sun.direction = kl::float3(0.575f, -0.75f, 2.0f);
-	Engine::Render::gpu->destroy(sunTex);
 
 	// Gizmos
 	Engine::Gizmo::scaleM = Engine::Render::gpu->newVertBuffer("res/objects/gizmos/scale.obj");
