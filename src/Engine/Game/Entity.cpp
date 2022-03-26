@@ -13,13 +13,13 @@ Engine::Game::Entity::Entity(const std::string& name, ID3D11Buffer* mes, ID3D11S
 
 // Script callers
 void Engine::Game::Entity::callStarts() {
-	for (Engine::Script& ref : scripts) {
-		ref.callStart(this);
+	for (Engine::Script* ref : scripts) {
+		ref->callStart(this);
 	}
 }
 void Engine::Game::Entity::callUpdates() {
-	for (Engine::Script& ref : scripts) {
-		ref.callUpdate(this);
+	for (Engine::Script* ref : scripts) {
+		ref->callUpdate(this);
 	}
 }
 

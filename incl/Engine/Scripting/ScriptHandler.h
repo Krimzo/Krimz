@@ -4,8 +4,10 @@
 #include <vector>
 #include <string>
 #include <windows.h>
+#include <jni.h>
 
-#include "jni.h"
+#include "Engine/Scripting/Script.h"
+#include "KrimzLib/memory/pbuffer.h"
 
 #pragma comment(lib, "jvm.lib")
 
@@ -23,7 +25,10 @@ namespace Engine {
         jmethodID sysGCMethod = nullptr;
 
         // Reference buffer
-        std::vector<jobject> refBuff;
+        std::vector<jobject> refs;
+
+        // Script buffer
+        kl::pbuffer<Engine::Script> scripts;
 
     public:
         JavaVM* jvm = nullptr;
@@ -52,5 +57,14 @@ namespace Engine {
 
         // Deletes a class instance
         void delInst(jobject obj);
+
+        // Creates a new script
+        Engine::Script* newScript(const std::string& name, const std::string& filePath);
+
+        // Deletes a script
+        bool delScript(Engine::Script* scr);
+
+        // Reloads all scripts from files
+        void reloadScripts();
     };
 }

@@ -1,10 +1,27 @@
-#include "Engine/Scripting/Script.h"
+#include "Engine/Scripting/Scripting.h"
 #include "Engine/Game/Entity.h"
 #include "Engine/Time/Time.h"
 
 
-Engine::Script::Script(jclass cls) {
+Engine::Script::Script(const std::string& name, const std::string& filePath) {
+	// Saving file info
+	this->name = name;
+	this->path = filePath;
+
+	// Loading data
+	reload();
+}
+Engine::Script::~Script() {
+	Engine::Scripting::handler->delInst(inst);
+}
+
+// Reloads byte data
+void Engine::Script::reload() {
+	// Loading class from file
+	jclass cls = Engine::Scripting::handler->loadClass(name, path);
+
 	// Instance
+	if (inst) Engine::Scripting::handler->delInst(inst);
 	inst = Engine::Scripting::handler->newInst(cls, Engine::Scripting::handler->getMethod(cls, "<init>", "()V"));
 
 	// Methods
@@ -46,6 +63,9 @@ void GetScriptFloat3(jobject field, kl::float3& dat) {
 }
 void Engine::Script::setData(void* ent) {
 	Engine::Game::Entity* pEnt = (Engine::Game::Entity*)ent;
+	Engine::Scripting::handler->env->SetObjectField(inst, nameField, 
+		Engine::Scripting::handler->env->NewString(
+			(jchar*)kl::convert::toWString(pEnt->name).c_str(), jsize(pEnt->name.size())));
 	Engine::Scripting::handler->env->SetBooleanField(inst, visibleField, pEnt->visible);
 	Engine::Scripting::handler->env->SetBooleanField(inst, shadowsField, pEnt->shadows);
 	Engine::Scripting::handler->env->SetFloatField(inst, roughnessField, pEnt->roughness);
@@ -69,11 +89,6 @@ void Engine::Script::getData(void* ent) {
 	GetScriptFloat3(Engine::Scripting::handler->env->GetObjectField(inst, accelerField), pEnt->acceler);
 	GetScriptFloat3(Engine::Scripting::handler->env->GetObjectField(inst, velocityField), pEnt->velocity);
 	GetScriptFloat3(Engine::Scripting::handler->env->GetObjectField(inst, angularField), pEnt->angular);
-}
-
-// Destroys the instnace
-void Engine::Script::destroy() {
-	Engine::Scripting::handler->delInst(inst);
 }
 
 // Method callers

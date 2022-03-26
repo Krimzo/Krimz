@@ -94,10 +94,10 @@ void Engine::ScriptHandler::resetLoader() {
     // Cleanup
     if (loader) {
         // Deleting references
-        for (int i = int(refBuff.size()) - 1; i >= 0; i--) {
-            env->DeleteLocalRef(refBuff[i]);
+        for (int i = int(refs.size()) - 1; i >= 0; i--) {
+            env->DeleteLocalRef(refs[i]);
         }
-        refBuff.clear();
+        refs.clear();
 
         // Deleting class loader
         env->DeleteLocalRef(loader);
@@ -150,7 +150,7 @@ jclass Engine::ScriptHandler::loadClass(const std::string& name, const std::stri
         std::cin.get();
         exit(69);
     }
-    refBuff.push_back(clsDef);
+    refs.push_back(clsDef);
     return clsDef;
 }
 
@@ -184,17 +184,38 @@ jobject Engine::ScriptHandler::newInst(jclass cls, jmethodID constr) {
         std::cin.get();
         exit(69);
     }
-    refBuff.push_back(obj);
+    refs.push_back(obj);
     return obj;
 }
 
 // Deletes a class instance
 void Engine::ScriptHandler::delInst(jobject obj) {
-    for (int i = 0; i < refBuff.size(); i++) {
-        if (refBuff[i] == obj) {
-            env->DeleteLocalRef(refBuff[i]);
-            refBuff.erase(refBuff.begin() + i);
+    for (int i = 0; i < refs.size(); i++) {
+        if (refs[i] == obj) {
+            env->DeleteLocalRef(refs[i]);
+            refs.erase(refs.begin() + i);
             break;
         }
+    }
+}
+
+// Creates a new script
+Engine::Script* Engine::ScriptHandler::newScript(const std::string& name, const std::string& filePath) {
+    return scripts.newInst(new Engine::Script(name, filePath));
+}
+
+// Deletes a script
+bool Engine::ScriptHandler::delScript(Engine::Script* scr) {
+    return scripts.delInst(scr);
+}
+
+// Reloads all scripts from files
+void Engine::ScriptHandler::reloadScripts() {
+    // Old cleanup
+    resetLoader();
+
+    // Loading new data
+    for (int i = 0; i < scripts.size(); i++) {
+        scripts[i]->reload();
     }
 }

@@ -1,11 +1,16 @@
 #pragma once
 
-#include "Engine/Scripting/Scripting.h"
+#include <iostream>
+#include <jni.h>
 
 
 namespace Engine {
 	class Script {
 	private:
+		// File info
+		std::string name;
+		std::string path;
+
 		// Instance
 		jobject inst = nullptr;
 
@@ -27,14 +32,15 @@ namespace Engine {
 		jfieldID angularField = nullptr;
 
 	public:
-		Script(jclass cls);
+		Script(const std::string& name, const std::string& filePath);
+		~Script();
+
+		// Reloads byte data
+		void reload();
 
 		// Data editors
 		void setData(void* ent);
 		void getData(void* ent);
-
-		// Destroys the instnace
-		void destroy();
 
 		// Method callers
 		void callStart(void* ent);

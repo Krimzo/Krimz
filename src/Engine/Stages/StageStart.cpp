@@ -99,6 +99,8 @@ void Engine::Stage::Start() {
 	Engine::Render::gpu->destroy(outlineTex);
 
 	// Camera
+	Engine::Render::camera.far = 500.0f;
+	Engine::Render::camera.shadows = 100.0f;
 	Engine::Render::camera.position = kl::float3(-1.4f, 1.25f, -6.0f);
 	Engine::Render::camera.forward = kl::float3(0.55f, -0.3f, 0.9f);
 
@@ -166,7 +168,8 @@ void Engine::Stage::Start() {
 		}
 
 		// Scripts
-		jclass testScript = Engine::Scripting::handler->loadClass("Test", "scpt/out/production/scpt/Test.class");
+		Engine::Script* testScript = Engine::Scripting::handler->newScript("Test", "scpt/out/production/scpt/Test.class");
+		horse1->scripts.push_back(testScript);
 		horse2->scripts.push_back(testScript);
 	}
 }

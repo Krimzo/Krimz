@@ -36,7 +36,7 @@ namespace Engine {
 			ID3D11ShaderResourceView* texture = nullptr;
 
 			// Scripts
-			std::vector<Engine::Script> scripts;
+			std::vector<Engine::Script*> scripts;
 
 			// Constructor
 			Entity();
