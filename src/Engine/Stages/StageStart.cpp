@@ -13,6 +13,7 @@
 #include "Engine/Gizmo/Gizmo.h"
 #include "Engine/Game/Entity.h"
 #include "Engine/Game/Game.h"
+#include "Engine/GUI/GUI.h"
 #include "Engine/Scripting/Scripting.h"
 
 
@@ -112,6 +113,14 @@ void Engine::Stage::Start() {
 	Engine::Gizmo::scaleM = Engine::Render::gpu->newVertBuffer("res/objects/gizmos/scale.obj");
 	Engine::Gizmo::moveM = Engine::Render::gpu->newVertBuffer("res/objects/gizmos/move.obj");
 	Engine::Gizmo::rotateM = Engine::Render::gpu->newVertBuffer("res/objects/gizmos/rotate.obj");
+
+	// GUI Textures
+	Engine::GUI::folderTex = Engine::Render::gpu->newShaderView(
+		Engine::Render::gpu->newTexture(kl::image("res/textures/engine/folder.png").flipV()));
+	Engine::GUI::emptyFolderTex = Engine::Render::gpu->newShaderView(
+		Engine::Render::gpu->newTexture(kl::image("res/textures/engine/folder_empty.png").flipV()));
+	Engine::GUI::fileTex = Engine::Render::gpu->newShaderView(
+		Engine::Render::gpu->newTexture(kl::image("res/textures/engine/file.png").flipV()));
 
 	/* DEBUG */ {
 		// Skybox

@@ -7,13 +7,11 @@
 
 namespace Engine {
 	namespace GUI {
-		// Before funcs
 		void MainMenu();
 		void Scene();
+		void Viewport();
 		void Explorer();
+		void Log();
 		void Properties();
-
-		// After funcs
-		void ViewportOverlay();
 	}
 }

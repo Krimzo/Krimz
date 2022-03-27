@@ -5,7 +5,7 @@
 #include "Engine/Game/Entity.h"
 #include "Engine/Game/Game.h"
 #include "Engine/Gizmo/Gizmo.h"
-#include "Engine/GUI/GUIProperties.h"
+#include "Engine/GUI/GUI.h"
 
 
 kl::float3 offsPos;

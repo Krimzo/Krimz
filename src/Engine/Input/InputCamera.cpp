@@ -2,7 +2,7 @@
 #include "Engine/Window/Window.h"
 #include "Engine/Render/Render.h"
 #include "Engine/Time/Time.h"
-#include "Engine/GUI/GUIProperties.h"
+#include "Engine/GUI/GUI.h"
 
 
 void MovementSetup() {

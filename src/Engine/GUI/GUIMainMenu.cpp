@@ -1,5 +1,5 @@
+#include "Engine/GUI/GUI.h"
 #include "Engine/GUI/GUIStage.h"
-#include "Engine/GUI/GUIProperties.h"
 #include "Engine/Window/Window.h"
 #include "Engine/View/Background.h"
 
@@ -41,9 +41,6 @@ void Engine::GUI::MainMenu() {
 			}
 			ImGui::EndMenu();
 		}
-
-		// Getting the menu size
-		Engine::GUI::mMenuSize = ImGui::GetWindowSize();
 
 		// End draw
 		ImGui::EndMainMenuBar();

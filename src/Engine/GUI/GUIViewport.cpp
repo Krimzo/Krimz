@@ -1,5 +1,5 @@
+#include "Engine/GUI/GUI.h"
 #include "Engine/GUI/GUIStage.h"
-#include "Engine/GUI/GUIProperties.h"
 #include "Engine/Game/Entity.h"
 #include "Engine/Game/Game.h"
 #include "Engine/Input/Picking.h"
@@ -9,24 +9,14 @@
 
 std::vector<Engine::Game::Entity> savedEntities;
 
-void Engine::GUI::ViewportOverlay() {
-	// Saving old
-	ImGuiStyle& style = ImGui::GetStyle();
-	const ImVec4 oldColor = style.Colors[ImGuiCol_WindowBg];
-
-	// Transparent setting
-	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
-
+void Engine::GUI::Viewport() {
 	// Window draw
-	ImGui::SetNextWindowPos(ImVec2(float(Engine::GUI::viewportPos.x), float(Engine::GUI::viewportPos.y)));
-	ImGui::SetNextWindowSize(ImVec2(float(Engine::GUI::viewportSize.x), float(Engine::GUI::viewportSize.y)));
-	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.5f, 0.5f));
-	if (ImGui::Begin("Viewport Overlay", nullptr, Engine::GUI::panelFlags | ImGuiWindowFlags_NoTitleBar)) {
+	if (ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoBackground)) {
 		// Focuse save
 		Engine::GUI::viewportFocus = ImGui::IsWindowHovered();
 		
 		// Play button
-		ImGui::SetCursorPos(ImVec2(Engine::GUI::explorSize.x * 0.5f - 22.0f, 10.0f));
+		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x * 0.5f - 22.0f, 10.0f));
 		if (!Engine::Game::running) {
 			// Button draw
 			if (ImGui::Button("PLAY")) {
@@ -69,11 +59,13 @@ void Engine::GUI::ViewportOverlay() {
 		// Button focus fix
 		Engine::GUI::viewportFocus = Engine::GUI::viewportFocus && !ImGui::IsItemHovered();
 
+		// Saving viewport props
+		ImVec2 viewPos = ImGui::GetWindowPos();
+		ImVec2 viewSize = ImGui::GetWindowSize();
+		Engine::GUI::viewportPos = kl::int2(int(viewPos.x), int(viewPos.y));
+		Engine::GUI::viewportSize = kl::int2(int(viewSize.x), int(viewSize.y));
+
 		// End draw
 		ImGui::End();
 	}
-	ImGui::PopStyleVar();
-
-	// Old color reset
-	style.Colors[ImGuiCol_WindowBg] = oldColor;
 }

@@ -30,7 +30,7 @@
     <ClInclude Include="incl\Engine\Gizmo\Gizmo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="incl\Engine\GUI\GUIProperties.h">
+    <ClInclude Include="incl\Engine\GUI\GUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="incl\Engine\GUI\GUISetup.h">
@@ -219,6 +219,9 @@
     <ClInclude Include="incl\Engine\Scripting\Script.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="incl\Engine\Logging\Logging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Game\Entity.cpp">
@@ -227,10 +230,7 @@
     <ClCompile Include="src\Engine\GUI\GUISetup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\GUI\GUIAfter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Engine\GUI\GUIBefore.cpp">
+    <ClCompile Include="src\Engine\GUI\GUIRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\GUI\GUIExplorer.cpp">
@@ -239,7 +239,7 @@
     <ClCompile Include="src\Engine\GUI\GUIMainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\GUI\GUIPlayButton.cpp">
+    <ClCompile Include="src\Engine\GUI\GUIViewport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\GUI\GUIProperties.cpp">
@@ -450,6 +450,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Scripting\Scripting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\GUI\GUILog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Logging\Logging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

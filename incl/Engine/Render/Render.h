@@ -12,7 +12,6 @@ namespace Engine {
 		void Entity();
 		void Outline();
 		void Gizmo();
-		void GUIBefore();
-		void GUIAfter();
+		void GUI();
 	}
 }

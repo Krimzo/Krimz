@@ -1,32 +1,17 @@
+#include "Engine/GUI/GUI.h"
 #include "Engine/GUI/GUIStage.h"
-#include "Engine/GUI/GUIProperties.h"
 #include "Engine/Window/Window.h"
 #include "Engine/Game/Game.h"
 #include "Engine/Input/Picking.h"
 
 
 void Engine::GUI::Scene() {
-	// Window pos/size calc
-	Engine::GUI::scenePos = kl::int2(int(0), int(Engine::GUI::mMenuSize.y));
-	Engine::GUI::sceneSize = kl::int2(
-		int(Engine::Window::size.x * Engine::GUI::panelRatio),
-		int(Engine::Window::size.y - Engine::GUI::mMenuSize.y)
-	);
+	// Allignement
+	ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, ImVec2(0.5f, 0.5f));
 
-	// Window pos/size set
-	ImGui::SetNextWindowPos(ImVec2(float(Engine::GUI::scenePos.x), float(Engine::GUI::scenePos.y)));
-	ImGui::SetNextWindowSize(ImVec2(float(Engine::GUI::sceneSize.x), float(Engine::GUI::sceneSize.y)));
-
-	// Window draw
-	if (ImGui::Begin("Scene", nullptr, Engine::GUI::panelFlags)) {
-		// Meshes
-
-
-		// Textures
-
-
-		// Entities
-		ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, ImVec2(0.5f, 0.5f));
+	// Entities
+	if (ImGui::Begin("Entities", nullptr, ImGuiWindowFlags_NoScrollbar)) {
+		// Draw
 		bool noSelection = true;
 		for (int i = 0; i < Engine::Game::entities.size(); i++) {
 			bool state = (Engine::Picking::selected == Engine::Game::entities[i]);
@@ -39,9 +24,27 @@ void Engine::GUI::Scene() {
 		if (noSelection) {
 			Engine::Picking::selected = nullptr;
 		}
-		ImGui::PopStyleVar();
 
-		// End draw
+		// End child window
 		ImGui::End();
 	}
+
+	// Textures
+	if (ImGui::Begin("Textures", nullptr, ImGuiWindowFlags_NoScrollbar)) {
+
+
+		// End child window
+		ImGui::End();
+	}
+
+	// Meshes
+	if (ImGui::Begin("Meshes", nullptr, ImGuiWindowFlags_NoScrollbar)) {
+
+
+		// End child window
+		ImGui::End();
+	}
+
+	// Style pop
+	ImGui::PopStyleVar();
 }

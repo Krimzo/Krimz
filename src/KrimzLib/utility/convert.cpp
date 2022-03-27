@@ -13,13 +13,13 @@
 
 // Converts degrees to radians
 float kl::convert::toRadians(float degrees) {
-	static float toRadians = kl::math::pi / 180;
+	static float toRadians = kl::math::pi / 180.0f;
 	return degrees * toRadians;
 }
 
 // Converts radians to degrees
 float kl::convert::toDegrees(float radians) {
-	static float toDegrees = 180 / kl::math::pi;
+	static float toDegrees = 180.0f / kl::math::pi;
 	return radians * toDegrees;
 }
 

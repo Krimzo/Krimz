@@ -7,7 +7,8 @@
 #include "Engine/Input/Picking.h"
 #include "Engine/Time/Time.h"
 #include "Engine/GUI/GUIDraw.h"
-#include "Engine/GUI/GUIProperties.h"
+#include "Engine/GUI/GUI.h"
+#include "Engine/Logging/Logging.h"
 #include "Engine/Scripting/Scripting.h"
 
 
@@ -20,12 +21,6 @@ void Engine::Stage::Update() {
 
 	// Clearing the buffers
 	Engine::Render::gpu->clear(Engine::Background::color);
-
-	// ImGui draw start
-	Engine::GUI::StartDraw();
-
-	// Gui before viewport
-	Engine::Render::GUIBefore();
 
 	// Game
 	if (Engine::Game::running) {
@@ -70,10 +65,9 @@ void Engine::Stage::Update() {
 		Engine::Picking::mouseIndex = GetIndex(Engine::Window::win.mouse.position);
 	}
 
-	// Gui after the viewport
-	Engine::Render::GUIAfter();
-
-	// ImGui draw end
+	// GUI draw
+	Engine::GUI::StartDraw();
+	Engine::Render::GUI();
 	Engine::GUI::EndDraw();
 
 	// Backbuffer swap
