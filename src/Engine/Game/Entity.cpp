@@ -5,7 +5,7 @@
 Engine::Game::Entity::Entity() {
 	this->name = "undefined";
 }
-Engine::Game::Entity::Entity(const std::string& name, ID3D11Buffer* mes, ID3D11ShaderResourceView* tex) {
+Engine::Game::Entity::Entity(const std::string& name, Engine::Mesh* mes, Engine::Texture* tex) {
 	this->name = name;
 	mesh = mes;
 	texture = tex;
@@ -46,9 +46,9 @@ kl::mat4 Engine::Game::Entity::matrix() const {
 void Engine::Game::Entity::render(kl::gpu* gpu, bool useTex) const {
 	// Binding the texture
 	if (useTex) {
-		gpu->bindPixlTex(texture, 0);
+		gpu->bindPixlTex(texture->view, 0);
 	}
 
 	// Rendering
-	gpu->draw(mesh);
+	gpu->draw(mesh->buff);
 }

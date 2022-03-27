@@ -1,6 +1,7 @@
 #include "Engine/GUI/GUI.h"
 #include "Engine/GUI/GUIStage.h"
 #include "Engine/Window/Window.h"
+#include "Engine/Logging/Logging.h"
 #include <algorithm>
 
 
@@ -39,7 +40,7 @@ void Engine::GUI::Explorer() {
 		// Drawing parent folder
 		if (currentPath.has_parent_path()) {
 			ImGui::PushID("__FolderBack");
-			if (ImGui::ImageButton(Engine::GUI::folderTex, ImVec2(buttonSize, buttonSize))) {
+			if (ImGui::ImageButton(Engine::GUI::folderIcon, ImVec2(buttonSize, buttonSize))) {
 				currentPath = currentPath.parent_path();
 			}
 			ImGui::PopID();
@@ -51,9 +52,8 @@ void Engine::GUI::Explorer() {
 		for (auto& folder : folders) {
 			// Button draw
 			ImGui::PushID(folder.filename().string().c_str());
-			if (ImGui::ImageButton(std::filesystem::is_empty(folder) ?
-				Engine::GUI::emptyFolderTex : Engine::GUI::folderTex,
-				ImVec2(buttonSize, buttonSize))) {
+			ImTextureID folderIco = std::filesystem::is_empty(folder) ? Engine::GUI::folderEIcon : Engine::GUI::folderIcon;
+			if (ImGui::ImageButton(folderIco, ImVec2(buttonSize, buttonSize))) {
 				currentPath = folder;
 			}
 			ImGui::PopID();
@@ -65,9 +65,45 @@ void Engine::GUI::Explorer() {
 		for (auto& file : files) {
 			// Button draw
 			ImGui::PushID(file.filename().string().c_str());
-			if (ImGui::ImageButton(Engine::GUI::fileTex, ImVec2(buttonSize, buttonSize))) {
-
+			ImTextureID fileIco = Engine::GUI::fileIcon;
+			const std::string fileExtension = file.filename().extension().string();
+			if (fileExtension == ".obj") {
+				fileIco = Engine::GUI::objectIcon;
 			}
+			else if (fileExtension == ".jpg" || fileExtension == ".png" || fileExtension == ".bmp") {
+				fileIco = Engine::GUI::imageIcon;
+			}
+			else if (fileExtension == ".cpp" || fileExtension == ".java" || fileExtension == ".hlsl") {
+				fileIco = Engine::GUI::codeIcon;
+			}
+			if (ImGui::ImageButton(fileIco, ImVec2(buttonSize, buttonSize))) {
+				ShellExecuteA(0, 0, file.string().c_str(), 0, 0, SW_SHOW);
+			}
+
+			// Transfer
+			if (fileIco == Engine::GUI::objectIcon) {
+				if (ImGui::BeginDragDropSource()) {
+					std::string filePath = file.string();
+					ImGui::SetDragDropPayload("MeshTransfer", filePath.c_str(), filePath.size() + 1);
+					ImGui::EndDragDropSource();
+				}
+			}
+			else if (fileIco == Engine::GUI::imageIcon) {
+				if (ImGui::BeginDragDropSource()) {
+					std::string filePath = file.string();
+					ImGui::SetDragDropPayload("TextureTransfer", filePath.c_str(), filePath.size() + 1);
+					ImGui::EndDragDropSource();
+				}
+			}
+			else if (false) {
+				if (ImGui::BeginDragDropSource()) {
+					std::string filePath = file.string();
+					ImGui::SetDragDropPayload("ScriptTransfer", filePath.c_str(), filePath.size() + 1);
+					ImGui::EndDragDropSource();
+				}
+			}
+
+			// Next col
 			ImGui::PopID();
 			ImGui::TextWrapped(file.filename().string().c_str());
 			ImGui::NextColumn();

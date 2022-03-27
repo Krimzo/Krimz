@@ -15,6 +15,8 @@
 #include "Engine/Game/Game.h"
 #include "Engine/GUI/GUI.h"
 #include "Engine/Scripting/Scripting.h"
+#include "Engine/Data/Meshes.h"
+#include "Engine/Data/Textures.h"
 
 
 void Engine::Stage::Start() {
@@ -114,13 +116,25 @@ void Engine::Stage::Start() {
 	Engine::Gizmo::moveM = Engine::Render::gpu->newVertBuffer("res/objects/gizmos/move.obj");
 	Engine::Gizmo::rotateM = Engine::Render::gpu->newVertBuffer("res/objects/gizmos/rotate.obj");
 
-	// GUI Textures
-	Engine::GUI::folderTex = Engine::Render::gpu->newShaderView(
+	// Loading default
+	Engine::Default::mesh = new Engine::Mesh("default", Engine::Render::gpu->newVertBuffer("res/objects/cube.obj"));
+	ID3D11Texture2D* defTex = Engine::Render::gpu->newTexture(kl::image(kl::int2(1), kl::colors::magenta));
+	Engine::Default::texture = new Engine::Texture("default", Engine::Render::gpu->newShaderView(defTex));
+	Engine::Render::gpu->destroy(defTex);
+
+	// GUI icons
+	Engine::GUI::folderIcon = Engine::Render::gpu->newShaderView(
 		Engine::Render::gpu->newTexture(kl::image("res/textures/engine/folder.png").flipV()));
-	Engine::GUI::emptyFolderTex = Engine::Render::gpu->newShaderView(
+	Engine::GUI::folderEIcon = Engine::Render::gpu->newShaderView(
 		Engine::Render::gpu->newTexture(kl::image("res/textures/engine/folder_empty.png").flipV()));
-	Engine::GUI::fileTex = Engine::Render::gpu->newShaderView(
+	Engine::GUI::fileIcon = Engine::Render::gpu->newShaderView(
 		Engine::Render::gpu->newTexture(kl::image("res/textures/engine/file.png").flipV()));
+	Engine::GUI::imageIcon = Engine::Render::gpu->newShaderView(
+		Engine::Render::gpu->newTexture(kl::image("res/textures/engine/image.png").flipV()));
+	Engine::GUI::objectIcon = Engine::Render::gpu->newShaderView(
+		Engine::Render::gpu->newTexture(kl::image("res/textures/engine/object.png").flipV()));
+	Engine::GUI::codeIcon = Engine::Render::gpu->newShaderView(
+		Engine::Render::gpu->newTexture(kl::image("res/textures/engine/code.png").flipV()));
 
 	/* DEBUG */ {
 		// Skybox
@@ -138,17 +152,17 @@ void Engine::Stage::Start() {
 		Engine::Background::skybox = clouds;
 
 		// Mesh
-		ID3D11Buffer* cube_mes = Engine::Render::gpu->newVertBuffer("res/objects/cube.obj");
-		ID3D11Buffer* monke_mes = Engine::Render::gpu->newVertBuffer("res/objects/monke.obj");
-		ID3D11Buffer* horse_mes = Engine::Render::gpu->newVertBuffer("res/objects/horse.obj");
+		Engine::Mesh* cube_mes = Engine::Data::meshes.newInst(new Engine::Mesh("Cube", Engine::Render::gpu->newVertBuffer("res/objects/cube.obj")));
+		Engine::Mesh* monke_mes = Engine::Data::meshes.newInst(new Engine::Mesh("Monke", Engine::Render::gpu->newVertBuffer("res/objects/monke.obj")));
+		Engine::Mesh* horse_mes = Engine::Data::meshes.newInst(new Engine::Mesh("Horse", Engine::Render::gpu->newVertBuffer("res/objects/horse.obj")));
 
 		// Texture
-		ID3D11ShaderResourceView* lgray_tex = Engine::Render::gpu->newShaderView(
-			Engine::Render::gpu->newTexture(kl::image(kl::int2(1), kl::colors::lgray)));
-		ID3D11ShaderResourceView* checker_tex = Engine::Render::gpu->newShaderView(
-			Engine::Render::gpu->newTexture(kl::image("res/textures/checkers.jpg")));
-		ID3D11ShaderResourceView* horse_tex = Engine::Render::gpu->newShaderView(
-			Engine::Render::gpu->newTexture(kl::image("res/textures/horse.jpg")));
+		Engine::Texture* lgray_tex = Engine::Data::textures.newInst(new Engine::Texture("LGray", Engine::Render::gpu->newShaderView(
+			Engine::Render::gpu->newTexture(kl::image(kl::int2(1), kl::colors::lgray)))));
+		Engine::Texture* checker_tex = Engine::Data::textures.newInst(new Engine::Texture("Checkers", Engine::Render::gpu->newShaderView(
+			Engine::Render::gpu->newTexture(kl::image("res/textures/checkers.jpg")))));
+		Engine::Texture* horse_tex = Engine::Data::textures.newInst(new Engine::Texture("Horse", Engine::Render::gpu->newShaderView(
+			Engine::Render::gpu->newTexture(kl::image("res/textures/horse.jpg")))));
 
 		// Entity
 		Engine::Game::Entity* plane = Engine::Game::entities.newInst(new Engine::Game::Entity("Plane", cube_mes, lgray_tex));

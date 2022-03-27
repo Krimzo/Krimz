@@ -17,11 +17,11 @@ void Engine::Render::GUI() {
 	// Viewport
 	Engine::GUI::Viewport();
 
-	// Explorer
-	Engine::GUI::Explorer();
-
 	// Log
 	Engine::GUI::Log();
+
+	// Explorer
+	Engine::GUI::Explorer();	
 
 	// Properties
 	Engine::GUI::Properties();

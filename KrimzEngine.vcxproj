@@ -22,6 +22,8 @@
     <Text Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="incl\Engine\Data\Meshes.h" />
+    <ClInclude Include="incl\Engine\Data\Textures.h" />
     <ClInclude Include="incl\Engine\Data\Types.h" />
     <ClInclude Include="incl\Engine\Game\Entity.h" />
     <ClInclude Include="incl\Engine\Game\Game.h" />

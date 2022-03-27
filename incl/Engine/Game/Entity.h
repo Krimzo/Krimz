@@ -4,6 +4,8 @@
 #include "KrimzLib/math/float3.h"
 #include "KrimzLib/math/mat4.h"
 #include "Engine/Scripting/Script.h"
+#include "Engine/Data/Meshes.h"
+#include "Engine/Data/Textures.h"
 
 
 namespace Engine {
@@ -30,17 +32,17 @@ namespace Engine {
 			kl::float3 angular;
 
 			// Mesh pointer
-			ID3D11Buffer* mesh = nullptr;
+			Engine::Mesh* mesh = nullptr;
 
 			// Texture pointer
-			ID3D11ShaderResourceView* texture = nullptr;
+			Engine::Texture* texture = nullptr;
 
 			// Scripts
 			std::vector<Engine::Script*> scripts;
 
 			// Constructor
 			Entity();
-			Entity(const std::string& name, ID3D11Buffer* mes, ID3D11ShaderResourceView* tex);
+			Entity(const std::string& name, Engine::Mesh* mes, Engine::Texture* tex);
 
 			// Script callers
 			void callStarts();

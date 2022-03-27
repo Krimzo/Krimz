@@ -222,6 +222,12 @@
     <ClInclude Include="incl\Engine\Logging\Logging.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="incl\Engine\Data\Textures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="incl\Engine\Data\Meshes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Game\Entity.cpp">

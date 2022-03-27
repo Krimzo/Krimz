@@ -7,9 +7,12 @@
 namespace Engine {
 	namespace GUI {
 		// Icon textures
-		inline ID3D11ShaderResourceView* folderTex = nullptr;
-		inline ID3D11ShaderResourceView* emptyFolderTex = nullptr;
-		inline ID3D11ShaderResourceView* fileTex = nullptr;
+		inline ID3D11ShaderResourceView* folderIcon = nullptr;
+		inline ID3D11ShaderResourceView* folderEIcon = nullptr;
+		inline ID3D11ShaderResourceView* fileIcon = nullptr;
+		inline ID3D11ShaderResourceView* imageIcon = nullptr;
+		inline ID3D11ShaderResourceView* objectIcon = nullptr;
+		inline ID3D11ShaderResourceView* codeIcon = nullptr;
 
 		// Viewport
 		inline bool viewportFocus = false;

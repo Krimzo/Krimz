@@ -27,18 +27,16 @@ namespace Engine {
         // Reference buffer
         std::vector<jobject> refs;
 
-        // Script buffer
-        kl::pbuffer<Engine::Script> scripts;
+        // Loads engine classes
+        void loadEngineClasses();
 
     public:
         JavaVM* jvm = nullptr;
         JNIEnv* env = nullptr;
+        kl::pbuffer<Engine::Script> scripts;
 
         ScriptHandler();
         ~ScriptHandler();
-
-        // Loads engine classes
-        void loadEngineClasses();
 
         // Clears all loaded references
         void resetLoader();

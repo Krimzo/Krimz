@@ -15,6 +15,11 @@ Engine::Script::~Script() {
 	Engine::Scripting::handler->delInst(inst);
 }
 
+// Getter
+std::string Engine::Script::getName() {
+	return this->name;
+}
+
 // Reloads byte data
 void Engine::Script::reload() {
 	// Loading class from file

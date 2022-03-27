@@ -13,5 +13,7 @@ public class Test extends Entity implements Script {
         this.position.x = radius * (float)Math.sin(Math.toRadians(angle));
         this.position.z = radius * (float)Math.cos(Math.toRadians(angle));
         this.rotation.y = angle - 90.0f;
+
+        Engine.log(this.position.toString());
     }
 }

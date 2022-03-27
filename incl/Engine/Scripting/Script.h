@@ -35,6 +35,9 @@ namespace Engine {
 		Script(const std::string& name, const std::string& filePath);
 		~Script();
 
+		// Getter
+		std::string getName();
+
 		// Reloads byte data
 		void reload();
 
