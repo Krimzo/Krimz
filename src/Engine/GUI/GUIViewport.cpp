@@ -40,6 +40,9 @@ void Engine::GUI::Viewport() {
 		else {
 			// Button draw
 			if (ImGui::Button("STOP")) {
+				// Saving selected's name
+				const std::string lastSelectedName = Engine::Picking::selected ? Engine::Picking::selected->name : "";
+
 				// Loading saved entities
 				Engine::Game::entities.clear();
 				for (Engine::Game::Entity& ent : savedEntities) {
@@ -47,9 +50,13 @@ void Engine::GUI::Viewport() {
 				}
 				savedEntities.clear();
 
-				// Picking
-				Engine::Picking::selected = nullptr;
-				Engine::Picking::selectedInd = -1;
+				// Selected fix
+				for (int i = 0; i < Engine::Game::entities.size(); i++) {
+					if (Engine::Game::entities[i]->name == lastSelectedName) {
+						Engine::Picking::selected = Engine::Game::entities[i];
+						break;
+					}
+				}
 
 				// Other
 				Engine::Game::running = false;

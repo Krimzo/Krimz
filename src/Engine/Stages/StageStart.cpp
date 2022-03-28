@@ -135,6 +135,8 @@ void Engine::Stage::Start() {
 		Engine::Render::gpu->newTexture(kl::image("res/textures/engine/object.png").flipV()));
 	Engine::GUI::codeIcon = Engine::Render::gpu->newShaderView(
 		Engine::Render::gpu->newTexture(kl::image("res/textures/engine/code.png").flipV()));
+	Engine::GUI::scriptIcon = Engine::Render::gpu->newShaderView(
+		Engine::Render::gpu->newTexture(kl::image("res/textures/engine/script.png").flipV()));
 
 	/* DEBUG */ {
 		// Skybox

@@ -1,6 +1,7 @@
 #include "Engine/GUI/GUI.h"
 #include "Engine/GUI/GUIStage.h"
 #include "Engine/Input/Picking.h"
+#include "Engine/Scripting/Scripting.h"
 
 
 void Engine::GUI::Properties() {
@@ -79,7 +80,29 @@ void Engine::GUI::Properties() {
 	// Scripts
 	if (ImGui::Begin("Script", nullptr, ImGuiWindowFlags_NoScrollbar)) {
 		if (Engine::Picking::selected) {
-			
+			for (int i = 0; i < Engine::Scripting::handler->scripts.size(); i++) {
+				bool hasScript = [&]() {
+					for (int j = 0; j < Engine::Picking::selected->scripts.size(); j++) {
+						if (Engine::Picking::selected->scripts[j] == Engine::Scripting::handler->scripts[i]) {
+							return true;
+						}
+					}
+					return false;
+				}();
+				const bool lastPhase = hasScript;
+				ImGui::Checkbox(Engine::Scripting::handler->scripts[i]->getName().c_str(), &hasScript);
+				if (!lastPhase && hasScript) {
+					Engine::Picking::selected->scripts.push_back(Engine::Scripting::handler->scripts[i]);
+				}
+				else if (lastPhase && !hasScript) {
+					for (int j = 0; j < Engine::Picking::selected->scripts.size(); j++) {
+						if (Engine::Picking::selected->scripts[j] == Engine::Scripting::handler->scripts[i]) {
+							Engine::Picking::selected->scripts.erase(Engine::Picking::selected->scripts.begin() + j);
+							break;
+						}
+					}
+				}
+			}
 		}
 
 		// End draw

@@ -3,6 +3,7 @@
 #include "KrimzLib/utility/convert.h"
 
 #ifdef KL_USING_IMGUI
+#include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
 #endif
 
@@ -101,7 +102,7 @@ LRESULT CALLBACK kl::window::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 }
 void kl::window::handleMessage() {
 #ifdef KL_USING_IMGUI
-	// ImGui
+	TranslateMessage(&wndMsg);
 	if (usingImGui) {
 		if (ImGui_ImplWin32_WndProcHandler(wndMsg.hwnd, wndMsg.message, wndMsg.wParam, wndMsg.lParam)) {
 			return;
@@ -111,6 +112,14 @@ void kl::window::handleMessage() {
 
 	// Default
 	switch (wndMsg.message) {
+#ifdef KL_USING_IMGUI
+	case WM_CHAR:
+		if (*(short*)&wndMsg.lParam > 1) {
+			ImGui::GetIO().AddInputCharacter(uint32_t(wndMsg.wParam));
+		}
+		break;
+#endif
+
 	case WM_KEYDOWN:
 		this->keys.updateKey(wndMsg.wParam, true);
 		break;

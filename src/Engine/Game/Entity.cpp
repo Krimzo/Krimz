@@ -1,9 +1,13 @@
 #include "Engine/Game/Entity.h"
 #include "Engine/Scripting/Scripting.h"
+#include "Engine/Data/Meshes.h"
+#include "Engine/Data/Textures.h"
 
 
 Engine::Game::Entity::Entity() {
 	this->name = "undefined";
+	this->mesh = Engine::Default::mesh;
+	this->texture = Engine::Default::texture;
 }
 Engine::Game::Entity::Entity(const std::string& name, Engine::Mesh* mes, Engine::Texture* tex) {
 	this->name = name;

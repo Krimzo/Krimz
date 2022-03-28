@@ -13,6 +13,7 @@ namespace Engine {
 		inline ID3D11ShaderResourceView* imageIcon = nullptr;
 		inline ID3D11ShaderResourceView* objectIcon = nullptr;
 		inline ID3D11ShaderResourceView* codeIcon = nullptr;
+		inline ID3D11ShaderResourceView* scriptIcon = nullptr;
 
 		// Viewport
 		inline bool viewportFocus = false;

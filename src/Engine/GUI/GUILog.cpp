@@ -13,11 +13,9 @@ void Engine::GUI::Log() {
 		// Output align
 		for (int i = 0; i < Engine::Logging::logs.size() - lastLogsSize; i++) {
 			ImGui::Text("");
+			ImGui::SetScrollHereY(1.0f);
 		}
 		lastLogsSize = Engine::Logging::logs.size();
-
-		// Scroll fix
-		ImGui::SetScrollHereY(1.0f);
 
 		// RMB
 		if (ImGui::BeginPopupContextWindow()) {

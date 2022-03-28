@@ -11,12 +11,12 @@ void Engine::GUI::Explorer() {
 	if (ImGui::Begin("Explorer", nullptr, ImGuiWindowFlags_NoScrollbar)) {
 		// Transparency fix
 		ImGuiStyle& style = ImGui::GetStyle();
-		const ImVec4 oldButt = style.Colors[ImGuiCol_Button];
-		const ImVec4 oldButtHov = style.Colors[ImGuiCol_ButtonHovered];
-		const ImVec4 oldButtAct = style.Colors[ImGuiCol_ButtonActive];
-		style.Colors[ImGuiCol_Button] = ImVec4(0.75f, 0.40f, 0.0f, 0.0f);
-		style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.75f, 0.40f, 0.0f, 0.25f);
-		style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.75f, 0.45f, 0.0f, 0.40f);
+		const float oldButt = style.Colors[ImGuiCol_Button].w;
+		const float oldButtHov = style.Colors[ImGuiCol_ButtonHovered].w;
+		const float oldButtAct = style.Colors[ImGuiCol_ButtonActive].w;
+		style.Colors[ImGuiCol_Button].w = 0.0f;
+		style.Colors[ImGuiCol_ButtonHovered].w = 0.25f;
+		style.Colors[ImGuiCol_ButtonActive].w = 0.5f;
 
 		// Getting all content
 		std::vector<std::filesystem::path> folders;
@@ -76,6 +76,9 @@ void Engine::GUI::Explorer() {
 			else if (fileExtension == ".cpp" || fileExtension == ".java" || fileExtension == ".hlsl") {
 				fileIco = Engine::GUI::codeIcon;
 			}
+			else if (fileExtension == ".class") {
+				fileIco = Engine::GUI::scriptIcon;
+			}
 			if (ImGui::ImageButton(fileIco, ImVec2(buttonSize, buttonSize))) {
 				ShellExecuteA(0, 0, file.string().c_str(), 0, 0, SW_SHOW);
 			}
@@ -95,7 +98,7 @@ void Engine::GUI::Explorer() {
 					ImGui::EndDragDropSource();
 				}
 			}
-			else if (false) {
+			else if (fileIco == Engine::GUI::scriptIcon) {
 				if (ImGui::BeginDragDropSource()) {
 					std::string filePath = file.string();
 					ImGui::SetDragDropPayload("ScriptTransfer", filePath.c_str(), filePath.size() + 1);
@@ -110,9 +113,9 @@ void Engine::GUI::Explorer() {
 		}
 
 		// Style reset
-		style.Colors[ImGuiCol_Button] = oldButt;
-		style.Colors[ImGuiCol_ButtonHovered] = oldButtHov;
-		style.Colors[ImGuiCol_ButtonActive] = oldButtAct;
+		style.Colors[ImGuiCol_Button].w = oldButt;
+		style.Colors[ImGuiCol_ButtonHovered].w = oldButtHov;
+		style.Colors[ImGuiCol_ButtonActive].w = oldButtAct;
 
 		// End draw
 		ImGui::End();
