@@ -54,6 +54,8 @@
     <ClInclude Include="incl\ImGui\imgui_impl_dx11.h" />
     <ClInclude Include="incl\ImGui\imgui_impl_win32.h" />
     <ClInclude Include="incl\ImGui\imgui_internal.h" />
+    <ClInclude Include="incl\ImGui\implot.h" />
+    <ClInclude Include="incl\ImGui\implot_internal.h" />
     <ClInclude Include="incl\ImGui\imstb_rectpack.h" />
     <ClInclude Include="incl\ImGui\imstb_textedit.h" />
     <ClInclude Include="incl\ImGui\imstb_truetype.h" />
@@ -98,6 +100,7 @@
     <ClCompile Include="src\Engine\Game\Entity.cpp" />
     <ClCompile Include="src\Engine\GUI\GUIDraw.cpp" />
     <ClCompile Include="src\Engine\GUI\GUILog.cpp" />
+    <ClCompile Include="src\Engine\GUI\GUIPerformance.cpp" />
     <ClCompile Include="src\Engine\GUI\GUISetup.cpp" />
     <ClCompile Include="src\Engine\GUI\GUIRender.cpp" />
     <ClCompile Include="src\Engine\GUI\GUIExplorer.cpp" />
@@ -128,6 +131,8 @@
     <ClCompile Include="src\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="src\ImGui\imgui_tables.cpp" />
     <ClCompile Include="src\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="src\ImGui\implot.cpp" />
+    <ClCompile Include="src\ImGui\implot_items.cpp" />
     <ClCompile Include="src\KrimzLib\color\color.cpp" />
     <ClCompile Include="src\KrimzLib\color\image.cpp" />
     <ClCompile Include="src\KrimzLib\geometry\plane.cpp" />

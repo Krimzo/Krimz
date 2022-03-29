@@ -22,7 +22,10 @@ void Engine::GUI::Log() {
 			if (ImGui::Button("Clear")) {
 				Engine::Logging::logs.clear();
 				lastLogsSize = 0;
+				ImGui::CloseCurrentPopup();
 			}
+
+			// End
 			ImGui::EndPopup();
 		}
 

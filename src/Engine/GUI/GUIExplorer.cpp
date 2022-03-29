@@ -88,6 +88,7 @@ void Engine::GUI::Explorer() {
 				if (ImGui::BeginDragDropSource()) {
 					std::string filePath = file.string();
 					ImGui::SetDragDropPayload("MeshTransfer", filePath.c_str(), filePath.size() + 1);
+					ImGui::Image(fileIco, ImVec2(50.0f, 50.0f));
 					ImGui::EndDragDropSource();
 				}
 			}
@@ -95,6 +96,7 @@ void Engine::GUI::Explorer() {
 				if (ImGui::BeginDragDropSource()) {
 					std::string filePath = file.string();
 					ImGui::SetDragDropPayload("TextureTransfer", filePath.c_str(), filePath.size() + 1);
+					ImGui::Image(fileIco, ImVec2(50.0f, 50.0f));
 					ImGui::EndDragDropSource();
 				}
 			}
@@ -102,6 +104,7 @@ void Engine::GUI::Explorer() {
 				if (ImGui::BeginDragDropSource()) {
 					std::string filePath = file.string();
 					ImGui::SetDragDropPayload("ScriptTransfer", filePath.c_str(), filePath.size() + 1);
+					ImGui::Image(fileIco, ImVec2(50.0f, 50.0f));
 					ImGui::EndDragDropSource();
 				}
 			}

@@ -1,17 +1,18 @@
 #include "Engine/GUI/GUISetup.h"
-
-#include <iostream>
+#include "ImGui/implot.h"
 
 
 // Inits the ImGui context
 void Engine::GUI::Init() {
     ImGui::CreateContext();
+    ImPlot::CreateContext();
     ImGui::StyleColorsDark();
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
 
 // Destroys the ImGui context
 void Engine::GUI::Uninit() {
+    ImPlot::DestroyContext();
     ImGui::DestroyContext();
 }
 
@@ -77,7 +78,7 @@ void Engine::GUI::LoadKrimzTheme() {
     style.Colors[ImGuiCol_ResizeGripHovered] = colorLight;
     style.Colors[ImGuiCol_ResizeGripActive] = colorSpec;
     style.Colors[ImGuiCol_Tab] = colorMid;
-    style.Colors[ImGuiCol_TabHovered] = colorLight;
+    style.Colors[ImGuiCol_TabHovered] = colorSpec;
     style.Colors[ImGuiCol_TabActive] = colorSpec;
     style.Colors[ImGuiCol_TabUnfocused] = colorMid;
     style.Colors[ImGuiCol_TabUnfocusedActive] = colorLight;

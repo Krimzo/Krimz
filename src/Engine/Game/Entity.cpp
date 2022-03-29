@@ -1,18 +1,36 @@
 #include "Engine/Game/Entity.h"
+#include "Engine/Game/Game.h"
 #include "Engine/Scripting/Scripting.h"
 #include "Engine/Data/Meshes.h"
 #include "Engine/Data/Textures.h"
 
 
+void FixNameDuplicate(std::string& name) {
+	const std::string nameCopy = name;
+	int counter = 0;
+	while ([&]() {
+		for (int i = 0; i < Engine::Game::entities.size(); i++) {
+			if (Engine::Game::entities[i]->name == name) {
+				return true;
+			}
+		}
+		return false;
+		}()) {
+		name = nameCopy + "_" + std::to_string(++counter);
+	}
+}
+
 Engine::Game::Entity::Entity() {
 	this->name = "undefined";
 	this->mesh = Engine::Default::mesh;
 	this->texture = Engine::Default::texture;
+	FixNameDuplicate(this->name);
 }
 Engine::Game::Entity::Entity(const std::string& name, Engine::Mesh* mes, Engine::Texture* tex) {
 	this->name = name;
 	mesh = mes;
 	texture = tex;
+	FixNameDuplicate(this->name);
 }
 
 // Script callers

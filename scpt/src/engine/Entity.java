@@ -1,8 +1,8 @@
 package engine;
 
-public abstract class Entity extends Engine {
+public abstract class Entity {
     // Name
-    public String name = "undef";
+    public String name = "";
 
     // View
     public boolean visible = true;

@@ -11,6 +11,7 @@ namespace Engine {
 		void Scene();
 		void Viewport();
 		void Explorer();
+		void Performance();
 		void Log();
 		void Properties();
 	}

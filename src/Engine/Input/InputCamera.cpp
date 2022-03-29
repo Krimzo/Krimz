@@ -6,12 +6,12 @@
 
 
 void MovementSetup() {
-	Engine::Window::win.keys.w.down = [&]() { Engine::Render::camera.moveForward(Engine::Time::delta); };
-	Engine::Window::win.keys.s.down = [&]() { Engine::Render::camera.moveBack(Engine::Time::delta); };
-	Engine::Window::win.keys.d.down = [&]() { Engine::Render::camera.moveRight(Engine::Time::delta); };
-	Engine::Window::win.keys.a.down = [&]() { Engine::Render::camera.moveLeft(Engine::Time::delta); };
-	Engine::Window::win.keys.space.down = [&]() { Engine::Render::camera.moveUp(Engine::Time::delta); };
-	Engine::Window::win.keys.c.down = [&]() { Engine::Render::camera.moveDown(Engine::Time::delta); };
+	Engine::Window::win.keys.w.down = [&]() { if (!ImGui::GetIO().WantCaptureKeyboard) Engine::Render::camera.moveForward(Engine::Time::delta); };
+	Engine::Window::win.keys.s.down = [&]() { if (!ImGui::GetIO().WantCaptureKeyboard) Engine::Render::camera.moveBack(Engine::Time::delta); };
+	Engine::Window::win.keys.d.down = [&]() { if (!ImGui::GetIO().WantCaptureKeyboard) Engine::Render::camera.moveRight(Engine::Time::delta); };
+	Engine::Window::win.keys.a.down = [&]() { if (!ImGui::GetIO().WantCaptureKeyboard) Engine::Render::camera.moveLeft(Engine::Time::delta); };
+	Engine::Window::win.keys.space.down = [&]() { if (!ImGui::GetIO().WantCaptureKeyboard) Engine::Render::camera.moveUp(Engine::Time::delta); };
+	Engine::Window::win.keys.c.down = [&]() { if (!ImGui::GetIO().WantCaptureKeyboard) Engine::Render::camera.moveDown(Engine::Time::delta); };
 	Engine::Window::win.keys.shift.press = [&]() { Engine::Render::camera.speed = 5.0f; };
 	Engine::Window::win.keys.shift.release = [&]() { Engine::Render::camera.speed = 2.0f; };
 }

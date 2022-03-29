@@ -159,7 +159,7 @@ void Engine::Stage::Start() {
 		Engine::Mesh* horse_mes = Engine::Data::meshes.newInst(new Engine::Mesh("Horse", Engine::Render::gpu->newVertBuffer("res/objects/horse.obj")));
 
 		// Texture
-		Engine::Texture* lgray_tex = Engine::Data::textures.newInst(new Engine::Texture("LGray", Engine::Render::gpu->newShaderView(
+		Engine::Texture* lgray_tex = Engine::Data::textures.newInst(new Engine::Texture("Gray", Engine::Render::gpu->newShaderView(
 			Engine::Render::gpu->newTexture(kl::image(kl::int2(1), kl::colors::lgray)))));
 		Engine::Texture* checker_tex = Engine::Data::textures.newInst(new Engine::Texture("Checkers", Engine::Render::gpu->newShaderView(
 			Engine::Render::gpu->newTexture(kl::image("res/textures/checkers.jpg")))));

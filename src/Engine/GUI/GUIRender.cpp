@@ -17,6 +17,9 @@ void Engine::Render::GUI() {
 	// Viewport
 	Engine::GUI::Viewport();
 
+	// Performance
+	Engine::GUI::Performance();
+
 	// Log
 	Engine::GUI::Log();
 
