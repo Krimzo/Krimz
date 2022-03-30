@@ -1,0 +1,6 @@
+[submodule "krimzlib"]
+	path = KLibrary
+	url = https://github.com/Crimson17/KrimzLibrary
+[submodule "KLibrary"]
+	path = KLibrary
+	url = https://github.com/Crimson17/KrimzLibrary
