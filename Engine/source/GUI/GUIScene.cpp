@@ -223,6 +223,52 @@ void Textures() {
 			ImGui::EndDragDropTarget();
 		}
 
+		// New texture popup
+		static bool displayColorPicker = false;
+		if (ImGui::BeginPopupContextWindow(nullptr)) {
+			if (ImGui::Button("New")) {
+				displayColorPicker = true;
+				ImGui::CloseCurrentPopup();
+			}
+
+			// End
+			ImGui::EndPopup();
+		}
+
+		// Color picker
+		static kl::float3 textureColor;
+		if (displayColorPicker) {
+			if (ImGui::Begin("Texture color")) {
+				ImGui::ColorPicker3("##Color picker", (float*)&textureColor);
+				if (ImGui::Button("Done", ImVec2(-1.0f, 25.0f))) {
+					std::string textureName = [&]() {
+						std::string tempName = "undefined";
+						int counter = 0;
+						while ([&]() {
+							for (int i = 0; i < Engine::textures.size(); i++) {
+								if (Engine::textures[i]->name == tempName) {
+									return true;
+								}
+							}
+							return false;
+							}()) {
+							tempName = "undefined_" + std::to_string(++counter);
+						}
+						return tempName;
+					}();
+					ID3D11Texture2D* tempTex = Engine::Render::gpu->newTexture(
+						kl::image(kl::int2(1), kl::convert::toColor(textureColor)));
+					Engine::textures.newInst(new Engine::Texture(
+						textureName, Engine::Render::gpu->newShaderView(tempTex)));
+					Engine::Render::gpu->destroy(tempTex);
+					displayColorPicker = false;
+				}
+
+				// End 
+				ImGui::End();
+			}
+		}
+
 		// Texture names
 		for (int i = 0; i < Engine::textures.size(); i++) {
 			// Draw
@@ -258,7 +304,7 @@ void Textures() {
 
 			// Text input
 			if (nameInput && i == nameIndex) {
-				if (ImGui::Begin("Input")) {
+				if (ImGui::Begin("Text input")) {
 					if (ImGui::InputText("New name: ", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
 						const std::string newName(nameBuff);
 						if ([&]() {
