@@ -18,97 +18,35 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ImGui\ImGui.vcxproj">
-      <Project>{5bac934e-8a22-4d4b-b10c-58d8c8222640}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ImPlot\ImPlot.vcxproj">
-      <Project>{a35e6218-221a-40a4-89e3-200999901c19}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\KLibrary\KLibrary.vcxproj">
-      <Project>{a36577a5-afe5-4a5a-955c-49f15e3f0e2f}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="source\Render\Meshes.h" />
-    <ClInclude Include="source\Render\Textures.h" />
-    <ClInclude Include="source\Stage\Stage.h" />
-    <ClInclude Include="source\Utility\Struct.h" />
-    <ClInclude Include="source\Game\Entity.h" />
-    <ClInclude Include="source\Game\Game.h" />
-    <ClInclude Include="source\GUI\GUI.h" />
-    <ClInclude Include="source\Input\Gizmo.h" />
-    <ClInclude Include="source\Input\Input.h" />
-    <ClInclude Include="source\Input\Picking.h" />
-    <ClInclude Include="source\View\Light.h" />
-    <ClInclude Include="source\Logging\Logging.h" />
-    <ClInclude Include="source\Render\Render.h" />
-    <ClInclude Include="source\Scripting\Script.h" />
-    <ClInclude Include="source\Scripting\ScriptHandler.h" />
-    <ClInclude Include="source\Scripting\Scripting.h" />
-    <ClInclude Include="source\Utility\Time.h" />
-    <ClInclude Include="source\View\Background.h" />
-    <ClInclude Include="source\View\Outline.h" />
-    <ClInclude Include="source\Utility\Window.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="source\Engine.cpp" />
-    <ClCompile Include="source\Game\Entity.cpp" />
-    <ClCompile Include="source\GUI\GUI.cpp" />
-    <ClCompile Include="source\GUI\GUIExplorer.cpp" />
-    <ClCompile Include="source\GUI\GUILog.cpp" />
-    <ClCompile Include="source\GUI\GUIMainMenu.cpp" />
-    <ClCompile Include="source\GUI\GUIPerformance.cpp" />
-    <ClCompile Include="source\GUI\GUIProperties.cpp" />
-    <ClCompile Include="source\GUI\GUIScene.cpp" />
-    <ClCompile Include="source\GUI\GUIViewport.cpp" />
-    <ClCompile Include="source\Input\InputCamera.cpp" />
-    <ClCompile Include="source\Input\InputGizmo.cpp" />
-    <ClCompile Include="source\Input\InputLMB.cpp" />
-    <ClCompile Include="source\Input\InputSetup.cpp" />
-    <ClCompile Include="source\Logging\Logging.cpp" />
-    <ClCompile Include="source\Render\RenderEntity.cpp" />
-    <ClCompile Include="source\Render\RenderGizmo.cpp" />
-    <ClCompile Include="source\Render\RenderGUI.cpp" />
-    <ClCompile Include="source\Render\RenderOutline.cpp" />
-    <ClCompile Include="source\Render\RenderShadows.cpp" />
-    <ClCompile Include="source\Scripting\Script.cpp" />
-    <ClCompile Include="source\Scripting\ScriptHandler.cpp" />
-    <ClCompile Include="source\Scripting\Scripting.cpp" />
-    <ClCompile Include="source\Stage\StageEnd.cpp" />
-    <ClCompile Include="source\Stage\StageResize.cpp" />
-    <ClCompile Include="source\Stage\StageStart.cpp" />
-    <ClCompile Include="source\Stage\StageUpdate.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d1c3023c-8063-4e2d-a95e-3cb58a57c3a3}</ProjectGuid>
-    <RootNamespace>Engine</RootNamespace>
+    <ProjectGuid>{a36577a5-afe5-4a5a-955c-49f15e3f0e2f}</ProjectGuid>
+    <RootNamespace>KLibrary</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -156,18 +94,16 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);KL_USING_IMGUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;KL_USING_IMGUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)OpenJDK\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>jvm.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -176,37 +112,33 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);KL_USING_IMGUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;KL_USING_IMGUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)OpenJDK\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>jvm.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);KL_USING_IMGUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;KL_USING_IMGUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)OpenJDK\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>jvm.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -215,21 +147,107 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);KL_USING_IMGUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;KL_USING_IMGUI</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)OpenJDK\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <DelayLoadDLLs>jvm.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="source\color\color.cpp" />
+    <ClCompile Include="source\color\image.cpp" />
+    <ClCompile Include="source\geometry\plane.cpp" />
+    <ClCompile Include="source\geometry\ray.cpp" />
+    <ClCompile Include="source\geometry\sphere.cpp" />
+    <ClCompile Include="source\geometry\triangle.cpp" />
+    <ClCompile Include="source\geometry\vertex.cpp" />
+    <ClCompile Include="source\gpu\buffer\buffer.cpp" />
+    <ClCompile Include="source\gpu\buffer\cbuffer.cpp" />
+    <ClCompile Include="source\gpu\gpu.cpp" />
+    <ClCompile Include="source\gpu\states\dstate.cpp" />
+    <ClCompile Include="source\gpu\states\rstate.cpp" />
+    <ClCompile Include="source\gpu\states\sstate.cpp" />
+    <ClCompile Include="source\gpu\utility\shaders.cpp" />
+    <ClCompile Include="source\gpu\utility\texture.cpp" />
+    <ClCompile Include="source\gpu\utility\vbuffer.cpp" />
+    <ClCompile Include="source\gpu\views\dview.cpp" />
+    <ClCompile Include="source\gpu\views\sview.cpp" />
+    <ClCompile Include="source\gpu\views\tview.cpp" />
+    <ClCompile Include="source\light\ambient.cpp" />
+    <ClCompile Include="source\light\direct.cpp" />
+    <ClCompile Include="source\math\float2.cpp" />
+    <ClCompile Include="source\math\float3.cpp" />
+    <ClCompile Include="source\math\float4.cpp" />
+    <ClCompile Include="source\math\int2.cpp" />
+    <ClCompile Include="source\math\int3.cpp" />
+    <ClCompile Include="source\math\int4.cpp" />
+    <ClCompile Include="source\math\mat3.cpp" />
+    <ClCompile Include="source\math\mat4.cpp" />
+    <ClCompile Include="source\math\math.cpp" />
+    <ClCompile Include="source\utility\console.cpp" />
+    <ClCompile Include="source\utility\convert.cpp" />
+    <ClCompile Include="source\utility\file.cpp" />
+    <ClCompile Include="source\utility\random.cpp" />
+    <ClCompile Include="source\utility\socket.cpp" />
+    <ClCompile Include="source\utility\thread.cpp" />
+    <ClCompile Include="source\utility\time.cpp" />
+    <ClCompile Include="source\utility\web.cpp" />
+    <ClCompile Include="source\view\camera.cpp" />
+    <ClCompile Include="source\view\skybox.cpp" />
+    <ClCompile Include="source\window\key.cpp" />
+    <ClCompile Include="source\window\keys.cpp" />
+    <ClCompile Include="source\window\mouse.cpp" />
+    <ClCompile Include="source\window\window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\color\color.h" />
+    <ClInclude Include="source\color\image.h" />
+    <ClInclude Include="source\geometry\plane.h" />
+    <ClInclude Include="source\geometry\ray.h" />
+    <ClInclude Include="source\geometry\sphere.h" />
+    <ClInclude Include="source\geometry\triangle.h" />
+    <ClInclude Include="source\geometry\vertex.h" />
+    <ClInclude Include="source\gpu\gpu.h" />
+    <ClInclude Include="source\KrimzLib.h" />
+    <ClInclude Include="source\light\ambient.h" />
+    <ClInclude Include="source\light\direct.h" />
+    <ClInclude Include="source\math\float2.h" />
+    <ClInclude Include="source\math\float3.h" />
+    <ClInclude Include="source\math\float4.h" />
+    <ClInclude Include="source\math\int2.h" />
+    <ClInclude Include="source\math\int3.h" />
+    <ClInclude Include="source\math\int4.h" />
+    <ClInclude Include="source\math\mat3.h" />
+    <ClInclude Include="source\math\mat4.h" />
+    <ClInclude Include="source\math\math.h" />
+    <ClInclude Include="source\memory\pbuffer.h" />
+    <ClInclude Include="source\utility\console.h" />
+    <ClInclude Include="source\utility\convert.h" />
+    <ClInclude Include="source\utility\file.h" />
+    <ClInclude Include="source\utility\random.h" />
+    <ClInclude Include="source\utility\socket.h" />
+    <ClInclude Include="source\utility\thread.h" />
+    <ClInclude Include="source\utility\time.h" />
+    <ClInclude Include="source\utility\web.h" />
+    <ClInclude Include="source\view\camera.h" />
+    <ClInclude Include="source\view\skybox.h" />
+    <ClInclude Include="source\window\key.h" />
+    <ClInclude Include="source\window\keys.h" />
+    <ClInclude Include="source\window\mouse.h" />
+    <ClInclude Include="source\window\window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImGui\ImGui.vcxproj">
+      <Project>{5bac934e-8a22-4d4b-b10c-58d8c8222640}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
