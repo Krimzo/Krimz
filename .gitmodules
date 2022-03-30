@@ -1,0 +1,9 @@
+[submodule "imgui"]
+	path = ImGui
+	url = https://github.com/ocornut/imgui
+[submodule "implot"]
+	path = ImPlot
+	url = https://github.com/epezent/implot
+[submodule "krimzlib"]
+	path = Library
+	url = https://github.com/Crimson17/KrimzLibrary
