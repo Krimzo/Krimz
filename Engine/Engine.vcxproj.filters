@@ -15,19 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\Render\Meshes.h">
+    <ClInclude Include="source\Data\Meshes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\Textures.h">
+    <ClInclude Include="source\Data\Textures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Utility\Struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Game\Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Game\Game.h">
+    <ClInclude Include="source\Data\Entities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\GUI\GUI.h">
@@ -75,9 +72,12 @@
     <ClInclude Include="source\Stage\Stage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\Data\EObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\Game\Entity.cpp">
+    <ClCompile Include="source\Data\Entities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\GUI\GUI.cpp">
@@ -156,6 +156,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Stage\StageUpdate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Data\Textures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Data\Meshes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Data\EObjects.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

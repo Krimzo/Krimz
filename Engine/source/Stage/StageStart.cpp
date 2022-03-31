@@ -7,12 +7,11 @@
 #include "View/Light.h"
 #include "View/Background.h"
 #include "Input/Gizmo.h"
-#include "Game/Entity.h"
-#include "Game/Game.h"
 #include "GUI/GUI.h"
 #include "Scripting/Scripting.h"
-#include "Render/Meshes.h"
-#include "Render/Textures.h"
+#include "Data/Meshes.h"
+#include "Data/Textures.h"
+#include "Data/Entities.h"
 
 
 void Engine::Stage::Start() {

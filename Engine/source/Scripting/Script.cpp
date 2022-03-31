@@ -1,5 +1,5 @@
 #include "Scripting/Scripting.h"
-#include "Game/Entity.h"
+#include "Data/Entities.h"
 #include "Utility/Time.h"
 
 

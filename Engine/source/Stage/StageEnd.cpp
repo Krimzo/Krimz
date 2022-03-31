@@ -1,6 +1,6 @@
 #include "Stage/Stage.h"
 #include "Render/Render.h"
-#include "Game/Game.h"
+#include "Data/Entities.h"
 #include "View/Background.h"
 
 

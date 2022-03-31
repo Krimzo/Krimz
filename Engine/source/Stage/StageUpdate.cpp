@@ -1,7 +1,8 @@
 #include "Stage/Stage.h"
 #include "Render/Render.h"
 #include "View/Background.h"
-#include "Game/Game.h"
+#include "Data/Entities.h"
+#include "Stage/Stage.h"
 #include "Utility/Window.h"
 #include "Input/Picking.h"
 #include "Utility/Time.h"
@@ -21,7 +22,7 @@ void Engine::Stage::Update() {
 	Engine::Render::gpu->clear(Engine::Background::color);
 
 	// Game
-	if (Engine::Game::running) {
+	if (Engine::gameRunning) {
 		// Physics
 		for (int i = 0; i < Engine::entities.size(); i++) {
 			Engine::entities[i]->upPhys(Engine::Time::delta);

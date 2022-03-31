@@ -30,12 +30,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\Render\Meshes.h" />
-    <ClInclude Include="source\Render\Textures.h" />
+    <ClInclude Include="source\Data\EObjects.h" />
+    <ClInclude Include="source\Data\Meshes.h" />
+    <ClInclude Include="source\Data\Textures.h" />
     <ClInclude Include="source\Stage\Stage.h" />
     <ClInclude Include="source\Utility\Struct.h" />
-    <ClInclude Include="source\Game\Entity.h" />
-    <ClInclude Include="source\Game\Game.h" />
+    <ClInclude Include="source\Data\Entities.h" />
     <ClInclude Include="source\GUI\GUI.h" />
     <ClInclude Include="source\Input\Gizmo.h" />
     <ClInclude Include="source\Input\Input.h" />
@@ -52,8 +52,10 @@
     <ClInclude Include="source\Utility\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\Data\EObjects.cpp" />
+    <ClCompile Include="source\Data\Meshes.cpp" />
     <ClCompile Include="source\Engine.cpp" />
-    <ClCompile Include="source\Game\Entity.cpp" />
+    <ClCompile Include="source\Data\Entities.cpp" />
     <ClCompile Include="source\GUI\GUI.cpp" />
     <ClCompile Include="source\GUI\GUIExplorer.cpp" />
     <ClCompile Include="source\GUI\GUILog.cpp" />
@@ -72,6 +74,7 @@
     <ClCompile Include="source\Render\RenderGUI.cpp" />
     <ClCompile Include="source\Render\RenderOutline.cpp" />
     <ClCompile Include="source\Render\RenderShadows.cpp" />
+    <ClCompile Include="source\Data\Textures.cpp" />
     <ClCompile Include="source\Scripting\Script.cpp" />
     <ClCompile Include="source\Scripting\ScriptHandler.cpp" />
     <ClCompile Include="source\Scripting\Scripting.cpp" />

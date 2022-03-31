@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/Entity.h"
+#include "Data/Entities.h"
 
 
 namespace Engine {

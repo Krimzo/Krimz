@@ -1,36 +1,24 @@
-#include "Game/Entity.h"
-#include "Game/Game.h"
+#include "Data/Entities.h"
 #include "Scripting/Scripting.h"
-#include "Render/Meshes.h"
-#include "Render/Textures.h"
 
 
-void FixNameDuplicate(std::string& name) {
+void FixEntityName(std::string& name) {
 	const std::string nameCopy = name;
 	int counter = 0;
-	while ([&]() {
-		for (int i = 0; i < Engine::entities.size(); i++) {
-			if (Engine::entities[i]->name == name) {
-				return true;
-			}
-		}
-		return false;
-		}()) {
+	while (Engine::find(Engine::entities, name)) {
 		name = nameCopy + "_" + std::to_string(++counter);
 	}
 }
 
-Engine::Entity::Entity() {
-	this->name = "undefined";
+Engine::Entity::Entity() : EObject::EObject("undefined") {
 	this->mesh = Engine::Default::mesh;
 	this->texture = Engine::Default::texture;
-	FixNameDuplicate(this->name);
+	FixEntityName(this->name);
 }
-Engine::Entity::Entity(const std::string& name, Engine::Mesh* mes, Engine::Texture* tex) {
-	this->name = name;
+Engine::Entity::Entity(const std::string& name, Engine::Mesh* mes, Engine::Texture* tex) : EObject::EObject(name) {
 	mesh = mes;
 	texture = tex;
-	FixNameDuplicate(this->name);
+	FixEntityName(this->name);
 }
 
 // Script callers
@@ -73,4 +61,14 @@ void Engine::Entity::render(kl::gpu* gpu, bool useTex) const {
 
 	// Rendering
 	gpu->draw(mesh->buff);
+}
+
+// Checks the buffer for the name
+bool Engine::find(const kl::pbuffer<Engine::Entity>& entities, const std::string& name) {
+	for (int i = 0; i < entities.size(); i++) {
+		if (entities[i]->name == name) {
+			return true;
+		}
+	}
+	return false;
 }

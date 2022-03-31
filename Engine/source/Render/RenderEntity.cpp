@@ -2,7 +2,7 @@
 #include "Input/Picking.h"
 #include "Utility/Struct.h"
 #include "View/Light.h"
-#include "Game/Game.h"
+#include "Data/Entities.h"
 
 
 void Engine::Render::Entity() {

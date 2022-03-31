@@ -177,6 +177,11 @@ void Engine::ScriptHandler::delInst(jobject obj) {
 
 // Creates a new script
 Engine::Script* Engine::ScriptHandler::newScript(const std::string& name, const std::string& filePath) {
+    for (int i = 0; i < scripts.size(); i++) {
+        if (scripts[i]->getName() == name) {
+            return nullptr;
+        }
+    }
     return scripts.newInst(new Engine::Script(name, filePath));
 }
 

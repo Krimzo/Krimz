@@ -10,4 +10,5 @@ namespace Engine {
 		void Resize(const kl::int2& siz);
 		void End();
 	}
+	inline bool gameRunning = false;
 }

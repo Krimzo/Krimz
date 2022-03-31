@@ -1,6 +1,6 @@
 #include "GUI/GUI.h"
-#include "Game/Entity.h"
-#include "Game/Game.h"
+#include "Data/Entities.h"
+#include "Stage/Stage.h"
 #include "Input/Picking.h"
 #include "Utility/Time.h"
 #include "Scripting/Scripting.h"
@@ -16,7 +16,7 @@ void Engine::GUI::Viewport() {
 		
 		// Play button
 		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x * 0.5f - 22.0f, 10.0f));
-		if (!Engine::Game::running) {
+		if (!Engine::gameRunning) {
 			// Button draw
 			if (ImGui::Button("PLAY")) {
 				// Saving entites
@@ -33,7 +33,7 @@ void Engine::GUI::Viewport() {
 
 				// Other
 				Engine::Time::timer.reset();
-				Engine::Game::running = true;
+				Engine::gameRunning = true;
 			}
 		}
 		else {
@@ -58,7 +58,7 @@ void Engine::GUI::Viewport() {
 				}
 
 				// Other
-				Engine::Game::running = false;
+				Engine::gameRunning = false;
 			}
 		}
 

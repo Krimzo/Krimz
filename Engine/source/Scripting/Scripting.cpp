@@ -1,6 +1,6 @@
 #include "Scripting/Scripting.h"
 #include "Utility/Time.h"
-#include "Game/Game.h"
+#include "Data/Entities.h"
 
 
 // Updates static time

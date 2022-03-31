@@ -1,24 +1,22 @@
 #pragma once
 
 #include "KrimzLib.h"
+#include "Data/EObjects.h"
+#include "Data/Meshes.h"
+#include "Data/Textures.h"
 #include "Scripting/Script.h"
-#include "Render/Meshes.h"
-#include "Render/Textures.h"
 
 
 namespace Engine {
-	class Entity {
+	class Entity : public EObject {
 	public:
-		// Name
-		std::string name;
-
 		// View
 		bool visible = true;
 		bool shadows = true;
 		float roughness = 0.5f;
 
 		// Geometry
-		kl::float3 size = kl::float3(1);
+		kl::float3 size = kl::float3(1.0f);
 		kl::float3 rotation;
 		kl::float3 position;
 
@@ -54,4 +52,9 @@ namespace Engine {
 		// Renders the mesh
 		void render(kl::gpu* gpu, bool useTex) const;
 	};
+
+	inline kl::pbuffer<Engine::Entity> entities;
+
+	// Checks the buffer for the name
+	bool find(const kl::pbuffer<Engine::Entity>& entities, const std::string& name);
 }
