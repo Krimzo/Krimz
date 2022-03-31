@@ -1,15 +1,10 @@
 #pragma once
 
-#include "Scripting/ScriptHandler.h"
+#include "Scripting/Handler.h"
 
 
 namespace Engine {
 	namespace Scripting {
-		inline ScriptHandler* handler = nullptr;
-		inline jclass engineClass = nullptr;
-		inline jfieldID deltaTField = nullptr;
-		inline jfieldID elapsedTField = nullptr;
-
 		// Updates static time
 		void UpdateTime();
 

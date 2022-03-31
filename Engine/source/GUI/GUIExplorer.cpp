@@ -1,6 +1,7 @@
 #include "GUI/GUI.h"
 #include "Window/Window.h"
 #include "Logging/Logging.h"
+#include "Scripting/Scripting.h"
 #include <algorithm>
 
 
@@ -106,6 +107,17 @@ void Engine::GUI::Explorer() {
 					ImGui::Image(fileIco, ImVec2(50.0f, 50.0f));
 					ImGui::EndDragDropSource();
 				}
+			}
+
+			// Script compilation
+			if (fileExtension == ".java" && ImGui::BeginPopupContextItem()) {
+				if (ImGui::Button("Compile")) {
+					Engine::Handler::CompileScript(file.string());
+					ImGui::CloseCurrentPopup();
+				}
+
+				// End
+				ImGui::EndPopup();
 			}
 
 			// Next col

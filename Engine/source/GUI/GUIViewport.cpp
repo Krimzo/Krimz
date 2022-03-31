@@ -26,7 +26,7 @@ void Engine::GUI::Viewport() {
 				}
 
 				// Reloading scripts
-				Engine::Scripting::handler->reloadScripts();
+				Engine::Handler::ReloadScripts();
 
 				// Calling start scripts
 				Engine::Scripting::CallStarts();

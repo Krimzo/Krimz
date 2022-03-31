@@ -300,15 +300,15 @@ void Scripts() {
 			// Payload accept
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ScriptTransfer")) {
 				std::filesystem::path filePath((char*)payload->Data);
-				Engine::Scripting::handler->newScript(filePath.stem().string(), filePath.string());
+				Engine::Handler::NewScript(filePath.string());
 			}
 			ImGui::EndDragDropTarget();
 		}
 
 		// Script names
-		for (int i = 0; i < Engine::Scripting::handler->scripts.size(); i++) {
+		for (int i = 0; i < Engine::Handler::scripts.size(); i++) {
 			// Draw
-			ImGui::Selectable(Engine::Scripting::handler->scripts[i]->getName().c_str());
+			ImGui::Selectable(Engine::Handler::scripts[i]->name.c_str());
 
 			// RMB menu
 			if (ImGui::BeginPopupContextItem()) {
@@ -316,18 +316,30 @@ void Scripts() {
 				if (!Engine::gameRunning && ImGui::Button("Delete")) {
 					for (int j = 0; j < Engine::entities.size(); j++) {
 						for (int k = 0; k < Engine::entities[j]->scripts.size(); k++) {
-							if (Engine::entities[j]->scripts[k] == Engine::Scripting::handler->scripts[i]) {
+							if (Engine::entities[j]->scripts[k] == Engine::Handler::scripts[i]) {
 								Engine::entities[j]->scripts.erase(Engine::entities[j]->scripts.begin() + k);
 							}
 						}
 					}
-					Engine::Scripting::handler->delScript(Engine::Scripting::handler->scripts[i]);
-					Engine::Scripting::handler->reloadScripts();
+					Engine::Handler::DelScript(Engine::Handler::scripts[i]);
+					Engine::Handler::ReloadScripts();
 				}
 
 				// End
 				ImGui::EndPopup();
 			}
+		}
+
+		// Script reload
+		if (Engine::Handler::scripts.size() > 0 && ImGui::BeginPopupContextWindow(
+			nullptr, ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems)) {
+			if (ImGui::Button("Reload")) {
+				Engine::Handler::ReloadScripts();
+				ImGui::CloseCurrentPopup();
+			}
+
+			// End
+			ImGui::EndPopup();
 		}
 
 		// End

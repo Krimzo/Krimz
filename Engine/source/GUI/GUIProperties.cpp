@@ -79,23 +79,23 @@ void Engine::GUI::Properties() {
 	// Scripts
 	if (ImGui::Begin("Script", nullptr, ImGuiWindowFlags_NoScrollbar)) {
 		if (Engine::Picking::selected) {
-			for (int i = 0; i < Engine::Scripting::handler->scripts.size(); i++) {
+			for (int i = 0; i < Engine::Handler::scripts.size(); i++) {
 				bool hasScript = [&]() {
 					for (int j = 0; j < Engine::Picking::selected->scripts.size(); j++) {
-						if (Engine::Picking::selected->scripts[j] == Engine::Scripting::handler->scripts[i]) {
+						if (Engine::Picking::selected->scripts[j] == Engine::Handler::scripts[i]) {
 							return true;
 						}
 					}
 					return false;
 				}();
 				const bool lastPhase = hasScript;
-				ImGui::Checkbox(Engine::Scripting::handler->scripts[i]->getName().c_str(), &hasScript);
+				ImGui::Checkbox(Engine::Handler::scripts[i]->name.c_str(), &hasScript);
 				if (!lastPhase && hasScript) {
-					Engine::Picking::selected->scripts.push_back(Engine::Scripting::handler->scripts[i]);
+					Engine::Picking::selected->scripts.push_back(Engine::Handler::scripts[i]);
 				}
 				else if (lastPhase && !hasScript) {
 					for (int j = 0; j < Engine::Picking::selected->scripts.size(); j++) {
-						if (Engine::Picking::selected->scripts[j] == Engine::Scripting::handler->scripts[i]) {
+						if (Engine::Picking::selected->scripts[j] == Engine::Handler::scripts[i]) {
 							Engine::Picking::selected->scripts.erase(Engine::Picking::selected->scripts.begin() + j);
 							break;
 						}

@@ -1,11 +1,9 @@
 # To Do
 
-$1. New entity from engine ui
-$2. File explorer
-$2. Mesh/texture drag and drop
-3. Scene saving/loading
-3. Game export
-$4. Play button(physics)
-4. Collision detection
-$5. Scripting with java
+Full java engine api
+Viewport solid/wireframe
+Scene saving/loading
+Game export
+Collision detection
+
 

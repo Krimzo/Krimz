@@ -45,7 +45,7 @@
     <ClInclude Include="source\Scripting\Script.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Scripting\ScriptHandler.h">
+    <ClInclude Include="source\Scripting\Handler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Scripting\Scripting.h">
@@ -134,7 +134,7 @@
     <ClCompile Include="source\Scripting\Script.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Scripting\ScriptHandler.cpp">
+    <ClCompile Include="source\Scripting\Handler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Scripting\Scripting.cpp">
@@ -165,6 +165,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Data\EObjects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Input\Picking.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

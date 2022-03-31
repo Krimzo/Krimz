@@ -21,7 +21,7 @@ int main() {
 	Engine::GUI::LoadKrimzTheme();
 
 	// Script setup
-	Engine::Scripting::handler = new Engine::ScriptHandler();
+	Engine::Handler::Init();
 
 	// Time
 	Engine::Time::timer.reset();

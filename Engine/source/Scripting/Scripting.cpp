@@ -5,8 +5,8 @@
 
 // Updates static time
 void Engine::Scripting::UpdateTime() {
-	Engine::Scripting::handler->env->SetStaticFloatField(Engine::Scripting::engineClass, deltaTField, Engine::Time::delta);
-	Engine::Scripting::handler->env->SetStaticFloatField(Engine::Scripting::engineClass, elapsedTField, Engine::Time::elapsed);
+	Handler::env->SetStaticFloatField(Handler::engineClass, Handler::deltaTField, Time::delta);
+	Handler::env->SetStaticFloatField(Handler::engineClass, Handler::elapsedTField, Time::elapsed);
 }
 
 // Entities scripts callers

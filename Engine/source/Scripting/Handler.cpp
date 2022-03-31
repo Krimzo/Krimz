@@ -1,5 +1,6 @@
-#include "Scripting/ScriptHandler.h"
 #include "Scripting/Scripting.h"
+#include "Logging/Logging.h"
+#include <filesystem>
 
 
 // Returns buffer of file bytes
@@ -30,7 +31,7 @@ std::vector<byte> GetFileBytes(const std::string& filePath) {
 }
 
 // Loads eternal class
-jclass LoadEternalClass(JNIEnv* env, const std::string& name) {
+jclass Engine::Handler::LoadEternalClass(JNIEnv* env, const std::string& name) {
     jclass loaded = env->FindClass(name.c_str());
     if (!loaded) {
         std::cout << "Could not load class \"" << name << "\"!";
@@ -40,7 +41,7 @@ jclass LoadEternalClass(JNIEnv* env, const std::string& name) {
     return loaded;
 }
 
-Engine::ScriptHandler::ScriptHandler() {
+void Engine::Handler::Init() {
     // Loading java dll
     if (!LoadLibraryA("../OpenJDK/bin/server/jvm.dll")) {
         std::cout << "Could not load java dll!";
@@ -64,21 +65,29 @@ Engine::ScriptHandler::ScriptHandler() {
     }
 
     // Engine api class loading
-    LoadEternalClass(this->env, "engine/Float2");
-    LoadEternalClass(this->env, "engine/Float3");
-    LoadEternalClass(this->env, "engine/Entity");
-    LoadEternalClass(this->env, "engine/Script");
-    Engine::Scripting::engineClass = LoadEternalClass(this->env, "engine/Engine");
-    loaderClass = LoadEternalClass(this->env, "engine/Loader");
+    LoadEternalClass(env, "engine/Float2");
+    LoadEternalClass(env, "engine/Float3");
+    LoadEternalClass(env, "engine/Entity");
+    LoadEternalClass(env, "engine/Script");
+    engineClass = LoadEternalClass(env, "engine/Engine");
+    loaderClass = LoadEternalClass(env, "engine/Loader");
 
     // Engine api field getting
-    Engine::Scripting::deltaTField = this->getField(Engine::Scripting::engineClass, "deltaT", "F", true);
-    Engine::Scripting::elapsedTField = this->getField(Engine::Scripting::engineClass, "elapsedT", "F", true);
-    loaderConstr = this->getMethod(loaderClass, "<init>", "()V");
+    deltaTField = GetField(engineClass, "deltaT", "F", true);
+    elapsedTField = GetField(engineClass, "elapsedT", "F", true);
+    loaderConstr = GetMethod(loaderClass, "<init>", "()V");
 
     // Getting system class
-    sysClass = env->FindClass("java/lang/System");
-    sysGCMethod = env->GetStaticMethodID(sysClass, "gc", "()V");
+    sysClass = LoadEternalClass(env, "java/lang/System");
+    sysGCMethod = GetMethod(sysClass, "gc", "()V", true);
+
+    // Compiler loading
+    jclass providerClass = LoadEternalClass(env, "javax/tools/ToolProvider");
+    jclass compilerClass = LoadEternalClass(env, "javax/tools/JavaCompiler");
+    jmethodID providerMethod = GetMethod(providerClass, "getSystemJavaCompiler", "()Ljavax/tools/JavaCompiler;", true);
+    compiler = env->CallStaticObjectMethod(providerClass, providerMethod);
+    compileMethod = GetMethod(compilerClass, "run",
+        "(Ljava/io/InputStream;Ljava/io/OutputStream;Ljava/io/OutputStream;[Ljava/lang/String;)I");
 
     // Loader creation
     if (!(loader = env->NewObject(loaderClass, loaderConstr))) {
@@ -90,12 +99,14 @@ Engine::ScriptHandler::ScriptHandler() {
     // First cleanup
     env->CallStaticVoidMethod(sysClass, sysGCMethod);
 }
-Engine::ScriptHandler::~ScriptHandler() {
+void Engine::Handler::Uninit() {
+    Handler::scripts.clear();
+    Handler::refs.clear();
     jvm->DestroyJavaVM();
 }
 
 // Clears all loaded references
-void Engine::ScriptHandler::resetLoader() {
+void Engine::Handler::ResetLoader() {
     // Deleting references
     for (int i = int(refs.size()) - 1; i >= 0; i--) {
         env->DeleteLocalRef(refs[i]);
@@ -118,7 +129,7 @@ void Engine::ScriptHandler::resetLoader() {
 }
 
 // Loads a new class from file
-jclass Engine::ScriptHandler::loadClass(const std::string& name, const std::string& filePath) {
+jclass Engine::Handler::LoadClass(const std::string& name, const std::string& filePath) {
     const std::vector<byte> clsBytes = GetFileBytes(filePath.c_str());
     jclass clsDef = env->DefineClass(name.c_str(), loader, (jbyte*)&clsBytes[0], jsize(clsBytes.size()));
     if (!clsDef) {
@@ -131,7 +142,7 @@ jclass Engine::ScriptHandler::loadClass(const std::string& name, const std::stri
 }
 
 // Gets a class method
-jmethodID Engine::ScriptHandler::getMethod(jclass cls, const std::string& name, const std::string& sig, bool isStatic) {
+jmethodID Engine::Handler::GetMethod(jclass cls, const std::string& name, const std::string& sig, bool isStatic) {
     jmethodID methodID = isStatic ? env->GetStaticMethodID(cls, name.c_str(), sig.c_str()) : env->GetMethodID(cls, name.c_str(), sig.c_str());
     if (!methodID) {
         std::cout << "Could not get method \"" << name << "\"!";
@@ -142,7 +153,7 @@ jmethodID Engine::ScriptHandler::getMethod(jclass cls, const std::string& name, 
 }
 
 // Gets a class field
-jfieldID Engine::ScriptHandler::getField(jclass cls, const std::string& name, const std::string& sig, bool isStatic) {
+jfieldID Engine::Handler::GetField(jclass cls, const std::string& name, const std::string& sig, bool isStatic) {
     jfieldID fieldID = isStatic ? env->GetStaticFieldID(cls, name.c_str(), sig.c_str()) : env->GetFieldID(cls, name.c_str(), sig.c_str());
     if (!fieldID) {
         std::cout << "Could not get field \"" << name << "\"!";
@@ -153,7 +164,7 @@ jfieldID Engine::ScriptHandler::getField(jclass cls, const std::string& name, co
 }
 
 // Creates a new class instance
-jobject Engine::ScriptHandler::newInst(jclass cls, jmethodID constr) {
+jobject Engine::Handler::NewInst(jclass cls, jmethodID constr) {
     jobject obj = env->NewObject(cls, constr);
     if (!obj) {
         std::cout << "Could not create a new class instance!";
@@ -165,7 +176,7 @@ jobject Engine::ScriptHandler::newInst(jclass cls, jmethodID constr) {
 }
 
 // Deletes a class instance
-void Engine::ScriptHandler::delInst(jobject obj) {
+void Engine::Handler::DelInst(jobject obj) {
     for (int i = 0; i < refs.size(); i++) {
         if (refs[i] == obj) {
             env->DeleteLocalRef(refs[i]);
@@ -175,25 +186,44 @@ void Engine::ScriptHandler::delInst(jobject obj) {
     }
 }
 
+// Compiles given script
+void Engine::Handler::CompileScript(const std::string& filePath) {
+    // Setup
+    static jclass stringClass = env->FindClass("Ljava/lang/String;");
+    jstring fileName = env->NewStringUTF(filePath.c_str());
+    jarray nameArray = env->NewObjectArray(1, stringClass, fileName);
+
+    // Compilation and echo
+    std::stringstream ss;
+    ss << "Compiled \"" << filePath << "\" with error code " <<
+        env->CallIntMethod(compiler, compileMethod, NULL, NULL, NULL, nameArray);
+    Engine::log(ss.str());
+
+    // Cleanup
+    env->DeleteLocalRef(nameArray);
+    env->DeleteLocalRef(fileName);
+}
+
 // Creates a new script
-Engine::Script* Engine::ScriptHandler::newScript(const std::string& name, const std::string& filePath) {
+Engine::Script* Engine::Handler::NewScript(const std::string& filePath) {
+    const std::string fileName = std::filesystem::path(filePath).stem().string();
     for (int i = 0; i < scripts.size(); i++) {
-        if (scripts[i]->getName() == name) {
+        if (scripts[i]->name == fileName) {
             return nullptr;
         }
     }
-    return scripts.newInst(new Engine::Script(name, filePath));
+    return scripts.newInst(new Engine::Script(fileName, filePath));
 }
 
 // Deletes a script
-bool Engine::ScriptHandler::delScript(Engine::Script* scr) {
+bool Engine::Handler::DelScript(Engine::Script* scr) {
     return scripts.delInst(scr);
 }
 
 // Reloads all scripts from files
-void Engine::ScriptHandler::reloadScripts() {
+void Engine::Handler::ReloadScripts() {
     // Old cleanup
-    resetLoader();
+    ResetLoader();
 
     // Loading new data
     for (int i = 0; i < scripts.size(); i++) {

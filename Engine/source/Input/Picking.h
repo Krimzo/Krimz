@@ -12,5 +12,7 @@ namespace Engine {
 		inline ID3D11Texture2D* texture = nullptr;
 		inline ID3D11Texture2D* textureStag = nullptr;
 		inline ID3D11RenderTargetView* targetV = nullptr;
+
+		void ReadObjectIndex();
 	}
 }

@@ -6,7 +6,7 @@
 
 namespace Engine {
 	class Script {
-	private:
+	public:
 		// File info
 		std::string name;
 		std::string path;
@@ -31,12 +31,8 @@ namespace Engine {
 		jfieldID velocityField = nullptr;
 		jfieldID angularField = nullptr;
 
-	public:
 		Script(const std::string& name, const std::string& filePath);
 		~Script();
-
-		// Getter
-		std::string getName();
 
 		// Reloads byte data
 		void reload();

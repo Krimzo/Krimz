@@ -44,7 +44,7 @@
     <ClInclude Include="source\Logging\Logging.h" />
     <ClInclude Include="source\Render\Render.h" />
     <ClInclude Include="source\Scripting\Script.h" />
-    <ClInclude Include="source\Scripting\ScriptHandler.h" />
+    <ClInclude Include="source\Scripting\Handler.h" />
     <ClInclude Include="source\Scripting\Scripting.h" />
     <ClInclude Include="source\Utility\Time.h" />
     <ClInclude Include="source\View\Background.h" />
@@ -68,6 +68,7 @@
     <ClCompile Include="source\Input\InputGizmo.cpp" />
     <ClCompile Include="source\Input\InputLMB.cpp" />
     <ClCompile Include="source\Input\InputSetup.cpp" />
+    <ClCompile Include="source\Input\Picking.cpp" />
     <ClCompile Include="source\Logging\Logging.cpp" />
     <ClCompile Include="source\Render\RenderEntity.cpp" />
     <ClCompile Include="source\Render\RenderGizmo.cpp" />
@@ -76,7 +77,7 @@
     <ClCompile Include="source\Render\RenderShadows.cpp" />
     <ClCompile Include="source\Data\Textures.cpp" />
     <ClCompile Include="source\Scripting\Script.cpp" />
-    <ClCompile Include="source\Scripting\ScriptHandler.cpp" />
+    <ClCompile Include="source\Scripting\Handler.cpp" />
     <ClCompile Include="source\Scripting\Scripting.cpp" />
     <ClCompile Include="source\Stage\StageEnd.cpp" />
     <ClCompile Include="source\Stage\StageResize.cpp" />

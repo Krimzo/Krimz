@@ -2,6 +2,7 @@
 #include "Render/Render.h"
 #include "Data/Entities.h"
 #include "View/Background.h"
+#include "Scripting/Scripting.h"
 
 
 void Engine::Stage::End() {
@@ -11,6 +12,9 @@ void Engine::Stage::End() {
 	// Deleting skyboxes
 	Engine::Background::skyboxes.clear();
 
-	// Deleting the gpu
+	// Gpu cleanup
 	delete Engine::Render::gpu;
+
+	// Handler cleanup
+	Engine::Handler::Uninit();
 }
