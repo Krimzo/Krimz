@@ -28,7 +28,12 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
+
+Engine/bin
+KLibrary/bin
+ImGui/bin
+ImPlot/bin
+
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
