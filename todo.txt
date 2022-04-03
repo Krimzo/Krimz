@@ -1,9 +1,13 @@
 # To Do
 
-Full java engine api
+Logging instead of console
+Cameras as entities
+Java api keyboard/mouse input
+Java api mesh/texture setting
 Viewport solid/wireframe
+Skybox loading/setting
+Mesh/texture viewport drag/drop
 Scene saving/loading
 Game export
 Collision detection
-
-
+Documentation
