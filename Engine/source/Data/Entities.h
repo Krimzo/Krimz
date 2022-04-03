@@ -16,7 +16,7 @@ namespace Engine {
 		float roughness = 0.5f;
 
 		// Geometry
-		kl::float3 size = kl::float3(1.0f);
+		kl::float3 scale = kl::float3(1.0f);
 		kl::float3 rotation;
 		kl::float3 position;
 

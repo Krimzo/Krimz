@@ -1,4 +1,4 @@
-package engine;
+package engine.script;
 
 public interface Script {
     void start();

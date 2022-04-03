@@ -8,7 +8,7 @@ void Engine::GUI::Properties() {
 	if (ImGui::Begin("Geometry", nullptr, ImGuiWindowFlags_NoScrollbar)) {
 		if (Engine::Picking::selected) {
 			// Axis
-			ImGui::DragFloat3("Size", (float*)&Engine::Picking::selected->size, 0.1f);
+			ImGui::DragFloat3("Scale", (float*)&Engine::Picking::selected->scale, 0.1f);
 			ImGui::DragFloat3("Position", (float*)&Engine::Picking::selected->position, 0.1f);
 			ImGui::DragFloat3("Rotation", (float*)&Engine::Picking::selected->rotation, 0.1f);
 

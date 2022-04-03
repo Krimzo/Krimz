@@ -1,15 +1,15 @@
-package engine;
+package engine.math;
 
 public class Float3 {
     public float x;
     public float y;
     public float z;
 
-    @Override
-    public String toString() {
-        return "(" + x + ", " + y + ", " + z + ")";
+    public Float3() {
+        x = 0;
+        y = 0;
+        z = 0;
     }
-
     public Float3(float a) {
         x = a;
         y = a;
@@ -19,6 +19,11 @@ public class Float3 {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+    public Float3(Int3 v) {
+        x = (float)v.x;
+        y = (float)v.y;
+        z = (float)v.z;
     }
     public Float3(Float2 v, float z) {
         x = v.x;
@@ -31,19 +36,9 @@ public class Float3 {
         z = v.y;
     }
 
-    // xy getter
+    // Getter
     public Float2 xy() {
         return new Float2(x, y);
-    }
-
-    // Length
-    public float len() {
-        return (float)Math.sqrt(x * x + y * y + z * z);
-    }
-
-    // Normalization
-    public Float3 norm() {
-        return div(len());
     }
 
     // Addition
@@ -66,15 +61,35 @@ public class Float3 {
 
     // Division
     public Float3 div(float a) {
-        return mul(1 / a);
+        return mul(1.0f / a);
     }
     public Float3 div(Float3 v) {
         return new Float3(x / v.x, y / v.y, z / v.z);
     }
 
+    // Comparison
+    public boolean equals(Float3 v) {
+        return x == v.x && y == v.y && z == v.z;
+    }
+
     // Negation
-    public Float3 negate() {
-        return mul(-1);
+    public Float3 neg() {
+        return mul(-1.0f);
+    }
+
+    // Absolute
+    public Float3 abs() {
+        return new Float3(Math.abs(x), Math.abs(y), Math.abs(z));
+    }
+
+    // Length
+    public float len() {
+        return (float)Math.sqrt(x * x + y * y + z * z);
+    }
+
+    // Normalization
+    public Float3 norm() {
+        return div(len());
     }
 
     // Dot product
@@ -89,7 +104,7 @@ public class Float3 {
 
     // Angle between vectors
     public float angle(Float3 a) {
-        return (float)Math.toDegrees(Math.acos(this.norm().dot(a.norm())));
+        return (float)Math.toDegrees(Math.acos(norm().dot(a.norm())));
     }
 
     // Returns a rotated vector around the given axis
@@ -120,5 +135,30 @@ public class Float3 {
         temp.y = (xy + zw + zw + xy) * x + ( y2 - z2 + w2 - x2) * y + (yz + yz - xw - xw) * z;
         temp.z = (xz - yw + xz - yw) * x + ( yz + yz + xw + xw) * y + (z2 - y2 - x2 + w2) * z;
         return temp;
+    }
+
+    // Constants
+    public static Float3 getPosX() {
+        return new Float3(1.0f, 0.0f, 0.0f);
+    }
+    public static Float3 getNegX() {
+        return new Float3(-1.0f, 0.0f, 0.0f);
+    }
+    public static Float3 getPosY() {
+        return new Float3(0.0f, 1.0f, 0.0f);
+    }
+    public static Float3 getNegY() {
+        return new Float3(0.0f, -1.0f, 0.0f);
+    }
+    public static Float3 getPosZ() {
+        return new Float3(0.0f, 0.0f, 1.0f);
+    }
+    public static Float3 getNegZ() {
+        return new Float3(0.0f, 0.0f, -1.0f);
+    }
+
+    // String
+    public String toString() {
+        return "(" + x + ", " + y + ", " + z + ")";
     }
 }

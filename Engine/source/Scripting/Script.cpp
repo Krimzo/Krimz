@@ -33,13 +33,13 @@ void Engine::Script::reload() {
 	visibleField = Engine::Handler::GetField(cls, "visible", "Z");
 	shadowsField = Engine::Handler::GetField(cls, "shadows", "Z");
 	roughnessField = Engine::Handler::GetField(cls, "roughness", "F");
-	sizeField = Engine::Handler::GetField(cls, "size", "Lengine/Float3;");
-	rotationField = Engine::Handler::GetField(cls, "rotation", "Lengine/Float3;");
-	positionField = Engine::Handler::GetField(cls, "position", "Lengine/Float3;");
+	scaleField = Engine::Handler::GetField(cls, "scale", "Lengine/math/Float3;");
+	rotationField = Engine::Handler::GetField(cls, "rotation", "Lengine/math/Float3;");
+	positionField = Engine::Handler::GetField(cls, "position", "Lengine/math/Float3;");
 	physicsField = Engine::Handler::GetField(cls, "physics", "Z");
-	accelerField = Engine::Handler::GetField(cls, "acceler", "Lengine/Float3;");
-	velocityField = Engine::Handler::GetField(cls, "velocity", "Lengine/Float3;");
-	angularField = Engine::Handler::GetField(cls, "angular", "Lengine/Float3;");
+	accelerField = Engine::Handler::GetField(cls, "acceler", "Lengine/math/Float3;");
+	velocityField = Engine::Handler::GetField(cls, "velocity", "Lengine/math/Float3;");
+	angularField = Engine::Handler::GetField(cls, "angular", "Lengine/math/Float3;");
 }
 
 // Data editors
@@ -61,7 +61,7 @@ void GetScriptFloat3(jobject field, kl::float3& dat) {
 	dat.y = Engine::Handler::env->GetFloatField(field, yField);
 	dat.z = Engine::Handler::env->GetFloatField(field, zField);
 }
-void Engine::Script::setData(void* ent) {
+void Engine::Script::setEntityData(void* ent) {
 	Engine::Entity* pEnt = (Engine::Entity*)ent;
 	Engine::Handler::env->SetObjectField(inst, nameField, 
 		Engine::Handler::env->NewString(
@@ -69,7 +69,7 @@ void Engine::Script::setData(void* ent) {
 	Engine::Handler::env->SetBooleanField(inst, visibleField, pEnt->visible);
 	Engine::Handler::env->SetBooleanField(inst, shadowsField, pEnt->shadows);
 	Engine::Handler::env->SetFloatField(inst, roughnessField, pEnt->roughness);
-	SetScriptFloat3(Engine::Handler::env->GetObjectField(inst, sizeField), pEnt->size);
+	SetScriptFloat3(Engine::Handler::env->GetObjectField(inst, scaleField), pEnt->scale);
 	SetScriptFloat3(Engine::Handler::env->GetObjectField(inst, rotationField), pEnt->rotation);
 	SetScriptFloat3(Engine::Handler::env->GetObjectField(inst, positionField), pEnt->position);
 	Engine::Handler::env->SetBooleanField(inst, physicsField, pEnt->physics);
@@ -77,12 +77,12 @@ void Engine::Script::setData(void* ent) {
 	SetScriptFloat3(Engine::Handler::env->GetObjectField(inst, velocityField), pEnt->velocity);
 	SetScriptFloat3(Engine::Handler::env->GetObjectField(inst, angularField), pEnt->angular);
 }
-void Engine::Script::getData(void* ent) {
+void Engine::Script::getEntityData(void* ent) {
 	Engine::Entity* pEnt = (Engine::Entity*)ent;
 	pEnt->visible = Engine::Handler::env->GetBooleanField(inst, visibleField);
 	pEnt->shadows = Engine::Handler::env->GetBooleanField(inst, shadowsField);
 	pEnt->roughness = Engine::Handler::env->GetFloatField(inst, roughnessField);
-	GetScriptFloat3(Engine::Handler::env->GetObjectField(inst, sizeField), pEnt->size);
+	GetScriptFloat3(Engine::Handler::env->GetObjectField(inst, scaleField), pEnt->scale);
 	GetScriptFloat3(Engine::Handler::env->GetObjectField(inst, rotationField), pEnt->rotation);
 	GetScriptFloat3(Engine::Handler::env->GetObjectField(inst, positionField), pEnt->position);
 	pEnt->physics = Engine::Handler::env->GetBooleanField(inst, physicsField);
@@ -93,12 +93,12 @@ void Engine::Script::getData(void* ent) {
 
 // Method callers
 void Engine::Script::callStart(void* ent) {
-	setData(ent);
+	setEntityData(ent);
 	Engine::Handler::env->CallVoidMethod(inst, startMethod);
-	getData(ent);
+	getEntityData(ent);
 }
 void Engine::Script::callUpdate(void* ent) {
-	setData(ent);
+	setEntityData(ent);
 	Engine::Handler::env->CallVoidMethod(inst, updateMethod);
-	getData(ent);
+	getEntityData(ent);
 }

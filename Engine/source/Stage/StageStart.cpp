@@ -106,12 +106,12 @@ void Engine::Stage::Start() {
 	Engine::Light::sun.direction = kl::float3(0.575f, -0.75f, 2.0f);
 
 	// Gizmos
-	Engine::Gizmo::scaleM = Engine::Render::gpu->newVertBuffer("resource/objects/scale.obj");
-	Engine::Gizmo::moveM = Engine::Render::gpu->newVertBuffer("resource/objects/move.obj");
-	Engine::Gizmo::rotateM = Engine::Render::gpu->newVertBuffer("resource/objects/rotate.obj");
+	Engine::Gizmo::scaleM = Engine::Render::gpu->newVertBuffer("resource/meshes/scale.obj");
+	Engine::Gizmo::moveM = Engine::Render::gpu->newVertBuffer("resource/meshes/move.obj");
+	Engine::Gizmo::rotateM = Engine::Render::gpu->newVertBuffer("resource/meshes/rotate.obj");
 
 	// Loading default
-	Engine::Default::mesh = new Engine::Mesh("default", Engine::Render::gpu->newVertBuffer("resource/objects/cube.obj"));
+	Engine::Default::mesh = new Engine::Mesh("default", Engine::Render::gpu->newVertBuffer("resource/meshes/cube.obj"));
 	ID3D11Texture2D* defTex = Engine::Render::gpu->newTexture(kl::image(kl::int2(1), kl::colors::magenta));
 	Engine::Default::texture = new Engine::Texture("default", Engine::Render::gpu->newShaderView(defTex));
 	Engine::Render::gpu->destroy(defTex);

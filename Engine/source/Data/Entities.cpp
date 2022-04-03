@@ -49,7 +49,7 @@ void Engine::Entity::upPhys(float deltaT) {
 
 // Returns the world matrix
 kl::mat4 Engine::Entity::matrix() const {
-	return kl::mat4::translate(position) * kl::mat4::rotate(rotation) * kl::mat4::scale(size);
+	return kl::mat4::translate(position) * kl::mat4::rotate(rotation) * kl::mat4::scale(scale);
 }
 
 // Renders the mesh

@@ -48,6 +48,10 @@ void Engine::GUI::Explorer() {
 			ImGui::NextColumn();
 		}
 
+		// Renaming info
+		static std::filesystem::path toRename;
+		static char nameBuff[64] = {};
+
 		// Drawing folders
 		for (auto& folder : folders) {
 			// Button draw
@@ -57,7 +61,43 @@ void Engine::GUI::Explorer() {
 				currentPath = folder;
 			}
 			ImGui::PopID();
-			ImGui::TextWrapped(folder.filename().string().c_str());
+
+			// RMB
+			if (ImGui::BeginPopupContextItem()) {
+				// Renaming
+				if (ImGui::Button("Rename")) {
+					toRename = folder;
+					memcpy(nameBuff,
+						folder.filename().string().c_str(),
+						folder.filename().string().size() + 1);
+					ImGui::CloseCurrentPopup();
+				}
+
+				// Delete
+				if (ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
+					std::filesystem::remove_all(folder);
+					ImGui::CloseCurrentPopup();
+				}
+
+				// End
+				ImGui::EndPopup();
+			}
+
+			// Folder name
+			if (folder == toRename) {
+				ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
+				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
+					const std::string newName(nameBuff);
+					std::filesystem::rename(toRename,
+						std::filesystem::path(toRename).replace_filename(newName));
+					toRename.clear();
+				}
+			}
+			else {
+				ImGui::TextWrapped(folder.filename().string().c_str());
+			}
+
+			// Next col
 			ImGui::NextColumn();
 		}
 
@@ -82,6 +122,7 @@ void Engine::GUI::Explorer() {
 			if (ImGui::ImageButton(fileIco, ImVec2(buttonSize, buttonSize))) {
 				ShellExecuteA(0, 0, file.string().c_str(), 0, 0, SW_SHOW);
 			}
+			ImGui::PopID();
 
 			// Transfer
 			if (fileIco == Engine::GUI::objectIcon) {
@@ -109,9 +150,25 @@ void Engine::GUI::Explorer() {
 				}
 			}
 
-			// Script compilation
-			if (fileExtension == ".java" && ImGui::BeginPopupContextItem()) {
-				if (ImGui::Button("Compile")) {
+			// RMB
+			if (ImGui::BeginPopupContextItem()) {
+				// Renaming
+				if (ImGui::Button("Rename", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
+					toRename = file;
+					memcpy(nameBuff,
+						file.filename().string().c_str(),
+						file.filename().string().size() + 1);
+					ImGui::CloseCurrentPopup();
+				}
+
+				// Delete
+				if (ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
+					std::filesystem::remove(file);
+					ImGui::CloseCurrentPopup();
+				}
+
+				// Script compile
+				if (fileExtension == ".java" && ImGui::Button("Compile", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
 					Engine::Handler::CompileScript(file.string());
 					ImGui::CloseCurrentPopup();
 				}
@@ -120,10 +177,68 @@ void Engine::GUI::Explorer() {
 				ImGui::EndPopup();
 			}
 
+			// File name
+			if (file == toRename) {
+				ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
+				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
+					const std::string newName(nameBuff);
+					std::filesystem::rename(toRename,
+						std::filesystem::path(toRename).replace_filename(newName));
+					toRename.clear();
+				}
+			}
+			else {
+				ImGui::TextWrapped(file.filename().string().c_str());
+			}
+
 			// Next col
-			ImGui::PopID();
-			ImGui::TextWrapped(file.filename().string().c_str());
 			ImGui::NextColumn();
+		}
+
+		// RMB
+		static bool namingNewScript = false;
+		if (ImGui::BeginPopupContextWindow(nullptr, ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems)) {
+			// New script
+			if (ImGui::Button("New Script", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
+				namingNewScript = true;
+				ImGui::CloseCurrentPopup();
+			}
+
+			// New folder
+			if (ImGui::Button("New Folder", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
+				std::filesystem::create_directory(currentPath.string() + "/New Folder");
+				ImGui::CloseCurrentPopup();
+			}
+
+			// End
+			ImGui::EndPopup();
+		}
+
+		// New script name
+		if (namingNewScript) {
+			if (ImGui::Begin("New Script Name", nullptr, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoScrollbar)) {
+				ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
+				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
+					const std::string newName(nameBuff);
+
+					// Creating new script
+					std::ofstream file(currentPath.string() + "/" + newName + ".java");
+					if (file.is_open()) {
+						// Default script code
+						file << "import engine.*;\nimport engine.math.*;\nimport engine.script.*;\n\n\npublic class " <<
+						newName << " extends Entity implements Script {\n\n\t// Called on first frame\n\tpublic void start() {\n\n\t}\n\n\t// Called every frame\n\tpublic void update() {\n\n\t}\n}\n";
+
+						// Saving
+						file.close();
+					}
+
+					// End
+					namingNewScript = false;
+				}
+
+				// End
+				ImGui::End();
+			}
 		}
 
 		// Style reset

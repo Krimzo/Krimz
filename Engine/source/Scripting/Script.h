@@ -23,7 +23,7 @@ namespace Engine {
 		jfieldID visibleField = nullptr;
 		jfieldID shadowsField = nullptr;
 		jfieldID roughnessField = nullptr;
-		jfieldID sizeField = nullptr;
+		jfieldID scaleField = nullptr;
 		jfieldID rotationField = nullptr;
 		jfieldID positionField = nullptr;
 		jfieldID physicsField = nullptr;
@@ -38,8 +38,8 @@ namespace Engine {
 		void reload();
 
 		// Data editors
-		void setData(void* ent);
-		void getData(void* ent);
+		void setEntityData(void* ent);
+		void getEntityData(void* ent);
 
 		// Method callers
 		void callStart(void* ent);

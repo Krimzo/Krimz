@@ -8,7 +8,7 @@
 
 
 kl::float3 offsPos;
-kl::float3 firstSize;
+kl::float3 firstScal;
 kl::float3 offsRot;
 kl::float3 firstRota;
 
@@ -43,7 +43,7 @@ void LMBPress() {
 		// Selected test
 		if (Engine::Picking::selected) {
 			// Saving
-			firstSize = Engine::Picking::selected->size;
+			firstScal = Engine::Picking::selected->scale;
 			firstRota = Engine::Picking::selected->rotation;
 			Engine::Picking::heldIndex = Engine::Picking::mouseIndex;
 
@@ -97,13 +97,13 @@ void LMBDown() {
 		// Entity edit
 		if (Engine::Gizmo::selected == Engine::Gizmo::Type::SCALE) {
 			if (Engine::Picking::heldIndex == -3) {
-				Engine::Picking::selected->size.x = firstSize.x + (currPos.x - Engine::Picking::selected->position.x);
+				Engine::Picking::selected->scale.x = firstScal.x + (currPos.x - Engine::Picking::selected->position.x);
 			}
 			else if (Engine::Picking::heldIndex == -4) {
-				Engine::Picking::selected->size.y = firstSize.y + (currPos.y - Engine::Picking::selected->position.y);
+				Engine::Picking::selected->scale.y = firstScal.y + (currPos.y - Engine::Picking::selected->position.y);
 			}
 			else if (Engine::Picking::heldIndex == -5) {
-				Engine::Picking::selected->size.z = firstSize.z + (currPos.z - Engine::Picking::selected->position.z);
+				Engine::Picking::selected->scale.z = firstScal.z + (currPos.z - Engine::Picking::selected->position.z);
 			}
 		}
 		else if (Engine::Gizmo::selected == Engine::Gizmo::Type::MOVE) {

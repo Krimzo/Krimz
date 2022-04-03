@@ -65,12 +65,23 @@ void Engine::Handler::Init() {
     }
 
     // Engine api class loading
-    LoadEternalClass(env, "engine/Float2");
-    LoadEternalClass(env, "engine/Float3");
-    LoadEternalClass(env, "engine/Entity");
-    LoadEternalClass(env, "engine/Script");
     engineClass = LoadEternalClass(env, "engine/Engine");
-    loaderClass = LoadEternalClass(env, "engine/Loader");
+    loaderClass = LoadEternalClass(env, "engine/script/Loader");
+    LoadEternalClass(env, "engine/script/Script");
+    LoadEternalClass(env, "engine/math/Int2");
+    LoadEternalClass(env, "engine/math/Int3");
+    LoadEternalClass(env, "engine/math/Int4");
+    LoadEternalClass(env, "engine/math/Float2");
+    LoadEternalClass(env, "engine/math/Float3");
+    LoadEternalClass(env, "engine/math/Float4");
+    LoadEternalClass(env, "engine/math/Mat3");
+    LoadEternalClass(env, "engine/math/Mat4");
+    LoadEternalClass(env, "engine/math/Plane");
+    LoadEternalClass(env, "engine/math/Sphere");
+    LoadEternalClass(env, "engine/math/Vertex");
+    LoadEternalClass(env, "engine/math/Triangle");
+    LoadEternalClass(env, "engine/math/Ray");
+    LoadEternalClass(env, "engine/Entity");
 
     // Engine api field getting
     deltaTField = GetField(engineClass, "deltaT", "F", true);
