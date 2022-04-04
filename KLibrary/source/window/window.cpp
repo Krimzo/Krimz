@@ -65,7 +65,7 @@ void kl::window::registerWindowClass(const std::string& name) {
 void kl::window::createWindow(const kl::int2& size, const std::string& name, bool resizeable) {
 	// Setting the window properties
 	winStyle = resizeable ? WS_OVERLAPPEDWINDOW : (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
-	RECT adjustedWindowSize = { 0, 0, (LONG)size.x, (LONG)size.y };
+	RECT adjustedWindowSize = { 0, 0, LONG(size.x), LONG(size.y) };
 	AdjustWindowRect(&adjustedWindowSize, winStyle, false);
 	const kl::int2 adjSize(adjustedWindowSize.right - adjustedWindowSize.left, adjustedWindowSize.bottom - adjustedWindowSize.top);
 

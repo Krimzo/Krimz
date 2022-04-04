@@ -3,7 +3,8 @@
 .vs
 
 # Compile
+/bin
 Engine/bin
-KLibrary/bin
 ImGui/bin
 ImPlot/bin
+KLibrary/bin

@@ -20,12 +20,12 @@ void Engine::log(const std::string& dat) {
     std::tm now = {};
     localtime_s(&now, &t);
     std::stringstream ss;
-    ss << ++logCounter << ". "
-        << (now.tm_year + 1900) << "-"
-        << (now.tm_mon + 1) << "-"
-        << now.tm_mday << " "
+    ss << ++logCounter << ". ["
+        << (now.tm_year + 1900) << "."
+        << (now.tm_mon + 1) << "."
+        << now.tm_mday << "-"
         << now.tm_hour << ":"
         << now.tm_min << ":"
-        << now.tm_sec << " -> ";
+        << now.tm_sec << "] -> ";
 	Engine::Logging::logs.push_back(ss.str() + dat);
 }

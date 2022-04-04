@@ -12,6 +12,6 @@ public class Spin extends Entity implements Script {
 
 	// Called every frame
 	public void update() {
-		this.rotation.y = (float)Math.sin(Engine.elapsedT) * 90.0f;
+		this.rotation.y = (float)Math.sin(Engine.elapsedT) * 45.0f;
 	}
 }
