@@ -3,7 +3,8 @@
 #include "View/Light.h"
 
 
-void Engine::Render::Shadows() {
+void Engine::Render::Shadows()
+{
 	// Binding the shadow render target
 	Engine::Render::gpu->bindTargets({}, Engine::Light::sun.shadowMapDV);
 
@@ -28,8 +29,10 @@ void Engine::Render::Shadows() {
 	const kl::mat4 vpSun = Engine::Light::sun.matrix(Engine::Render::camera);
 
 	// Rendering entity shadows
-	for (int i = 0; i < Engine::entities.size(); i++) {
-		if (Engine::entities[i]->shadows) {
+	for (int i = 0; i < Engine::entities.size(); i++)
+	{
+		if (Engine::entities[i]->shadows)
+		{
 			// Getting the full wvp matrix
 			kl::mat4 wvp = vpSun * Engine::entities[i]->matrix();
 			Engine::Render::gpu->setBuffData(Engine::CBuffers::Vertex::shadow, &wvp);

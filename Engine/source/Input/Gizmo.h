@@ -3,10 +3,13 @@
 #include "KrimzLib.h"
 
 
-namespace Engine {
-	namespace Gizmo {
+namespace Engine
+{
+	namespace Gizmo
+	{
 		// Types
-		enum Type {
+		enum Type
+		{
 			NONE = 0,
 			SCALE,
 			MOVE,

@@ -4,8 +4,10 @@
 #include <jni.h>
 
 
-namespace Engine {
-	class Script {
+namespace Engine
+{
+	class Script
+	{
 	public:
 		// File info
 		std::string name;

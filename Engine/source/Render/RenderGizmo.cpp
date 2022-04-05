@@ -4,7 +4,8 @@
 #include "Utility/Struct.h"
 
 
-void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& col, int index) {
+void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& col, int index)
+{
 	// Binding gizmo shaders
 	Engine::Render::gpu->bind(Engine::Shaders::Vertex::gizmo);
 	Engine::Render::gpu->bind(Engine::Shaders::Pixel::gizmo);
@@ -29,35 +30,33 @@ void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& co
 	Engine::Render::gpu->draw(toDraw);
 }
 
-void Engine::Render::Gizmo() {
-	if (Engine::Gizmo::selected != Engine::Gizmo::Type::NONE) {
+void Engine::Render::Gizmo()
+{
+	if (Engine::Gizmo::selected != Engine::Gizmo::Type::NONE)
+	{
 		// Color reset
 		Engine::Gizmo::colX = kl::color(205, 55, 75);
 		Engine::Gizmo::colY = kl::color(115, 175, 40);
 		Engine::Gizmo::colZ = kl::color(55, 120, 205);
 
 		// Entity id check
-		if (Engine::Picking::heldIndex >= -2) {
-			if (Engine::Picking::mouseIndex == -3) {
+		if (Engine::Picking::heldIndex >= -2)
+		{
+			if (Engine::Picking::mouseIndex == -3)
 				Engine::Gizmo::colX *= 1.45f;
-			}
-			else if (Engine::Picking::mouseIndex == -4) {
+			else if (Engine::Picking::mouseIndex == -4)
 				Engine::Gizmo::colY *= 1.45f;
-			}
-			else if (Engine::Picking::mouseIndex == -5) {
+			else if (Engine::Picking::mouseIndex == -5)
 				Engine::Gizmo::colZ *= 1.45f;
-			}
 		}
-		else {
-			if (Engine::Picking::heldIndex == -3) {
+		else
+		{
+			if (Engine::Picking::heldIndex == -3)
 				Engine::Gizmo::colX *= 1.45f;
-			}
-			else if (Engine::Picking::heldIndex == -4) {
+			else if (Engine::Picking::heldIndex == -4)
 				Engine::Gizmo::colY *= 1.45f;
-			}
-			else if (Engine::Picking::heldIndex == -5) {
+			else if (Engine::Picking::heldIndex == -5)
 				Engine::Gizmo::colZ *= 1.45f;
-			}
 		}
 
 		// Setting the rotations and mesh pointer
@@ -65,17 +64,19 @@ void Engine::Render::Gizmo() {
 		kl::float3 zRot;
 		kl::float3 yRot;
 		ID3D11Buffer* gizmoMesh = nullptr;
-		if (Engine::Gizmo::selected == Engine::Gizmo::Type::ROTATE) {
+		if (Engine::Gizmo::selected == Engine::Gizmo::Type::ROTATE)
+		{
 			const kl::float3 posDif = (Engine::Render::camera.position - Engine::Picking::selected->position).normalize();
 			xRot = kl::float3((posDif.y < 0.0f) ? 180.0f : 0.0f, (posDif.z < 0.0f) ? 90.0f : -90.0f, 0.0f);
 			yRot = kl::float3(90.0f, ((posDif.x < 0.0f) ? ((posDif.z < 0.0f) ? 180.0f : 270.0f) : ((posDif.z < 0.0f) ? 90.0f : 0.0f)), 0.0f);
 			zRot = kl::float3((posDif.y < 0.0f) ? 180.0f : 0.0f, (posDif.x < 0.0f) ? 180.0f : 0.0f, 0.0f);
 			gizmoMesh = Engine::Gizmo::rotateM;
 		}
-		else {
-			xRot = kl::float3( 0, 0, -90);
-			yRot = kl::float3( 0, 0,   0);
-			zRot = kl::float3(90, 0,   0);
+		else
+		{
+			xRot = kl::float3(0, 0, -90);
+			yRot = kl::float3(0, 0, 0);
+			zRot = kl::float3(90, 0, 0);
 			gizmoMesh = (Engine::Gizmo::selected == Engine::Gizmo::Type::SCALE) ? Engine::Gizmo::scaleM : Engine::Gizmo::moveM;
 		}
 

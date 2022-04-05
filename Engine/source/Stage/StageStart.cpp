@@ -14,7 +14,8 @@
 #include "Data/Entities.h"
 
 
-void Engine::Stage::Start() {
+void Engine::Stage::Start()
+{
 	// Setting the icon
 	Engine::win.setIcon("resource/icons/k.ico");
 

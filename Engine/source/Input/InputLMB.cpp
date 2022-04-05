@@ -12,7 +12,8 @@ kl::float3 firstScal;
 kl::float3 offsRot;
 kl::float3 firstRota;
 
-kl::ray GetMouseRay() {
+kl::ray GetMouseRay()
+{
 	// Mouse UV
 	kl::float2 mouseUV = Engine::win.mouse.position;
 	mouseUV -= Engine::GUI::viewportPos;
@@ -28,20 +29,25 @@ kl::ray GetMouseRay() {
 	return kl::ray(Engine::Render::camera.position, farMousePoint.xyz() - Engine::Render::camera.position);
 }
 
-void LMBPress() {
-	if (Engine::GUI::viewportFocus) {
+void LMBPress()
+{
+	if (Engine::GUI::viewportFocus)
+	{
 		// Index test
-		if (Engine::Picking::mouseIndex >= 0) {
+		if (Engine::Picking::mouseIndex >= 0)
+		{
 			Engine::Picking::selected = Engine::entities[Engine::Picking::mouseIndex];
 			Engine::Picking::selectedInd = Engine::Picking::mouseIndex;
 		}
-		else if (Engine::Picking::mouseIndex >= -2) {
+		else if (Engine::Picking::mouseIndex >= -2)
+		{
 			Engine::Picking::selected = nullptr;
 			Engine::Picking::selectedInd = -1;
 		}
 
 		// Selected test
-		if (Engine::Picking::selected) {
+		if (Engine::Picking::selected)
+		{
 			// Saving
 			firstScal = Engine::Picking::selected->scale;
 			firstRota = Engine::Picking::selected->rotation;
@@ -79,8 +85,10 @@ void LMBPress() {
 	}
 }
 
-void LMBDown() {
-	if (Engine::Picking::selected) {
+void LMBDown()
+{
+	if (Engine::Picking::selected)
+	{
 		// Intersection
 		kl::float3 inter1;
 		kl::float3 inter2;
@@ -95,42 +103,42 @@ void LMBDown() {
 		const kl::float3 currPos = kl::float3(inter1.x, inter2.y, inter3.z) - offsPos;
 
 		// Entity edit
-		if (Engine::Gizmo::selected == Engine::Gizmo::Type::SCALE) {
-			if (Engine::Picking::heldIndex == -3) {
+		if (Engine::Gizmo::selected == Engine::Gizmo::Type::SCALE)
+		{
+			if (Engine::Picking::heldIndex == -3)
 				Engine::Picking::selected->scale.x = firstScal.x + (currPos.x - Engine::Picking::selected->position.x);
-			}
-			else if (Engine::Picking::heldIndex == -4) {
+			else if (Engine::Picking::heldIndex == -4)
 				Engine::Picking::selected->scale.y = firstScal.y + (currPos.y - Engine::Picking::selected->position.y);
-			}
-			else if (Engine::Picking::heldIndex == -5) {
+			else if (Engine::Picking::heldIndex == -5)
 				Engine::Picking::selected->scale.z = firstScal.z + (currPos.z - Engine::Picking::selected->position.z);
-			}
 		}
-		else if (Engine::Gizmo::selected == Engine::Gizmo::Type::MOVE) {
-			if (Engine::Picking::heldIndex == -3) {
+		else if (Engine::Gizmo::selected == Engine::Gizmo::Type::MOVE)
+		{
+			if (Engine::Picking::heldIndex == -3)
 				Engine::Picking::selected->position.x = currPos.x;
-			}
-			else if (Engine::Picking::heldIndex == -4) {
+			else if (Engine::Picking::heldIndex == -4)
 				Engine::Picking::selected->position.y = currPos.y;
-			}
-			else if (Engine::Picking::heldIndex == -5) {
+			else if (Engine::Picking::heldIndex == -5)
 				Engine::Picking::selected->position.z = currPos.z;
-			}
 		}
-		else if (Engine::Gizmo::selected == Engine::Gizmo::Type::ROTATE) {
-			if (Engine::Picking::heldIndex == -3) {
+		else if (Engine::Gizmo::selected == Engine::Gizmo::Type::ROTATE)
+		{
+			if (Engine::Picking::heldIndex == -3)
+			{
 				kl::float3 intersect;
 				mouseRay.intersect(kl::plane(kl::float3::pos_x, Engine::Picking::selected->position), &intersect);
 				kl::float2 secondVec = kl::float2(intersect.y, intersect.z) - kl::float2(Engine::Picking::selected->position.y, Engine::Picking::selected->position.z);
 				Engine::Picking::selected->rotation.x = firstRota.x + kl::float2::pos_x.angle(secondVec, true) - offsRot.x;
 			}
-			else if (Engine::Picking::heldIndex == -4) {
+			else if (Engine::Picking::heldIndex == -4)
+			{
 				kl::float3 intersect;
 				mouseRay.intersect(kl::plane(kl::float3::pos_y, Engine::Picking::selected->position), &intersect);
 				kl::float2 secondVec = kl::float2(intersect.z, intersect.x) - kl::float2(Engine::Picking::selected->position.z, Engine::Picking::selected->position.x);
 				Engine::Picking::selected->rotation.y = firstRota.y + kl::float2::pos_x.angle(secondVec, true) - offsRot.y;
 			}
-			else if (Engine::Picking::heldIndex == -5) {
+			else if (Engine::Picking::heldIndex == -5)
+			{
 				kl::float3 intersect;
 				mouseRay.intersect(kl::plane(kl::float3::pos_z, Engine::Picking::selected->position), &intersect);
 				kl::float2 secondVec = kl::float2(intersect.x, intersect.y) - kl::float2(Engine::Picking::selected->position.x, Engine::Picking::selected->position.y);
@@ -140,11 +148,13 @@ void LMBDown() {
 	}
 }
 
-void LMBRelease() {
+void LMBRelease()
+{
 	Engine::Picking::heldIndex = -1;
 }
 
-void Engine::Input::LMB() {
+void Engine::Input::LMB()
+{
 	Engine::win.mouse.lmb.press = LMBPress;
 	Engine::win.mouse.lmb.down = LMBDown;
 	Engine::win.mouse.lmb.release = LMBRelease;

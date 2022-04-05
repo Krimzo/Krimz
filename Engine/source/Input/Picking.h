@@ -3,8 +3,10 @@
 #include "Data/Entities.h"
 
 
-namespace Engine {
-	namespace Picking {
+namespace Engine
+{
+	namespace Picking
+	{
 		inline int heldIndex = -1;
 		inline int mouseIndex = -1;
 		inline int selectedInd = -1;

@@ -7,8 +7,10 @@
 #include "Scripting/Script.h"
 
 
-namespace Engine {
-	class Entity : public EObject {
+namespace Engine
+{
+	class Entity : public EObject
+	{
 	public:
 		// View
 		bool visible = true;

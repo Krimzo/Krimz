@@ -5,7 +5,8 @@
 #include "GUI/GUI.h"
 
 
-void MovementSetup() {
+void MovementSetup()
+{
 	Engine::win.keys.w.down = [&]() { if (!ImGui::GetIO().WantCaptureKeyboard) Engine::Render::camera.moveForward(Engine::Time::delta); };
 	Engine::win.keys.s.down = [&]() { if (!ImGui::GetIO().WantCaptureKeyboard) Engine::Render::camera.moveBack(Engine::Time::delta); };
 	Engine::win.keys.d.down = [&]() { if (!ImGui::GetIO().WantCaptureKeyboard) Engine::Render::camera.moveRight(Engine::Time::delta); };
@@ -18,20 +19,26 @@ void MovementSetup() {
 
 bool firstClick = true;
 bool camMoving = false;
-void RotationSetup() {
-	Engine::win.mouse.rmb.press = [&]() {
-		if (Engine::GUI::viewportFocus) {
+void RotationSetup()
+{
+	Engine::win.mouse.rmb.press = [&]()
+	{
+		if (Engine::GUI::viewportFocus)
+		{
 			Engine::win.mouse.hide();
 			camMoving = true;
 		}
 	};
-	Engine::win.mouse.rmb.down = [&]() {
-		if (camMoving) {
+	Engine::win.mouse.rmb.down = [&]()
+	{
+		if (camMoving)
+		{
 			// Window center
 			const kl::int2 frameCenter = Engine::win.getCenter();
 
 			// First click jump fix
-			if (firstClick) {
+			if (firstClick)
+			{
 				Engine::win.mouse.position = frameCenter;
 				firstClick = false;
 			}
@@ -41,14 +48,16 @@ void RotationSetup() {
 			Engine::win.mouse.move(frameCenter);
 		}
 	};
-	Engine::win.mouse.rmb.release = [&]() {
+	Engine::win.mouse.rmb.release = [&]()
+	{
 		Engine::win.mouse.show();
 		firstClick = true;
 		camMoving = false;
 	};
 }
 
-void Engine::Input::Camera() {
+void Engine::Input::Camera()
+{
 	// Movement
 	MovementSetup();
 

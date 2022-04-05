@@ -3,12 +3,13 @@
 #include "View/Outline.h"
 
 
-void Engine::Render::Outline() {
+void Engine::Render::Outline()
+{
 	// Screen mesh
 	static ID3D11Buffer* screen = Engine::Render::gpu->newVertBuffer({
 		kl::vertex(kl::float3(1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)),
 		kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, 1.0f, 0.5f))
-	});
+		});
 
 	// Binding index shaders
 	Engine::Render::gpu->bind(Engine::Shaders::Vertex::index);

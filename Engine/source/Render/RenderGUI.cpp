@@ -2,37 +2,38 @@
 #include "GUI/GUI.h"
 
 
-void Engine::Render::GUI() {
-    // Draw start
-    ImGui_ImplDX11_NewFrame();
-    ImGui_ImplWin32_NewFrame();
-    ImGui::NewFrame();
+void Engine::Render::GUI()
+{
+	// Draw start
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
 
-    // Enabling main window docking
-    ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
+	// Enabling main window docking
+	ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
 
-    // Main menu
-    Engine::GUI::MainMenu();
+	// Main menu
+	Engine::GUI::MainMenu();
 
-    // Scene
-    Engine::GUI::Scene();
+	// Scene
+	Engine::GUI::Scene();
 
-    // Viewport
-    Engine::GUI::Viewport();
+	// Viewport
+	Engine::GUI::Viewport();
 
-    // Performance
-    Engine::GUI::Performance();
+	// Performance
+	Engine::GUI::Performance();
 
-    // Log
-    Engine::GUI::Log();
+	// Log
+	Engine::GUI::Log();
 
-    // Explorer
-    Engine::GUI::Explorer();
+	// Explorer
+	Engine::GUI::Explorer();
 
-    // Properties
-    Engine::GUI::Properties();
+	// Properties
+	Engine::GUI::Properties();
 
-    // Draw end
-    ImGui::Render();
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	// Draw end
+	ImGui::Render();
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }

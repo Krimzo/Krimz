@@ -5,8 +5,10 @@
 #include "Data/EObjects.h"
 
 
-namespace Engine {
-	class Mesh : public EObject {
+namespace Engine
+{
+	class Mesh : public EObject
+	{
 	public:
 		ID3D11Buffer* buff = nullptr;
 
@@ -14,7 +16,8 @@ namespace Engine {
 		~Mesh();
 	};
 
-	namespace Default {
+	namespace Default
+	{
 		inline Engine::Mesh* mesh = nullptr;
 	}
 

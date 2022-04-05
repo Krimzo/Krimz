@@ -5,7 +5,8 @@
 #include "Scripting/Scripting.h"
 
 
-void Engine::Stage::End() {
+void Engine::Stage::End()
+{
 	// Deleting entities
 	Engine::entities.clear();
 
@@ -16,5 +17,5 @@ void Engine::Stage::End() {
 	delete Engine::Render::gpu;
 
 	// Handler cleanup
-	Engine::Handler::Uninit();
+	Engine::JavaHandler::Uninit();
 }

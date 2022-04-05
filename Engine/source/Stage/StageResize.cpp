@@ -5,8 +5,10 @@
 #include "View/Outline.h"
 
 
-void Engine::Stage::Resize(const kl::int2& siz) {
-	if (siz.x > 0 && siz.y > 0) {
+void Engine::Stage::Resize(const kl::int2& siz)
+{
+	if (siz.x > 0 && siz.y > 0)
+	{
 		// Internal
 		Engine::Render::gpu->regenBuffers(siz);
 		Engine::Render::gpu->viewport(kl::int2(0, 0), siz);

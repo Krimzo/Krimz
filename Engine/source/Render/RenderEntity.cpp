@@ -5,7 +5,8 @@
 #include "Data/Entities.h"
 
 
-void Engine::Render::Entity() {
+void Engine::Render::Entity()
+{
 	// Binding internal + index texture
 	Engine::Render::gpu->bindInternal({ Engine::Picking::targetV });
 
@@ -34,8 +35,10 @@ void Engine::Render::Entity() {
 	draw_pixl_data.camPos = Engine::Render::camera.position;
 
 	// Rendering entities
-	for (int i = 0; i < Engine::entities.size(); i++) {
-		if (Engine::entities[i]->visible) {
+	for (int i = 0; i < Engine::entities.size(); i++)
+	{
+		if (Engine::entities[i]->visible)
+		{
 			// Updating the vert data
 			draw_vert_data.w = Engine::entities[i]->matrix();
 			Engine::Render::gpu->setBuffData(Engine::CBuffers::Vertex::editor, &draw_vert_data);
@@ -46,12 +49,14 @@ void Engine::Render::Entity() {
 			Engine::Render::gpu->setBuffData(Engine::CBuffers::Pixel::editor, &draw_pixl_data);
 
 			// Rendering the entity
-			if (Engine::entities[i] == Engine::Picking::selected) {
+			if (Engine::entities[i] == Engine::Picking::selected)
+			{
 				Engine::Render::gpu->bind(Engine::DepthStencil::write);
 				Engine::entities[i]->render(Engine::Render::gpu, true);
 				Engine::Render::gpu->bind(Engine::DepthStencil::depth);
 			}
-			else {
+			else
+			{
 				Engine::entities[i]->render(Engine::Render::gpu, true);
 			}
 		}

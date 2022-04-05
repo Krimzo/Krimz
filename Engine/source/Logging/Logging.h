@@ -4,12 +4,14 @@
 #include <string>
 
 
-namespace Engine {
+namespace Engine
+{
 	void log(int dat);
 	void log(float dat);
 	void log(const std::string& dat);
 
-	namespace Logging {
+	namespace Logging
+	{
 		inline std::vector<std::string> logs;
 	}
 }

@@ -7,7 +7,8 @@
 #include "GUI/GUI.h"
 
 
-int main() {
+int main()
+{
 	// Callback setup
 	Engine::win.start = Engine::Stage::Start;
 	Engine::win.update = Engine::Stage::Update;
@@ -21,7 +22,7 @@ int main() {
 	Engine::GUI::LoadKrimzTheme();
 
 	// Script setup
-	Engine::Handler::Init();
+	Engine::JavaHandler::Init();
 
 	// Time
 	Engine::Time::timer.reset();

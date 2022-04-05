@@ -8,25 +8,28 @@
 
 std::vector<Engine::Entity> savedEntities;
 
-void Engine::GUI::Viewport() {
+void Engine::GUI::Viewport()
+{
 	// Window draw
-	if (ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoBackground)) {
+	if (ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoBackground))
+	{
 		// Focuse save
 		Engine::GUI::viewportFocus = ImGui::IsWindowHovered();
-		
+
 		// Play button
 		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x * 0.5f - 22.0f, 10.0f));
-		if (!Engine::gameRunning) {
+		if (!Engine::gameRunning)
+		{
 			// Button draw
-			if (ImGui::Button("PLAY")) {
+			if (ImGui::Button("PLAY"))
+			{
 				// Saving entites
 				savedEntities.resize(Engine::entities.size());
-				for (int i = 0; i < Engine::entities.size(); i++) {
+				for (int i = 0; i < Engine::entities.size(); i++)
 					savedEntities[i] = *Engine::entities[i];
-				}
 
 				// Reloading scripts
-				Engine::Handler::ReloadScripts();
+				Engine::JavaHandler::ReloadScripts();
 
 				// Calling start scripts
 				Engine::Scripting::CallStarts();
@@ -36,22 +39,25 @@ void Engine::GUI::Viewport() {
 				Engine::gameRunning = true;
 			}
 		}
-		else {
+		else
+		{
 			// Button draw
-			if (ImGui::Button("STOP")) {
+			if (ImGui::Button("STOP"))
+			{
 				// Saving selected's name
 				const std::string lastSelectedName = Engine::Picking::selected ? Engine::Picking::selected->name : "";
 
 				// Loading saved entities
 				Engine::entities.clear();
-				for (Engine::Entity& ent : savedEntities) {
+				for (Engine::Entity& ent : savedEntities)
 					Engine::entities.newInst(new Engine::Entity(ent));
-				}
 				savedEntities.clear();
 
 				// Selected fix
-				for (int i = 0; i < Engine::entities.size(); i++) {
-					if (Engine::entities[i]->name == lastSelectedName) {
+				for (int i = 0; i < Engine::entities.size(); i++)
+				{
+					if (Engine::entities[i]->name == lastSelectedName)
+					{
 						Engine::Picking::selected = Engine::entities[i];
 						break;
 					}

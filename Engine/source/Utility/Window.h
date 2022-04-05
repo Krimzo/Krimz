@@ -3,6 +3,7 @@
 #include "KrimzLib.h"
 
 
-namespace Engine {
+namespace Engine
+{
 	inline kl::window win;
 }

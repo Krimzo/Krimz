@@ -5,8 +5,10 @@
 #include "Data/EObjects.h"
 
 
-namespace Engine { 
-	class Texture : public EObject {
+namespace Engine
+{
+	class Texture : public EObject
+	{
 	public:
 		ID3D11ShaderResourceView* view = nullptr;
 
@@ -14,7 +16,8 @@ namespace Engine {
 		~Texture();
 	};
 
-	namespace Default {
+	namespace Default
+	{
 		inline Engine::Texture* texture = nullptr;
 	}
 

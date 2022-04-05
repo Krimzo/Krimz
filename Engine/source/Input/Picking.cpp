@@ -3,9 +3,11 @@
 #include "Render/Render.h"
 
 
-void Engine::Picking::ReadObjectIndex() {
+void Engine::Picking::ReadObjectIndex()
+{
 	if (Engine::win.mouse.position.x >= 0 && Engine::win.mouse.position.x < Engine::win.getSize().x &&
-		Engine::win.mouse.position.y >= 0 && Engine::win.mouse.position.y < Engine::win.getSize().y) {
+		Engine::win.mouse.position.y >= 0 && Engine::win.mouse.position.y < Engine::win.getSize().y)
+	{
 		// Copying the index texture pixel
 		D3D11_BOX srcBox = {};
 		srcBox.left = Engine::win.mouse.position.x;
@@ -31,7 +33,8 @@ void Engine::Picking::ReadObjectIndex() {
 		// Saving mouse object index
 		Engine::Picking::mouseIndex = int(index);
 	}
-	else {
+	else
+	{
 		Engine::Picking::mouseIndex = -1;
 	}
 }

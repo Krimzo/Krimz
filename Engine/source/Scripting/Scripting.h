@@ -1,10 +1,12 @@
 #pragma once
 
-#include "Scripting/Handler.h"
+#include "Scripting/JavaHandler.h"
 
 
-namespace Engine {
-	namespace Scripting {
+namespace Engine
+{
+	namespace Scripting
+	{
 		// Updates static time
 		void UpdateTime();
 

@@ -1,7 +1,8 @@
 #include "Input/Input.h"
 
 
-void Engine::Input::Setup() {
+void Engine::Input::Setup()
+{
 	// LMB
 	Engine::Input::LMB();
 
