@@ -35,7 +35,7 @@ namespace Engine
 		Engine::Texture* texture = nullptr;
 
 		// Scripts
-		std::vector<Engine::Script*> scripts;
+		std::vector<Engine::Script> scripts;
 
 		// Constructor
 		Entity();

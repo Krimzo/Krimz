@@ -1,44 +1,16 @@
 #include "Scripting/Scripting.h"
 #include "Logging/Logging.h"
-#include <filesystem>
+#include "Data/Entities.h"
+#include "KrimzLib.h"
 
-
-// Returns buffer of file bytes
-std::vector<byte> GetFileBytes(const std::string& filePath)
-{
-	// Open file
-	FILE* file = nullptr;
-	fopen_s(&file, filePath.c_str(), "rb");
-	if (!file)
-	{
-		std::cout << "File: Could not open file \"" << filePath << "\"!";
-		std::cin.get();
-		exit(69);
-	}
-
-	// Seek to end and get pos
-	fseek(file, 0, SEEK_END);
-	const int byteSize = ftell(file);
-
-	// Create buff and read data
-	std::vector<byte> buff(byteSize);
-	rewind(file);
-	fread(&buff[0], 1, byteSize, file);
-
-	// Close file
-	fclose(file);
-
-	// Return data
-	return buff;
-}
 
 // Loads eternal class
-jclass Engine::JavaHandler::LoadEternalClass(JNIEnv* env, const std::string& name)
+jclass Engine::JavaHandler::LoadEternalClass(const std::string& name)
 {
 	jclass loaded = env->FindClass(name.c_str());
 	if (!loaded)
 	{
-		std::cout << "Could not load class \"" << name << "\"!";
+		std::cout << "Could not load eternal class \"" << name << "\"!";
 		std::cin.get();
 		exit(69);
 	}
@@ -72,23 +44,23 @@ void Engine::JavaHandler::Init()
 	}
 
 	// Engine api class loading
-	engineClass = LoadEternalClass(env, "engine/Engine");
-	loaderClass = LoadEternalClass(env, "engine/script/Loader");
-	LoadEternalClass(env, "engine/script/Script");
-	LoadEternalClass(env, "engine/math/Int2");
-	LoadEternalClass(env, "engine/math/Int3");
-	LoadEternalClass(env, "engine/math/Int4");
-	LoadEternalClass(env, "engine/math/Float2");
-	LoadEternalClass(env, "engine/math/Float3");
-	LoadEternalClass(env, "engine/math/Float4");
-	LoadEternalClass(env, "engine/math/Mat3");
-	LoadEternalClass(env, "engine/math/Mat4");
-	LoadEternalClass(env, "engine/math/Plane");
-	LoadEternalClass(env, "engine/math/Sphere");
-	LoadEternalClass(env, "engine/math/Vertex");
-	LoadEternalClass(env, "engine/math/Triangle");
-	LoadEternalClass(env, "engine/math/Ray");
-	LoadEternalClass(env, "engine/Entity");
+	engineClass = LoadEternalClass("engine/Engine");
+	loaderClass = LoadEternalClass("engine/script/Loader");
+	LoadEternalClass("engine/script/Script");
+	LoadEternalClass("engine/math/Int2");
+	LoadEternalClass("engine/math/Int3");
+	LoadEternalClass("engine/math/Int4");
+	LoadEternalClass("engine/math/Float2");
+	LoadEternalClass("engine/math/Float3");
+	LoadEternalClass("engine/math/Float4");
+	LoadEternalClass("engine/math/Mat3");
+	LoadEternalClass("engine/math/Mat4");
+	LoadEternalClass("engine/math/Plane");
+	LoadEternalClass("engine/math/Sphere");
+	LoadEternalClass("engine/math/Vertex");
+	LoadEternalClass("engine/math/Triangle");
+	LoadEternalClass("engine/math/Ray");
+	LoadEternalClass("engine/Entity");
 
 	// Engine api field getting
 	deltaTField = GetField(engineClass, "deltaT", "F", true);
@@ -96,12 +68,12 @@ void Engine::JavaHandler::Init()
 	loaderConstr = GetMethod(loaderClass, "<init>", "()V");
 
 	// Getting system class
-	sysClass = LoadEternalClass(env, "java/lang/System");
+	sysClass = LoadEternalClass("java/lang/System");
 	sysGCMethod = GetMethod(sysClass, "gc", "()V", true);
 
 	// Compiler loading
-	jclass providerClass = LoadEternalClass(env, "javax/tools/ToolProvider");
-	jclass compilerClass = LoadEternalClass(env, "javax/tools/JavaCompiler");
+	jclass providerClass = LoadEternalClass("javax/tools/ToolProvider");
+	jclass compilerClass = LoadEternalClass("javax/tools/JavaCompiler");
 	jmethodID providerMethod = GetMethod(providerClass, "getSystemJavaCompiler", "()Ljavax/tools/JavaCompiler;", true);
 	compiler = env->CallStaticObjectMethod(providerClass, providerMethod);
 	compileMethod = GetMethod(compilerClass, "run",
@@ -120,8 +92,8 @@ void Engine::JavaHandler::Init()
 }
 void Engine::JavaHandler::Uninit()
 {
-	JavaHandler::scripts.clear();
-	JavaHandler::refs.clear();
+	classes.clear();
+	refs.clear();
 	jvm->DestroyJavaVM();
 }
 
@@ -132,6 +104,7 @@ void Engine::JavaHandler::ResetLoader()
 	for (int i = int(refs.size()) - 1; i >= 0; i--)
 		env->DeleteLocalRef(refs[i]);
 	refs.clear();
+	classes.clear();
 
 	// Deleting class loader
 	env->DeleteLocalRef(loader);
@@ -150,16 +123,29 @@ void Engine::JavaHandler::ResetLoader()
 }
 
 // Loads a new class from file
-jclass Engine::JavaHandler::LoadClass(const std::string& name, const std::string& filePath)
+jclass Engine::JavaHandler::LoadClass(const std::string& filePath)
 {
-	const std::vector<byte> clsBytes = GetFileBytes(filePath.c_str());
-	jclass clsDef = env->DefineClass(name.c_str(), loader, (jbyte*)&clsBytes[0], jsize(clsBytes.size()));
+	// Loading file data
+	const std::vector<byte> clsBytes = kl::file::readB(filePath.c_str());
+	const std::string fileName = std::filesystem::path(filePath).stem().string();
+
+	// Defining class bytes
+	jclass clsDef = env->DefineClass(fileName.c_str(), loader, (jbyte*)&clsBytes[0], jsize(clsBytes.size()));
 	if (!clsDef)
 	{
-		std::cout << "Could not load class \"" << name << "\"!";
+		// Search for already defined class
+		for (auto& cls : classes)
+			if (cls.name == fileName)
+				return cls.cls;
+
+		// Exit
+		std::cout << "Could not load class \"" << fileName << "\"!";
 		std::cin.get();
 		exit(69);
 	}
+
+	// Saving and return
+	classes.push_back(Engine::JavaClass(fileName, clsDef));
 	refs.push_back(clsDef);
 	return clsDef;
 }
@@ -237,24 +223,6 @@ void Engine::JavaHandler::CompileFile(const std::string& filePath)
 	env->DeleteLocalRef(fileName);
 }
 
-// Creates a new script
-Engine::Script* Engine::JavaHandler::NewScript(const std::string& filePath)
-{
-	const std::string fileName = std::filesystem::path(filePath).stem().string();
-	for (int i = 0; i < scripts.size(); i++)
-	{
-		if (scripts[i]->name == fileName)
-			return nullptr;
-	}
-	return scripts.newInst(new Engine::Script(fileName, filePath));
-}
-
-// Deletes a script
-bool Engine::JavaHandler::DelScript(Engine::Script* scr)
-{
-	return scripts.delInst(scr);
-}
-
 // Reloads all scripts from files
 void Engine::JavaHandler::ReloadScripts()
 {
@@ -262,6 +230,7 @@ void Engine::JavaHandler::ReloadScripts()
 	ResetLoader();
 
 	// Loading new data
-	for (int i = 0; i < scripts.size(); i++)
-		scripts[i]->reload();
+	for (int i = 0; i < Engine::entities.size(); i++)
+		for (auto& scr : Engine::entities[i]->scripts)
+			scr.reload();
 }

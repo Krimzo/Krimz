@@ -33,7 +33,7 @@ std::vector<std::string> kl::file::getFiles(const std::string& dirPath, bool rec
 	return files;
 }
 
-// Returns a string from a given text file
+// Reads file data
 std::string kl::file::read(const std::string& filePath)
 {
 	std::ifstream fileStream(filePath);
@@ -48,18 +48,65 @@ std::string kl::file::read(const std::string& filePath)
 	fileStream.close();
 	return textBuffer.str();
 }
+std::vector<byte> kl::file::readB(const std::string& filePath)
+{
+	// Open file
+	FILE* file = nullptr;
+	fopen_s(&file, filePath.c_str(), "rb");
+	if (!file)
+	{
+		std::cout << "File: Could not open file \"" << filePath << "\"!";
+		std::cin.get();
+		exit(69);
+	}
 
-// Writes text to a text file
+	// Seek to end and get pos
+	fseek(file, 0, SEEK_END);
+	const int byteSize = ftell(file);
+
+	// Create buff and read data
+	std::vector<byte> buff(byteSize);
+	rewind(file);
+	fread(&buff[0], 1, byteSize, file);
+
+	// Close file
+	fclose(file);
+
+	// Return data
+	return buff;
+}
+
+// Writes data to file
 void kl::file::write(const std::string& filePath, const std::string& data)
 {
+	// Open/write/close
 	std::ofstream fileStream(filePath);
 	fileStream << data;
 	fileStream.close();
+}
+void kl::file::writeB(const std::string& filePath, const std::vector<byte>& data)
+{
+	// Open file
+	FILE* file = nullptr;
+	fopen_s(&file, filePath.c_str(), "wb");
+	if (!file)
+	{
+		std::cout << "File: Could not open file \"" << filePath << "\"!";
+		std::cin.get();
+		exit(69);
+	}
+
+	// Write
+	fwrite(&data[0], 1, data.size(), file);
+
+	// Close
+	fclose(file);
 }
 
 // Appends text to a text file
 void kl::file::append(const std::string& filePath, const std::string& data, int position)
 {
+	// Open file
 	std::fstream fileStream(filePath, std::ios::in | std::ios::out);
 	if (!fileStream.is_open())
 	{
@@ -68,13 +115,39 @@ void kl::file::append(const std::string& filePath, const std::string& data, int 
 		exit(69);
 	}
 
+	// Set pos
 	if (position < 0)
 		fileStream.seekp(0, std::ios_base::end);
 	else
 		fileStream.seekp(position);
 
+	// Write and close
 	fileStream << data;
 	fileStream.close();
+}
+void kl::file::appendB(const std::string& filePath, const std::vector<byte>& data, int position)
+{
+	// Open file
+	FILE* file = nullptr;
+	fopen_s(&file, filePath.c_str(), "ab");
+	if (!file)
+	{
+		std::cout << "File: Could not open file \"" << filePath << "\"!";
+		std::cin.get();
+		exit(69);
+	}
+
+	// Set pos
+	if (position < 0)
+		fseek(file, 0, SEEK_END);
+	else
+		fseek(file, position, SEEK_SET);
+
+	// Write
+	fwrite(&data[0], 1, data.size(), file);
+
+	// Close
+	fclose(file);
 }
 
 // Parses given .obj file

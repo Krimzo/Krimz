@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <jni.h>
 
+#include "Scripting/JavaClass.h"
 #include "Scripting/Script.h"
 #include "memory/pbuffer.h"
 
@@ -40,7 +41,7 @@ namespace Engine
 
 		// Buffers
 		inline std::vector<jobject> refs;
-		inline kl::pbuffer<Engine::Script> scripts;
+		inline std::vector<Engine::JavaClass> classes;
 
 		// Setup
 		void Init();
@@ -50,10 +51,10 @@ namespace Engine
 		void ResetLoader();
 
 		// Loads eternal class
-		jclass LoadEternalClass(JNIEnv* env, const std::string& name);
+		jclass LoadEternalClass(const std::string& name);
 
 		// Loads a new class from file
-		jclass LoadClass(const std::string& name, const std::string& filePath);
+		jclass LoadClass(const std::string& filePath);
 
 		// Gets a class method
 		jmethodID GetMethod(jclass cls, const std::string& name, const std::string& sig, bool isStatic = false);
@@ -69,12 +70,6 @@ namespace Engine
 
 		// Compiles given script
 		void CompileFile(const std::string& filePath);
-
-		// Creates a new script
-		Engine::Script* NewScript(const std::string& filePath);
-
-		// Deletes a script
-		bool DelScript(Engine::Script* scr);
 
 		// Reloads all scripts from files
 		void ReloadScripts();

@@ -8,7 +8,6 @@
 #include "Scripting/Scripting.h"
 #include "Render/Render.h"
 #include "Logging/Logging.h"
-#include "imgui_internal.h"
 
 
 void Entites()
@@ -316,77 +315,6 @@ void Textures()
 	}
 }
 
-void Scripts()
-{
-	if (ImGui::Begin("Scripts", nullptr, ImGuiWindowFlags_NoScrollbar))
-	{
-		// Transfer
-		ImVec2 winPos = ImGui::GetWindowPos();
-		ImVec2 winSize = ImGui::GetWindowSize();
-		ImGuiID winId = ImGui::GetID("Scripts");
-		if (ImGui::BeginDragDropTargetCustom(ImRect(winPos, ImVec2(winPos.x + winSize.x, winPos.y + winSize.y)), winId))
-		{
-			// Highlight
-			if (ImGui::GetDragDropPayload()->IsDataType("ScriptTransfer"))
-				ImGui::GetForegroundDrawList()->AddRect(winPos, ImVec2(winPos.x + winSize.x, winPos.y + winSize.y), IM_COL32(180, 100, 0, 255));
-
-			// Payload accept
-			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ScriptTransfer"))
-			{
-				std::filesystem::path filePath((char*)payload->Data);
-				Engine::JavaHandler::NewScript(filePath.string());
-			}
-			ImGui::EndDragDropTarget();
-		}
-
-		// Script names
-		for (int i = 0; i < Engine::JavaHandler::scripts.size(); i++)
-		{
-			// Draw
-			ImGui::Selectable(Engine::JavaHandler::scripts[i]->name.c_str());
-
-			// RMB menu
-			if (ImGui::BeginPopupContextItem())
-			{
-				// Delete
-				if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f)))
-				{
-					for (int j = 0; j < Engine::entities.size(); j++)
-					{
-						for (int k = 0; k < Engine::entities[j]->scripts.size(); k++)
-						{
-							if (Engine::entities[j]->scripts[k] == Engine::JavaHandler::scripts[i])
-								Engine::entities[j]->scripts.erase(Engine::entities[j]->scripts.begin() + k);
-						}
-					}
-					Engine::JavaHandler::DelScript(Engine::JavaHandler::scripts[i]);
-					Engine::JavaHandler::ReloadScripts();
-				}
-
-				// End
-				ImGui::EndPopup();
-			}
-		}
-
-		// Script reload
-		if (Engine::JavaHandler::scripts.size() > 0 && ImGui::BeginPopupContextWindow(
-			nullptr, ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems))
-		{
-			if (ImGui::Button("Reload", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f)))
-			{
-				Engine::JavaHandler::ReloadScripts();
-				ImGui::CloseCurrentPopup();
-			}
-
-			// End
-			ImGui::EndPopup();
-		}
-
-		// End
-		ImGui::End();
-	}
-}
-
 void Engine::GUI::Scene()
 {
 	// Allignement
@@ -396,7 +324,6 @@ void Engine::GUI::Scene()
 	Entites();
 	Meshes();
 	Textures();
-	Scripts();
 
 	// Style pop
 	ImGui::PopStyleVar();

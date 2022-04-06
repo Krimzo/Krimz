@@ -1,11 +1,13 @@
 // Vertex shader
-cbuffer VS_CB : register(b0) {
+cbuffer VS_CB : register(b0)
+{
     matrix w;
     matrix vpCam;
     matrix vpSun;
 }
 
-struct VS_OUT {
+struct VS_OUT
+{
     float4 screen : SV_POSITION;
     float3 world : WRLD;
     float2 textur : TEX;
@@ -13,7 +15,8 @@ struct VS_OUT {
     float4 sunPos : SUN;
 };
 
-VS_OUT vShader(float3 pos : POS_IN, float2 tex : TEX_IN, float3 norm : NORM_IN) {
+VS_OUT vShader(float3 pos : POS_IN, float2 tex : TEX_IN, float3 norm : NORM_IN)
+{
     VS_OUT data;
 
     // World transform
@@ -36,7 +39,8 @@ VS_OUT vShader(float3 pos : POS_IN, float2 tex : TEX_IN, float3 norm : NORM_IN) 
 }
 
 // Pixel shader
-cbuffer PS_CB : register(b0) {
+cbuffer PS_CB : register(b0)
+{
     float4 ambCol;
     float4 dirCol;
     float4 dirDir;
@@ -50,14 +54,16 @@ SamplerState samp1 : register(s1);
 Texture2D tex0 : register(t0);
 Texture2D tex1 : register(t1);
 
-struct PS_OUT {
+struct PS_OUT
+{
     float4 color : SV_TARGET0;
     float index : SV_TARGET1;
 };
 
 float CalcShadow(float3 lightPos, float lightNormDot);
 
-PS_OUT pShader(VS_OUT data) {
+PS_OUT pShader(VS_OUT data)
+{
     PS_OUT output;
 
     // Base pixel color
@@ -92,7 +98,8 @@ PS_OUT pShader(VS_OUT data) {
     return output;
 }
 
-float CalcShadow(float3 lightPos, float lightNormDot) {
+float CalcShadow(float3 lightPos, float lightNormDot)
+{
     // Shadow factor
     float shadowFac = 0.0f;
 
@@ -109,8 +116,10 @@ float CalcShadow(float3 lightPos, float lightNormDot) {
 
     // Smoothing the shadow
     const float2 texelSize = 1.0f / float2(mapWidth, mapHeight);
-    for (int y = -1; y <= 1; y++) {
-        for (int x = -1; x <= 1; x++) {
+    for (int y = -1; y <= 1; y++)
+    {
+        for (int x = -1; x <= 1; x++)
+        {
             const float depth = tex1.Sample(samp1, lightPos.xy + float2(x, y) * texelSize).r;
             shadowFac += ((depth + bias) < lightPos.z) ? 0.0f : 1.0f;
         }

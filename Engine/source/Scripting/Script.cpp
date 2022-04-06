@@ -3,25 +3,17 @@
 #include "Utility/Time.h"
 
 
-Engine::Script::Script(const std::string& name, const std::string& filePath)
+Engine::Script::Script(const std::string& filePath)
 {
-	// Saving file info
-	this->name = name;
 	this->path = filePath;
-
-	// Loading data
 	reload();
 }
-Engine::Script::~Script()
-{
-	Engine::JavaHandler::DelInst(inst);
-}
 
-// Reloads byte data
+// Reloads bytes
 void Engine::Script::reload()
 {
 	// Loading class from file
-	jclass cls = Engine::JavaHandler::LoadClass(name, path);
+	jclass cls = Engine::JavaHandler::LoadClass(path);
 
 	// Instance
 	if (inst) Engine::JavaHandler::DelInst(inst);

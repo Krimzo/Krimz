@@ -10,7 +10,6 @@ namespace Engine
 	{
 	public:
 		// File info
-		std::string name;
 		std::string path;
 
 		// Instance
@@ -33,10 +32,9 @@ namespace Engine
 		jfieldID velocityField = nullptr;
 		jfieldID angularField = nullptr;
 
-		Script(const std::string& name, const std::string& filePath);
-		~Script();
+		Script(const std::string& filePath);
 
-		// Reloads byte data
+		// Reloads bytes
 		void reload();
 
 		// Data editors

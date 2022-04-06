@@ -1,6 +1,7 @@
 #include "GUI/GUI.h"
 #include "Input/Picking.h"
 #include "Scripting/Scripting.h"
+#include "Stage/Stage.h"
 
 
 void Engine::GUI::Properties()
@@ -74,39 +75,64 @@ void Engine::GUI::Properties()
 		ImGui::End();
 	}
 
-	if (ImGui::Begin("Script", nullptr, ImGuiWindowFlags_NoScrollbar))
+	if (ImGui::Begin("Scripts", nullptr, ImGuiWindowFlags_NoScrollbar))
 	{
 		if (Engine::Picking::selected)
 		{
-			for (int i = 0; i < Engine::JavaHandler::scripts.size(); i++)
+			// Transfer
+			ImVec2 winPos = ImGui::GetWindowPos();
+			ImVec2 winSize = ImGui::GetWindowSize();
+			ImGuiID winId = ImGui::GetID("Scripts");
+			if (ImGui::BeginDragDropTargetCustom(ImRect(winPos, ImVec2(winPos.x + winSize.x, winPos.y + winSize.y)), winId))
 			{
-				bool hasScript = [&]()
+				// Highlight
+				if (ImGui::GetDragDropPayload()->IsDataType("ScriptTransfer"))
+					ImGui::GetForegroundDrawList()->AddRect(winPos, ImVec2(winPos.x + winSize.x, winPos.y + winSize.y), IM_COL32(180, 100, 0, 255));
+
+				// Payload accept
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ScriptTransfer"))
 				{
-					for (int j = 0; j < Engine::Picking::selected->scripts.size(); j++)
-					{
-						if (Engine::Picking::selected->scripts[j] == Engine::JavaHandler::scripts[i])
-							return true;
-					}
-					return false;
-				}();
-				const bool lastPhase = hasScript;
-				ImGui::Checkbox(Engine::JavaHandler::scripts[i]->name.c_str(), &hasScript);
-				if (!lastPhase && hasScript)
-				{
-					Engine::Picking::selected->scripts.push_back(Engine::JavaHandler::scripts[i]);
+					std::filesystem::path filePath((char*)payload->Data);
+					Engine::Picking::selected->scripts.push_back(Engine::Script(filePath.string()));
 				}
-				else if (lastPhase && !hasScript)
+				ImGui::EndDragDropTarget();
+			}
+
+			// Script names
+			for (int i = 0; i < Engine::Picking::selected->scripts.size(); i++)
+			{
+				// Draw
+				ImGui::PushID(i);
+				ImGui::Selectable(std::filesystem::path(Engine::Picking::selected->scripts[i].path).stem().string().c_str());
+				ImGui::PopID();
+
+				// RMB menu
+				if (ImGui::BeginPopupContextItem())
 				{
-					for (int j = 0; j < Engine::Picking::selected->scripts.size(); j++)
+					// Delete
+					if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f)))
 					{
-						if (Engine::Picking::selected->scripts[j] == Engine::JavaHandler::scripts[i])
-						{
-							Engine::Picking::selected->scripts.erase(Engine::Picking::selected->scripts.begin() + j);
-							break;
-						}
+						Engine::Picking::selected->scripts.erase(Engine::Picking::selected->scripts.begin() + i);
+						ImGui::CloseCurrentPopup();
 					}
+
+					// End
+					ImGui::EndPopup();
 				}
 			}
+		}
+
+		// Script reload
+		if (ImGui::BeginPopupContextWindow(nullptr, ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems))
+		{
+			if (ImGui::Button("Reload", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f)))
+			{
+				Engine::JavaHandler::ReloadScripts();
+				ImGui::CloseCurrentPopup();
+			}
+
+			// End
+			ImGui::EndPopup();
 		}
 		ImGui::End();
 	}

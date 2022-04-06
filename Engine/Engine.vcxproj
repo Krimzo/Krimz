@@ -33,6 +33,7 @@
     <ClInclude Include="source\Data\EObjects.h" />
     <ClInclude Include="source\Data\Meshes.h" />
     <ClInclude Include="source\Data\Textures.h" />
+    <ClInclude Include="source\Scripting\JavaClass.h" />
     <ClInclude Include="source\Stage\Stage.h" />
     <ClInclude Include="source\Utility\Struct.h" />
     <ClInclude Include="source\Data\Entities.h" />
@@ -76,6 +77,7 @@
     <ClCompile Include="source\Render\RenderOutline.cpp" />
     <ClCompile Include="source\Render\RenderShadows.cpp" />
     <ClCompile Include="source\Data\Textures.cpp" />
+    <ClCompile Include="source\Scripting\JavaClass.cpp" />
     <ClCompile Include="source\Scripting\Script.cpp" />
     <ClCompile Include="source\Scripting\JavaHandler.cpp" />
     <ClCompile Include="source\Scripting\Scripting.cpp" />

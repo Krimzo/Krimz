@@ -26,13 +26,13 @@ Engine::Entity::Entity(const std::string& name, Engine::Mesh* mes, Engine::Textu
 // Script callers
 void Engine::Entity::callStarts()
 {
-	for (Engine::Script* ref : scripts)
-		ref->callStart(this);
+	for (auto& ref : scripts)
+		ref.callStart(this);
 }
 void Engine::Entity::callUpdates()
 {
-	for (Engine::Script* ref : scripts)
-		ref->callUpdate(this);
+	for (auto& ref : scripts)
+		ref.callUpdate(this);
 }
 
 // Updates the object physics
