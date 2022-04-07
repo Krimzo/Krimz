@@ -16,7 +16,6 @@ void Engine::Script::reload()
 	jclass cls = Engine::JavaHandler::LoadClass(path);
 
 	// Instance
-	if (inst) Engine::JavaHandler::DelInst(inst);
 	inst = Engine::JavaHandler::NewInst(cls, Engine::JavaHandler::GetMethod(cls, "<init>", "()V"));
 
 	// Methods

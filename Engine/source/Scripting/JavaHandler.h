@@ -31,6 +31,7 @@ namespace Engine
 		inline jmethodID sysGCMethod = nullptr;
 
 		// Script compiler
+		inline jclass stringClass = nullptr;
 		inline jobject compiler = nullptr;
 		inline jmethodID compileMethod = nullptr;
 

@@ -317,14 +317,7 @@ void Textures()
 
 void Engine::GUI::Scene()
 {
-	// Allignement
-	ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, ImVec2(0.5f, 0.5f));
-
-	// Draw
 	Entites();
 	Meshes();
 	Textures();
-
-	// Style pop
-	ImGui::PopStyleVar();
 }

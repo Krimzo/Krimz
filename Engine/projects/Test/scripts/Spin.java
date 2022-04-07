@@ -9,7 +9,7 @@ public class Spin extends Entity implements Script {
 	int id = 0;
 
 	public Spin() {
-		id = classCounter++;
+		id = classCounter++ % 3;
 	}
 
 	// Called on first frame

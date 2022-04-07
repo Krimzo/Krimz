@@ -4,7 +4,7 @@
 #include "Stage/Stage.h"
 
 
-void Engine::GUI::Properties()
+void PropGeometry()
 {
 	if (ImGui::Begin("Geometry", nullptr, ImGuiWindowFlags_NoScrollbar))
 	{
@@ -36,7 +36,10 @@ void Engine::GUI::Properties()
 		}
 		ImGui::End();
 	}
+}
 
+void PropView()
+{
 	if (ImGui::Begin("View", nullptr, ImGuiWindowFlags_NoScrollbar))
 	{
 		if (Engine::Picking::selected)
@@ -62,7 +65,10 @@ void Engine::GUI::Properties()
 		}
 		ImGui::End();
 	}
+}
 
+void PropPhysics()
+{
 	if (ImGui::Begin("Physics", nullptr, ImGuiWindowFlags_NoScrollbar))
 	{
 		if (Engine::Picking::selected)
@@ -74,7 +80,10 @@ void Engine::GUI::Properties()
 		}
 		ImGui::End();
 	}
+}
 
+void PropScripts()
+{
 	if (ImGui::Begin("Scripts", nullptr, ImGuiWindowFlags_NoScrollbar))
 	{
 		if (Engine::Picking::selected)
@@ -136,4 +145,12 @@ void Engine::GUI::Properties()
 		}
 		ImGui::End();
 	}
+}
+
+void Engine::GUI::Properties()
+{
+	PropGeometry();
+	PropView();
+	PropPhysics();
+	PropScripts();
 }

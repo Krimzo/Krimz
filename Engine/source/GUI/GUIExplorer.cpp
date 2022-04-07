@@ -120,9 +120,9 @@ void Engine::GUI::Explorer()
 				fileIco = Engine::GUI::objectIcon;
 			else if (fileExtension == ".jpg" || fileExtension == ".png" || fileExtension == ".bmp")
 				fileIco = Engine::GUI::imageIcon;
-			else if (fileExtension == ".cpp" || fileExtension == ".java" || fileExtension == ".hlsl")
+			else if (fileExtension == ".cpp" || fileExtension == ".h" || fileExtension == ".hlsl")
 				fileIco = Engine::GUI::codeIcon;
-			else if (fileExtension == ".class")
+			else if (fileExtension == ".java")
 				fileIco = Engine::GUI::scriptIcon;
 			if (ImGui::ImageButton(fileIco, ImVec2(buttonSize, buttonSize)))
 				ShellExecuteA(0, 0, file.string().c_str(), 0, 0, SW_SHOW);
@@ -133,7 +133,7 @@ void Engine::GUI::Explorer()
 			{
 				if (ImGui::BeginDragDropSource())
 				{
-					std::string filePath = file.string();
+					const std::string filePath = file.string();
 					ImGui::SetDragDropPayload("MeshTransfer", filePath.c_str(), filePath.size() + 1);
 					ImGui::Image(fileIco, ImVec2(50.0f, 50.0f));
 					ImGui::EndDragDropSource();
@@ -143,7 +143,7 @@ void Engine::GUI::Explorer()
 			{
 				if (ImGui::BeginDragDropSource())
 				{
-					std::string filePath = file.string();
+					const std::string filePath = file.string();
 					ImGui::SetDragDropPayload("TextureTransfer", filePath.c_str(), filePath.size() + 1);
 					ImGui::Image(fileIco, ImVec2(50.0f, 50.0f));
 					ImGui::EndDragDropSource();
@@ -153,7 +153,7 @@ void Engine::GUI::Explorer()
 			{
 				if (ImGui::BeginDragDropSource())
 				{
-					std::string filePath = file.string();
+					const std::string filePath = file.string();
 					ImGui::SetDragDropPayload("ScriptTransfer", filePath.c_str(), filePath.size() + 1);
 					ImGui::Image(fileIco, ImVec2(50.0f, 50.0f));
 					ImGui::EndDragDropSource();
@@ -177,13 +177,6 @@ void Engine::GUI::Explorer()
 				if (ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f)))
 				{
 					std::filesystem::remove(file);
-					ImGui::CloseCurrentPopup();
-				}
-
-				// Script compile
-				if (fileExtension == ".java" && ImGui::Button("Compile", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f)))
-				{
-					Engine::JavaHandler::CompileFile(file.string());
 					ImGui::CloseCurrentPopup();
 				}
 

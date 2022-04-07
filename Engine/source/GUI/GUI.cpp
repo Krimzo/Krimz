@@ -24,12 +24,13 @@ void Engine::GUI::LoadKrimzTheme()
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	// Setting the window properties
-	style.WindowPadding = ImVec2(15, 15);
+	style.WindowPadding = ImVec2(15.0f, 15.0f);
 	style.WindowRounding = 2.0f;
-	style.FramePadding = ImVec2(5, 5);
+	style.FramePadding = ImVec2(5.0f, 5.0f);
 	style.FrameRounding = 2.0f;
-	style.ItemSpacing = ImVec2(12, 8);
-	style.ItemInnerSpacing = ImVec2(8, 6);
+	style.ItemSpacing = ImVec2(12.0f, 8.0f);
+	style.ItemInnerSpacing = ImVec2(8.0f, 6.0f);
+	style.SelectableTextAlign = ImVec2(0.5f, 0.5f);
 	style.IndentSpacing = 25.0f;
 	style.ScrollbarSize = 15.0f;
 	style.ScrollbarRounding = 9.0f;

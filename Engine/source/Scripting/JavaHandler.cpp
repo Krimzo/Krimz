@@ -72,6 +72,7 @@ void Engine::JavaHandler::Init()
 	sysGCMethod = GetMethod(sysClass, "gc", "()V", true);
 
 	// Compiler loading
+	stringClass = env->FindClass("Ljava/lang/String;");
 	jclass providerClass = LoadEternalClass("javax/tools/ToolProvider");
 	jclass compilerClass = LoadEternalClass("javax/tools/JavaCompiler");
 	jmethodID providerMethod = GetMethod(providerClass, "getSystemJavaCompiler", "()Ljavax/tools/JavaCompiler;", true);
@@ -100,7 +101,7 @@ void Engine::JavaHandler::Uninit()
 // Clears all loaded references
 void Engine::JavaHandler::ResetLoader()
 {
-	// Deleting references
+	// Cleanup
 	for (int i = int(refs.size()) - 1; i >= 0; i--)
 		env->DeleteLocalRef(refs[i]);
 	refs.clear();
@@ -125,21 +126,24 @@ void Engine::JavaHandler::ResetLoader()
 // Loads a new class from file
 jclass Engine::JavaHandler::LoadClass(const std::string& filePath)
 {
-	// Loading file data
-	const std::vector<byte> clsBytes = kl::file::readB(filePath.c_str());
-	const std::string fileName = std::filesystem::path(filePath).stem().string();
+	// Compiling and loading file
+	CompileFile(filePath);
+	const std::string classPath = std::filesystem::path(filePath).replace_extension("class").string();
+	const std::vector<byte> clsBytes = kl::file::readB(classPath);
+	std::filesystem::remove(classPath);
 
-	// Defining class bytes
+	// Defining class with bytes
+	const std::string fileName = std::filesystem::path(filePath).stem().string();
 	jclass clsDef = env->DefineClass(fileName.c_str(), loader, (jbyte*)&clsBytes[0], jsize(clsBytes.size()));
 	if (!clsDef)
 	{
-		// Search for already defined class
+		// Exists check
 		for (auto& cls : classes)
 			if (cls.name == fileName)
 				return cls.cls;
 
 		// Exit
-		std::cout << "Could not load class \"" << fileName << "\"!";
+		std::cout << "Could not load script \"" << filePath << "\"!";
 		std::cin.get();
 		exit(69);
 	}
@@ -208,15 +212,12 @@ void Engine::JavaHandler::DelInst(jobject obj)
 void Engine::JavaHandler::CompileFile(const std::string& filePath)
 {
 	// Setup
-	static jclass stringClass = env->FindClass("Ljava/lang/String;");
 	jstring fileName = env->NewStringUTF(filePath.c_str());
 	jarray nameArray = env->NewObjectArray(1, stringClass, fileName);
 
-	// Compilation and echo
-	std::stringstream ss;
-	ss << "Compiled \"" << filePath << "\" with error code " <<
-		env->CallIntMethod(compiler, compileMethod, NULL, NULL, NULL, nameArray);
-	Engine::log(ss.str());
+	// Compilation
+	if (env->CallIntMethod(compiler, compileMethod, NULL, NULL, NULL, nameArray))
+		Engine::log("An error occured compiling script \"" + filePath + "\"!");
 
 	// Cleanup
 	env->DeleteLocalRef(nameArray);
