@@ -91,12 +91,17 @@ void Engine::Stage::Start()
 	Engine::Picking::targetV = Engine::Render::gpu->newTargetView(Engine::Picking::texture);
 
 	// Outline
+	Engine::Outline::screenM = Engine::Render::gpu->newVertBuffer({
+		kl::vertex(kl::float3(1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)),
+		kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, 1.0f, 0.5f))
+		});
 	ID3D11Texture2D* outlineTex = Engine::Render::gpu->newTexture(&pickTexDes);
 	Engine::Outline::targetV = Engine::Render::gpu->newTargetView(outlineTex);
 	Engine::Outline::shaderV = Engine::Render::gpu->newShaderView(outlineTex);
 	Engine::Render::gpu->destroy(outlineTex);
 
 	// Camera
+	Engine::Render::camera.sens = 0.1f;
 	Engine::Render::camera.far = 500.0f;
 	Engine::Render::camera.shadows = 100.0f;
 	Engine::Render::camera.position = kl::float3(-1.4f, 1.25f, -6.0f);
@@ -107,6 +112,7 @@ void Engine::Stage::Start()
 	Engine::Light::sun.direction = kl::float3(0.575f, -0.75f, 2.0f);
 
 	// Gizmos
+	Engine::Gizmo::ballM = Engine::Render::gpu->newVertBuffer("resource/meshes/sphere.obj");
 	Engine::Gizmo::scaleM = Engine::Render::gpu->newVertBuffer("resource/meshes/scale.obj");
 	Engine::Gizmo::moveM = Engine::Render::gpu->newVertBuffer("resource/meshes/move.obj");
 	Engine::Gizmo::rotateM = Engine::Render::gpu->newVertBuffer("resource/meshes/rotate.obj");

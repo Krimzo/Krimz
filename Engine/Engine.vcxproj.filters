@@ -116,7 +116,7 @@
     <ClCompile Include="source\Input\InputLMB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Input\InputSetup.cpp">
+    <ClCompile Include="source\Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Logging\Logging.cpp">

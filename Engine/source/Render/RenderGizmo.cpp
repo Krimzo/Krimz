@@ -4,7 +4,7 @@
 #include "Utility/Struct.h"
 
 
-void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& col, int index)
+void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& col, int index, float alterScale = 1.0f)
 {
 	// Binding gizmo shaders
 	Engine::Render::gpu->bind(Engine::Shaders::Vertex::gizmo);
@@ -14,7 +14,7 @@ void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& co
 
 	// Building the wvp matrix
 	const kl::mat4 sc = kl::mat4::scale(
-		(Engine::Render::camera.position - Engine::Picking::selected->position).length() * Engine::Gizmo::scale);
+		(Engine::Render::camera.position - Engine::Picking::selected->position).length() * Engine::Gizmo::scale * alterScale);
 	const kl::mat4 ro = kl::mat4::rotate(rot);
 	const kl::mat4 tr = kl::mat4::translate(Engine::Picking::selected->position);
 	kl::mat4 wvp = Engine::Render::camera.matrix() * tr * ro * sc;
@@ -87,6 +87,7 @@ void Engine::Render::Gizmo()
 		Engine::Render::gpu->clearDepth();
 
 		// Drawing the gizmos
+		DrawGizmo(Engine::Gizmo::ballM, {}, kl::colors::white, -2, 0.06f);
 		DrawGizmo(gizmoMesh, xRot, Engine::Gizmo::colX, -3);
 		DrawGizmo(gizmoMesh, yRot, Engine::Gizmo::colY, -4);
 		DrawGizmo(gizmoMesh, zRot, Engine::Gizmo::colZ, -5);

@@ -68,7 +68,7 @@
     <ClCompile Include="source\Input\InputCamera.cpp" />
     <ClCompile Include="source\Input\InputGizmo.cpp" />
     <ClCompile Include="source\Input\InputLMB.cpp" />
-    <ClCompile Include="source\Input\InputSetup.cpp" />
+    <ClCompile Include="source\Input\Input.cpp" />
     <ClCompile Include="source\Input\Picking.cpp" />
     <ClCompile Include="source\Logging\Logging.cpp" />
     <ClCompile Include="source\Render\RenderEntity.cpp" />

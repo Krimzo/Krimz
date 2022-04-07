@@ -16,5 +16,3 @@ Documentation
 
 # Bugs
 Folder root crash
-
-

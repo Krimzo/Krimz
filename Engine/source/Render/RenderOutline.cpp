@@ -5,12 +5,6 @@
 
 void Engine::Render::Outline()
 {
-	// Screen mesh
-	static ID3D11Buffer* screen = Engine::Render::gpu->newVertBuffer({
-		kl::vertex(kl::float3(1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)),
-		kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, 1.0f, 0.5f))
-		});
-
 	// Binding index shaders
 	Engine::Render::gpu->bind(Engine::Shaders::Vertex::index);
 	Engine::Render::gpu->bind(Engine::Shaders::Pixel::index);
@@ -44,6 +38,6 @@ void Engine::Render::Outline()
 
 	// Drawing the outline
 	Engine::Render::gpu->bind(Engine::DepthStencil::mask);
-	Engine::Render::gpu->draw(screen);
+	Engine::Render::gpu->draw(Engine::Outline::screenM);
 	Engine::Render::gpu->bind(Engine::DepthStencil::depth);
 }

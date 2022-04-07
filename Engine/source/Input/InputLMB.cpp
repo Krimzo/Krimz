@@ -39,7 +39,7 @@ void LMBPress()
 			Engine::Picking::selected = Engine::entities[Engine::Picking::mouseIndex];
 			Engine::Picking::selectedInd = Engine::Picking::mouseIndex;
 		}
-		else if (Engine::Picking::mouseIndex >= -2)
+		else if (Engine::Picking::mouseIndex == -1)
 		{
 			Engine::Picking::selected = nullptr;
 			Engine::Picking::selectedInd = -1;
