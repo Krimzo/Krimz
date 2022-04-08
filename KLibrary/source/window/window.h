@@ -110,7 +110,7 @@ namespace kl
 		void setTitle(const std::string& data);
 
 		// Sets the window icons
-		void setIcon(const std::string& filePath);
+		bool setIcon(const std::string& filePath);
 
 		// Sets the pixels of the window
 		void drawImage(const kl::image& toDraw, const kl::int2& position = { 0, 0 });

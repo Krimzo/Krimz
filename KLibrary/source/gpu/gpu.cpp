@@ -11,6 +11,7 @@
 
 #include "geometry/vertex.h"
 #include "utility/convert.h"
+#include "utility/console.h"
 
 
 // Constructor
@@ -49,18 +50,21 @@ kl::gpu::gpu(HWND hwnd, bool imgui)
 	);
 	if (!device)
 	{
+		kl::console::show();
 		std::cout << "DirectX: Could not create device!";
 		std::cin.get();
 		exit(69);
 	}
 	if (!devcon)
 	{
+		kl::console::show();
 		std::cout << "DirectX: Could not create device context!";
 		std::cin.get();
 		exit(69);
 	}
 	if (!chain)
 	{
+		kl::console::show();
 		std::cout << "DirectX: Could not create swapchain!";
 		std::cin.get();
 		exit(69);

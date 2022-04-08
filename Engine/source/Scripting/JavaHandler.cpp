@@ -4,24 +4,12 @@
 #include "KrimzLib.h"
 
 
-// Loads eternal class
-jclass Engine::JavaHandler::LoadEternalClass(const std::string& name)
-{
-	jclass loaded = env->FindClass(name.c_str());
-	if (!loaded)
-	{
-		std::cout << "Could not load eternal class \"" << name << "\"!";
-		std::cin.get();
-		exit(69);
-	}
-	return loaded;
-}
-
 void Engine::JavaHandler::Init()
 {
 	// Loading java dll
 	if (!LoadLibraryA("../OpenJDK/bin/server/jvm.dll"))
 	{
+		kl::console::show();
 		std::cout << "Could not load java dll!";
 		std::cin.get();
 		exit(69);
@@ -38,7 +26,8 @@ void Engine::JavaHandler::Init()
 	// Virtual machine creation
 	if (JNI_CreateJavaVM(&jvm, (void**)&env, &vmArgs) != JNI_OK)
 	{
-		std::cout << "JVM Error";
+		kl::console::show();
+		std::cout << "JVM creation error!";
 		std::cin.get();
 		exit(69);
 	}
@@ -83,6 +72,7 @@ void Engine::JavaHandler::Init()
 	// Loader creation
 	if (!(loader = env->NewObject(loaderClass, loaderConstr)))
 	{
+		kl::console::show();
 		std::cout << "Could not create a class loader!";
 		std::cin.get();
 		exit(69);
@@ -113,14 +103,24 @@ void Engine::JavaHandler::ResetLoader()
 	// Collecting garbage
 	env->CallStaticVoidMethod(sysClass, sysGCMethod);
 
-	// Loader cretaion
+	// Loader creation
 	loader = env->NewObject(loaderClass, loaderConstr);
 	if (!loader)
 	{
+		kl::console::show();
 		std::cout << "Could not create a class loader!";
 		std::cin.get();
 		exit(69);
 	}
+}
+
+// Loads eternal class
+jclass Engine::JavaHandler::LoadEternalClass(const std::string& name)
+{
+	jclass loaded = env->FindClass(name.c_str());
+	if (!loaded)
+		Engine::log("Could not load eternal class \"" + name + "\"!");
+	return loaded;
 }
 
 // Loads a new class from file
@@ -131,6 +131,8 @@ jclass Engine::JavaHandler::LoadClass(const std::string& filePath)
 	const std::string classPath = std::filesystem::path(filePath).replace_extension("class").string();
 	const std::vector<byte> clsBytes = kl::file::readB(classPath);
 	std::filesystem::remove(classPath);
+	if (!clsBytes.size())
+		return nullptr;
 
 	// Defining class with bytes
 	const std::string fileName = std::filesystem::path(filePath).stem().string();
@@ -142,10 +144,9 @@ jclass Engine::JavaHandler::LoadClass(const std::string& filePath)
 			if (cls.name == fileName)
 				return cls.cls;
 
-		// Exit
-		std::cout << "Could not load script \"" << filePath << "\"!";
-		std::cin.get();
-		exit(69);
+		// Bad script
+		Engine::log("Could not define class \"" + fileName + "\"!");
+		return nullptr;
 	}
 
 	// Saving and return
@@ -159,11 +160,7 @@ jmethodID Engine::JavaHandler::GetMethod(jclass cls, const std::string& name, co
 {
 	jmethodID methodID = isStatic ? env->GetStaticMethodID(cls, name.c_str(), sig.c_str()) : env->GetMethodID(cls, name.c_str(), sig.c_str());
 	if (!methodID)
-	{
-		std::cout << "Could not get method \"" << name << "\"!";
-		std::cin.get();
-		exit(69);
-	}
+		Engine::log("Could not get method \"" + name + "\"!");
 	return methodID;
 }
 
@@ -172,11 +169,7 @@ jfieldID Engine::JavaHandler::GetField(jclass cls, const std::string& name, cons
 {
 	jfieldID fieldID = isStatic ? env->GetStaticFieldID(cls, name.c_str(), sig.c_str()) : env->GetFieldID(cls, name.c_str(), sig.c_str());
 	if (!fieldID)
-	{
-		std::cout << "Could not get field \"" << name << "\"!";
-		std::cin.get();
-		exit(69);
-	}
+		Engine::log("Could not get field \"" + name + "\"!");
 	return fieldID;
 }
 
@@ -185,12 +178,9 @@ jobject Engine::JavaHandler::NewInst(jclass cls, jmethodID constr)
 {
 	jobject obj = env->NewObject(cls, constr);
 	if (!obj)
-	{
-		std::cout << "Could not create a new class instance!";
-		std::cin.get();
-		exit(69);
-	}
-	refs.push_back(obj);
+		Engine::log("Could not create a new class instance!");
+	else
+		refs.push_back(obj);
 	return obj;
 }
 

@@ -12,28 +12,33 @@ Engine::Script::Script(const std::string& filePath)
 // Reloads bytes
 void Engine::Script::reload()
 {
-	// Loading class from file
-	jclass cls = Engine::JavaHandler::LoadClass(path);
+	if (jclass cls = Engine::JavaHandler::LoadClass(path))
+	{
+		// Instance
+		inst = Engine::JavaHandler::NewInst(cls, Engine::JavaHandler::GetMethod(cls, "<init>", "()V"));
 
-	// Instance
-	inst = Engine::JavaHandler::NewInst(cls, Engine::JavaHandler::GetMethod(cls, "<init>", "()V"));
+		// Methods
+		startMethod = Engine::JavaHandler::GetMethod(cls, "start", "()V");
+		updateMethod = Engine::JavaHandler::GetMethod(cls, "update", "()V");
 
-	// Methods
-	startMethod = Engine::JavaHandler::GetMethod(cls, "start", "()V");
-	updateMethod = Engine::JavaHandler::GetMethod(cls, "update", "()V");
+		// Fields
+		nameField = Engine::JavaHandler::GetField(cls, "name", "Ljava/lang/String;");
+		visibleField = Engine::JavaHandler::GetField(cls, "visible", "Z");
+		shadowsField = Engine::JavaHandler::GetField(cls, "shadows", "Z");
+		roughnessField = Engine::JavaHandler::GetField(cls, "roughness", "F");
+		scaleField = Engine::JavaHandler::GetField(cls, "scale", "Lengine/math/Float3;");
+		rotationField = Engine::JavaHandler::GetField(cls, "rotation", "Lengine/math/Float3;");
+		positionField = Engine::JavaHandler::GetField(cls, "position", "Lengine/math/Float3;");
+		physicsField = Engine::JavaHandler::GetField(cls, "physics", "Z");
+		accelerField = Engine::JavaHandler::GetField(cls, "acceler", "Lengine/math/Float3;");
+		velocityField = Engine::JavaHandler::GetField(cls, "velocity", "Lengine/math/Float3;");
+		angularField = Engine::JavaHandler::GetField(cls, "angular", "Lengine/math/Float3;");
 
-	// Fields
-	nameField = Engine::JavaHandler::GetField(cls, "name", "Ljava/lang/String;");
-	visibleField = Engine::JavaHandler::GetField(cls, "visible", "Z");
-	shadowsField = Engine::JavaHandler::GetField(cls, "shadows", "Z");
-	roughnessField = Engine::JavaHandler::GetField(cls, "roughness", "F");
-	scaleField = Engine::JavaHandler::GetField(cls, "scale", "Lengine/math/Float3;");
-	rotationField = Engine::JavaHandler::GetField(cls, "rotation", "Lengine/math/Float3;");
-	positionField = Engine::JavaHandler::GetField(cls, "position", "Lengine/math/Float3;");
-	physicsField = Engine::JavaHandler::GetField(cls, "physics", "Z");
-	accelerField = Engine::JavaHandler::GetField(cls, "acceler", "Lengine/math/Float3;");
-	velocityField = Engine::JavaHandler::GetField(cls, "velocity", "Lengine/math/Float3;");
-	angularField = Engine::JavaHandler::GetField(cls, "angular", "Lengine/math/Float3;");
+		// State set
+		loaded = true;
+	}
+	else
+		loaded = false;
 }
 
 // Data editors
@@ -59,6 +64,11 @@ void GetScriptFloat3(jobject field, kl::float3& dat)
 }
 void Engine::Script::setEntityData(void* ent)
 {
+	// Check
+	if (!loaded)
+		return;
+
+	// Work
 	Engine::Entity* pEnt = (Engine::Entity*)ent;
 	Engine::JavaHandler::env->SetObjectField(inst, nameField,
 		Engine::JavaHandler::env->NewString(
@@ -76,6 +86,11 @@ void Engine::Script::setEntityData(void* ent)
 }
 void Engine::Script::getEntityData(void* ent)
 {
+	// Check
+	if (!loaded)
+		return;
+
+	// Work
 	Engine::Entity* pEnt = (Engine::Entity*)ent;
 	pEnt->visible = Engine::JavaHandler::env->GetBooleanField(inst, visibleField);
 	pEnt->shadows = Engine::JavaHandler::env->GetBooleanField(inst, shadowsField);
@@ -92,12 +107,22 @@ void Engine::Script::getEntityData(void* ent)
 // Method callers
 void Engine::Script::callStart(void* ent)
 {
+	// Check
+	if (!loaded)
+		return;
+
+	// Work
 	setEntityData(ent);
 	Engine::JavaHandler::env->CallVoidMethod(inst, startMethod);
 	getEntityData(ent);
 }
 void Engine::Script::callUpdate(void* ent)
 {
+	// Check
+	if (!loaded)
+		return;
+
+	// Work
 	setEntityData(ent);
 	Engine::JavaHandler::env->CallVoidMethod(inst, updateMethod);
 	getEntityData(ent);

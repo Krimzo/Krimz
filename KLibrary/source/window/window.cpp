@@ -1,5 +1,7 @@
 #include "window/window.h"
+
 #include "utility/convert.h"
+#include "utility/console.h"
 
 #ifdef KL_USING_IMGUI
 #include "imgui.h"
@@ -60,6 +62,7 @@ void kl::window::registerWindowClass(const std::string& name)
 	windowClass.hIconSm = nullptr;
 	if (!RegisterClassExA(&windowClass))
 	{
+		kl::console::show();
 		std::cout << "WinApi: Could not register a window class!";
 		std::cin.get();
 		exit(69);
@@ -79,6 +82,7 @@ void kl::window::createWindow(const kl::int2& size, const std::string& name, boo
 	hwnd = CreateWindowExA(0, name.c_str(), name.c_str(), winStyle, (kl::window::screen::width / 2 - adjSize.x / 2), (kl::window::screen::height / 2 - adjSize.y / 2), adjSize.x, adjSize.y, nullptr, nullptr, hInstance, nullptr);
 	if (!hwnd)
 	{
+		kl::console::show();
 		std::cout << "WinApi: Could not create a window!";
 		std::cin.get();
 		exit(69);
@@ -308,20 +312,21 @@ void kl::window::setTitle(const std::string& data)
 }
 
 // Sets the window icons
-void kl::window::setIcon(const std::string& filePath)
+bool kl::window::setIcon(const std::string& filePath)
 {
 	// Loading the icon
 	HICON loadedIcon = ExtractIconA(nullptr, filePath.c_str(), NULL);
 	if (!loadedIcon)
 	{
+		kl::console::show();
 		std::cout << "WinApi: Could not load an icon file \"" << filePath << "\"";
-		std::cin.get();
-		exit(69);
+		return false;
 	}
 
 	// Sending the icon
 	SendMessageA(this->hwnd, WM_SETICON, ICON_BIG, (LPARAM)loadedIcon);
 	SendMessageA(this->hwnd, WM_SETICON, ICON_SMALL, (LPARAM)loadedIcon);
+	return true;
 }
 
 // Sets the pixels of the window

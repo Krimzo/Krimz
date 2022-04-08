@@ -25,12 +25,12 @@ namespace kl
 		std::vector<byte> readB(const std::string& filePath);
 
 		// Writes text to a text file
-		void write(const std::string& filePath, const std::string& data);
-		void writeB(const std::string& filePath, const std::vector<byte>& data);
+		bool write(const std::string& filePath, const std::string& data);
+		bool writeB(const std::string& filePath, const std::vector<byte>& data);
 
 		// Appends text to a text file
-		void append(const std::string& filePath, const std::string& data, int position = -1);
-		void appendB(const std::string& filePath, const std::vector<byte>& data, int position = -1);
+		bool append(const std::string& filePath, const std::string& data, int position = -1);
+		bool appendB(const std::string& filePath, const std::vector<byte>& data, int position = -1);
 
 		// Parses given .obj file
 		std::vector<kl::vertex> parseObj(const std::string& filePath, bool flipZ = true);

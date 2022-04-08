@@ -8,6 +8,9 @@ namespace Engine
 {
 	class Script
 	{
+	private:
+		bool loaded = false;
+
 	public:
 		// File info
 		std::string path;
