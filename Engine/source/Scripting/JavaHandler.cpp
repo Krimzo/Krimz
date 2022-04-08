@@ -140,22 +140,21 @@ jclass Engine::JavaHandler::LoadClass(const std::string& filePath)
 		return nullptr;
 
 	// Defining class with bytes
-	const std::string fileName = std::filesystem::path(filePath).stem().string();
 	jclass clsDef = env->DefineClass(nullptr, loader, (jbyte*)&clsBytes[0], jsize(clsBytes.size()));
 	if (!clsDef)
 	{
 		// Exists check
 		for (auto& cls : classes)
-			if (cls.name == fileName)
+			if (cls.name == filePath)
 				return cls.cls;
 
 		// Bad script
-		Engine::log("Could not define class \"" + fileName + "\"!");
+		Engine::log("Could not define class \"" + filePath + "\"!");
 		return nullptr;
 	}
 
 	// Saving and return
-	classes.push_back(Engine::JavaClass(fileName, clsDef));
+	classes.push_back(Engine::JavaClass(filePath, clsDef));
 	refs.push_back(clsDef);
 	return clsDef;
 }
