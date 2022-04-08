@@ -168,6 +168,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerOutput>NoListing</AssemblerOutput>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -187,6 +188,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerOutput>NoListing</AssemblerOutput>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -207,6 +209,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerOutput>NoListing</AssemblerOutput>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -226,6 +229,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerOutput>NoListing</AssemblerOutput>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
