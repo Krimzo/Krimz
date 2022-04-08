@@ -126,17 +126,22 @@ jclass Engine::JavaHandler::LoadEternalClass(const std::string& name)
 // Loads a new class from file
 jclass Engine::JavaHandler::LoadClass(const std::string& filePath)
 {
-	// Compiling and loading file
+	// Compilation and byte-code loading
 	CompileFile(filePath);
 	const std::string classPath = std::filesystem::path(filePath).replace_extension("class").string();
 	const std::vector<byte> clsBytes = kl::file::readB(classPath);
-	std::filesystem::remove(classPath);
+
+	// Cleanup and check
+	const std::string parentPath = std::filesystem::path(filePath).parent_path().string();
+	for (const auto& file : std::filesystem::recursive_directory_iterator(parentPath))
+		if (std::filesystem::path(file).extension().string() == ".class")
+			std::filesystem::remove(file);
 	if (!clsBytes.size())
 		return nullptr;
 
 	// Defining class with bytes
 	const std::string fileName = std::filesystem::path(filePath).stem().string();
-	jclass clsDef = env->DefineClass(fileName.c_str(), loader, (jbyte*)&clsBytes[0], jsize(clsBytes.size()));
+	jclass clsDef = env->DefineClass(nullptr, loader, (jbyte*)&clsBytes[0], jsize(clsBytes.size()));
 	if (!clsDef)
 	{
 		// Exists check
@@ -202,16 +207,25 @@ void Engine::JavaHandler::DelInst(jobject obj)
 void Engine::JavaHandler::CompileFile(const std::string& filePath)
 {
 	// Setup
-	jstring fileName = env->NewStringUTF(filePath.c_str());
-	jarray nameArray = env->NewObjectArray(1, stringClass, fileName);
+	jstring args[3]
+	{
+		env->NewStringUTF("-cp"),
+		env->NewStringUTF((std::string(".;../JavApi/JavApi.jar;") +
+			std::filesystem::path(filePath).parent_path().string() + ";").c_str()),
+		env->NewStringUTF(filePath.c_str())
+	};
+	jobjectArray argArray = env->NewObjectArray(3, stringClass, args[2]);
+	for (int i = 0; i < 3; i++)
+		env->SetObjectArrayElement(argArray, i, args[i]);
 
 	// Compilation
-	if (env->CallIntMethod(compiler, compileMethod, NULL, NULL, NULL, nameArray))
+	if (env->CallIntMethod(compiler, compileMethod, NULL, NULL, NULL, argArray))
 		Engine::log("An error occured compiling script \"" + filePath + "\"!");
 
 	// Cleanup
-	env->DeleteLocalRef(nameArray);
-	env->DeleteLocalRef(fileName);
+	env->DeleteLocalRef(argArray);
+	for (int i = 0; i < 3; i++)
+		env->DeleteLocalRef(args[i]);
 }
 
 // Reloads all scripts from files

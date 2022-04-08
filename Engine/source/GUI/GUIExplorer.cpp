@@ -95,6 +95,8 @@ void Engine::GUI::Explorer()
 				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue))
 				{
 					const std::string newName(nameBuff);
+					memset(nameBuff, 0, sizeof(nameBuff));
+
 					std::filesystem::rename(toRename,
 						std::filesystem::path(toRename).replace_filename(newName));
 					toRename.clear();
@@ -191,6 +193,8 @@ void Engine::GUI::Explorer()
 				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue))
 				{
 					const std::string newName(nameBuff);
+					memset(nameBuff, 0, sizeof(nameBuff));
+
 					std::filesystem::rename(toRename,
 						std::filesystem::path(toRename).replace_filename(newName));
 					toRename.clear();
@@ -236,6 +240,7 @@ void Engine::GUI::Explorer()
 				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue))
 				{
 					const std::string newName(nameBuff);
+					memset(nameBuff, 0, sizeof(nameBuff));
 
 					// Creating new script
 					std::ofstream file(currentPath.string() + "/" + newName + ".java");
