@@ -30,6 +30,7 @@ void Engine::Stage::Update()
 		// Scripts
 		Engine::Scripting::UpdateTime();
 		Engine::Scripting::CallUpdates();
+		Engine::Scripting::HandleLogs();
 	}
 
 	// Rendering shadows

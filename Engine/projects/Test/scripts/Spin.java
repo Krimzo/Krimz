@@ -14,7 +14,7 @@ public class Spin extends Entity implements Script {
 
 	// Called on first frame
 	public void start() {
-
+		Logger.log("It's spinning!");
 	}
 
 	// Called every frame

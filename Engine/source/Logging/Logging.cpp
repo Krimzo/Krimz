@@ -16,14 +16,13 @@ void Engine::log(float dat)
 	Engine::log(ss.str());
 }
 
-uint64_t logCounter = 0;
 void Engine::log(const std::string& dat)
 {
 	std::time_t t = time(nullptr);
 	std::tm now = {};
 	localtime_s(&now, &t);
 	std::stringstream ss;
-	ss << ++logCounter << ". ["
+	ss << ++Engine::Logging::logCounter << ". ["
 		<< (now.tm_year + 1900) << "."
 		<< (now.tm_mon + 1) << "."
 		<< now.tm_mday << "-"
@@ -31,4 +30,5 @@ void Engine::log(const std::string& dat)
 		<< now.tm_min << ":"
 		<< now.tm_sec << "] -> ";
 	Engine::Logging::logs.push_back(ss.str() + dat);
+	Engine::Logging::logUnseenCount++;
 }

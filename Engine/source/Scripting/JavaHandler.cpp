@@ -34,6 +34,7 @@ void Engine::JavaHandler::Init()
 
 	// Engine api class loading
 	engineClass = LoadEternalClass("engine/Engine");
+	loggerClass = LoadEternalClass("engine/Logger");
 	loaderClass = LoadEternalClass("engine/script/Loader");
 	LoadEternalClass("engine/script/Script");
 	LoadEternalClass("engine/math/Int2");
@@ -54,6 +55,7 @@ void Engine::JavaHandler::Init()
 	// Engine api field getting
 	deltaTField = GetField(engineClass, "deltaT", "F", true);
 	elapsedTField = GetField(engineClass, "elapsedT", "F", true);
+	loggerFlushMethod = GetMethod(loggerClass, "flush", "()[Ljava/lang/String;", true);
 	loaderConstr = GetMethod(loaderClass, "<init>", "()V");
 
 	// Getting system class

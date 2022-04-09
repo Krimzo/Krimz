@@ -13,5 +13,8 @@ namespace Engine
 		// Entities scripts callers
 		void CallStarts();
 		void CallUpdates();
+
+		// Script logging
+		void HandleLogs();
 	}
 }

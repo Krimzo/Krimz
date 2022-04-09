@@ -40,6 +40,10 @@ namespace Engine
 		inline jfieldID deltaTField = nullptr;
 		inline jfieldID elapsedTField = nullptr;
 
+		// Script logging
+		inline jclass loggerClass = nullptr;
+		inline jmethodID loggerFlushMethod = nullptr;
+
 		// Buffers
 		inline std::vector<jobject> refs;
 		inline std::vector<Engine::JavaClass> classes;
