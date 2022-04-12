@@ -14,19 +14,20 @@ public class Spin extends Entity implements Script {
 
 	// Called on first frame
 	public void start() {
-		Logger.log("It's spinning!");
+		Logger.log("It's spinning! ID=" + id);
 	}
 
 	// Called every frame
 	public void update() {
+		final float rotVal = (float)Math.sin(Engine.elapsedT) * 45.0f;
 		if (id == 0) {
-			this.rotation.x = (float)Math.sin(Engine.elapsedT) * 45.0f;
+			this.rotation.x = rotVal;
 		}
 		else if (id == 1) {
-			this.rotation.y = (float)Math.sin(Engine.elapsedT) * 45.0f;
+			this.rotation.y = rotVal;
 		}
 		else if (id == 2) {
-			this.rotation.z = (float)Math.sin(Engine.elapsedT) * 45.0f;
+			this.rotation.z = rotVal;
 		}
 	}
 }

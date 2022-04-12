@@ -29,5 +29,5 @@ int main()
 	Engine::Time::timer.interval();
 
 	// Window start
-	Engine::win.startNew(kl::int2(1600, 900), "Editor", true, true, true);
+	Engine::win.startNew(kl::int2(1600, 900), "Editor", true, true);
 }

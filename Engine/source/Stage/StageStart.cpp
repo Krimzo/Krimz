@@ -23,7 +23,7 @@ void Engine::Stage::Start()
 	Engine::win.maximize();
 
 	// Creating the gpu
-	Engine::Render::gpu = new kl::gpu(Engine::win.getWND(), true);
+	Engine::Render::gpu = new kl::gpu(Engine::win.getWND());
 
 	// Resize callback
 	Engine::win.resize = Engine::Stage::Resize;
@@ -103,7 +103,7 @@ void Engine::Stage::Start()
 	// Camera
 	Engine::Render::camera.sens = 0.1f;
 	Engine::Render::camera.far = 500.0f;
-	Engine::Render::camera.shadows = 100.0f;
+	Engine::Render::camera.shadows = 50.0f;
 	Engine::Render::camera.position = kl::float3(-1.4f, 1.25f, -6.0f);
 	Engine::Render::camera.forward = kl::float3(0.55f, -0.3f, 0.9f);
 

@@ -116,11 +116,8 @@ void kl::window::handleMessage()
 {
 #ifdef KL_USING_IMGUI
 	TranslateMessage(&wndMsg);
-	if (usingImGui)
-	{
-		if (ImGui_ImplWin32_WndProcHandler(wndMsg.hwnd, wndMsg.message, wndMsg.wParam, wndMsg.lParam))
-			return;
-	}
+	if (ImGui_ImplWin32_WndProcHandler(wndMsg.hwnd, wndMsg.message, wndMsg.wParam, wndMsg.lParam))
+		return;
 #endif
 
 	// Default
@@ -180,7 +177,7 @@ void kl::window::handleMessage()
 }
 
 // Window creation
-void kl::window::startNew(const kl::int2& size, const std::string& name, bool resizeable, bool continuous, bool imgui)
+void kl::window::startNew(const kl::int2& size, const std::string& name, bool resizeable, bool continuous)
 {
 	// Registering winapi window class
 	registerWindowClass(name);
@@ -192,10 +189,7 @@ void kl::window::startNew(const kl::int2& size, const std::string& name, bool re
 	this->mouse.bind(hwnd);
 
 #ifdef KL_USING_IMGUI
-	// ImGui setup
-	this->usingImGui = imgui;
-	if (imgui)
-		ImGui_ImplWin32_Init(hwnd);
+	ImGui_ImplWin32_Init(hwnd);
 #endif
 
 	// Starting the update loops
@@ -228,9 +222,7 @@ void kl::window::startNew(const kl::int2& size, const std::string& name, bool re
 	}
 
 #ifdef KL_USING_IMGUI
-	// ImGui cleanup
-	if (imgui)
-		ImGui_ImplWin32_Shutdown();
+	ImGui_ImplWin32_Shutdown();
 #endif
 
 	// Cleanup
