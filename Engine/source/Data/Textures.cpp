@@ -10,9 +10,9 @@ void FixTextureName(std::string& name)
 		name = nameCopy + "_" + std::to_string(++counter);
 }
 
-Engine::Texture::Texture(const std::string& name, ID3D11ShaderResourceView* view) : EObject::EObject(name)
+Engine::Texture::Texture(const std::string& name, ID3D11ShaderResourceView* view)
+	: EObject::EObject(name), view(view)
 {
-	this->view = view;
 	FixTextureName(this->name);
 }
 Engine::Texture::~Texture()

@@ -4,8 +4,8 @@
 
 
 Engine::Script::Script(const std::string& filePath)
+	: path(filePath)
 {
-	this->path = filePath;
 	reload();
 }
 

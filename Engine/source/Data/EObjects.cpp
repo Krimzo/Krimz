@@ -2,6 +2,6 @@
 
 
 Engine::EObject::EObject(const std::string& name)
+	: name(name)
 {
-	this->name = name;
 }

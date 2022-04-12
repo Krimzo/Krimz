@@ -10,16 +10,14 @@ void FixEntityName(std::string& name)
 		name = nameCopy + "_" + std::to_string(++counter);
 }
 
-Engine::Entity::Entity() : EObject::EObject("undefined")
+Engine::Entity::Entity()
+	: EObject::EObject("undefined"), mesh(Engine::Default::mesh), texture(Engine::Default::texture)
 {
-	this->mesh = Engine::Default::mesh;
-	this->texture = Engine::Default::texture;
 	FixEntityName(this->name);
 }
-Engine::Entity::Entity(const std::string& name, Engine::Mesh* mes, Engine::Texture* tex) : EObject::EObject(name)
+Engine::Entity::Entity(const std::string& name, Engine::Mesh* mesh, Engine::Texture* texture)
+	: EObject::EObject(name), mesh(mesh), texture(texture)
 {
-	mesh = mes;
-	texture = tex;
 	FixEntityName(this->name);
 }
 

@@ -12,6 +12,6 @@ public class Move extends Entity implements Script {
 
 	// Called every frame
 	public void update() {
-		this.position.x = (float)Math.sin(Engine.elapsedT) * 5.0f;
+		this.position.x = (float)Math.sin(Engine.elapsedT) * 5.55f;
 	}
 }

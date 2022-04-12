@@ -1,18 +1,19 @@
 # To Do
 
+Scene saving/loading
 Mouse end of screen teleport
-Logging instead of console
-Cameras as entities
 Java api keyboard/mouse input
-Java api mesh/texture setting
+Implement msaa
 Viewport solid/wireframe
 Skybox loading/setting
-Multiple different lights with shadows
 Mesh/texture viewport drag/drop
-Scene saving/loading
-Game export
+Java api mesh/texture setting
+Cameras as entities
 Collision detection
-Documentation
+Multiple different lights with shadows
+Game export
+
+? Documentation
 
 # Bugs
 Folder root crash

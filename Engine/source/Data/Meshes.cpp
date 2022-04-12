@@ -10,9 +10,9 @@ void FixMeshName(std::string& name)
 		name = nameCopy + "_" + std::to_string(++counter);
 }
 
-Engine::Mesh::Mesh(const std::string& name, ID3D11Buffer* buff) : EObject::EObject(name)
+Engine::Mesh::Mesh(const std::string& name, ID3D11Buffer* buff)
+	: EObject::EObject(name), buff(buff)
 {
-	this->buff = buff;
 	FixMeshName(this->name);
 }
 Engine::Mesh::~Mesh()

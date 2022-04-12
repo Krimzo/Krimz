@@ -37,7 +37,7 @@ namespace Engine
 		// Scripts
 		std::vector<Engine::Script> scripts;
 
-		// Constructor
+		// Constr
 		Entity();
 		Entity(const std::string& name, Engine::Mesh* mes, Engine::Texture* tex);
 
