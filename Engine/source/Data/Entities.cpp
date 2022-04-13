@@ -11,7 +11,7 @@ void FixEntityName(std::string& name)
 }
 
 Engine::Entity::Entity()
-	: EObject::EObject("undefined"), mesh(Engine::Default::mesh), texture(Engine::Default::texture)
+	: EObject("undefined"), mesh(Engine::Default::mesh), texture(Engine::Default::texture)
 {
 	FixEntityName(this->name);
 }
@@ -70,9 +70,7 @@ void Engine::Entity::render(kl::gpu* gpu, bool useTex) const
 bool Engine::find(const kl::pbuffer<Engine::Entity>& entities, const std::string& name)
 {
 	for (int i = 0; i < entities.size(); i++)
-	{
 		if (entities[i]->name == name)
 			return true;
-	}
 	return false;
 }

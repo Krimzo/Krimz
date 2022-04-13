@@ -22,7 +22,5 @@ namespace Engine
 	}
 
 	inline kl::pbuffer<Engine::Mesh> meshes;
-
-	// Checks the buffer for the name
 	bool find(const kl::pbuffer<Engine::Mesh>& meshes, const std::string& name);
 }

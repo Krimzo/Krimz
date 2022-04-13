@@ -22,7 +22,5 @@ namespace Engine
 	}
 
 	inline kl::pbuffer<Engine::Texture> textures;
-
-	// Checks the buffer for the name
 	bool find(const kl::pbuffer<Engine::Texture>& textures, const std::string& name);
 }

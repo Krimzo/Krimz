@@ -78,6 +78,9 @@
     <ClInclude Include="source\Scripting\JavaClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\Data\Skyboxes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Data\Entities.cpp">
@@ -174,6 +177,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Scripting\JavaClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Data\Skyboxes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

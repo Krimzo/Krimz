@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KrimzLib.h"
+#include "Data/Skyboxes.h"
 
 
 namespace Engine
@@ -8,7 +9,6 @@ namespace Engine
 	namespace Background
 	{
 		inline kl::color color = kl::color(20, 20, 20);
-		inline kl::skybox* skybox = nullptr;
-		inline kl::pbuffer<kl::skybox> skyboxes;
+		inline Engine::skybox* skybox = nullptr;
 	}
 }

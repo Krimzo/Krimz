@@ -56,7 +56,5 @@ namespace Engine
 	};
 
 	inline kl::pbuffer<Engine::Entity> entities;
-
-	// Checks the buffer for the name
 	bool find(const kl::pbuffer<Engine::Entity>& entities, const std::string& name);
 }

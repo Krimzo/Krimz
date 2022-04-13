@@ -11,13 +11,13 @@ void FixTextureName(std::string& name)
 }
 
 Engine::Texture::Texture(const std::string& name, ID3D11ShaderResourceView* view)
-	: EObject::EObject(name), view(view)
+	: EObject(name), view(view)
 {
 	FixTextureName(this->name);
 }
 Engine::Texture::~Texture()
 {
-	Engine::Render::gpu->destroy(this->view);
+	Engine::Render::gpu->destroy(view);
 }
 
 // Checks the buffer for the name

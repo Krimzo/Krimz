@@ -11,22 +11,20 @@ void FixMeshName(std::string& name)
 }
 
 Engine::Mesh::Mesh(const std::string& name, ID3D11Buffer* buff)
-	: EObject::EObject(name), buff(buff)
+	: EObject(name), buff(buff)
 {
 	FixMeshName(this->name);
 }
 Engine::Mesh::~Mesh()
 {
-	Engine::Render::gpu->destroy(this->buff);
+	Engine::Render::gpu->destroy(buff);
 }
 
 // Checks the buffer for the name
 bool Engine::find(const kl::pbuffer<Engine::Mesh>& meshes, const std::string& name)
 {
 	for (int i = 0; i < meshes.size(); i++)
-	{
 		if (meshes[i]->name == name)
 			return true;
-	}
 	return false;
 }

@@ -26,31 +26,6 @@ void Engine::GUI::MainMenu()
 			ImGui::EndMenu();
 		}
 
-		// View
-		if (ImGui::BeginMenu("View"))
-		{
-			if (ImGui::BeginMenu("Skybox"))
-			{
-				bool noSelection = true;
-				for (int i = 0; i < Engine::Background::skyboxes.size(); i++)
-				{
-					bool state = (Engine::Background::skybox == Engine::Background::skyboxes[i]);
-					ImGui::Selectable(Engine::Background::skyboxes[i]->name.c_str(), &state);
-					if (state)
-					{
-						Engine::Background::skybox = Engine::Background::skyboxes[i];
-						noSelection = false;
-					}
-				}
-
-				if (noSelection)
-					Engine::Background::skybox = nullptr;
-
-				ImGui::EndMenu();
-			}
-			ImGui::EndMenu();
-		}
-
 		// End draw
 		ImGui::EndMainMenuBar();
 	}
