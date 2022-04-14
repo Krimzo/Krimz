@@ -44,7 +44,4 @@ void Engine::Render::Shadows()
 
 	// Binding the default states
 	Engine::Render::gpu->bindInternal();
-
-	// Raster reset
-	Engine::Render::gpu->bind(Engine::Rasters::solid);
 }

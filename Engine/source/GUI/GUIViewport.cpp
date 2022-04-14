@@ -4,6 +4,7 @@
 #include "Input/Picking.h"
 #include "Utility/Time.h"
 #include "Scripting/Scripting.h"
+#include "Render/Render.h"
 
 
 std::vector<Engine::Entity> savedEntities;
@@ -15,6 +16,9 @@ void Engine::GUI::Viewport()
 	{
 		// Focuse save
 		Engine::GUI::viewportFocus = ImGui::IsWindowHovered();
+
+		// Hovers
+		bool hovers[3] = {};
 
 		// Play button
 		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x * 0.5f - 22.0f, 10.0f));
@@ -67,9 +71,22 @@ void Engine::GUI::Viewport()
 				Engine::gameRunning = false;
 			}
 		}
+		hovers[0] = ImGui::IsItemHovered();
+
+		// Solid
+		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x - 80.0f, 10.0f));
+		if (ImGui::ImageButton((Engine::Render::entityRaster == Engine::Rasters::solid) ? Engine::GUI::solidRaIcon : Engine::GUI::solidRaGIcon, ImVec2(20.0f, 20.0f)))
+			Engine::Render::entityRaster = Engine::Rasters::solid;
+		hovers[1] = ImGui::IsItemHovered();
+
+		// Wireframe
+		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x - 42.0f, 10.0f));
+		if (ImGui::ImageButton((Engine::Render::entityRaster == Engine::Rasters::wire) ? Engine::GUI::wireRaIcon : Engine::GUI::wireRaGIcon, ImVec2(20.0f, 20.0f)))
+			Engine::Render::entityRaster = Engine::Rasters::wire;
+		hovers[2] = ImGui::IsItemHovered();
 
 		// Button focus fix
-		Engine::GUI::viewportFocus = Engine::GUI::viewportFocus && !ImGui::IsItemHovered();
+		Engine::GUI::viewportFocus = Engine::GUI::viewportFocus && !hovers[0] && !hovers[1] && !hovers[2];
 
 		// Saving viewport props
 		ImVec2 viewPos = ImGui::GetWindowPos();

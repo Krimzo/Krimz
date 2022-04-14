@@ -13,6 +13,9 @@ void Engine::Render::Entity()
 	// Clearing picking tex
 	Engine::Render::gpu->clear(Engine::Picking::targetV, kl::float4(-1.0f));
 
+	// Raster bind
+	Engine::Render::gpu->bind(Engine::Render::entityRaster);
+
 	// Binding the editor shaders
 	Engine::Render::gpu->bind(Engine::Shaders::Vertex::editor);
 	Engine::Render::gpu->bind(Engine::Shaders::Pixel::editor);

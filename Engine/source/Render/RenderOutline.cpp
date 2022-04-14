@@ -5,6 +5,9 @@
 
 void Engine::Render::Outline()
 {
+	// Raster bind
+	Engine::Render::gpu->bind(Engine::Render::entityRaster);
+
 	// Binding index shaders
 	Engine::Render::gpu->bind(Engine::Shaders::Vertex::index);
 	Engine::Render::gpu->bind(Engine::Shaders::Pixel::index);
@@ -20,6 +23,9 @@ void Engine::Render::Outline()
 
 	// Drawing the selected
 	Engine::Picking::selected->render(Engine::Render::gpu, false);
+
+	// Raster bind
+	Engine::Render::gpu->bind(Engine::Rasters::solid);
 
 	// Render target reset
 	Engine::Render::gpu->bindInternal();

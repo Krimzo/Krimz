@@ -30,8 +30,9 @@ void Engine::Stage::Start()
 
 	// Rasters
 	Engine::Rasters::solid = Engine::Render::gpu->newRasterState(false, true);
-	Engine::Rasters::wire = Engine::Render::gpu->newRasterState(true, true);
+	Engine::Rasters::wire = Engine::Render::gpu->newRasterState(true, false);
 	Engine::Rasters::shadow = Engine::Render::gpu->newRasterState(false, true, false);
+	Engine::Render::entityRaster = Engine::Rasters::solid;
 	Engine::Render::gpu->bind(Engine::Rasters::solid);
 
 	// Depth states
@@ -138,6 +139,14 @@ void Engine::Stage::Start()
 		Engine::Render::gpu->newTexture(kl::image("resource/textures/code.png").flipV()));
 	Engine::GUI::scriptIcon = Engine::Render::gpu->newShaderView(
 		Engine::Render::gpu->newTexture(kl::image("resource/textures/script.png").flipV()));
+	Engine::GUI::solidRaIcon = Engine::Render::gpu->newShaderView(
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/solid.png").flipV()));
+	Engine::GUI::solidRaGIcon = Engine::Render::gpu->newShaderView(
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/solid_gray.png").flipV()));
+	Engine::GUI::wireRaIcon = Engine::Render::gpu->newShaderView(
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/wire.png").flipV()));
+	Engine::GUI::wireRaGIcon = Engine::Render::gpu->newShaderView(
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/wire_gray.png").flipV()));
 
 	// Console fix
 	kl::console::hide();

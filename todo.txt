@@ -4,8 +4,6 @@ Scene saving/loading
 Mouse end of screen teleport
 Java api keyboard/mouse input
 Implement msaa
-Viewport solid/wireframe
-Skybox loading/setting
 Mesh/texture viewport drag/drop
 Java api mesh/texture setting
 Cameras as entities

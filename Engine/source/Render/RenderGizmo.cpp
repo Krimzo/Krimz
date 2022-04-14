@@ -34,6 +34,9 @@ void Engine::Render::Gizmo()
 {
 	if (Engine::Gizmo::selected != Engine::Gizmo::Type::NONE)
 	{
+		// Raster bind
+		Engine::Render::gpu->bind(Engine::Rasters::solid);
+
 		// Color reset
 		Engine::Gizmo::colX = kl::color(205, 55, 75);
 		Engine::Gizmo::colY = kl::color(115, 175, 40);
@@ -74,9 +77,9 @@ void Engine::Render::Gizmo()
 		}
 		else
 		{
-			xRot = kl::float3(0, 0, -90);
-			yRot = kl::float3(0, 0, 0);
-			zRot = kl::float3(90, 0, 0);
+			xRot = kl::float3(0.0f, 0.0f, -90.0f);
+			yRot = kl::float3(0.0f, 0.0f, 0.0f);
+			zRot = kl::float3(90.0f, 0.0f, 0.0f);
 			gizmoMesh = (Engine::Gizmo::selected == Engine::Gizmo::Type::SCALE) ? Engine::Gizmo::scaleM : Engine::Gizmo::moveM;
 		}
 

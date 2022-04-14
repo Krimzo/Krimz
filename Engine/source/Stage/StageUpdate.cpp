@@ -44,6 +44,7 @@ void Engine::Stage::Update()
 	if (Engine::Background::skybox)
 	{
 		Engine::Render::gpu->bind(Engine::DepthStencil::disabled);
+		Engine::Render::gpu->bind(Engine::Rasters::solid);
 		Engine::Background::skybox->render(Engine::Render::camera.matrix());
 		Engine::Render::gpu->bind(Engine::DepthStencil::depth);
 	}

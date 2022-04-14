@@ -10,6 +10,8 @@ namespace Engine
 		inline kl::gpu* gpu = nullptr;
 		inline kl::camera camera;
 
+		inline ID3D11RasterizerState* entityRaster = nullptr;
+
 		void Shadows();
 		void Entity();
 		void Outline();
