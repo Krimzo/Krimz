@@ -73,8 +73,9 @@ void PropPhysics()
 	{
 		if (Engine::Picking::selected)
 		{
-			ImGui::Checkbox("Physics", &Engine::Picking::selected->physics);
-			ImGui::DragFloat3("Acceleration", (float*)&Engine::Picking::selected->acceler, 0.1f);
+			ImGui::Checkbox("Dynamic", &Engine::Picking::selected->dynamic);
+			ImGui::Checkbox("Collisions", &Engine::Picking::selected->collisions);
+			//ImGui::DragFloat3("Acceleration", (float*)&Engine::Picking::selected->acceler, 0.1f);
 			ImGui::DragFloat3("Veloctiy", (float*)&Engine::Picking::selected->velocity, 0.1f);
 			ImGui::DragFloat3("Angular", (float*)&Engine::Picking::selected->angular, 0.1f);
 		}

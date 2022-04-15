@@ -34,6 +34,7 @@
     <ClInclude Include="source\Data\Meshes.h" />
     <ClInclude Include="source\Data\Skyboxes.h" />
     <ClInclude Include="source\Data\Textures.h" />
+    <ClInclude Include="source\Physics\Physics.h" />
     <ClInclude Include="source\Scripting\JavaClass.h" />
     <ClInclude Include="source\Stage\Stage.h" />
     <ClInclude Include="source\Utility\Struct.h" />
@@ -73,6 +74,7 @@
     <ClCompile Include="source\Input\Input.cpp" />
     <ClCompile Include="source\Input\Picking.cpp" />
     <ClCompile Include="source\Logging\Logging.cpp" />
+    <ClCompile Include="source\Physics\Physics.cpp" />
     <ClCompile Include="source\Render\RenderEntity.cpp" />
     <ClCompile Include="source\Render\RenderGizmo.cpp" />
     <ClCompile Include="source\Render\RenderGUI.cpp" />
@@ -164,18 +166,19 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);KL_USING_IMGUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PX_PHYSX_STATIC_LIB;NDEBUG</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <Optimization>MaxSpeed</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;$(SolutionDir)PhysX\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerOutput>NoListing</AssemblerOutput>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)OpenJDK\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)OpenJDK\lib\;$(SolutionDir)PhysX\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DelayLoadDLLs>jvm.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
@@ -185,19 +188,20 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);KL_USING_IMGUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PX_PHYSX_STATIC_LIB;NDEBUG</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;$(SolutionDir)PhysX\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerOutput>NoListing</AssemblerOutput>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)OpenJDK\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)OpenJDK\lib\;$(SolutionDir)PhysX\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DelayLoadDLLs>jvm.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
@@ -205,18 +209,19 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);KL_USING_IMGUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PX_PHYSX_STATIC_LIB;NDEBUG</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <Optimization>MaxSpeed</Optimization>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;$(SolutionDir)PhysX\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerOutput>NoListing</AssemblerOutput>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)OpenJDK\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)OpenJDK\lib\;$(SolutionDir)PhysX\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DelayLoadDLLs>jvm.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
@@ -226,19 +231,20 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);KL_USING_IMGUI</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PX_PHYSX_STATIC_LIB;NDEBUG</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;$(SolutionDir)PhysX\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerOutput>NoListing</AssemblerOutput>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)OpenJDK\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)OpenJDK\lib\;$(SolutionDir)PhysX\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DelayLoadDLLs>jvm.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>

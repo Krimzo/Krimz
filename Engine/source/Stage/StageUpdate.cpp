@@ -9,6 +9,7 @@
 #include "GUI/GUI.h"
 #include "Logging/Logging.h"
 #include "Scripting/Scripting.h"
+#include "Physics/Physics.h"
 
 
 void Engine::Stage::Update()
@@ -24,8 +25,7 @@ void Engine::Stage::Update()
 	if (Engine::gameRunning)
 	{
 		// Physics
-		for (int i = 0; i < Engine::entities.size(); i++)
-			Engine::entities[i]->upPhys(Engine::Time::delta);
+		Engine::Physics::Update();
 
 		// Scripts
 		Engine::Scripting::UpdateTime();

@@ -30,8 +30,8 @@ namespace Engine
 		jfieldID scaleField = nullptr;
 		jfieldID rotationField = nullptr;
 		jfieldID positionField = nullptr;
-		jfieldID physicsField = nullptr;
-		jfieldID accelerField = nullptr;
+		jfieldID dynamicField = nullptr;
+		jfieldID collisionsField = nullptr;
 		jfieldID velocityField = nullptr;
 		jfieldID angularField = nullptr;
 

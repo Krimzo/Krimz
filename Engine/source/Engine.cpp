@@ -4,6 +4,7 @@
 #include "Stage/Stage.h"
 #include "Input/Input.h"
 #include "Scripting/Scripting.h"
+#include "Physics/Physics.h"
 #include "GUI/GUI.h"
 
 
@@ -24,10 +25,19 @@ int main()
 	// Script setup
 	Engine::JavaHandler::Init();
 
+	// Physics setup
+	Engine::Physics::Init();
+
 	// Time
 	Engine::Time::timer.reset();
 	Engine::Time::timer.interval();
 
 	// Window start
 	Engine::win.startNew(kl::int2(1600, 900), "Editor", true, true);
+
+	// Physics cleanup
+	Engine::Physics::Uninit();
+
+	// Script cleanup
+	Engine::JavaHandler::Uninit();
 }

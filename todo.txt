@@ -1,6 +1,7 @@
 # To Do
 
 PhysX
+Entity duplicate
 Scene saving/loading
 Cameras as entities
 Custom main menu

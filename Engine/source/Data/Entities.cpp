@@ -41,26 +41,6 @@ void Engine::Entity::callUpdates()
 	fixRotation();
 }
 
-// Updates the object physics
-void Engine::Entity::upPhys(float deltaT)
-{
-	// Update
-	if (physics)
-	{
-		// Applying acceleration
-		velocity += acceler * deltaT;
-
-		// Applying velocity
-		position += velocity * deltaT;
-
-		// Applying angular momentum
-		rotation += angular * deltaT;
-
-		// Rotation fix
-		fixRotation();
-	}
-}
-
 // Fixes rotation angle overflow
 void Engine::Entity::fixRotation()
 {

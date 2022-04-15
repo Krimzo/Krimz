@@ -6,6 +6,8 @@
 #include "Data/Textures.h"
 #include "Scripting/Script.h"
 
+#include <PxPhysicsAPI.h>
+
 
 namespace Engine
 {
@@ -23,8 +25,9 @@ namespace Engine
 		kl::float3 position;
 
 		// Physics
-		bool physics = false;
-		kl::float3 acceler;
+		bool dynamic = false;
+		bool collisions = false;
+		physx::PxRigidActor* actor = nullptr;
 		kl::float3 velocity;
 		kl::float3 angular;
 
@@ -44,9 +47,6 @@ namespace Engine
 		// Script callers
 		void callStarts();
 		void callUpdates();
-
-		// Updates the object physics
-		void upPhys(float deltaT);
 
 		// Fixes rotation angle overflow
 		void fixRotation();

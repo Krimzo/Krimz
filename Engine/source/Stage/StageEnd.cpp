@@ -18,7 +18,4 @@ void Engine::Stage::End()
 
 	// Gpu cleanup
 	delete Engine::Render::gpu;
-
-	// Java handler cleanup
-	Engine::JavaHandler::Uninit();
 }

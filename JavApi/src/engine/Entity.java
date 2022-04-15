@@ -17,8 +17,8 @@ public abstract class Entity {
     public Float3 position = new Float3(0.0f);
 
     // Physics
-    public boolean physics = false;
-    public Float3 acceler = new Float3(0.0f);
+    public boolean dynamic = false;
+    public boolean collisions = false;
     public Float3 velocity = new Float3(0.0f);
     public Float3 angular = new Float3(0.0f);
 }

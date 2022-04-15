@@ -29,8 +29,8 @@ void Engine::Script::reload()
 		scaleField = Engine::JavaHandler::GetField(cls, "scale", "Lengine/math/Float3;");
 		rotationField = Engine::JavaHandler::GetField(cls, "rotation", "Lengine/math/Float3;");
 		positionField = Engine::JavaHandler::GetField(cls, "position", "Lengine/math/Float3;");
-		physicsField = Engine::JavaHandler::GetField(cls, "physics", "Z");
-		accelerField = Engine::JavaHandler::GetField(cls, "acceler", "Lengine/math/Float3;");
+		dynamicField = Engine::JavaHandler::GetField(cls, "dynamic", "Z");
+		collisionsField = Engine::JavaHandler::GetField(cls, "collisions", "Z");
 		velocityField = Engine::JavaHandler::GetField(cls, "velocity", "Lengine/math/Float3;");
 		angularField = Engine::JavaHandler::GetField(cls, "angular", "Lengine/math/Float3;");
 
@@ -79,8 +79,8 @@ void Engine::Script::setEntityData(void* ent)
 	SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, scaleField), pEnt->scale);
 	SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, rotationField), pEnt->rotation);
 	SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, positionField), pEnt->position);
-	Engine::JavaHandler::env->SetBooleanField(inst, physicsField, pEnt->physics);
-	SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, accelerField), pEnt->acceler);
+	Engine::JavaHandler::env->SetBooleanField(inst, dynamicField, pEnt->dynamic);
+	Engine::JavaHandler::env->SetBooleanField(inst, collisionsField, pEnt->collisions);
 	SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, velocityField), pEnt->velocity);
 	SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, angularField), pEnt->angular);
 }
@@ -98,8 +98,8 @@ void Engine::Script::getEntityData(void* ent)
 	GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, scaleField), pEnt->scale);
 	GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, rotationField), pEnt->rotation);
 	GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, positionField), pEnt->position);
-	pEnt->physics = Engine::JavaHandler::env->GetBooleanField(inst, physicsField);
-	GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, accelerField), pEnt->acceler);
+	pEnt->dynamic = Engine::JavaHandler::env->GetBooleanField(inst, dynamicField);
+	pEnt->collisions = Engine::JavaHandler::env->GetBooleanField(inst, collisionsField);
 	GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, velocityField), pEnt->velocity);
 	GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, angularField), pEnt->angular);
 }

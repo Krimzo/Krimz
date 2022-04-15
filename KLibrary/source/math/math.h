@@ -2,6 +2,8 @@
 
 #include <windows.h>
 #include "math/float2.h"
+#include "math/float3.h"
+#include "math/float4.h"
 
 
 namespace kl
@@ -20,5 +22,9 @@ namespace kl
 		// Normalizes value
 		float norm(float value, float start, float end);
 		float normAngle(float ang);
+
+		// Euluer/quat angles
+		kl::float4 eulToQuat(const kl::float3& eul);
+		kl::float3 quatToEul(const kl::float4& quat);
 	};
 }

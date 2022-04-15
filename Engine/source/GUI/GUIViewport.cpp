@@ -5,6 +5,7 @@
 #include "Utility/Time.h"
 #include "Scripting/Scripting.h"
 #include "Render/Render.h"
+#include "Physics/Physics.h"
 
 
 std::vector<Engine::Entity> savedEntities;
@@ -38,6 +39,9 @@ void Engine::GUI::Viewport()
 				// Calling start scripts
 				Engine::Scripting::CallStarts();
 
+				// Physics scene creation
+				Engine::Physics::CreateScene();
+
 				// Other
 				Engine::Time::timer.reset();
 				Engine::gameRunning = true;
@@ -50,6 +54,9 @@ void Engine::GUI::Viewport()
 			{
 				// Saving selected's name
 				const std::string lastSelectedName = Engine::Picking::selected ? Engine::Picking::selected->name : "";
+
+				// Physics scene cleanup
+				Engine::Physics::DestroyScene();
 
 				// Loading saved entities
 				Engine::entities.clear();
