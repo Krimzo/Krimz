@@ -8,6 +8,9 @@ public class Mat3 {
         data[3] = 0.0f; data[4] = 1.0f; data[5] = 0.0f;
         data[6] = 0.0f; data[7] = 0.0f; data[8] = 1.0f;
     }
+    public Mat3(Mat3 m) {
+        System.arraycopy(m.data, 0, data, 0, data.length);
+    }
 
     // Addition
     public Mat3 add(Mat3 m) {

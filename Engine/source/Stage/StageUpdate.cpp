@@ -29,7 +29,9 @@ void Engine::Stage::Update()
 
 		// Scripts
 		Engine::Scripting::UpdateTime();
+		Engine::Scripting::UpdateInput();
 		Engine::Scripting::CallUpdates();
+		Engine::Scripting::HandleMousePos();
 		Engine::Scripting::HandleLogs();
 	}
 

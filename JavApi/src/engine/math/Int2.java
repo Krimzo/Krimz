@@ -16,6 +16,10 @@ public class Int2 {
         this.x = x;
         this.y = y;
     }
+    public Int2(Int2 v) {
+        x = v.x;
+        y = v.y;
+    }
 
     // Addition
     public Int2 add(Int2 v) {

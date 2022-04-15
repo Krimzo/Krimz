@@ -8,4 +8,8 @@ public class Plane {
         this.normal = normal;
         this.point = point;
     }
+    public Plane(Plane p) {
+        normal = new Float3(p.normal);
+        point = new Float3(p.point);
+    }
 }

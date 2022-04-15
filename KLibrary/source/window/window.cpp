@@ -10,8 +10,7 @@
 
 
 // Screen
-const int kl::window::screen::width = GetSystemMetrics(SM_CXSCREEN);
-const int kl::window::screen::height = GetSystemMetrics(SM_CYSCREEN);
+const kl::int2 kl::window::screen = kl::int2(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
 
 // Constr/destr
 kl::window::window()
@@ -61,7 +60,7 @@ void kl::window::createWindow(const kl::int2& size, const std::string& name, boo
 	const kl::int2 adjSize(adjustedWindowSize.right - adjustedWindowSize.left, adjustedWindowSize.bottom - adjustedWindowSize.top);
 
 	// Creating the window
-	hwnd = CreateWindowExA(0, name.c_str(), name.c_str(), winStyle, (kl::window::screen::width / 2 - adjSize.x / 2), (kl::window::screen::height / 2 - adjSize.y / 2), adjSize.x, adjSize.y, nullptr, nullptr, hInstance, nullptr);
+	hwnd = CreateWindowExA(0, name.c_str(), name.c_str(), winStyle, (kl::window::screen.x / 2 - adjSize.x / 2), (kl::window::screen.y / 2 - adjSize.y / 2), adjSize.x, adjSize.y, nullptr, nullptr, hInstance, nullptr);
 	if (!hwnd)
 	{
 		kl::console::show();
@@ -231,7 +230,7 @@ void kl::window::setFullscreen(bool enable)
 
 		// Enabling the fullscreen
 		SetWindowLongA(hwnd, GWL_STYLE, winStyle & ~WS_OVERLAPPEDWINDOW);
-		SetWindowPos(hwnd, HWND_TOP, 0, 0, kl::window::screen::width, kl::window::screen::height, SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
+		SetWindowPos(hwnd, HWND_TOP, 0, 0, kl::window::screen.x, kl::window::screen.y, SWP_NOOWNERZORDER | SWP_FRAMECHANGED);
 
 		// Setting info
 		inFull = true;

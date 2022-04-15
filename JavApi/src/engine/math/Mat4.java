@@ -9,6 +9,9 @@ public class Mat4 {
         data[ 8] = 0.0f; data[ 9] = 0.0f; data[10] = 1.0f; data[11] = 0.0f;
         data[12] = 0.0f; data[13] = 0.0f; data[14] = 0.0f; data[15] = 1.0f;
     }
+    public Mat4(Mat4 m) {
+        System.arraycopy(m.data, 0, data, 0, data.length);
+    }
 
     // Addition
     public Mat4 add(Mat4 mat) {

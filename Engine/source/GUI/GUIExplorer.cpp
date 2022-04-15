@@ -247,7 +247,7 @@ void Engine::GUI::Explorer()
 					if (file.is_open())
 					{
 						// Default script code
-						file << "import engine.*;\nimport engine.math.*;\nimport engine.script.*;\n\n\npublic class " <<
+						file << "import engine.*;\nimport engine.math.*;\nimport engine.script.*;\nimport engine.input.*;\n\n\npublic class " <<
 							newName << " extends Entity implements Script {\n\n\t// Called on first frame\n\tpublic void start() {\n\n\t}\n\n\t// Called every frame\n\tpublic void update() {\n\n\t}\n}\n";
 
 						// Saving

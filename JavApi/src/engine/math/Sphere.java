@@ -8,4 +8,8 @@ public class Sphere {
         this.center = center;
         this.radius = radius;
     }
+    public Sphere(Sphere s) {
+        center = new Float3(s.center);
+        radius = s.radius;
+    }
 }

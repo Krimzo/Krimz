@@ -16,16 +16,6 @@ void Engine::GUI::MainMenu()
 			ImGui::EndMenu();
 		}
 
-		// Edit
-		if (ImGui::BeginMenu("Edit"))
-		{
-			if (ImGui::MenuItem("WIP"))
-			{
-			}
-
-			ImGui::EndMenu();
-		}
-
 		// End draw
 		ImGui::EndMainMenuBar();
 	}

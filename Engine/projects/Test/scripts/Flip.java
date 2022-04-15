@@ -1,6 +1,7 @@
 import engine.*;
 import engine.math.*;
 import engine.script.*;
+import engine.input.*;
 
 
 public class Flip extends Entity implements Script {

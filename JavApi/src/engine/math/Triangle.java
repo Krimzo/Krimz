@@ -10,6 +10,11 @@ public class Triangle {
         b = B;
         c = C;
     }
+    public Triangle(Triangle t) {
+        a = new Vertex(t.a);
+        b = new Vertex(t.b);
+        c = new Vertex(t.c);
+    }
 
     // Interpolation constant
     public Float4 interConsts() {

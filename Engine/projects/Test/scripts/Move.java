@@ -1,6 +1,7 @@
 import engine.*;
 import engine.math.*;
 import engine.script.*;
+import engine.input.*;
 
 
 public class Move extends Entity implements Script {
@@ -12,6 +13,6 @@ public class Move extends Entity implements Script {
 
 	// Called every frame
 	public void update() {
-		this.position.x = (float)Math.sin(Engine.elapsedT) * 5.55f;
+		this.position.x = (float)Math.sin(Time.elapsedT) * 5.55f;
 	}
 }

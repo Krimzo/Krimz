@@ -72,6 +72,12 @@ public class Float4 {
         z = v.y;
         w = v.z;
     }
+    public Float4(Float4 v) {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+        w = v.w;
+    }
 
     // Getters
     public Float2 xy() {

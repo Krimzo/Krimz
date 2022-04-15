@@ -25,6 +25,11 @@ public class Vertex {
         this.texture = texture;
         this.normal = normal;
     }
+    public Vertex(Vertex v) {
+        world = new Float4(v.world);
+        texture = new Float3(v.texture);
+        normal = new Float3(v.normal);
+    }
 
     // Perspective division by w
     public void divByW() {

@@ -60,6 +60,12 @@ public class Int4 {
         z = v.y;
         w = v.z;
     }
+    public Int4(Int4 v) {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+        w = v.w;
+    }
 
     // Addition
     public Int4 add(Int4 v) {

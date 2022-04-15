@@ -20,6 +20,10 @@ public class Float2 {
         x = (float)v.x;
         y = (float)v.y;
     }
+    public Float2(Float2 v) {
+        x = v.x;
+        y = v.y;
+    }
 
     // Addition
     public Float2 add(Float2 v) {

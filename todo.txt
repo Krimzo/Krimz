@@ -1,13 +1,11 @@
 # To Do
 
+PhysX
 Scene saving/loading
-Mouse end of screen teleport
-Java api keyboard/mouse input
-Implement msaa
-Mesh/texture viewport drag/drop
-Java api mesh/texture setting
 Cameras as entities
-Collision detection
+Custom main menu
+Java api mesh/texture setting
+Implement msaa
 Multiple different lights with shadows
 Game export
 

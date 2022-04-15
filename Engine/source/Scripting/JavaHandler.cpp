@@ -33,9 +33,11 @@ void Engine::JavaHandler::Init()
 	}
 
 	// Engine api class loading
-	engineClass = LoadEternalClass("engine/Engine");
-	loggerClass = LoadEternalClass("engine/Logger");
 	loaderClass = LoadEternalClass("engine/script/Loader");
+	loggerClass = LoadEternalClass("engine/Logger");
+	timeClass = LoadEternalClass("engine/Time");
+	mouseClass = LoadEternalClass("engine/input/Mouse");
+	keysClass = LoadEternalClass("engine/input/Keys");
 	LoadEternalClass("engine/script/Script");
 	LoadEternalClass("engine/math/Int2");
 	LoadEternalClass("engine/math/Int3");
@@ -53,10 +55,81 @@ void Engine::JavaHandler::Init()
 	LoadEternalClass("engine/Entity");
 
 	// Engine api field getting
-	deltaTField = GetField(engineClass, "deltaT", "F", true);
-	elapsedTField = GetField(engineClass, "elapsedT", "F", true);
+	deltaTField = GetField(timeClass, "deltaT", "F", true);
+	elapsedTField = GetField(timeClass, "elapsedT", "F", true);
 	loggerFlushMethod = GetMethod(loggerClass, "flush", "()[Ljava/lang/String;", true);
 	loaderConstr = GetMethod(loaderClass, "<init>", "()V");
+	lmbField = GetField(mouseClass, "lmb", "Z", true);
+	mmbField = GetField(mouseClass, "mmb", "Z", true);
+	rmbField = GetField(mouseClass, "rmb", "Z", true);
+	moPosField = GetField(mouseClass, "position", "Lengine/math/Int2;", true);
+	scrollField = GetField(mouseClass, "scroll", "I", true);
+	qField = GetField(keysClass, "q", "Z", true);
+	wField = GetField(keysClass, "w", "Z", true);
+	eField = GetField(keysClass, "e", "Z", true);
+	rField = GetField(keysClass, "r", "Z", true);
+	tField = GetField(keysClass, "t", "Z", true);
+	zField = GetField(keysClass, "z", "Z", true);
+	uField = GetField(keysClass, "u", "Z", true);
+	iField = GetField(keysClass, "i", "Z", true);
+	oField = GetField(keysClass, "o", "Z", true);
+	pField = GetField(keysClass, "p", "Z", true);
+	aField = GetField(keysClass, "a", "Z", true);
+	sField = GetField(keysClass, "s", "Z", true);
+	dField = GetField(keysClass, "d", "Z", true);
+	fField = GetField(keysClass, "f", "Z", true);
+	gField = GetField(keysClass, "g", "Z", true);
+	hField = GetField(keysClass, "h", "Z", true);
+	jField = GetField(keysClass, "j", "Z", true);
+	kField = GetField(keysClass, "k", "Z", true);
+	lField = GetField(keysClass, "l", "Z", true);
+	yField = GetField(keysClass, "y", "Z", true);
+	xField = GetField(keysClass, "x", "Z", true);
+	cField = GetField(keysClass, "c", "Z", true);
+	vField = GetField(keysClass, "v", "Z", true);
+	bField = GetField(keysClass, "b", "Z", true);
+	nField = GetField(keysClass, "n", "Z", true);
+	mField = GetField(keysClass, "m", "Z", true);
+	num0Field = GetField(keysClass, "num0", "Z", true);
+	num1Field = GetField(keysClass, "num1", "Z", true);
+	num2Field = GetField(keysClass, "num2", "Z", true);
+	num3Field = GetField(keysClass, "num3", "Z", true);
+	num4Field = GetField(keysClass, "num4", "Z", true);
+	num5Field = GetField(keysClass, "num5", "Z", true);
+	num6Field = GetField(keysClass, "num6", "Z", true);
+	num7Field = GetField(keysClass, "num7", "Z", true);
+	num8Field = GetField(keysClass, "num8", "Z", true);
+	num9Field = GetField(keysClass, "num9", "Z", true);
+	periodField = GetField(keysClass, "period", "Z", true);
+	commaField = GetField(keysClass, "comma", "Z", true);
+	plusField = GetField(keysClass, "plus", "Z", true);
+	minusField = GetField(keysClass, "minus", "Z", true);
+	escField = GetField(keysClass, "esc", "Z", true);
+	tabField = GetField(keysClass, "tab", "Z", true);
+	capsField = GetField(keysClass, "caps", "Z", true);
+	shiftField = GetField(keysClass, "shift", "Z", true);
+	ctrlField = GetField(keysClass, "ctrl", "Z", true);
+	altField = GetField(keysClass, "alt", "Z", true);
+	spaceField = GetField(keysClass, "space", "Z", true);
+	enterField = GetField(keysClass, "enter", "Z", true);
+	insertField = GetField(keysClass, "insert", "Z", true);
+	deletField = GetField(keysClass, "delete", "Z", true);
+	upField = GetField(keysClass, "up", "Z", true);
+	leftField = GetField(keysClass, "left", "Z", true);
+	downField = GetField(keysClass, "down", "Z", true);
+	rightField = GetField(keysClass, "right", "Z", true);
+	f1Field = GetField(keysClass, "f1", "Z", true);
+	f2Field = GetField(keysClass, "f2", "Z", true);
+	f3Field = GetField(keysClass, "f3", "Z", true);
+	f4Field = GetField(keysClass, "f4", "Z", true);
+	f5Field = GetField(keysClass, "f5", "Z", true);
+	f6Field = GetField(keysClass, "f6", "Z", true);
+	f7Field = GetField(keysClass, "f7", "Z", true);
+	f8Field = GetField(keysClass, "f8", "Z", true);
+	f9Field = GetField(keysClass, "f9", "Z", true);
+	f10Field = GetField(keysClass, "f10", "Z", true);
+	f11Field = GetField(keysClass, "f11", "Z", true);
+	f12Field = GetField(keysClass, "f12", "Z", true);
 
 	// Getting system class
 	sysClass = LoadEternalClass("java/lang/System");

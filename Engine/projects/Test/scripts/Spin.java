@@ -1,6 +1,7 @@
 import engine.*;
 import engine.math.*;
 import engine.script.*;
+import engine.input.*;
 
 
 public class Spin extends Entity implements Script {
@@ -29,7 +30,7 @@ public class Spin extends Entity implements Script {
 
 	// Called every frame
 	public void update() {
-		final float rotVal = (float)Math.sin(Engine.elapsedT) * 45.0f;
+		final float rotVal = (float)Math.sin(Time.elapsedT) * 45.0f;
 		if (id == 0) {
 			this.rotation.x = origRot + rotVal;
 		}

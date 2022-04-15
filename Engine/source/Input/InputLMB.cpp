@@ -54,9 +54,7 @@ void LMBPress()
 			Engine::Picking::heldIndex = Engine::Picking::mouseIndex;
 
 			// Intersection
-			kl::float3 inter1;
-			kl::float3 inter2;
-			kl::float3 inter3;
+			kl::float3 inter1, inter2, inter3;
 			const kl::ray mouseRay = GetMouseRay();
 			const kl::float3 camFor = Engine::Render::camera.getForward();
 			mouseRay.intersect(kl::plane(kl::float3::pos_y, Engine::Picking::selected->position), &inter1);
@@ -97,9 +95,7 @@ void LMBDown()
 	if (Engine::Picking::selected)
 	{
 		// Intersection
-		kl::float3 inter1;
-		kl::float3 inter2;
-		kl::float3 inter3;
+		kl::float3 inter1, inter2, inter3;
 		const kl::ray mouseRay = GetMouseRay();
 		const kl::float3 camFor = Engine::Render::camera.getForward();
 		mouseRay.intersect(kl::plane(kl::float3::pos_y, Engine::Picking::selected->position), &inter1);

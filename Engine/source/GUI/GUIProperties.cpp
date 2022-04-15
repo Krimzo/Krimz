@@ -13,7 +13,7 @@ void PropGeometry()
 			// Axis
 			ImGui::DragFloat3("Scale", (float*)&Engine::Picking::selected->scale, 0.1f);
 			ImGui::DragFloat3("Position", (float*)&Engine::Picking::selected->position, 0.1f);
-			ImGui::DragFloat3("Rotation", (float*)&Engine::Picking::selected->rotation, 0.1f);
+			ImGui::DragFloat3("Rotation", (float*)&Engine::Picking::selected->rotation, 0.1f, 0.0f, 360.0f, "%.3f", ImGuiSliderFlags_AlwaysClamp);
 
 			// Mesh
 			if (ImGui::BeginCombo("Mesh", Engine::Picking::selected->mesh->name.c_str()))

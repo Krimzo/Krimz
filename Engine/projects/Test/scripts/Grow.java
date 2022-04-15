@@ -1,6 +1,7 @@
 import engine.*;
 import engine.math.*;
 import engine.script.*;
+import engine.input.*;
 
 
 public class Grow extends Entity implements Script {
@@ -12,6 +13,6 @@ public class Grow extends Entity implements Script {
 
 	// Called every frame
     public void update() {
-        this.scale = new Float3(Engine.elapsedT * 0.1f);
+        this.scale = new Float3(Time.elapsedT * 0.1f);
     }
 }

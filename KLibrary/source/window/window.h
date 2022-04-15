@@ -51,14 +51,8 @@ namespace kl
 		void handleMessage();
 
 	public:
-		// Screen
-		class screen
-		{
-		public:
-			screen() = delete;
-			static const int width;
-			static const int height;
-		};
+		// Screen size
+		static const kl::int2 screen;
 
 		// Input
 		kl::keys keys;

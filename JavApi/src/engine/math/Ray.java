@@ -8,6 +8,10 @@ public class Ray {
         this.origin = origin;
         this.direction = direction;
     }
+    public Ray(Ray r) {
+        origin = new Float3(r.origin);
+        direction = new Float3(r.direction);
+    }
 
     // Intersection
     boolean intersect(Plane plane, Float3 outInter) {

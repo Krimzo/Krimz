@@ -16,5 +16,9 @@ namespace Engine
 
 		// Script logging
 		void HandleLogs();
+
+		// Input
+		void UpdateInput();
+		void HandleMousePos();
 	}
 }

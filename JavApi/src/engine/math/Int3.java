@@ -30,6 +30,11 @@ public class Int3 {
         y = v.x;
         z = v.y;
     }
+    public Int3(Int3 v) {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+    }
 
     // Addition
     public Int3 add(Int3 v) {
