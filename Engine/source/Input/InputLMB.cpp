@@ -68,18 +68,25 @@ void LMBPress()
 			offsPos.y = inter2.y - Engine::Picking::selected->position.y;
 			offsPos.z = inter3.z - Engine::Picking::selected->position.z;
 
-			// Saving the angle offset
+			// X
 			kl::float3 intersectX;
 			mouseRay.intersect(kl::plane(kl::float3::pos_x, Engine::Picking::selected->position), &intersectX);
-			kl::float2 secondVecX = kl::float2(intersectX.y, intersectX.z) - kl::float2(Engine::Picking::selected->position.y, Engine::Picking::selected->position.z);
+			kl::float2 secondVecX =
+				kl::float2(intersectX.y, intersectX.z) - kl::float2(Engine::Picking::selected->position.y, Engine::Picking::selected->position.z);
 			offsRot.x = kl::float2::pos_x.angle(secondVecX, true);
+
+			// Y
 			kl::float3 intersectY;
 			mouseRay.intersect(kl::plane(kl::float3::pos_y, Engine::Picking::selected->position), &intersectY);
-			kl::float2 secondVecY = kl::float2(intersectY.z, intersectY.x) - kl::float2(Engine::Picking::selected->position.z, Engine::Picking::selected->position.x);
+			kl::float2 secondVecY =
+				kl::float2(intersectY.z, intersectY.x) - kl::float2(Engine::Picking::selected->position.z, Engine::Picking::selected->position.x);
 			offsRot.y = kl::float2::pos_x.angle(secondVecY, true);
+
+			// Z
 			kl::float3 intersectZ;
 			mouseRay.intersect(kl::plane(kl::float3::pos_z, Engine::Picking::selected->position), &intersectZ);
-			kl::float2 secondVecZ = kl::float2(intersectZ.x, intersectZ.y) - kl::float2(Engine::Picking::selected->position.x, Engine::Picking::selected->position.y);
+			kl::float2 secondVecZ =
+				kl::float2(intersectZ.x, intersectZ.y) - kl::float2(Engine::Picking::selected->position.x, Engine::Picking::selected->position.y);
 			offsRot.z = kl::float2::pos_x.angle(secondVecZ, true);
 		}
 	}
@@ -127,22 +134,28 @@ void LMBDown()
 			{
 				kl::float3 intersect;
 				mouseRay.intersect(kl::plane(kl::float3::pos_x, Engine::Picking::selected->position), &intersect);
-				kl::float2 secondVec = kl::float2(intersect.y, intersect.z) - kl::float2(Engine::Picking::selected->position.y, Engine::Picking::selected->position.z);
-				Engine::Picking::selected->rotation.x = firstRota.x + kl::float2::pos_x.angle(secondVec, true) - offsRot.x;
+				kl::float2 secondVec =
+					kl::float2(intersect.y, intersect.z) - kl::float2(Engine::Picking::selected->position.y, Engine::Picking::selected->position.z);
+				Engine::Picking::selected->rotation.x =
+					kl::math::normAngle(firstRota.x + kl::float2::pos_x.angle(secondVec, true) - offsRot.x);
 			}
 			else if (Engine::Picking::heldIndex == -4)
 			{
 				kl::float3 intersect;
 				mouseRay.intersect(kl::plane(kl::float3::pos_y, Engine::Picking::selected->position), &intersect);
-				kl::float2 secondVec = kl::float2(intersect.z, intersect.x) - kl::float2(Engine::Picking::selected->position.z, Engine::Picking::selected->position.x);
-				Engine::Picking::selected->rotation.y = firstRota.y + kl::float2::pos_x.angle(secondVec, true) - offsRot.y;
+				kl::float2 secondVec =
+					kl::float2(intersect.z, intersect.x) - kl::float2(Engine::Picking::selected->position.z, Engine::Picking::selected->position.x);
+				Engine::Picking::selected->rotation.y =
+					kl::math::normAngle(firstRota.y + kl::float2::pos_x.angle(secondVec, true) - offsRot.y);
 			}
 			else if (Engine::Picking::heldIndex == -5)
 			{
 				kl::float3 intersect;
 				mouseRay.intersect(kl::plane(kl::float3::pos_z, Engine::Picking::selected->position), &intersect);
-				kl::float2 secondVec = kl::float2(intersect.x, intersect.y) - kl::float2(Engine::Picking::selected->position.x, Engine::Picking::selected->position.y);
-				Engine::Picking::selected->rotation.z = firstRota.z + kl::float2::pos_x.angle(secondVec, true) - offsRot.z;
+				kl::float2 secondVec =
+					kl::float2(intersect.x, intersect.y) - kl::float2(Engine::Picking::selected->position.x, Engine::Picking::selected->position.y);
+				Engine::Picking::selected->rotation.z =
+					kl::math::normAngle(firstRota.z + kl::float2::pos_x.angle(secondVec, true) - offsRot.z);
 			}
 		}
 	}

@@ -16,5 +16,9 @@ namespace kl
 
 		// Returns y from the given x of the line that goes through points a and b
 		float lineY(const kl::float2& a, const kl::float2& b, float x);
+
+		// Normalizes value
+		float norm(float value, float start, float end);
+		float normAngle(float ang);
 	};
 }

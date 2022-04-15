@@ -12,3 +12,15 @@ float kl::math::lineY(const kl::float2& a, const kl::float2& b, float x)
 {
 	return ((b.y - a.y) * (x - a.x)) / (b.x - a.x) + a.y;
 }
+
+// Normalizes a value
+float kl::math::norm(float value, float start, float end)
+{
+	const float width = end - start;
+	const float offsetValue = value - start;
+	return (offsetValue - (floor(offsetValue / width) * width)) + start;
+}
+float kl::math::normAngle(float ang)
+{
+	return kl::math::norm(ang, 0.0f, 360.0f);
+}

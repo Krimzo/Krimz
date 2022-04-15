@@ -48,6 +48,9 @@ namespace Engine
 		// Updates the object physics
 		void upPhys(float deltaT);
 
+		// Fixes rotation angle overflow
+		void fixRotation();
+
 		// Returns the world matrix
 		kl::mat4 matrix() const;
 

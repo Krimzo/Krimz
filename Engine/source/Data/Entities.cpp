@@ -24,18 +24,27 @@ Engine::Entity::Entity(const std::string& name, Engine::Mesh* mesh, Engine::Text
 // Script callers
 void Engine::Entity::callStarts()
 {
+	// Calls
 	for (auto& ref : scripts)
 		ref.callStart(this);
+
+	// Rotation fix
+	fixRotation();
 }
 void Engine::Entity::callUpdates()
 {
+	// Calls
 	for (auto& ref : scripts)
 		ref.callUpdate(this);
+
+	// Rotation fix
+	fixRotation();
 }
 
 // Updates the object physics
 void Engine::Entity::upPhys(float deltaT)
 {
+	// Update
 	if (physics)
 	{
 		// Applying acceleration
@@ -46,7 +55,18 @@ void Engine::Entity::upPhys(float deltaT)
 
 		// Applying angular momentum
 		rotation += angular * deltaT;
+
+		// Rotation fix
+		fixRotation();
 	}
+}
+
+// Fixes rotation angle overflow
+void Engine::Entity::fixRotation()
+{
+	rotation.x = kl::math::normAngle(rotation.x);
+	rotation.y = kl::math::normAngle(rotation.y);
+	rotation.z = kl::math::normAngle(rotation.z);
 }
 
 // Returns the world matrix
@@ -58,7 +78,7 @@ kl::mat4 Engine::Entity::matrix() const
 // Renders the mesh
 void Engine::Entity::render(kl::gpu* gpu, bool useTex) const
 {
-	// Binding the texture
+	// Texture bind
 	if (useTex)
 		gpu->bindPixlTex(texture->view, 0);
 
