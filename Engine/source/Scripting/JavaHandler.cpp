@@ -145,7 +145,8 @@ void Engine::JavaHandler::Init()
 		"(Ljava/io/InputStream;Ljava/io/OutputStream;Ljava/io/OutputStream;[Ljava/lang/String;)I");
 
 	// Loader creation
-	if (!(loader = env->NewObject(loaderClass, loaderConstr)))
+	loader = env->NewObject(loaderClass, loaderConstr);
+	if (!loader)
 	{
 		kl::console::show();
 		std::cout << "Could not create a class loader!";

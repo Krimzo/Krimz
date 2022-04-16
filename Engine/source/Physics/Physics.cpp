@@ -47,9 +47,10 @@ void Engine::Physics::Uninit()
 // Scene
 void Engine::Physics::CreateScene()
 {
+	static physx::PxDefaultCpuDispatcher* workerThreads = physx::PxDefaultCpuDispatcherCreate(2);
 	physx::PxSceneDesc sceneDesc(physics->getTolerancesScale());
 	sceneDesc.gravity.y = -9.81f;
-	sceneDesc.cpuDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
+	sceneDesc.cpuDispatcher = workerThreads;
 	sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
 	scene = physics->createScene(sceneDesc);
 }
