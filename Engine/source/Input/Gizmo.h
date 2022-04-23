@@ -3,13 +3,10 @@
 #include "KrimzLib.h"
 
 
-namespace Engine
-{
-	namespace Gizmo
-	{
+namespace Engine {
+	namespace Gizmo {
 		// Types
-		enum Type
-		{
+		enum Type {
 			NONE = 0,
 			SCALE,
 			MOVE,
@@ -23,7 +20,6 @@ namespace Engine
 		inline const float scale = 0.25f;
 
 		// Gizmo meshes
-		inline ID3D11Buffer* ballM = nullptr;
 		inline ID3D11Buffer* scaleM = nullptr;
 		inline ID3D11Buffer* moveM = nullptr;
 		inline ID3D11Buffer* rotateM = nullptr;

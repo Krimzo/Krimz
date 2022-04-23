@@ -1,6 +1,5 @@
 #include "KrimzLib.h"
-#include "Utility/Window.h"
-#include "Utility/Time.h"
+#include "Utility/Utility.h"
 #include "Stage/Stage.h"
 #include "Input/Input.h"
 #include "Scripting/Scripting.h"
@@ -8,8 +7,7 @@
 #include "GUI/GUI.h"
 
 
-int main()
-{
+int main() {
 	// Callback setup
 	Engine::win.start = Engine::Stage::Start;
 	Engine::win.update = Engine::Stage::Update;

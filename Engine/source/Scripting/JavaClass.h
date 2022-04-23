@@ -4,10 +4,8 @@
 #include <jni.h>
 
 
-namespace Engine
-{
-	class JavaClass
-	{
+namespace Engine {
+	class JavaClass {
 	public:
 		std::string name;
 		jclass cls = nullptr;

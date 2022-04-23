@@ -2,36 +2,31 @@
 #include "Data/Entities.h"
 #include "Stage/Stage.h"
 #include "Input/Picking.h"
-#include "Utility/Time.h"
+#include "Utility/Utility.h"
 #include "Scripting/Scripting.h"
 #include "Render/Render.h"
 #include "Physics/Physics.h"
 
 
-std::vector<Engine::Entity> savedEntities;
+std::list<Engine::Entity> savedEntities;
 
-void Engine::GUI::Viewport()
-{
-	// Window draw
-	if (ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoBackground))
-	{
+void Engine::GUI::Viewport() {
+	if (ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoBackground)) {
 		// Focuse save
 		Engine::GUI::viewportFocus = ImGui::IsWindowHovered();
 
 		// Hovers
 		bool hovers[3] = {};
 
-		// Play button
+		// Game start button
 		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x * 0.5f - 22.0f, 10.0f));
-		if (!Engine::gameRunning)
-		{
-			// Button draw
-			if (ImGui::Button("PLAY"))
-			{
+		if (!Engine::gameRunning) {
+			if (ImGui::Button("PLAY")) {
 				// Saving entites
-				savedEntities.resize(Engine::entities.size());
-				for (int i = 0; i < Engine::entities.size(); i++)
-					savedEntities[i] = *Engine::entities[i];
+				savedEntities = entities;
+
+				// Physics scene creation
+				Engine::Physics::CreateScene();
 
 				// Reloading scripts
 				Engine::JavaHandler::ReloadScripts();
@@ -39,19 +34,13 @@ void Engine::GUI::Viewport()
 				// Calling start scripts
 				Engine::Scripting::CallStarts();
 
-				// Physics scene creation
-				Engine::Physics::CreateScene();
-
 				// Other
 				Engine::Time::timer.reset();
 				Engine::gameRunning = true;
 			}
 		}
-		else
-		{
-			// Button draw
-			if (ImGui::Button("STOP"))
-			{
+		else {
+			if (ImGui::Button("STOP")) {
 				// Saving selected's name
 				const std::string lastSelectedName = Engine::Picking::selected ? Engine::Picking::selected->name : "";
 
@@ -59,17 +48,12 @@ void Engine::GUI::Viewport()
 				Engine::Physics::DestroyScene();
 
 				// Loading saved entities
-				Engine::entities.clear();
-				for (Engine::Entity& ent : savedEntities)
-					Engine::entities.newInst(new Engine::Entity(ent));
-				savedEntities.clear();
+				Engine::entities = savedEntities;
 
 				// Selected fix
-				for (int i = 0; i < Engine::entities.size(); i++)
-				{
-					if (Engine::entities[i]->name == lastSelectedName)
-					{
-						Engine::Picking::selected = Engine::entities[i];
+				for (auto& ent : Engine::entities) {
+					if (ent.name == lastSelectedName) {
+						Engine::Picking::selected = &ent;
 						break;
 					}
 				}
@@ -81,16 +65,20 @@ void Engine::GUI::Viewport()
 		hovers[0] = ImGui::IsItemHovered();
 
 		// Solid
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x - 80.0f, 10.0f));
-		if (ImGui::ImageButton((Engine::Render::entityRaster == Engine::Rasters::solid) ? Engine::GUI::solidRaIcon : Engine::GUI::solidRaGIcon, ImVec2(20.0f, 20.0f)))
+		if (ImGui::ImageButton((Engine::Render::entityRaster == Engine::Rasters::solid) ? Engine::GUI::solidRaIcon : Engine::GUI::solidRaGIcon, ImVec2(20.0f, 20.0f))) {
 			Engine::Render::entityRaster = Engine::Rasters::solid;
+		}
 		hovers[1] = ImGui::IsItemHovered();
 
 		// Wireframe
 		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x - 42.0f, 10.0f));
-		if (ImGui::ImageButton((Engine::Render::entityRaster == Engine::Rasters::wire) ? Engine::GUI::wireRaIcon : Engine::GUI::wireRaGIcon, ImVec2(20.0f, 20.0f)))
+		if (ImGui::ImageButton((Engine::Render::entityRaster == Engine::Rasters::wire) ? Engine::GUI::wireRaIcon : Engine::GUI::wireRaGIcon, ImVec2(20.0f, 20.0f))) {
 			Engine::Render::entityRaster = Engine::Rasters::wire;
+		}
 		hovers[2] = ImGui::IsItemHovered();
+		ImGui::PopStyleColor();
 
 		// Button focus fix
 		Engine::GUI::viewportFocus = Engine::GUI::viewportFocus && !hovers[0] && !hovers[1] && !hovers[2];

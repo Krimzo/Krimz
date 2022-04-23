@@ -1,40 +1,36 @@
 #include "Scripting/Scripting.h"
-#include "Utility/Time.h"
+#include "Utility/Utility.h"
 #include "Data/Entities.h"
 #include "Logging/Logging.h"
-#include "Utility/Window.h"
 
 
 // Updates static time
-void Engine::Scripting::UpdateTime()
-{
+void Engine::Scripting::UpdateTime() {
 	JavaHandler::env->SetStaticFloatField(JavaHandler::timeClass, JavaHandler::deltaTField, Time::delta);
 	JavaHandler::env->SetStaticFloatField(JavaHandler::timeClass, JavaHandler::elapsedTField, Time::elapsed);
 }
 
 // Entities scripts callers
-void Engine::Scripting::CallStarts()
-{
-	for (int i = 0; i < Engine::entities.size(); i++)
-		Engine::entities[i]->callStarts();
+void Engine::Scripting::CallStarts() {
+	for (auto& ent : Engine::entities) {
+		ent.callStarts();
+	}
 }
-void Engine::Scripting::CallUpdates()
-{
-	for (int i = 0; i < Engine::entities.size(); i++)
-		Engine::entities[i]->callUpdates();
+void Engine::Scripting::CallUpdates() {
+	for (auto& ent : Engine::entities) {
+		ent.callUpdates();
+	}
 }
 
 // Script logging
-void Engine::Scripting::HandleLogs()
-{
+void Engine::Scripting::HandleLogs() {
 	// Calling the flush method
 	jobjectArray logBuff = (jobjectArray)Engine::JavaHandler::env->CallStaticObjectMethod(
 		Engine::JavaHandler::loggerClass, Engine::JavaHandler::loggerFlushMethod);
 
 	// Getting the log messages
 	const int logBuffSize = Engine::JavaHandler::env->GetArrayLength(logBuff);
-	for (int i = 0; i < logBuffSize; i++)
-	{
+	for (int i = 0; i < logBuffSize; i++) {
 		jstring logMess = (jstring)Engine::JavaHandler::env->GetObjectArrayElement(logBuff, i);
 		Engine::log(Engine::JavaHandler::env->GetStringUTFChars(logMess, nullptr));
 		Engine::JavaHandler::env->DeleteLocalRef(logMess);
@@ -45,24 +41,21 @@ void Engine::Scripting::HandleLogs()
 }
 
 // Input
-void SetScriptInt2(jobject field, const kl::int2& dat)
-{
+void SetScriptInt2(jobject field, const kl::int2& dat) {
 	jclass objCls = Engine::JavaHandler::env->GetObjectClass(field);
 	jfieldID xField = Engine::JavaHandler::GetField(objCls, "x", "I");
 	jfieldID yField = Engine::JavaHandler::GetField(objCls, "y", "I");
 	Engine::JavaHandler::env->SetIntField(field, xField, dat.x);
 	Engine::JavaHandler::env->SetIntField(field, yField, dat.y);
 }
-void GetScriptInt2(jobject field, kl::int2& dat)
-{
+void GetScriptInt2(jobject field, kl::int2& dat) {
 	jclass objCls = Engine::JavaHandler::env->GetObjectClass(field);
 	jfieldID xField = Engine::JavaHandler::GetField(objCls, "x", "I");
 	jfieldID yField = Engine::JavaHandler::GetField(objCls, "y", "I");
 	dat.x = Engine::JavaHandler::env->GetIntField(field, xField);
 	dat.y = Engine::JavaHandler::env->GetIntField(field, yField);
 }
-void Engine::Scripting::UpdateInput()
-{
+void Engine::Scripting::UpdateInput() {
 	// Mouse
 	JavaHandler::env->SetStaticBooleanField(JavaHandler::mouseClass, JavaHandler::lmbField, Engine::win.mouse.lmb);
 	JavaHandler::env->SetStaticBooleanField(JavaHandler::mouseClass, JavaHandler::mmbField, Engine::win.mouse.mmb);
@@ -138,10 +131,10 @@ void Engine::Scripting::UpdateInput()
 	JavaHandler::env->SetStaticBooleanField(JavaHandler::keysClass, JavaHandler::f11Field, Engine::win.keys.f11);
 	JavaHandler::env->SetStaticBooleanField(JavaHandler::keysClass, JavaHandler::f12Field, Engine::win.keys.f12);
 }
-void Engine::Scripting::HandleMousePos()
-{
+void Engine::Scripting::HandleMousePos() {
 	kl::int2 tempPos;
 	GetScriptInt2(JavaHandler::env->GetStaticObjectField(JavaHandler::mouseClass, JavaHandler::moPosField), tempPos);
-	if (tempPos != Engine::win.mouse.position)
+	if (tempPos != Engine::win.mouse.position) {
 		Engine::win.mouse.move(tempPos);
+	}
 }

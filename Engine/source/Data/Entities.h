@@ -5,14 +5,12 @@
 #include "Data/Meshes.h"
 #include "Data/Textures.h"
 #include "Scripting/Script.h"
+#include "Physics/Physics.h"
+#include "Physics/Collider.h"
 
-#include <PxPhysicsAPI.h>
 
-
-namespace Engine
-{
-	class Entity : public EObject
-	{
+namespace Engine {
+	class Entity : public EObject {
 	public:
 		// View
 		bool visible = true;
@@ -26,10 +24,12 @@ namespace Engine
 
 		// Physics
 		bool dynamic = false;
-		bool collisions = false;
-		physx::PxRigidActor* actor = nullptr;
+		bool gravity = true;
+		float friction = 0.5f;
+		float mass = 10.0f;
 		kl::float3 velocity;
 		kl::float3 angular;
+		Engine::Collider collider;
 
 		// Mesh pointer
 		Engine::Mesh* mesh = nullptr;
@@ -40,16 +40,12 @@ namespace Engine
 		// Scripts
 		std::vector<Engine::Script> scripts;
 
-		// Constr
 		Entity();
-		Entity(const std::string& name, Engine::Mesh* mes, Engine::Texture* tex);
+		Entity(const std::string& name, Engine::Mesh* mesh, Engine::Texture* texture);
 
 		// Script callers
 		void callStarts();
 		void callUpdates();
-
-		// Fixes rotation angle overflow
-		void fixRotation();
 
 		// Returns the world matrix
 		kl::mat4 matrix() const;
@@ -58,6 +54,6 @@ namespace Engine
 		void render(kl::gpu* gpu, bool useTex) const;
 	};
 
-	inline kl::pbuffer<Engine::Entity> entities;
-	bool find(const kl::pbuffer<Engine::Entity>& entities, const std::string& name);
+	inline std::list<Engine::Entity> entities;
+	bool find(const std::list<Engine::Entity>& entities, const std::string& name);
 }

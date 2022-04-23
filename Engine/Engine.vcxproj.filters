@@ -21,9 +21,6 @@
     <ClInclude Include="source\Data\Textures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Utility\Struct.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\Data\Entities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -51,16 +48,7 @@
     <ClInclude Include="source\Scripting\Scripting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Utility\Time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\View\Background.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\View\Outline.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Utility\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Input\Picking.h">
@@ -82,6 +70,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Physics\Physics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Physics\Collider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Utility\Utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -186,6 +180,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Physics\Physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Physics\Collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\RenderCollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

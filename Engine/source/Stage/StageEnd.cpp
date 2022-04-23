@@ -8,8 +8,7 @@
 #include "Scripting/Scripting.h"
 
 
-void Engine::Stage::End()
-{
+void Engine::Stage::End() {
 	// Buffer cleanup
 	Engine::entities.clear();
 	Engine::skyboxes.clear();

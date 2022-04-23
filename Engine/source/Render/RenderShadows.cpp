@@ -3,8 +3,7 @@
 #include "View/Light.h"
 
 
-void Engine::Render::Shadows()
-{
+void Engine::Render::Shadows() {
 	// Binding the shadow render target
 	Engine::Render::gpu->bindTargets({}, Engine::Light::sun.shadowMapDV);
 
@@ -23,22 +22,20 @@ void Engine::Render::Shadows()
 	// Binding the shadow shaders
 	Engine::Render::gpu->bind(Engine::Shaders::Vertex::shadow);
 	Engine::Render::gpu->bind(Engine::Shaders::Pixel::shadow);
-	Engine::Render::gpu->bindVertCBuff(Engine::CBuffers::Vertex::shadow, 0);
+	Engine::Render::gpu->bindVertCBuff(Engine::CBuffers::buff64_1, 0);
 
 	// Getting the sun vp matrix
 	const kl::mat4 vpSun = Engine::Light::sun.matrix(Engine::Render::camera);
 
 	// Rendering entity shadows
-	for (int i = 0; i < Engine::entities.size(); i++)
-	{
-		if (Engine::entities[i]->shadows)
-		{
+	for (auto& ent : Engine::entities) {
+		if (ent.shadows) {
 			// Getting the full wvp matrix
-			kl::mat4 wvp = vpSun * Engine::entities[i]->matrix();
-			Engine::Render::gpu->setBuffData(Engine::CBuffers::Vertex::shadow, &wvp);
+			kl::mat4 wvp = vpSun * ent.matrix();
+			Engine::Render::gpu->setBuffData(Engine::CBuffers::buff64_1, &wvp);
 
 			// Rendering the entity
-			Engine::entities[i]->render(Engine::Render::gpu, false);
+			ent.render(Engine::Render::gpu, false);
 		}
 	}
 

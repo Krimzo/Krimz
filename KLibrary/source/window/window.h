@@ -24,10 +24,8 @@
 #pragma comment(lib, "odbccp32.lib")
 
 
-namespace kl
-{
-	class window
-	{
+namespace kl {
+	class window {
 	private:
 		// Winapi variables
 		HINSTANCE hInstance = GetModuleHandleA(nullptr);

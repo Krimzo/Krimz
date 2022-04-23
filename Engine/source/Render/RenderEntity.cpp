@@ -1,12 +1,11 @@
 #include "Render/Render.h"
 #include "Input/Picking.h"
-#include "Utility/Struct.h"
+#include "Utility/Utility.h"
 #include "View/Light.h"
 #include "Data/Entities.h"
 
 
-void Engine::Render::Entity()
-{
+void Engine::Render::Entity() {
 	// Binding internal + index texture
 	Engine::Render::gpu->bindInternal({ Engine::Picking::targetV });
 
@@ -19,8 +18,8 @@ void Engine::Render::Entity()
 	// Binding the editor shaders
 	Engine::Render::gpu->bind(Engine::Shaders::Vertex::editor);
 	Engine::Render::gpu->bind(Engine::Shaders::Pixel::editor);
-	Engine::Render::gpu->bindVertCBuff(Engine::CBuffers::Vertex::editor, 0);
-	Engine::Render::gpu->bindPixlCBuff(Engine::CBuffers::Pixel::editor, 0);
+	Engine::Render::gpu->bindVertCBuff(Engine::CBuffers::buff192_1, 0);
+	Engine::Render::gpu->bindPixlCBuff(Engine::CBuffers::buff96_1, 0);
 
 	// Binding the shadow map
 	Engine::Render::gpu->bindPixlTex(Engine::Light::sun.shadowMapSV, 1);
@@ -38,30 +37,29 @@ void Engine::Render::Entity()
 	draw_pixl_data.camPos = Engine::Render::camera.position;
 
 	// Rendering entities
-	for (int i = 0; i < Engine::entities.size(); i++)
-	{
-		if (Engine::entities[i]->visible)
-		{
+	for (int i = 0; auto & ent : Engine::entities) {
+		if (ent.visible) {
 			// Updating the vert data
-			draw_vert_data.w = Engine::entities[i]->matrix();
-			Engine::Render::gpu->setBuffData(Engine::CBuffers::Vertex::editor, &draw_vert_data);
+			draw_vert_data.w = ent.matrix();
+			Engine::Render::gpu->setBuffData(Engine::CBuffers::buff192_1, &draw_vert_data);
 
 			// Updating the pixl data
-			draw_pixl_data.rghFac.x = Engine::entities[i]->roughness;
+			draw_pixl_data.rghFac.x = ent.roughness;
 			draw_pixl_data.objInd.x = float(i);
-			Engine::Render::gpu->setBuffData(Engine::CBuffers::Pixel::editor, &draw_pixl_data);
+			Engine::Render::gpu->setBuffData(Engine::CBuffers::buff96_1, &draw_pixl_data);
 
 			// Rendering the entity
-			if (Engine::entities[i] == Engine::Picking::selected)
-			{
+			if (&ent == Engine::Picking::selected) {
 				Engine::Render::gpu->bind(Engine::DepthStencil::write);
-				Engine::entities[i]->render(Engine::Render::gpu, true);
+				ent.render(Engine::Render::gpu, true);
 				Engine::Render::gpu->bind(Engine::DepthStencil::depth);
 			}
-			else
-			{
-				Engine::entities[i]->render(Engine::Render::gpu, true);
+			else {
+				ent.render(Engine::Render::gpu, true);
 			}
 		}
+
+		// Index
+		i++;
 	}
 }

@@ -4,32 +4,17 @@
 
 
 // Returns x from the given y of the line that goes through points a and b
-float kl::math::lineX(const kl::float2& a, const kl::float2& b, float y)
-{
+float kl::math::lineX(const kl::float2& a, const kl::float2& b, float y) {
 	return ((y - a.y) * (b.x - a.x)) / (b.y - a.y) + a.x;
 }
 
 // Returns y from the given x of the line that goes through points a and b
-float kl::math::lineY(const kl::float2& a, const kl::float2& b, float x)
-{
+float kl::math::lineY(const kl::float2& a, const kl::float2& b, float x) {
 	return ((b.y - a.y) * (x - a.x)) / (b.x - a.x) + a.y;
 }
 
-// Normalizes a value
-float kl::math::norm(float value, float start, float end)
-{
-	const float width = end - start;
-	const float offsetValue = value - start;
-	return (offsetValue - (floor(offsetValue / width) * width)) + start;
-}
-float kl::math::normAngle(float ang)
-{
-	return kl::math::norm(ang, 0.0f, 360.0f);
-}
-
 // Euluer/quat angles
-kl::float4 kl::math::eulToQuat(const kl::float3& eul)
-{
+kl::float4 kl::math::eulToQuat(const kl::float3& eul) {
 	const float cr = cos(kl::convert::toRadians(eul.x) * 0.5f);
 	const float sr = sin(kl::convert::toRadians(eul.x) * 0.5f);
 	const float cp = cos(kl::convert::toRadians(eul.y) * 0.5f);
@@ -44,8 +29,7 @@ kl::float4 kl::math::eulToQuat(const kl::float3& eul)
 	quat.w = cr * cp * cy + sr * sp * sy;
 	return quat;
 }
-kl::float3 kl::math::quatToEul(const kl::float4& quat)
-{
+kl::float3 kl::math::quatToEul(const kl::float4& quat) {
 	const float sinp = 2.0f * (quat.w * quat.y - quat.z * quat.x);
 	const float sinrCosp = 2.0f * (quat.w * quat.x + quat.y * quat.z);
 	const float cosrCosp = 1.0f - 2.0f * (quat.x * quat.x + quat.y * quat.y);

@@ -5,22 +5,23 @@
 #include "Data/EObjects.h"
 
 
-namespace Engine
-{
-	class Texture : public EObject
-	{
+namespace Engine {
+	class Texture : public EObject {
+	private:
+		bool canDelete = true;
+
 	public:
 		ID3D11ShaderResourceView* view = nullptr;
 
-		Texture(const std::string& name, ID3D11ShaderResourceView* view);
+		Texture(const std::string& name, const kl::image& img);
+		Texture(const Engine::Texture& tex);
 		~Texture();
 	};
 
-	namespace Default
-	{
+	namespace Default {
 		inline Engine::Texture* texture = nullptr;
 	}
 
-	inline kl::pbuffer<Engine::Texture> textures;
-	bool find(const kl::pbuffer<Engine::Texture>& textures, const std::string& name);
+	inline std::list<Engine::Texture> textures;
+	bool find(const std::list<Engine::Texture>& textures, const std::string& name);
 }

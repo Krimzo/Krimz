@@ -6,7 +6,7 @@ cbuffer VS_CB : register(b0)
 
 float4 vShader(float3 pos : POS_IN) : SV_POSITION
 {
-    return mul(float4(pos, 1), wvp);
+    return mul(float4(pos, 1.0f), wvp);
 }
 
 // Pixel shader

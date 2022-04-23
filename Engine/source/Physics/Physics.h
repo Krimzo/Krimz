@@ -12,10 +12,8 @@
 #pragma comment(lib, "PhysXVehicle_static_64.lib")
 
 
-namespace Engine
-{
-	namespace Physics
-	{
+namespace Engine {
+	namespace Physics {
 		inline physx::PxDefaultErrorCallback errorCB;
 		inline physx::PxDefaultAllocator allocatorCB;
 		inline physx::PxFoundation* foundation = nullptr;

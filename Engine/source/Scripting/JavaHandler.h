@@ -8,15 +8,12 @@
 
 #include "Scripting/JavaClass.h"
 #include "Scripting/Script.h"
-#include "memory/pbuffer.h"
 
 #pragma comment(lib, "jvm.lib")
 
 
-namespace Engine
-{
-	namespace JavaHandler
-	{
+namespace Engine {
+	namespace JavaHandler {
 		// JNI pointers
 		inline JavaVM* jvm = nullptr;
 		inline JNIEnv* env = nullptr;
@@ -27,7 +24,7 @@ namespace Engine
 		inline jobject loader = nullptr;
 
 		// Garbage collector
-		inline jclass    sysClass = nullptr;
+		inline jclass sysClass = nullptr;
 		inline jmethodID sysGCMethod = nullptr;
 
 		// Script compiler
@@ -43,6 +40,30 @@ namespace Engine
 		// Script logging
 		inline jclass loggerClass = nullptr;
 		inline jmethodID loggerFlushMethod = nullptr;
+
+		// Collider
+		inline jclass colliderClass = nullptr;
+		inline jfieldID collScaleField = nullptr;
+		inline jfieldID collRotationField = nullptr;
+		inline jfieldID collPositionField = nullptr;
+		inline jfieldID collShapeField = nullptr;
+
+		// Entity
+		inline jclass entityClass = nullptr;
+		inline jfieldID nameField = nullptr;
+		inline jfieldID visibleField = nullptr;
+		inline jfieldID shadowsField = nullptr;
+		inline jfieldID roughnessField = nullptr;
+		inline jfieldID scaleField = nullptr;
+		inline jfieldID rotationField = nullptr;
+		inline jfieldID positionField = nullptr;
+		inline jfieldID dynamicField = nullptr;
+		inline jfieldID gravityField = nullptr;
+		inline jfieldID frictionField = nullptr;
+		inline jfieldID massField = nullptr;
+		inline jfieldID velocityField = nullptr;
+		inline jfieldID angularField = nullptr;
+		inline jfieldID colliderField = nullptr;
 
 		// Input class/fields
 		inline jclass mouseClass = nullptr;

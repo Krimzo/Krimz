@@ -18,7 +18,10 @@ public abstract class Entity {
 
     // Physics
     public boolean dynamic = false;
-    public boolean collisions = false;
+    public boolean gravity = true;
+    public float friction = 0.5f;
+    public float mass = 10.0f;
     public Float3 velocity = new Float3(0.0f);
     public Float3 angular = new Float3(0.0f);
+    public Collider collider = new Collider();
 }

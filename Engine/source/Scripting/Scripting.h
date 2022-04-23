@@ -3,10 +3,8 @@
 #include "Scripting/JavaHandler.h"
 
 
-namespace Engine
-{
-	namespace Scripting
-	{
+namespace Engine {
+	namespace Scripting {
 		// Updates static time
 		void UpdateTime();
 

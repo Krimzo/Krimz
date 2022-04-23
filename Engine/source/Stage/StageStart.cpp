@@ -1,9 +1,7 @@
 #include "Stage/Stage.h"
-#include "Utility/Window.h"
+#include "Utility/Utility.h"
 #include "Render/Render.h"
-#include "Utility/Struct.h"
 #include "Input/Picking.h"
-#include "View/Outline.h"
 #include "View/Light.h"
 #include "View/Background.h"
 #include "Input/Gizmo.h"
@@ -14,10 +12,9 @@
 #include "Data/Entities.h"
 
 
-void Engine::Stage::Start()
-{
+void Engine::Stage::Start() {
 	// Setting the icon
-	Engine::win.setIcon("resource/icons/k.ico");
+	Engine::win.setIcon("resource/textures/icons/k.ico");
 
 	// Maximizing the window
 	Engine::win.maximize();
@@ -51,18 +48,25 @@ void Engine::Stage::Start()
 	Engine::Shaders::Pixel::index = Engine::Render::gpu->newPixelShader(kl::file::read("resource/shaders/index.hlsl"));
 	Engine::Shaders::Vertex::outline = Engine::Render::gpu->newVertexShader(kl::file::read("resource/shaders/outline.hlsl"));
 	Engine::Shaders::Pixel::outline = Engine::Render::gpu->newPixelShader(kl::file::read("resource/shaders/outline.hlsl"));
+	Engine::Shaders::Vertex::collider = Engine::Render::gpu->newVertexShader(kl::file::read("resource/shaders/collider.hlsl"));
+	Engine::Shaders::Pixel::collider = Engine::Render::gpu->newPixelShader(kl::file::read("resource/shaders/collider.hlsl"));
 	Engine::Shaders::Vertex::gizmo = Engine::Render::gpu->newVertexShader(kl::file::read("resource/shaders/gizmo.hlsl"));
 	Engine::Shaders::Pixel::gizmo = Engine::Render::gpu->newPixelShader(kl::file::read("resource/shaders/gizmo.hlsl"));
 	Engine::Render::gpu->bind(defaultLayout);
 
 	// Constant buffers
-	Engine::CBuffers::Vertex::editor = Engine::Render::gpu->newConstBuffer(sizeof(Engine::Struct::DRAW_VS_CB));
-	Engine::CBuffers::Pixel::editor = Engine::Render::gpu->newConstBuffer(sizeof(Engine::Struct::DRAW_PS_CB));
-	Engine::CBuffers::Vertex::shadow = Engine::Render::gpu->newConstBuffer(sizeof(kl::mat4));
-	Engine::CBuffers::Vertex::index = Engine::Render::gpu->newConstBuffer(sizeof(kl::mat4));
-	Engine::CBuffers::Pixel::outline = Engine::Render::gpu->newConstBuffer(sizeof(kl::float4));
-	Engine::CBuffers::Vertex::gizmo = Engine::Render::gpu->newConstBuffer(sizeof(kl::mat4));
-	Engine::CBuffers::Pixel::gizmo = Engine::Render::gpu->newConstBuffer(sizeof(Engine::Struct::GIZM_PS_CB));
+	Engine::CBuffers::buff16_1 = Engine::Render::gpu->newConstBuffer(16);
+	Engine::CBuffers::buff16_2 = Engine::Render::gpu->newConstBuffer(16);
+	Engine::CBuffers::buff32_1 = Engine::Render::gpu->newConstBuffer(32);
+	Engine::CBuffers::buff32_2 = Engine::Render::gpu->newConstBuffer(32);
+	Engine::CBuffers::buff48_1 = Engine::Render::gpu->newConstBuffer(48);
+	Engine::CBuffers::buff48_2 = Engine::Render::gpu->newConstBuffer(48);
+	Engine::CBuffers::buff64_1 = Engine::Render::gpu->newConstBuffer(64);
+	Engine::CBuffers::buff64_2 = Engine::Render::gpu->newConstBuffer(64);
+	Engine::CBuffers::buff96_1 = Engine::Render::gpu->newConstBuffer(96);
+	Engine::CBuffers::buff96_2 = Engine::Render::gpu->newConstBuffer(96);
+	Engine::CBuffers::buff192_1 = Engine::Render::gpu->newConstBuffer(192);
+	Engine::CBuffers::buff192_2 = Engine::Render::gpu->newConstBuffer(192);
 
 	// Samplers
 	Engine::Render::gpu->bind(Engine::Render::gpu->newSamplerState(true, true), 0);
@@ -92,13 +96,13 @@ void Engine::Stage::Start()
 	Engine::Picking::targetV = Engine::Render::gpu->newTargetView(Engine::Picking::texture);
 
 	// Outline
-	Engine::Outline::screenM = Engine::Render::gpu->newVertBuffer({
+	Engine::Render::screenM = Engine::Render::gpu->newVertBuffer({
 		kl::vertex(kl::float3(1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)),
 		kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, 1.0f, 0.5f))
 		});
 	ID3D11Texture2D* outlineTex = Engine::Render::gpu->newTexture(&pickTexDes);
-	Engine::Outline::targetV = Engine::Render::gpu->newTargetView(outlineTex);
-	Engine::Outline::shaderV = Engine::Render::gpu->newShaderView(outlineTex);
+	Engine::Render::targetV = Engine::Render::gpu->newTargetView(outlineTex);
+	Engine::Render::shaderV = Engine::Render::gpu->newShaderView(outlineTex);
 	Engine::Render::gpu->destroy(outlineTex);
 
 	// Camera
@@ -112,41 +116,44 @@ void Engine::Stage::Start()
 	Engine::Light::sun.genBuff(Engine::Render::gpu, 4096);
 	Engine::Light::sun.direction = kl::float3(0.575f, -0.75f, 2.0f);
 
-	// Gizmos
-	Engine::Gizmo::ballM = Engine::Render::gpu->newVertBuffer("resource/meshes/sphere.obj");
-	Engine::Gizmo::scaleM = Engine::Render::gpu->newVertBuffer("resource/meshes/scale.obj");
-	Engine::Gizmo::moveM = Engine::Render::gpu->newVertBuffer("resource/meshes/move.obj");
-	Engine::Gizmo::rotateM = Engine::Render::gpu->newVertBuffer("resource/meshes/rotate.obj");
+	// Default meshes
+	Engine::Default::cube = new Engine::Mesh("cube", kl::file::parseObj("resource/meshes/default/cube.obj"));
+	Engine::Default::sphere = new Engine::Mesh("sphere", kl::file::parseObj("resource/meshes/default/sphere.obj"));
+	Engine::Default::capsule = new Engine::Mesh("capsule", kl::file::parseObj("resource/meshes/default/capsule.obj"));
+	Engine::Default::pyramid = new Engine::Mesh("pyramid", kl::file::parseObj("resource/meshes/default/pyramid.obj"));
+	Engine::Default::monke = new Engine::Mesh("monke", kl::file::parseObj("resource/meshes/default/monke.obj"));
 
-	// Loading default
-	Engine::Default::mesh = new Engine::Mesh("default", Engine::Render::gpu->newVertBuffer("resource/meshes/cube.obj"));
-	ID3D11Texture2D* defTex = Engine::Render::gpu->newTexture(kl::image(kl::int2(1), kl::colors::magenta));
-	Engine::Default::texture = new Engine::Texture("default", Engine::Render::gpu->newShaderView(defTex));
-	Engine::Render::gpu->destroy(defTex);
+	// Gizmos
+	Engine::Gizmo::scaleM = Engine::Render::gpu->newVertBuffer("resource/meshes/gizmo/scale.obj");
+	Engine::Gizmo::moveM = Engine::Render::gpu->newVertBuffer("resource/meshes/gizmo/move.obj");
+	Engine::Gizmo::rotateM = Engine::Render::gpu->newVertBuffer("resource/meshes/gizmo/rotate.obj");
+
+	// Default textures
+	Engine::Default::texture = new Engine::Texture("default", kl::image(kl::int2(1), kl::colors::magenta));
 
 	// GUI icons
 	Engine::GUI::folderIcon = Engine::Render::gpu->newShaderView(
-		Engine::Render::gpu->newTexture(kl::image("resource/textures/folder.png").flipV()));
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/explorer/folder.png").flipV()));
 	Engine::GUI::folderEIcon = Engine::Render::gpu->newShaderView(
-		Engine::Render::gpu->newTexture(kl::image("resource/textures/folder_empty.png").flipV()));
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/explorer/folder_empty.png").flipV()));
 	Engine::GUI::fileIcon = Engine::Render::gpu->newShaderView(
-		Engine::Render::gpu->newTexture(kl::image("resource/textures/file.png").flipV()));
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/explorer/file.png").flipV()));
 	Engine::GUI::imageIcon = Engine::Render::gpu->newShaderView(
-		Engine::Render::gpu->newTexture(kl::image("resource/textures/image.png").flipV()));
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/explorer/image.png").flipV()));
 	Engine::GUI::objectIcon = Engine::Render::gpu->newShaderView(
-		Engine::Render::gpu->newTexture(kl::image("resource/textures/object.png").flipV()));
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/explorer/object.png").flipV()));
 	Engine::GUI::codeIcon = Engine::Render::gpu->newShaderView(
-		Engine::Render::gpu->newTexture(kl::image("resource/textures/code.png").flipV()));
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/explorer/code.png").flipV()));
 	Engine::GUI::scriptIcon = Engine::Render::gpu->newShaderView(
-		Engine::Render::gpu->newTexture(kl::image("resource/textures/script.png").flipV()));
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/explorer/script.png").flipV()));
 	Engine::GUI::solidRaIcon = Engine::Render::gpu->newShaderView(
-		Engine::Render::gpu->newTexture(kl::image("resource/textures/solid.png").flipV()));
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/viewport/solid.png").flipV()));
 	Engine::GUI::solidRaGIcon = Engine::Render::gpu->newShaderView(
-		Engine::Render::gpu->newTexture(kl::image("resource/textures/solid_gray.png").flipV()));
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/viewport/solid_gray.png").flipV()));
 	Engine::GUI::wireRaIcon = Engine::Render::gpu->newShaderView(
-		Engine::Render::gpu->newTexture(kl::image("resource/textures/wire.png").flipV()));
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/viewport/wire.png").flipV()));
 	Engine::GUI::wireRaGIcon = Engine::Render::gpu->newShaderView(
-		Engine::Render::gpu->newTexture(kl::image("resource/textures/wire_gray.png").flipV()));
+		Engine::Render::gpu->newTexture(kl::image("resource/textures/viewport/wire_gray.png").flipV()));
 
 	// Console fix
 	kl::console::hide();

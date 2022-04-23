@@ -1,26 +1,33 @@
 #pragma once
 
-#include <d3d11.h>
-#include "KrimzLib.h"
 #include "Data/EObjects.h"
+#include "Physics/Physics.h"
+#include "KrimzLib.h"
 
 
-namespace Engine
-{
-	class Mesh : public EObject
-	{
+namespace Engine {
+	class Mesh : public EObject {
+	private:
+		bool canDelete = true;
+
 	public:
+		std::vector<kl::vertex> vertices;
 		ID3D11Buffer* buff = nullptr;
+		physx::PxTriangleMesh* cooked = nullptr;
 
-		Mesh(const std::string& name, ID3D11Buffer* buff);
+		Mesh(const std::string& name, const std::vector<kl::vertex>& vertices);
+		Mesh(const Engine::Mesh& mesh);
 		~Mesh();
 	};
 
-	namespace Default
-	{
-		inline Engine::Mesh* mesh = nullptr;
+	namespace Default {
+		inline Engine::Mesh* cube = nullptr;
+		inline Engine::Mesh* sphere = nullptr;
+		inline Engine::Mesh* capsule = nullptr;
+		inline Engine::Mesh* pyramid = nullptr;
+		inline Engine::Mesh* monke = nullptr;
 	}
 
-	inline kl::pbuffer<Engine::Mesh> meshes;
-	bool find(const kl::pbuffer<Engine::Mesh>& meshes, const std::string& name);
+	inline std::list<Engine::Mesh> meshes;
+	bool find(const std::list<Engine::Mesh>& meshes, const std::string& name);
 }

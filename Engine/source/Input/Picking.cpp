@@ -1,13 +1,10 @@
 #include "Input/Picking.h"
-#include "Utility/Window.h"
+#include "Utility/Utility.h"
 #include "Render/Render.h"
 
 
-void Engine::Picking::ReadObjectIndex()
-{
-	if (Engine::win.mouse.position.x >= 0 && Engine::win.mouse.position.x < Engine::win.getSize().x &&
-		Engine::win.mouse.position.y >= 0 && Engine::win.mouse.position.y < Engine::win.getSize().y)
-	{
+void Engine::Picking::ReadObjectIndex() {
+	if (Engine::win.mouse.position.x >= 0 && Engine::win.mouse.position.x < Engine::win.getSize().x && Engine::win.mouse.position.y >= 0 && Engine::win.mouse.position.y < Engine::win.getSize().y) {
 		// Copying the index texture pixel
 		D3D11_BOX srcBox = {};
 		srcBox.left = Engine::win.mouse.position.x;
@@ -16,8 +13,7 @@ void Engine::Picking::ReadObjectIndex()
 		srcBox.bottom = srcBox.top + 1;
 		srcBox.front = 0;
 		srcBox.back = 1;
-		Engine::Render::gpu->con()->CopySubresourceRegion(
-			Engine::Picking::textureStag, 0, 0, 0, 0, Engine::Picking::texture, 0, &srcBox);
+		Engine::Render::gpu->con()->CopySubresourceRegion(Engine::Picking::textureStag, 0, 0, 0, 0, Engine::Picking::texture, 0, &srcBox);
 
 		// Mapping the staging texture
 		D3D11_MAPPED_SUBRESOURCE msr = {};
@@ -33,8 +29,7 @@ void Engine::Picking::ReadObjectIndex()
 		// Saving mouse object index
 		Engine::Picking::mouseIndex = int(index);
 	}
-	else
-	{
+	else {
 		Engine::Picking::mouseIndex = -1;
 	}
 }

@@ -4,35 +4,30 @@
 #include "Data/EObjects.h"
 
 
-namespace Engine
-{
-	class skybox : public EObject
-	{
+namespace Engine {
+	class Skybox : public EObject {
 	private:
-		// DirectX pointers
-		kl::gpu* gpu = nullptr;
 		ID3D11VertexShader* sky_vtx = nullptr;
 		ID3D11PixelShader* sky_pxl = nullptr;
 		ID3D11Buffer* vtx_cb = nullptr;
 		ID3D11Buffer* box_mes = nullptr;
 		ID3D11ShaderResourceView* box_tex = nullptr;
-
-		// Constr
-		skybox(kl::gpu* gpu, const std::string& name, const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom);
+		bool canDelete = true;
+		bool valid = true;
 
 	public:
-		// Getters
-		static Engine::skybox* newSkybox(kl::gpu* gpu, const std::string& name, const kl::image& fullbox);
-		static Engine::skybox* newSkybox(kl::gpu* gpu, const std::string& name, const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom);
+		Skybox(const std::string& name, const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom);
+		Skybox(const std::string& name, const kl::image& fullbox);
+		Skybox(const Engine::Skybox& sb);
+		~Skybox();
 
-		// Destr
-		skybox(const Engine::skybox&) = delete;
-		~skybox();
+		// Valid
+		bool isValid() const;
 
-		// Renders the cubemap
+		// Render
 		void render(const kl::mat4& vpMat) const;
 	};
 
-	inline kl::pbuffer<Engine::skybox> skyboxes;
-	bool find(const kl::pbuffer<Engine::skybox>& skyboxes, const std::string& name);
+	inline std::list<Engine::Skybox> skyboxes;
+	bool find(const std::list<Engine::Skybox>& skyboxes, const std::string& name);
 }

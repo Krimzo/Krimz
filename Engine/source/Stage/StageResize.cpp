@@ -2,13 +2,10 @@
 #include "Window/Window.h"
 #include "Render/Render.h"
 #include "Input/Picking.h"
-#include "View/Outline.h"
 
 
-void Engine::Stage::Resize(const kl::int2& siz)
-{
-	if (siz.x > 0 && siz.y > 0)
-	{
+void Engine::Stage::Resize(const kl::int2& siz) {
+	if (siz.x > 0 && siz.y > 0) {
 		// Internal
 		Engine::Render::gpu->regenBuffers(siz);
 		Engine::Render::gpu->viewport(kl::int2(0, 0), siz);
@@ -33,10 +30,10 @@ void Engine::Stage::Resize(const kl::int2& siz)
 
 		// Outline
 		ID3D11Texture2D* outlineTex = Engine::Render::gpu->newTexture(&pickTexDes);
-		Engine::Render::gpu->destroy(Engine::Outline::targetV);
-		Engine::Render::gpu->destroy(Engine::Outline::shaderV);
-		Engine::Outline::targetV = Engine::Render::gpu->newTargetView(outlineTex);
-		Engine::Outline::shaderV = Engine::Render::gpu->newShaderView(outlineTex);
+		Engine::Render::gpu->destroy(Engine::Render::targetV);
+		Engine::Render::gpu->destroy(Engine::Render::shaderV);
+		Engine::Render::targetV = Engine::Render::gpu->newTargetView(outlineTex);
+		Engine::Render::shaderV = Engine::Render::gpu->newShaderView(outlineTex);
 		Engine::Render::gpu->destroy(outlineTex);
 	}
 };

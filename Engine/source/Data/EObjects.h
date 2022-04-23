@@ -3,10 +3,8 @@
 #include "KrimzLib.h"
 
 
-namespace Engine
-{
-	class EObject
-	{
+namespace Engine {
+	class EObject {
 	public:
 		std::string name;
 

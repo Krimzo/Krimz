@@ -8,10 +8,8 @@
 #include "KrimzLib.h"
 
 
-namespace Engine
-{
-	namespace GUI
-	{
+namespace Engine {
+	namespace GUI {
 		// Icon textures
 		inline ID3D11ShaderResourceView* folderIcon = nullptr;
 		inline ID3D11ShaderResourceView* folderEIcon = nullptr;

@@ -2,8 +2,7 @@
 #include "GUI/GUI.h"
 
 
-void Engine::Render::GUI()
-{
+void Engine::Render::GUI() {
 	// Draw start
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();

@@ -34,25 +34,23 @@
     <ClInclude Include="source\Data\Meshes.h" />
     <ClInclude Include="source\Data\Skyboxes.h" />
     <ClInclude Include="source\Data\Textures.h" />
+    <ClInclude Include="source\Physics\Collider.h" />
     <ClInclude Include="source\Physics\Physics.h" />
     <ClInclude Include="source\Scripting\JavaClass.h" />
     <ClInclude Include="source\Stage\Stage.h" />
-    <ClInclude Include="source\Utility\Struct.h" />
     <ClInclude Include="source\Data\Entities.h" />
     <ClInclude Include="source\GUI\GUI.h" />
     <ClInclude Include="source\Input\Gizmo.h" />
     <ClInclude Include="source\Input\Input.h" />
     <ClInclude Include="source\Input\Picking.h" />
+    <ClInclude Include="source\Utility\Utility.h" />
     <ClInclude Include="source\View\Light.h" />
     <ClInclude Include="source\Logging\Logging.h" />
     <ClInclude Include="source\Render\Render.h" />
     <ClInclude Include="source\Scripting\Script.h" />
     <ClInclude Include="source\Scripting\JavaHandler.h" />
     <ClInclude Include="source\Scripting\Scripting.h" />
-    <ClInclude Include="source\Utility\Time.h" />
     <ClInclude Include="source\View\Background.h" />
-    <ClInclude Include="source\View\Outline.h" />
-    <ClInclude Include="source\Utility\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Data\EObjects.cpp" />
@@ -74,7 +72,9 @@
     <ClCompile Include="source\Input\Input.cpp" />
     <ClCompile Include="source\Input\Picking.cpp" />
     <ClCompile Include="source\Logging\Logging.cpp" />
+    <ClCompile Include="source\Physics\Collider.cpp" />
     <ClCompile Include="source\Physics\Physics.cpp" />
+    <ClCompile Include="source\Render\RenderCollider.cpp" />
     <ClCompile Include="source\Render\RenderEntity.cpp" />
     <ClCompile Include="source\Render\RenderGizmo.cpp" />
     <ClCompile Include="source\Render\RenderGUI.cpp" />
@@ -174,6 +174,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;$(SolutionDir)PhysX\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerOutput>NoListing</AssemblerOutput>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -195,6 +196,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;$(SolutionDir)PhysX\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerOutput>NoListing</AssemblerOutput>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -217,6 +219,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;$(SolutionDir)PhysX\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerOutput>NoListing</AssemblerOutput>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -238,6 +241,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)OpenJDK\include\;$(SolutionDir)OpenJDK\include\win32\;$(SolutionDir)PhysX\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerOutput>NoListing</AssemblerOutput>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

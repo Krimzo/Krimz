@@ -1,16 +1,15 @@
 #include "Physics/Physics.h"
 
-#include "Utility/Time.h"
+#include "Utility/Utility.h"
 #include "Data/Entities.h"
+#include "Logging/Logging.h"
 
 
 // Setup
-void Engine::Physics::Init()
-{
+void Engine::Physics::Init() {
 	// Foundation creation
 	foundation = PxCreateFoundation(PX_PHYSICS_VERSION, allocatorCB, errorCB);
-	if (!foundation)
-	{
+	if (!foundation) {
 		kl::console::show();
 		std::cout << "PhysX: Failed to create foundation!";
 		std::cin.get();
@@ -19,8 +18,7 @@ void Engine::Physics::Init()
 
 	// Physics creation
 	physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation, physx::PxTolerancesScale());
-	if (!physics)
-	{
+	if (!physics) {
 		kl::console::show();
 		std::cout << "PhysX: Failed to create physics!";
 		std::cin.get();
@@ -29,24 +27,21 @@ void Engine::Physics::Init()
 
 	// Cooking
 	cooking = PxCreateCooking(PX_PHYSICS_VERSION, *foundation, physx::PxCookingParams(physics->getTolerancesScale()));
-	if (!cooking)
-	{
+	if (!cooking) {
 		kl::console::show();
 		std::cout << "PhysX: Failed to create cooking!";
 		std::cin.get();
 		exit(69);
 	}
 }
-void Engine::Physics::Uninit()
-{
+void Engine::Physics::Uninit() {
 	cooking->release();
 	physics->release();
 	foundation->release();
 }
 
 // Scene
-void Engine::Physics::CreateScene()
-{
+void Engine::Physics::CreateScene() {
 	static physx::PxDefaultCpuDispatcher* workerThreads = physx::PxDefaultCpuDispatcherCreate(2);
 	physx::PxSceneDesc sceneDesc(physics->getTolerancesScale());
 	sceneDesc.gravity.y = -9.81f;
@@ -54,66 +49,55 @@ void Engine::Physics::CreateScene()
 	sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
 	scene = physics->createScene(sceneDesc);
 }
-void Engine::Physics::DestroyScene()
-{
-	if (scene)
+void Engine::Physics::DestroyScene() {
+	if (scene) {
+		for (auto& ent : Engine::entities) {
+			ent.collider.delShape();
+			ent.collider.delActor();
+			ent.collider.delMaterial();
+		}
 		scene->release();
-	scene = nullptr;
+		scene = nullptr;
+	}
 }
 
 // Frame update
-void Engine::Physics::Update()
-{
-	// Material setup
-	physx::PxMaterial* testMaterial = physics->createMaterial(0.5f, 0.5f, 0.5f);
-
+void Engine::Physics::Update() {
 	// Setting sim data
-	for (int i = 0; i < Engine::entities.size(); i++)
-	{
-		// Transform calculation
-		const kl::float4 quat = kl::math::eulToQuat(Engine::entities[i]->rotation);
-		physx::PxTransform entTran(
-			physx::PxVec3(Engine::entities[i]->position.x, Engine::entities[i]->position.y, Engine::entities[i]->position.z),
-			physx::PxQuat(quat.x, quat.y, quat.z, quat.w));
+	for (auto& ent : Engine::entities) {
+		// Actor creation
+		ent.collider.newActor(ent.dynamic);
 
-		// Physics setup
-		if (Engine::entities[i]->dynamic)
-		{
-			// Actor creation
-			Engine::entities[i]->actor = physics->createRigidDynamic(entTran);
-			((physx::PxRigidDynamic*)Engine::entities[i]->actor)->setLinearVelocity(
-				physx::PxVec3(Engine::entities[i]->velocity.x, Engine::entities[i]->velocity.y, Engine::entities[i]->velocity.z));
-			((physx::PxRigidDynamic*)Engine::entities[i]->actor)->setAngularVelocity(
-				physx::PxVec3(Engine::entities[i]->angular.x, Engine::entities[i]->angular.y, Engine::entities[i]->angular.z));
+		// Data setting
+		ent.collider.setGravity(ent.gravity);
+		ent.collider.setFriction(ent.friction);
+		ent.collider.setMass(ent.mass);
+		ent.collider.setWorldRotation(ent.rotation);
+		ent.collider.setWorldPosition(ent.position);
+		ent.collider.setVelocity(ent.velocity);
+		ent.collider.setAngular(ent.angular);
 
-			// Collider creation
-			if (Engine::entities[i]->collisions)
-			{
-				physx::PxShape* boxShape = physics->createShape(
-					physx::PxBoxGeometry(Engine::entities[i]->scale.x,
-						Engine::entities[i]->scale.y, Engine::entities[i]->scale.z), *testMaterial);
-				Engine::entities[i]->actor->attachShape(*boxShape);
-				boxShape->release();
-			}
-		}
-		else
-		{
-			// Actor creation
-			Engine::entities[i]->actor = physics->createRigidStatic(entTran);
+		// Shape creation
+		switch (ent.collider.shape) {
+		case Engine::Collider::Shape::Box:
+			ent.collider.newShape(ent.scale * ent.collider.scale);
+			break;
 
-			// Collider creation
-			if (Engine::entities[i]->collisions)
-			{
-				physx::PxShape* boxShape = physics->createShape(
-					physx::PxBoxGeometry(Engine::entities[i]->scale.x,
-						Engine::entities[i]->scale.y, Engine::entities[i]->scale.z), *testMaterial);
-				Engine::entities[i]->actor->attachShape(*boxShape);
-				boxShape->release();
-			}
+		case Engine::Collider::Shape::Sphere:
+			ent.collider.newShape(ent.collider.scale.y);
+			break;
+
+		case Engine::Collider::Shape::Capsule:
+			ent.collider.newShape(kl::float2(ent.collider.scale.y, ent.collider.scale.x));
+			break;
+
+		case Engine::Collider::Shape::Mesh:
+			ent.collider.newShape(ent.mesh, ent.scale * ent.collider.scale);
+			break;
 		}
 
 		// Adding actor to scene
-		scene->addActor(*Engine::entities[i]->actor);
+		scene->addActor(*ent.collider.actor);
 	}
 
 	// Simulation
@@ -121,25 +105,13 @@ void Engine::Physics::Update()
 	scene->fetchResults(true);
 
 	// Reading sim data
-	for (int i = 0; i < Engine::entities.size(); i++)
-	{
-		if (Engine::entities[i]->dynamic)
-		{
-			physx::PxTransform tran = Engine::entities[i]->actor->getGlobalPose();
-			physx::PxVec3 vel = ((physx::PxRigidDynamic*)Engine::entities[i]->actor)->getLinearVelocity();
-			physx::PxVec3 ang = ((physx::PxRigidDynamic*)Engine::entities[i]->actor)->getAngularVelocity();
-			Engine::entities[i]->position = kl::float3(tran.p.x, tran.p.y, tran.p.z);
-			Engine::entities[i]->rotation = kl::math::quatToEul(*(kl::float4*)&tran.q);
-			Engine::entities[i]->velocity = kl::float3(vel.x, vel.y, vel.z);
-			Engine::entities[i]->angular = kl::float3(ang.x, ang.y, ang.z);
+	for (auto& ent : Engine::entities) {
+		if (ent.dynamic) {
+			ent.position = ent.collider.getWorldPosition() - ent.collider.position;
+			ent.rotation = ent.collider.getWorldRotation() - ent.collider.rotation;
+			ent.velocity = ent.collider.getVelocity();
+			ent.angular = ent.collider.getAngular();
 		}
+		scene->removeActor(*ent.collider.actor);
 	}
-
-	// Cleanup
-	for (int i = 0; i < Engine::entities.size(); i++)
-	{
-		scene->removeActor(*Engine::entities[i]->actor);
-		Engine::entities[i]->actor->release();
-	}
-	testMaterial->release();
 }

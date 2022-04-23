@@ -3,17 +3,15 @@
 #include "View/Background.h"
 #include "Data/Entities.h"
 #include "Stage/Stage.h"
-#include "Utility/Window.h"
+#include "Utility/Utility.h"
 #include "Input/Picking.h"
-#include "Utility/Time.h"
 #include "GUI/GUI.h"
 #include "Logging/Logging.h"
 #include "Scripting/Scripting.h"
 #include "Physics/Physics.h"
 
 
-void Engine::Stage::Update()
-{
+void Engine::Stage::Update() {
 	// Time
 	Engine::Time::delta = Engine::Time::timer.interval();
 	Engine::Time::elapsed = Engine::Time::timer.elapsed();
@@ -22,8 +20,7 @@ void Engine::Stage::Update()
 	Engine::Render::gpu->clear(Engine::Background::color);
 
 	// Game
-	if (Engine::gameRunning)
-	{
+	if (Engine::gameRunning) {
 		// Physics
 		Engine::Physics::Update();
 
@@ -43,8 +40,7 @@ void Engine::Stage::Update()
 	Engine::Render::camera.aspect = float(Engine::GUI::viewportSize.x) / Engine::GUI::viewportSize.y;
 
 	// Skybox draw
-	if (Engine::Background::skybox)
-	{
+	if (Engine::Background::skybox) {
 		Engine::Render::gpu->bind(Engine::DepthStencil::disabled);
 		Engine::Render::gpu->bind(Engine::Rasters::solid);
 		Engine::Background::skybox->render(Engine::Render::camera.matrix());
@@ -55,10 +51,12 @@ void Engine::Stage::Update()
 	Engine::Render::Entity();
 
 	// Selected postprocess
-	if (Engine::Picking::selected)
-	{
+	if (Engine::Picking::selected) {
 		// Outline draw
 		Engine::Render::Outline();
+
+		// Collider draw
+		Engine::Render::Collider();
 
 		// Gizmo render
 		Engine::Render::Gizmo();

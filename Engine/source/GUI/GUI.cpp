@@ -2,8 +2,7 @@
 
 
 // Inits the ImGui context
-void Engine::GUI::Init()
-{
+void Engine::GUI::Init() {
 	ImGui::CreateContext();
 	ImPlot::CreateContext();
 	ImGui::StyleColorsDark();
@@ -11,15 +10,13 @@ void Engine::GUI::Init()
 }
 
 // Destroys the ImGui context
-void Engine::GUI::Uninit()
-{
+void Engine::GUI::Uninit() {
 	ImPlot::DestroyContext();
 	ImGui::DestroyContext();
 }
 
 // Loads my custom theme
-void Engine::GUI::LoadKrimzTheme()
-{
+void Engine::GUI::LoadKrimzTheme() {
 	// Getting the gui style
 	ImGuiStyle& style = ImGui::GetStyle();
 
