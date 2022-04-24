@@ -3,7 +3,7 @@
 #include "Utility/Time.h"
 
 
-Engine::Script::Script(const std::string& filePath) : path(filePath) {
+Engine::Script::Script(const String& filePath) : path(filePath) {
 	reload();
 }
 

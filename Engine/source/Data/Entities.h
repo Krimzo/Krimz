@@ -41,7 +41,7 @@ namespace Engine {
 		std::vector<Engine::Script> scripts;
 
 		Entity();
-		Entity(const std::string& name, Engine::Mesh* mesh, Engine::Texture* texture);
+		Entity(const String& name, Engine::Mesh* mesh, Engine::Texture* texture);
 
 		// Script callers
 		void callStarts();
@@ -55,5 +55,5 @@ namespace Engine {
 	};
 
 	inline std::list<Engine::Entity> entities;
-	bool find(const std::list<Engine::Entity>& entities, const std::string& name);
+	bool find(const std::list<Engine::Entity>& entities, const String& name);
 }

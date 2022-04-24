@@ -3,13 +3,15 @@
 #include <string>
 #include <jni.h>
 
+#include "KrimzLib.h"
+
 
 namespace Engine {
 	class JavaClass {
 	public:
-		std::string name;
+		String name;
 		jclass cls = nullptr;
 
-		JavaClass(const std::string& name, jclass cls);
+		JavaClass(const String& name, jclass cls);
 	};
 }

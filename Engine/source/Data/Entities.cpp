@@ -2,8 +2,8 @@
 #include "Scripting/Scripting.h"
 
 
-void FixEntityName(std::string& name) {
-	const std::string nameCopy = name;
+void FixEntityName(String& name) {
+	const String nameCopy = name;
 	int counter = 0;
 	while (Engine::find(Engine::entities, name)) {
 		name = nameCopy + "_" + std::to_string(++counter);
@@ -13,7 +13,7 @@ void FixEntityName(std::string& name) {
 Engine::Entity::Entity() : EObject("undefined"), mesh(Engine::Default::cube), texture(Engine::Default::texture) {
 	FixEntityName(this->name);
 }
-Engine::Entity::Entity(const std::string& name, Engine::Mesh* mesh, Engine::Texture* texture) : EObject(name), mesh(mesh), texture(texture) {
+Engine::Entity::Entity(const String& name, Engine::Mesh* mesh, Engine::Texture* texture) : EObject(name), mesh(mesh), texture(texture) {
 	FixEntityName(this->name);
 }
 
@@ -46,7 +46,7 @@ void Engine::Entity::render(kl::gpu* gpu, bool useTex) const {
 }
 
 // Checks the buffer for the name
-bool Engine::find(const std::list<Engine::Entity>& entities, const std::string& name) {
+bool Engine::find(const std::list<Engine::Entity>& entities, const String& name) {
 	for (auto& ent : entities) {
 		if (ent.name == name) {
 			return true;

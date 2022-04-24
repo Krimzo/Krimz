@@ -85,7 +85,7 @@ void Engine::GUI::Explorer() {
 			if (folder == toRename) {
 				ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
 				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const std::string newName(nameBuff);
+					const String newName(nameBuff);
 					memset(nameBuff, 0, sizeof(nameBuff));
 
 					std::filesystem::rename(toRename,
@@ -106,7 +106,7 @@ void Engine::GUI::Explorer() {
 			// Button draw
 			ImGui::PushID(file.filename().string().c_str());
 			ImTextureID fileIco = Engine::GUI::fileIcon;
-			const std::string fileExtension = file.filename().extension().string();
+			const String fileExtension = file.filename().extension().string();
 			if (fileExtension == ".obj") {
 				fileIco = Engine::GUI::objectIcon;
 			}
@@ -127,7 +127,7 @@ void Engine::GUI::Explorer() {
 			// Transfer
 			if (fileIco == Engine::GUI::objectIcon) {
 				if (ImGui::BeginDragDropSource()) {
-					const std::string filePath = file.string();
+					const String filePath = file.string();
 					ImGui::SetDragDropPayload("MeshTransfer", filePath.c_str(), filePath.size() + 1);
 					ImGui::Image(fileIco, ImVec2(50.0f, 50.0f));
 					ImGui::EndDragDropSource();
@@ -135,7 +135,7 @@ void Engine::GUI::Explorer() {
 			}
 			else if (fileIco == Engine::GUI::imageIcon) {
 				if (ImGui::BeginDragDropSource()) {
-					const std::string filePath = file.string();
+					const String filePath = file.string();
 					ImGui::SetDragDropPayload("TextureTransfer", filePath.c_str(), filePath.size() + 1);
 					ImGui::Image(fileIco, ImVec2(50.0f, 50.0f));
 					ImGui::EndDragDropSource();
@@ -143,7 +143,7 @@ void Engine::GUI::Explorer() {
 			}
 			else if (fileIco == Engine::GUI::scriptIcon) {
 				if (ImGui::BeginDragDropSource()) {
-					const std::string filePath = file.string();
+					const String filePath = file.string();
 					ImGui::SetDragDropPayload("ScriptTransfer", filePath.c_str(), filePath.size() + 1);
 					ImGui::Image(fileIco, ImVec2(50.0f, 50.0f));
 					ImGui::EndDragDropSource();
@@ -173,7 +173,7 @@ void Engine::GUI::Explorer() {
 			if (file == toRename) {
 				ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
 				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const std::string newName(nameBuff);
+					const String newName(nameBuff);
 					memset(nameBuff, 0, sizeof(nameBuff));
 
 					std::filesystem::rename(toRename,
@@ -213,7 +213,7 @@ void Engine::GUI::Explorer() {
 			if (ImGui::Begin("New Script Name", nullptr, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoScrollbar)) {
 				ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
 				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const std::string newName(nameBuff);
+					const String newName(nameBuff);
 					memset(nameBuff, 0, sizeof(nameBuff));
 
 					// Creating new script

@@ -7,14 +7,14 @@
 namespace Engine {
 	class Script {
 	public:
-		std::string path;
+		String path;
 		jobject inst = nullptr;
 
 		// Methods
 		jmethodID startMethod = nullptr;
 		jmethodID updateMethod = nullptr;
 
-		Script(const std::string& filePath);
+		Script(const String& filePath);
 
 		// Reloads bytes
 		void reload();

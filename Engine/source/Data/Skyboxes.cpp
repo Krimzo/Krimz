@@ -4,8 +4,8 @@
 #include "Logging/Logging.h"
 
 
-void FixSkyboxName(std::string& name) {
-	const std::string nameCopy = name;
+void FixSkyboxName(String& name) {
+	const String nameCopy = name;
 	int counter = 0;
 	while (Engine::find(Engine::skyboxes, name)) {
 		name = nameCopy + "_" + std::to_string(++counter);
@@ -29,7 +29,7 @@ static const std::vector<kl::vertex> boxVertices = {
 };
 
 // Shaders
-static const std::string shaders =
+static const String shaders =
 R"(
 // Vertex shader
 struct vOut {
@@ -58,7 +58,7 @@ float4 pShader(vOut data) : SV_TARGET {
 )";
 
 // Constr/destr
-Engine::Skybox::Skybox(const std::string& name, const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom) : EObject(name) {
+Engine::Skybox::Skybox(const String& name, const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom) : EObject(name) {
 	// Name fix
 	FixSkyboxName(this->name);
 
@@ -75,7 +75,7 @@ Engine::Skybox::Skybox(const std::string& name, const kl::image& front, const kl
 	box_tex = Engine::Render::gpu->newShaderView(boxTex);
 	Engine::Render::gpu->destroy(boxTex);
 }
-Engine::Skybox::Skybox(const std::string& name, const kl::image& fullbox) : EObject(name) {
+Engine::Skybox::Skybox(const String& name, const kl::image& fullbox) : EObject(name) {
 	// Checking the aspect ratio
 	if (fullbox.width() % 4 == 0 && fullbox.height() % 3 == 0) {
 		// Getting the part size
@@ -144,7 +144,7 @@ void Engine::Skybox::render(const kl::mat4& vpMat) const {
 }
 
 // Checks the buffer for the name
-bool Engine::find(const std::list<Engine::Skybox>& skyboxes, const std::string& name) {
+bool Engine::find(const std::list<Engine::Skybox>& skyboxes, const String& name) {
 	for (auto& skybox : skyboxes) {
 		if (skybox.name == name) {
 			return true;

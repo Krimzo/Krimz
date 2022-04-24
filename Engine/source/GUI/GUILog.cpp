@@ -4,7 +4,7 @@
 
 size_t lastLogsSize = 0;
 void Engine::GUI::Log() {
-	const std::string titleAddon = Engine::Logging::logUnseenCount ? ("[" + std::to_string(Engine::Logging::logUnseenCount) + "]###") : "###";
+	const String titleAddon = Engine::Logging::logUnseenCount ? ("[" + std::to_string(Engine::Logging::logUnseenCount) + "]###") : "###";
 	if (ImGui::Begin(("Log" + titleAddon).c_str())) {
 		// Drawing output
 		Engine::Logging::logUnseenCount = 0;

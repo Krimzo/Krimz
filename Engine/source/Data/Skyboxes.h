@@ -16,8 +16,8 @@ namespace Engine {
 		bool valid = true;
 
 	public:
-		Skybox(const std::string& name, const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom);
-		Skybox(const std::string& name, const kl::image& fullbox);
+		Skybox(const String& name, const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom);
+		Skybox(const String& name, const kl::image& fullbox);
 		Skybox(const Engine::Skybox& sb);
 		~Skybox();
 
@@ -29,5 +29,5 @@ namespace Engine {
 	};
 
 	inline std::list<Engine::Skybox> skyboxes;
-	bool find(const std::list<Engine::Skybox>& skyboxes, const std::string& name);
+	bool find(const std::list<Engine::Skybox>& skyboxes, const String& name);
 }

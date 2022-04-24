@@ -162,7 +162,7 @@ kl::float3 Engine::Collider::getAngular() const {
 }
 
 // Type name
-std::string Engine::Collider::getName(const Collider::Shape& shape) {
+String Engine::Collider::getName(const Collider::Shape& shape) {
 	switch (shape) {
 	case Engine::Collider::Shape::Box:
 		return "Box";

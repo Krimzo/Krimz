@@ -15,7 +15,7 @@ namespace Engine {
 		ID3D11Buffer* buff = nullptr;
 		physx::PxTriangleMesh* cooked = nullptr;
 
-		Mesh(const std::string& name, const std::vector<kl::vertex>& vertices);
+		Mesh(const String& name, const std::vector<kl::vertex>& vertices);
 		Mesh(const Engine::Mesh& mesh);
 		~Mesh();
 	};
@@ -29,5 +29,5 @@ namespace Engine {
 	}
 
 	inline std::list<Engine::Mesh> meshes;
-	bool find(const std::list<Engine::Mesh>& meshes, const std::string& name);
+	bool find(const std::list<Engine::Mesh>& meshes, const String& name);
 }

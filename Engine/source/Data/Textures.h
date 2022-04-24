@@ -13,7 +13,7 @@ namespace Engine {
 	public:
 		ID3D11ShaderResourceView* view = nullptr;
 
-		Texture(const std::string& name, const kl::image& img);
+		Texture(const String& name, const kl::image& img);
 		Texture(const Engine::Texture& tex);
 		~Texture();
 	};
@@ -23,5 +23,5 @@ namespace Engine {
 	}
 
 	inline std::list<Engine::Texture> textures;
-	bool find(const std::list<Engine::Texture>& textures, const std::string& name);
+	bool find(const std::list<Engine::Texture>& textures, const String& name);
 }

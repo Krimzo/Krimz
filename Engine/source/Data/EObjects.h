@@ -6,8 +6,8 @@
 namespace Engine {
 	class EObject {
 	public:
-		std::string name;
+		String name;
 
-		EObject(const std::string& name);
+		EObject(const String& name);
 	};
 }

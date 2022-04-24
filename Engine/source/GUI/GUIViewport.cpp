@@ -42,7 +42,7 @@ void Engine::GUI::Viewport() {
 		else {
 			if (ImGui::Button("STOP")) {
 				// Saving selected's name
-				const std::string lastSelectedName = Engine::Picking::selected ? Engine::Picking::selected->name : "";
+				const String lastSelectedName = Engine::Picking::selected ? Engine::Picking::selected->name : "";
 
 				// Physics scene cleanup
 				Engine::Physics::DestroyScene();

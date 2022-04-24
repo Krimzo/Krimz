@@ -68,6 +68,6 @@ namespace Engine {
 		kl::float3 getAngular() const;
 
 		// Type name
-		static std::string getName(const Collider::Shape& shape);
+		static String getName(const Collider::Shape& shape);
 	};
 }

@@ -2,15 +2,15 @@
 #include "Render/Render.h"
 
 
-void FixTextureName(std::string& name) {
-	const std::string nameCopy = name;
+void FixTextureName(String& name) {
+	const String nameCopy = name;
 	int counter = 0;
 	while (Engine::find(Engine::textures, name)) {
 		name = nameCopy + "_" + std::to_string(++counter);
 	}
 }
 
-Engine::Texture::Texture(const std::string& name, const kl::image& img) : EObject(name) {
+Engine::Texture::Texture(const String& name, const kl::image& img) : EObject(name) {
 	FixTextureName(this->name);
 	ID3D11Texture2D* tex = Engine::Render::gpu->newTexture(img);
 	view = Engine::Render::gpu->newShaderView(tex);
@@ -28,7 +28,7 @@ Engine::Texture::~Texture() {
 }
 
 // Checks the buffer for the name
-bool Engine::find(const std::list<Engine::Texture>& textures, const std::string& name) {
+bool Engine::find(const std::list<Engine::Texture>& textures, const String& name) {
 	if (Engine::Default::texture && name == "default") {
 		return true;
 	}

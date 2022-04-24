@@ -32,7 +32,7 @@ void Entites() {
 			static char nameBuff[64] = {};
 			if (i == nameIndex) {
 				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const std::string newName(nameBuff);
+					const String newName(nameBuff);
 					if (newName == ent.name) {
 						nameIndex = -1;
 					}
@@ -111,7 +111,7 @@ void Meshes() {
 			static char nameBuff[64] = {};
 			if (i == nameIndex) {
 				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const std::string newName(nameBuff);
+					const String newName(nameBuff);
 					if (newName == mes.name) {
 						nameIndex = -1;
 					}
@@ -182,7 +182,7 @@ void Textures() {
 			static char nameBuff[64] = {};
 			if (i == nameIndex) {
 				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const std::string newName(nameBuff);
+					const String newName(nameBuff);
 					if (newName == tex.name) {
 						nameIndex = -1;
 					}
@@ -287,7 +287,7 @@ void Skyboxes() {
 			static char nameBuff[64] = {};
 			if (i == nameIndex) {
 				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const std::string newName(nameBuff);
+					const String newName(nameBuff);
 					if (newName == skyb.name) {
 						nameIndex = -1;
 					}

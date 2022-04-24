@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <jni.h>
 
+#include "KrimzLib.h"
 #include "Scripting/JavaClass.h"
 #include "Scripting/Script.h"
 
@@ -152,16 +153,16 @@ namespace Engine {
 		void ResetLoader();
 
 		// Loads eternal class
-		jclass LoadEternalClass(const std::string& name);
+		jclass LoadEternalClass(const String& name);
 
 		// Loads a new class from file
-		jclass LoadClass(const std::string& filePath);
+		jclass LoadClass(const String& filePath);
 
 		// Gets a class method
-		jmethodID GetMethod(jclass cls, const std::string& name, const std::string& sig, bool isStatic = false);
+		jmethodID GetMethod(jclass cls, const String& name, const String& sig, bool isStatic = false);
 
 		// Gets a class field
-		jfieldID GetField(jclass cls, const std::string& name, const std::string& sig, bool isStatic = false);
+		jfieldID GetField(jclass cls, const String& name, const String& sig, bool isStatic = false);
 
 		// Creates a new class instance
 		jobject NewInst(jclass cls, jmethodID constr);
@@ -170,7 +171,7 @@ namespace Engine {
 		void DelInst(jobject obj);
 
 		// Compiles given script
-		void CompileFile(const std::string& filePath);
+		void CompileFile(const String& filePath);
 
 		// Reloads all scripts from files
 		void ReloadScripts();

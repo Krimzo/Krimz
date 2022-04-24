@@ -1,7 +1,6 @@
 #include "Scripting/Scripting.h"
 #include "Logging/Logging.h"
 #include "Data/Entities.h"
-#include "KrimzLib.h"
 
 
 void Engine::JavaHandler::Init() {
@@ -217,7 +216,7 @@ void Engine::JavaHandler::ResetLoader() {
 }
 
 // Loads eternal class
-jclass Engine::JavaHandler::LoadEternalClass(const std::string& name) {
+jclass Engine::JavaHandler::LoadEternalClass(const String& name) {
 	jclass loaded = env->FindClass(name.c_str());
 	if (!loaded) {
 		Engine::log("Could not load eternal class \"" + name + "\"!");
@@ -226,14 +225,14 @@ jclass Engine::JavaHandler::LoadEternalClass(const std::string& name) {
 }
 
 // Loads a new class from file
-jclass Engine::JavaHandler::LoadClass(const std::string& filePath) {
+jclass Engine::JavaHandler::LoadClass(const String& filePath) {
 	// Compilation and byte-code loading
 	CompileFile(filePath);
-	const std::string classPath = std::filesystem::path(filePath).replace_extension("class").string();
+	const String classPath = std::filesystem::path(filePath).replace_extension("class").string();
 	const std::vector<byte> clsBytes = kl::file::readB(classPath);
 
 	// Cleanup and check
-	const std::string parentPath = std::filesystem::path(filePath).parent_path().string();
+	const String parentPath = std::filesystem::path(filePath).parent_path().string();
 	for (const auto& file : std::filesystem::recursive_directory_iterator(parentPath)) {
 		if (std::filesystem::path(file).extension().string() == ".class") {
 			std::filesystem::remove(file);
@@ -265,7 +264,7 @@ jclass Engine::JavaHandler::LoadClass(const std::string& filePath) {
 }
 
 // Gets a class method
-jmethodID Engine::JavaHandler::GetMethod(jclass cls, const std::string& name, const std::string& sig, bool isStatic) {
+jmethodID Engine::JavaHandler::GetMethod(jclass cls, const String& name, const String& sig, bool isStatic) {
 	jmethodID methodID = isStatic ? env->GetStaticMethodID(cls, name.c_str(), sig.c_str()) : env->GetMethodID(cls, name.c_str(), sig.c_str());
 	if (!methodID) {
 		Engine::log("Could not get method \"" + name + "\"!");
@@ -274,7 +273,7 @@ jmethodID Engine::JavaHandler::GetMethod(jclass cls, const std::string& name, co
 }
 
 // Gets a class field
-jfieldID Engine::JavaHandler::GetField(jclass cls, const std::string& name, const std::string& sig, bool isStatic) {
+jfieldID Engine::JavaHandler::GetField(jclass cls, const String& name, const String& sig, bool isStatic) {
 	jfieldID fieldID = isStatic ? env->GetStaticFieldID(cls, name.c_str(), sig.c_str()) : env->GetFieldID(cls, name.c_str(), sig.c_str());
 	if (!fieldID) {
 		Engine::log("Could not get field \"" + name + "\"!");
@@ -306,12 +305,12 @@ void Engine::JavaHandler::DelInst(jobject obj) {
 }
 
 // Compiles given script
-void Engine::JavaHandler::CompileFile(const std::string& filePath) {
+void Engine::JavaHandler::CompileFile(const String& filePath) {
 	// Setup
 	jstring args[3]
 	{
 		env->NewStringUTF("-cp"),
-		env->NewStringUTF((std::string(".;../JavApi/JavApi.jar;") +
+		env->NewStringUTF((String(".;../JavApi/JavApi.jar;") +
 			std::filesystem::path(filePath).parent_path().string() + ";").c_str()),
 		env->NewStringUTF(filePath.c_str())
 	};

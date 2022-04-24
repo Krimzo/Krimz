@@ -14,7 +14,7 @@ void Engine::log(float dat) {
 	Engine::log(ss.str());
 }
 
-void Engine::log(const std::string& dat) {
+void Engine::log(const String& dat) {
 	std::time_t t = time(nullptr);
 	std::tm now = {};
 	localtime_s(&now, &t);

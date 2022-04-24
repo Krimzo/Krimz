@@ -1,4 +1,4 @@
 #include "Scripting/JavaClass.h"
 
 
-Engine::JavaClass::JavaClass(const std::string& name, jclass cls) : name(name), cls(cls) {}
+Engine::JavaClass::JavaClass(const String& name, jclass cls) : name(name), cls(cls) {}
