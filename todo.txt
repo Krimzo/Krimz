@@ -1,7 +1,7 @@
 # Entity duplicate
 # Cameras as entities
-# Script api meshes/textures
-# Scene saving/loading
+# Scene system
+# Entity parenting
 # Custom main menu
 # Implement msaa
 # Multiple lights with shadows

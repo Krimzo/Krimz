@@ -65,6 +65,8 @@ namespace Engine {
 		inline jfieldID velocityField = nullptr;
 		inline jfieldID angularField = nullptr;
 		inline jfieldID colliderField = nullptr;
+		inline jfieldID meshField = nullptr;
+		inline jfieldID textureField = nullptr;
 
 		// Input class/fields
 		inline jclass mouseClass = nullptr;

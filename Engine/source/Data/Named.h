@@ -4,10 +4,11 @@
 
 
 namespace Engine {
-	class EObject {
+	class Named {
 	public:
 		String name;
 
-		EObject(const String& name);
+		Named();
+		Named(const String& name);
 	};
 }

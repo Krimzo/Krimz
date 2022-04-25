@@ -10,13 +10,13 @@ void FixTextureName(String& name) {
 	}
 }
 
-Engine::Texture::Texture(const String& name, const kl::image& img) : EObject(name) {
+Engine::Texture::Texture(const String& name, const kl::image& img) : Named(name) {
 	FixTextureName(this->name);
 	ID3D11Texture2D* tex = Engine::Render::gpu->newTexture(img);
 	view = Engine::Render::gpu->newShaderView(tex);
 	Engine::Render::gpu->destroy(tex);
 }
-Engine::Texture::Texture(const Engine::Texture& tex) : EObject(tex.name) {
+Engine::Texture::Texture(const Engine::Texture& tex) : Named(tex.name) {
 	view = tex.view;
 	((Engine::Texture*)&tex)->canDelete = false;
 	canDelete = true;

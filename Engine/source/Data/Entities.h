@@ -1,7 +1,7 @@
 #pragma once
 
 #include "KrimzLib.h"
-#include "Data/EObjects.h"
+#include "Data/Named.h"
 #include "Data/Meshes.h"
 #include "Data/Textures.h"
 #include "Scripting/Script.h"
@@ -10,7 +10,7 @@
 
 
 namespace Engine {
-	class Entity : public EObject {
+	class Entity : public Named {
 	public:
 		// View
 		bool visible = true;

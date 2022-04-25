@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Data/EObjects.h"
+#include "Data/Named.h"
 #include "Physics/Physics.h"
 #include "KrimzLib.h"
 
 
 namespace Engine {
-	class Mesh : public EObject {
+	class Mesh : public Named {
 	private:
 		bool canDelete = true;
 

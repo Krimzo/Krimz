@@ -2,11 +2,11 @@
 
 #include <d3d11.h>
 #include "KrimzLib.h"
-#include "Data/EObjects.h"
+#include "Data/Named.h"
 
 
 namespace Engine {
-	class Texture : public EObject {
+	class Texture : public Named {
 	private:
 		bool canDelete = true;
 

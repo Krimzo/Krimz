@@ -171,6 +171,8 @@ void Engine::JavaHandler::Init() {
 	velocityField = GetField(entityClass, "velocity", "Lengine/math/Float3;");
 	angularField = GetField(entityClass, "angular", "Lengine/math/Float3;");
 	colliderField = GetField(entityClass, "collider", "Lengine/Collider;");
+	meshField = GetField(entityClass, "mesh", "Ljava/lang/String;");
+	textureField = GetField(entityClass, "texture", "Ljava/lang/String;");
 
 	// Loader creation
 	loader = env->NewObject(loaderClass, loaderConstr);

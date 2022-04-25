@@ -58,7 +58,7 @@ float4 pShader(vOut data) : SV_TARGET {
 )";
 
 // Constr/destr
-Engine::Skybox::Skybox(const String& name, const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom) : EObject(name) {
+Engine::Skybox::Skybox(const String& name, const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom) : Named(name) {
 	// Name fix
 	FixSkyboxName(this->name);
 
@@ -75,14 +75,10 @@ Engine::Skybox::Skybox(const String& name, const kl::image& front, const kl::ima
 	box_tex = Engine::Render::gpu->newShaderView(boxTex);
 	Engine::Render::gpu->destroy(boxTex);
 }
-Engine::Skybox::Skybox(const String& name, const kl::image& fullbox) : EObject(name) {
-	// Checking the aspect ratio
+Engine::Skybox::Skybox(const String& name, const kl::image& fullbox) : Named(name) {
 	if (fullbox.width() % 4 == 0 && fullbox.height() % 3 == 0) {
-		// Getting the part size
 		const int partWidth = fullbox.width() / 4;
 		const int partHeight = fullbox.height() / 3;
-
-		// Checking the part size
 		if (partWidth == partHeight) {
 			const kl::int2 partSize(partWidth, partHeight);
 			const kl::image front = fullbox.rect(partSize * kl::int2(1, 1), partSize * kl::int2(2, 2));
@@ -93,28 +89,22 @@ Engine::Skybox::Skybox(const String& name, const kl::image& fullbox) : EObject(n
 			const kl::image bottom = fullbox.rect(partSize * kl::int2(1, 2), partSize * kl::int2(2, 3));
 			this->Skybox::Skybox(name, front, back, left, right, top, bottom);
 		}
-		else {
-			Engine::log("Texture file \"" + name + "\" has unspported ratio!");
-			valid = false;
-		}
 	}
-	else {
+	if (!box_tex) {
 		Engine::log("Texture file \"" + name + "\" has unspported ratio!");
-		valid = false;
 	}
 }
-Engine::Skybox::Skybox(const Engine::Skybox& sb) : EObject(sb.name) {
+Engine::Skybox::Skybox(const Engine::Skybox& sb) : Named(sb.name) {
 	sky_vtx = sb.sky_vtx;
 	sky_pxl = sb.sky_pxl;
 	vtx_cb = sb.vtx_cb;
 	box_mes = sb.box_mes;
 	box_tex = sb.box_tex;
-	valid = sb.valid;
 	((Engine::Skybox*)&sb)->canDelete = false;
 	canDelete = true;
 }
 Engine::Skybox::~Skybox() {
-	if (valid && canDelete) {
+	if (box_tex && canDelete) {
 		Engine::Render::gpu->destroy(sky_vtx);
 		Engine::Render::gpu->destroy(sky_pxl);
 		Engine::Render::gpu->destroy(vtx_cb);
@@ -125,22 +115,24 @@ Engine::Skybox::~Skybox() {
 
 // Valid
 bool Engine::Skybox::isValid() const {
-	return valid;
+	return box_tex;
 }
 
 // Render
 void Engine::Skybox::render(const kl::mat4& vpMat) const {
-	// Shader bind
-	Engine::Render::gpu->bind(sky_pxl);
-	Engine::Render::gpu->bind(sky_vtx);
-	Engine::Render::gpu->bindVertCBuff(vtx_cb, 0);
-	Engine::Render::gpu->setBuffData(vtx_cb, (void*)&vpMat);
+	if (box_tex) {
+		// Shader bind
+		Engine::Render::gpu->bind(sky_pxl);
+		Engine::Render::gpu->bind(sky_vtx);
+		Engine::Render::gpu->bindVertCBuff(vtx_cb, 0);
+		Engine::Render::gpu->setBuffData(vtx_cb, (void*)&vpMat);
 
-	// Binding the texture
-	Engine::Render::gpu->bindPixlTex(box_tex, 0);
+		// Binding the texture
+		Engine::Render::gpu->bindPixlTex(box_tex, 0);
 
-	// Drawing the cubemap
-	Engine::Render::gpu->draw(box_mes);
+		// Drawing the cubemap
+		Engine::Render::gpu->draw(box_mes);
+	}
 }
 
 // Checks the buffer for the name

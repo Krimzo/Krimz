@@ -30,7 +30,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\Data\EObjects.h" />
+    <ClInclude Include="source\Data\Named.h" />
     <ClInclude Include="source\Data\Meshes.h" />
     <ClInclude Include="source\Data\Skyboxes.h" />
     <ClInclude Include="source\Data\Textures.h" />
@@ -53,7 +53,7 @@
     <ClInclude Include="source\View\Background.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\Data\EObjects.cpp" />
+    <ClCompile Include="source\Data\Named.cpp" />
     <ClCompile Include="source\Data\Meshes.cpp" />
     <ClCompile Include="source\Data\Skyboxes.cpp" />
     <ClCompile Include="source\Engine.cpp" />

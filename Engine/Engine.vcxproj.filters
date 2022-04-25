@@ -60,7 +60,7 @@
     <ClInclude Include="source\Stage\Stage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Data\EObjects.h">
+    <ClInclude Include="source\Data\Named.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Scripting\JavaClass.h">
@@ -167,7 +167,7 @@
     <ClCompile Include="source\Data\Meshes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Data\EObjects.cpp">
+    <ClCompile Include="source\Data\Named.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Input\Picking.cpp">

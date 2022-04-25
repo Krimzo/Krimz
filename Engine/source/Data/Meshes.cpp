@@ -26,12 +26,12 @@ physx::PxTriangleMesh* CookMesh(const std::vector<kl::vertex>& vertData) {
 	return Engine::Physics::physics->createTriangleMesh(createBuffer);
 }
 
-Engine::Mesh::Mesh(const String& name, const std::vector<kl::vertex>& vertices) : EObject(name), vertices(vertices) {
+Engine::Mesh::Mesh(const String& name, const std::vector<kl::vertex>& vertices) : Named(name), vertices(vertices) {
 	FixMeshName(this->name);
 	buff = Engine::Render::gpu->newVertBuffer(vertices);
 	cooked = CookMesh(vertices);
 }
-Engine::Mesh::Mesh(const Engine::Mesh& mesh) : EObject(mesh.name) {
+Engine::Mesh::Mesh(const Engine::Mesh& mesh) : Named(mesh.name) {
 	vertices = mesh.vertices;
 	buff = mesh.buff;
 	cooked = mesh.cooked;

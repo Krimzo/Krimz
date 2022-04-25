@@ -24,4 +24,8 @@ public abstract class Entity {
     public Float3 velocity = new Float3(0.0f);
     public Float3 angular = new Float3(0.0f);
     public Collider collider = new Collider();
+
+    // Mesh/Texture
+    public String mesh = "";
+    public String texture = "";
 }

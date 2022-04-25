@@ -35,67 +35,93 @@ void GetScriptFloat3(jobject field, kl::float3& dat) {
 	dat.y = Engine::JavaHandler::env->GetFloatField(field, yField);
 	dat.z = Engine::JavaHandler::env->GetFloatField(field, zField);
 }
-void Engine::Script::setEntityData(void* ent) {
+void Engine::Script::setEntityData(void* entAddr) {
 	if (inst) {
 		// Cast
-		Engine::Entity* pEnt = (Engine::Entity*)ent;
+		Engine::Entity* ent = (Engine::Entity*)entAddr;
 
-		// View
-		Engine::JavaHandler::env->SetObjectField(inst, Engine::JavaHandler::nameField, Engine::JavaHandler::env->NewString((jchar*)kl::convert::toWString(pEnt->name).c_str(), jsize(pEnt->name.size())));
-		Engine::JavaHandler::env->SetBooleanField(inst, Engine::JavaHandler::visibleField, pEnt->visible);
-		Engine::JavaHandler::env->SetBooleanField(inst, Engine::JavaHandler::shadowsField, pEnt->shadows);
-		Engine::JavaHandler::env->SetFloatField(inst, Engine::JavaHandler::roughnessField, pEnt->roughness);
+		// Name
+		Engine::JavaHandler::env->SetObjectField(inst, Engine::JavaHandler::nameField, Engine::JavaHandler::env->NewStringUTF(ent->name.c_str()));
+
+		// View		
+		Engine::JavaHandler::env->SetBooleanField(inst, Engine::JavaHandler::visibleField, ent->visible);
+		Engine::JavaHandler::env->SetBooleanField(inst, Engine::JavaHandler::shadowsField, ent->shadows);
+		Engine::JavaHandler::env->SetFloatField(inst, Engine::JavaHandler::roughnessField, ent->roughness);
 
 		// Geometry
-		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::scaleField), pEnt->scale);
-		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::rotationField), pEnt->rotation);
-		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::positionField), pEnt->position);
+		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::scaleField), ent->scale);
+		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::rotationField), ent->rotation);
+		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::positionField), ent->position);
 
 		// Physics
-		Engine::JavaHandler::env->SetBooleanField(inst, Engine::JavaHandler::dynamicField, pEnt->dynamic);
-		Engine::JavaHandler::env->SetBooleanField(inst, Engine::JavaHandler::gravityField, pEnt->gravity);
-		Engine::JavaHandler::env->SetFloatField(inst, Engine::JavaHandler::frictionField, pEnt->friction);
-		Engine::JavaHandler::env->SetFloatField(inst, Engine::JavaHandler::massField, pEnt->mass);
-		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::velocityField), pEnt->velocity);
-		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::angularField), pEnt->angular);
+		Engine::JavaHandler::env->SetBooleanField(inst, Engine::JavaHandler::dynamicField, ent->dynamic);
+		Engine::JavaHandler::env->SetBooleanField(inst, Engine::JavaHandler::gravityField, ent->gravity);
+		Engine::JavaHandler::env->SetFloatField(inst, Engine::JavaHandler::frictionField, ent->friction);
+		Engine::JavaHandler::env->SetFloatField(inst, Engine::JavaHandler::massField, ent->mass);
+		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::velocityField), ent->velocity);
+		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::angularField), ent->angular);
 
 		// Collider
 		jobject collider = Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::colliderField);
-		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collScaleField), pEnt->collider.scale);
-		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collRotationField), pEnt->collider.rotation);
-		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collPositionField), pEnt->collider.position);
-		Engine::JavaHandler::env->SetIntField(collider, Engine::JavaHandler::collShapeField, int(pEnt->collider.shape));
+		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collScaleField), ent->collider.scale);
+		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collRotationField), ent->collider.rotation);
+		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collPositionField), ent->collider.position);
+		Engine::JavaHandler::env->SetIntField(collider, Engine::JavaHandler::collShapeField, int(ent->collider.shape));
+
+		// Mesh/Texture
+		Engine::JavaHandler::env->SetObjectField(inst, Engine::JavaHandler::meshField, Engine::JavaHandler::env->NewStringUTF(ent->mesh->name.c_str()));
+		Engine::JavaHandler::env->SetObjectField(inst, Engine::JavaHandler::textureField, Engine::JavaHandler::env->NewStringUTF(ent->texture->name.c_str()));
 	}
 }
-void Engine::Script::getEntityData(void* ent) {
+void Engine::Script::getEntityData(void* entAddr) {
 	if (inst) {
 		// Cast
-		Engine::Entity* pEnt = (Engine::Entity*)ent;
+		Engine::Entity* ent = (Engine::Entity*)entAddr;
 
 		// View
-		pEnt->visible = Engine::JavaHandler::env->GetBooleanField(inst, Engine::JavaHandler::visibleField);
-		pEnt->shadows = Engine::JavaHandler::env->GetBooleanField(inst, Engine::JavaHandler::shadowsField);
-		pEnt->roughness = Engine::JavaHandler::env->GetFloatField(inst, Engine::JavaHandler::roughnessField);
+		ent->visible = Engine::JavaHandler::env->GetBooleanField(inst, Engine::JavaHandler::visibleField);
+		ent->shadows = Engine::JavaHandler::env->GetBooleanField(inst, Engine::JavaHandler::shadowsField);
+		ent->roughness = Engine::JavaHandler::env->GetFloatField(inst, Engine::JavaHandler::roughnessField);
 
 		// Geometry
-		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::scaleField), pEnt->scale);
-		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::rotationField), pEnt->rotation);
-		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::positionField), pEnt->position);
+		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::scaleField), ent->scale);
+		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::rotationField), ent->rotation);
+		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::positionField), ent->position);
 
 		// Physics
-		pEnt->dynamic = Engine::JavaHandler::env->GetBooleanField(inst, Engine::JavaHandler::dynamicField);
-		pEnt->gravity = Engine::JavaHandler::env->GetBooleanField(inst, Engine::JavaHandler::gravityField);
-		pEnt->friction = Engine::JavaHandler::env->GetFloatField(inst, Engine::JavaHandler::frictionField);
-		pEnt->mass = Engine::JavaHandler::env->GetFloatField(inst, Engine::JavaHandler::massField);
-		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::velocityField), pEnt->velocity);
-		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::angularField), pEnt->angular);
+		ent->dynamic = Engine::JavaHandler::env->GetBooleanField(inst, Engine::JavaHandler::dynamicField);
+		ent->gravity = Engine::JavaHandler::env->GetBooleanField(inst, Engine::JavaHandler::gravityField);
+		ent->friction = Engine::JavaHandler::env->GetFloatField(inst, Engine::JavaHandler::frictionField);
+		ent->mass = Engine::JavaHandler::env->GetFloatField(inst, Engine::JavaHandler::massField);
+		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::velocityField), ent->velocity);
+		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::angularField), ent->angular);
 
 		// Collider
 		jobject collider = Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::colliderField);
-		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collScaleField), pEnt->collider.scale);
-		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collRotationField), pEnt->collider.rotation);
-		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collPositionField), pEnt->collider.position);
-		pEnt->collider.shape = Engine::Collider::Shape(Engine::JavaHandler::env->GetIntField(collider, Engine::JavaHandler::collShapeField));
+		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collScaleField), ent->collider.scale);
+		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collRotationField), ent->collider.rotation);
+		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collPositionField), ent->collider.position);
+		ent->collider.shape = Engine::Collider::Shape(Engine::JavaHandler::env->GetIntField(collider, Engine::JavaHandler::collShapeField));
+
+		// Mesh/Texture
+		String scriptMesh = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::meshField), nullptr);
+		if (scriptMesh != ent->mesh->name) {
+			for (auto& mes : Engine::meshes) {
+				if (mes.name == scriptMesh) {
+					ent->mesh = &mes;
+					break;
+				}
+			}
+		}
+		String scriptTexture = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::textureField), nullptr);
+		if (scriptTexture != ent->texture->name) {
+			for (auto& tex : Engine::textures) {
+				if (tex.name == scriptTexture) {
+					ent->texture = &tex;
+					break;
+				}
+			}
+		}
 	}
 }
 

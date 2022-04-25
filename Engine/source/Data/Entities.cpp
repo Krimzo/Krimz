@@ -10,10 +10,10 @@ void FixEntityName(String& name) {
 	}
 }
 
-Engine::Entity::Entity() : EObject("undefined"), mesh(Engine::Default::cube), texture(Engine::Default::texture) {
-	FixEntityName(this->name);
+Engine::Entity::Entity() : mesh(Engine::Default::cube), texture(Engine::Default::texture) {
+	FixEntityName(name);
 }
-Engine::Entity::Entity(const String& name, Engine::Mesh* mesh, Engine::Texture* texture) : EObject(name), mesh(mesh), texture(texture) {
+Engine::Entity::Entity(const String& name, Engine::Mesh* mesh, Engine::Texture* texture) : Named(name), mesh(mesh), texture(texture) {
 	FixEntityName(this->name);
 }
 
