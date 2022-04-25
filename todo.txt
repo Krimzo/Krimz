@@ -1,16 +1,12 @@
-# To Do
-
-PhysX
-Entity duplicate
-Scene saving/loading
-Cameras as entities
-Custom main menu
-Java api mesh/texture setting
-Implement msaa
-Multiple different lights with shadows
-Game export
+# Entity duplicate
+# Cameras as entities
+# Script api meshes/textures
+# Scene saving/loading
+# Custom main menu
+# Implement msaa
+# Multiple lights with shadows
+# Game export
 
 ? Documentation
 
-# Bugs
-Folder root crash
+! Folder root crash
