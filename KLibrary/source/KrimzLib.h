@@ -18,14 +18,14 @@
 #include "graphics/video.h"
 
 // Utility
-#include "utility/time.h"
-#include "utility/convert.h"
-#include "utility/random.h"
 #include "utility/console.h"
+#include "utility/convert.h"
 #include "utility/file.h"
+#include "utility/random.h"
 #include "utility/socket.h"
-#include "utility/web.h"
 #include "utility/thread.h"
+#include "utility/time.h"
+#include "utility/web.h"
 
 // Geometry
 #include "geometry/ray.h"
@@ -39,6 +39,7 @@
 #include "window/keys.h"
 #include "window/mouse.h"
 #include "window/window.h"
+#include "window/double_buffer.h"
 
 // DirectX
 #include "gpu/gpu.h"
