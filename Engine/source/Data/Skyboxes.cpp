@@ -4,14 +4,6 @@
 #include "Logging/Logging.h"
 
 
-void FixSkyboxName(String& name) {
-	const String nameCopy = name;
-	int counter = 0;
-	while (Engine::find(Engine::skyboxes, name)) {
-		name = nameCopy + "_" + std::to_string(++counter);
-	}
-}
-
 // Skybox box vertices
 static const std::vector<kl::vertex> boxVertices = {
 	kl::vertex(kl::float3(1, -1,  1)), kl::vertex(kl::float3(1, -1, -1)), kl::vertex(kl::float3(1,  1, -1)),
@@ -58,10 +50,7 @@ float4 pShader(vOut data) : SV_TARGET {
 )";
 
 // Constr/destr
-Engine::Skybox::Skybox(const String& name, const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom) : Named(name) {
-	// Name fix
-	FixSkyboxName(this->name);
-
+Engine::Skybox::Skybox(const String& name, const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom) : Named(Named::Type::Skybox, name) {
 	// Compiling skybox shaders
 	sky_vtx = Engine::Render::gpu->newVertexShader(shaders);
 	sky_pxl = Engine::Render::gpu->newPixelShader(shaders);
@@ -75,7 +64,7 @@ Engine::Skybox::Skybox(const String& name, const kl::image& front, const kl::ima
 	box_tex = Engine::Render::gpu->newShaderView(boxTex);
 	Engine::Render::gpu->destroy(boxTex);
 }
-Engine::Skybox::Skybox(const String& name, const kl::image& fullbox) : Named(name) {
+Engine::Skybox::Skybox(const String& name, const kl::image& fullbox) : Named(Named::Type::Skybox) {
 	if (fullbox.width() % 4 == 0 && fullbox.height() % 3 == 0) {
 		const int partWidth = fullbox.width() / 4;
 		const int partHeight = fullbox.height() / 3;
@@ -94,17 +83,8 @@ Engine::Skybox::Skybox(const String& name, const kl::image& fullbox) : Named(nam
 		Engine::log("Texture file \"" + name + "\" has unspported ratio!");
 	}
 }
-Engine::Skybox::Skybox(const Engine::Skybox& sb) : Named(sb.name) {
-	sky_vtx = sb.sky_vtx;
-	sky_pxl = sb.sky_pxl;
-	vtx_cb = sb.vtx_cb;
-	box_mes = sb.box_mes;
-	box_tex = sb.box_tex;
-	((Engine::Skybox*)&sb)->canDelete = false;
-	canDelete = true;
-}
 Engine::Skybox::~Skybox() {
-	if (box_tex && canDelete) {
+	if (isValid()) {
 		Engine::Render::gpu->destroy(sky_vtx);
 		Engine::Render::gpu->destroy(sky_pxl);
 		Engine::Render::gpu->destroy(vtx_cb);
@@ -133,14 +113,4 @@ void Engine::Skybox::render(const kl::mat4& vpMat) const {
 		// Drawing the cubemap
 		Engine::Render::gpu->draw(box_mes);
 	}
-}
-
-// Checks the buffer for the name
-bool Engine::find(const std::list<Engine::Skybox>& skyboxes, const String& name) {
-	for (auto& skybox : skyboxes) {
-		if (skybox.name == name) {
-			return true;
-		}
-	}
-	return false;
 }

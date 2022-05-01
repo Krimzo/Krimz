@@ -7,14 +7,12 @@
 
 namespace Engine {
 	class Texture : public Named {
-	private:
-		bool canDelete = true;
-
 	public:
 		ID3D11ShaderResourceView* view = nullptr;
 
 		Texture(const String& name, const kl::image& img);
-		Texture(const Engine::Texture& tex);
+		Texture(const Engine::Texture&) = delete;
+		void operator=(const Engine::Texture&) = delete;
 		~Texture();
 	};
 
@@ -22,6 +20,5 @@ namespace Engine {
 		inline Engine::Texture* texture = nullptr;
 	}
 
-	inline std::list<Engine::Texture> textures;
-	bool find(const std::list<Engine::Texture>& textures, const String& name);
+	inline std::list<std::shared_ptr<Engine::Texture>> textures;
 }

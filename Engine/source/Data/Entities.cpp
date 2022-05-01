@@ -2,30 +2,45 @@
 #include "Scripting/Scripting.h"
 
 
-void FixEntityName(String& name) {
-	const String nameCopy = name;
-	int counter = 0;
-	while (Engine::find(Engine::entities, name)) {
-		name = nameCopy + "_" + std::to_string(++counter);
-	}
-}
+Engine::Entity::Entity() : Named(Named::Type::Entity), mesh(Engine::Default::cube), texture(Engine::Default::texture) {}
+Engine::Entity::Entity(const String& name, Engine::Mesh* mesh, Engine::Texture* texture) : Named(Named::Type::Entity, name), mesh(mesh), texture(texture) {}
+Engine::Entity::Entity(const Engine::Entity& obj) : Named(Named::Type::Entity, obj.getName()) {
+	// View
+	visible = obj.visible;
+	shadows = obj.shadows;
+	roughness = obj.roughness;
 
-Engine::Entity::Entity() : mesh(Engine::Default::cube), texture(Engine::Default::texture) {
-	FixEntityName(name);
-}
-Engine::Entity::Entity(const String& name, Engine::Mesh* mesh, Engine::Texture* texture) : Named(name), mesh(mesh), texture(texture) {
-	FixEntityName(this->name);
+	// Geometry
+	scale = obj.scale;
+	rotation = obj.rotation;
+	position = obj.position;
+
+	// Physics
+	dynamic = obj.dynamic;
+	gravity = obj.gravity;
+	friction = obj.friction;
+	mass = obj.mass;
+	velocity = obj.velocity;
+	angular = obj.angular;
+	collider = obj.collider;
+
+	// Mesh/texture
+	mesh = obj.mesh;
+	texture = obj.texture;
+
+	// Scripts
+	scripts = obj.scripts;
 }
 
 // Script callers
 void Engine::Entity::callStarts() {
 	for (auto& ref : scripts) {
-		ref.callStart(this);
+		ref->callStart(this);
 	}
 }
 void Engine::Entity::callUpdates() {
 	for (auto& ref : scripts) {
-		ref.callUpdate(this);
+		ref->callUpdate(this);
 	}
 }
 
@@ -43,14 +58,4 @@ void Engine::Entity::render(kl::gpu* gpu, bool useTex) const {
 
 	// Rendering
 	gpu->draw(mesh->buff);
-}
-
-// Checks the buffer for the name
-bool Engine::find(const std::list<Engine::Entity>& entities, const String& name) {
-	for (auto& ent : entities) {
-		if (ent.name == name) {
-			return true;
-		}
-	}
-	return false;
 }

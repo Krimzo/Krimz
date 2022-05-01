@@ -31,17 +31,16 @@ namespace Engine {
 		kl::float3 angular;
 		Engine::Collider collider;
 
-		// Mesh pointer
+		// Mesh/texture
 		Engine::Mesh* mesh = nullptr;
-
-		// Texture pointer
 		Engine::Texture* texture = nullptr;
 
 		// Scripts
-		std::vector<Engine::Script> scripts;
+		std::vector<std::shared_ptr<Engine::Script>> scripts;
 
 		Entity();
 		Entity(const String& name, Engine::Mesh* mesh, Engine::Texture* texture);
+		Entity(const Engine::Entity& obj);
 
 		// Script callers
 		void callStarts();
@@ -54,6 +53,5 @@ namespace Engine {
 		void render(kl::gpu* gpu, bool useTex) const;
 	};
 
-	inline std::list<Engine::Entity> entities;
-	bool find(const std::list<Engine::Entity>& entities, const String& name);
+	inline std::list<std::shared_ptr<Engine::Entity>> entities;
 }

@@ -7,16 +7,14 @@
 
 namespace Engine {
 	class Mesh : public Named {
-	private:
-		bool canDelete = true;
-
 	public:
 		std::vector<kl::vertex> vertices;
 		ID3D11Buffer* buff = nullptr;
 		physx::PxTriangleMesh* cooked = nullptr;
 
 		Mesh(const String& name, const std::vector<kl::vertex>& vertices);
-		Mesh(const Engine::Mesh& mesh);
+		Mesh(const Engine::Mesh&) = delete;
+		void operator=(const Engine::Mesh&) = delete;
 		~Mesh();
 	};
 
@@ -28,6 +26,5 @@ namespace Engine {
 		inline Engine::Mesh* monke = nullptr;
 	}
 
-	inline std::list<Engine::Mesh> meshes;
-	bool find(const std::list<Engine::Mesh>& meshes, const String& name);
+	inline std::list<std::shared_ptr<Engine::Mesh>> meshes;
 }

@@ -187,18 +187,21 @@ void Engine::JavaHandler::Init() {
 	env->CallStaticVoidMethod(sysClass, sysGCMethod);
 }
 void Engine::JavaHandler::Uninit() {
-	classes.clear();
 	refs.clear();
+	classes.clear();
 	jvm->DestroyJavaVM();
 }
 
 // Clears all loaded references
 void Engine::JavaHandler::ResetLoader() {
 	// Cleanup
-	for (int i = int(refs.size()) - 1; i >= 0; i--) {
-		env->DeleteLocalRef(refs[i]);
+	for (auto& ref : refs) {
+		env->DeleteLocalRef(ref);
 	}
 	refs.clear();
+	for (auto& cls : classes) {
+		env->DeleteLocalRef(cls.second);
+	}
 	classes.clear();
 
 	// Deleting class loader
@@ -248,10 +251,8 @@ jclass Engine::JavaHandler::LoadClass(const String& filePath) {
 	jclass clsDef = env->DefineClass(nullptr, loader, (jbyte*)&clsBytes[0], jsize(clsBytes.size()));
 	if (!clsDef) {
 		// Exists check
-		for (auto& cls : classes) {
-			if (cls.name == filePath) {
-				return cls.cls;
-			}
+		if (classes.contains(filePath)) {
+			return classes[filePath];
 		}
 
 		// Bad script
@@ -259,9 +260,7 @@ jclass Engine::JavaHandler::LoadClass(const String& filePath) {
 		return nullptr;
 	}
 
-	// Saving and return
-	classes.push_back(Engine::JavaClass(filePath, clsDef));
-	refs.push_back(clsDef);
+	classes[filePath] = clsDef;
 	return clsDef;
 }
 
@@ -290,30 +289,25 @@ jobject Engine::JavaHandler::NewInst(jclass cls, jmethodID constr) {
 		Engine::log("Could not create a new class instance!");
 	}
 	else {
-		refs.push_back(obj);
+		refs.insert(obj);
 	}
 	return obj;
 }
 
 // Deletes a class instance
 void Engine::JavaHandler::DelInst(jobject obj) {
-	for (int i = 0; i < refs.size(); i++) {
-		if (refs[i] == obj) {
-			env->DeleteLocalRef(refs[i]);
-			refs.erase(refs.begin() + i);
-			break;
-		}
+	if (refs.contains(obj)) {
+		env->DeleteLocalRef(obj);
+		refs.erase(obj);
 	}
 }
 
 // Compiles given script
 void Engine::JavaHandler::CompileFile(const String& filePath) {
 	// Setup
-	jstring args[3]
-	{
+	jstring args[3] = {
 		env->NewStringUTF("-cp"),
-		env->NewStringUTF((String(".;../JavApi/JavApi.jar;") +
-			std::filesystem::path(filePath).parent_path().string() + ";").c_str()),
+		env->NewStringUTF((String(".;../JavApi/JavApi.jar;") + std::filesystem::path(filePath).parent_path().string() + ";").c_str()),
 		env->NewStringUTF(filePath.c_str())
 	};
 	jobjectArray argArray = env->NewObjectArray(3, stringClass, args[2]);
@@ -328,8 +322,8 @@ void Engine::JavaHandler::CompileFile(const String& filePath) {
 
 	// Cleanup
 	env->DeleteLocalRef(argArray);
-	for (int i = 0; i < 3; i++) {
-		env->DeleteLocalRef(args[i]);
+	for (auto& arg : args) {
+		env->DeleteLocalRef(arg);
 	}
 }
 
@@ -340,8 +334,8 @@ void Engine::JavaHandler::ReloadScripts() {
 
 	// Loading new data
 	for (auto& ent : Engine::entities) {
-		for (auto& scr : ent.scripts) {
-			scr.reload();
+		for (auto& scr : ent->scripts) {
+			scr->reload();
 		}
 	}
 }

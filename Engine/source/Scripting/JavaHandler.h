@@ -7,7 +7,6 @@
 #include <jni.h>
 
 #include "KrimzLib.h"
-#include "Scripting/JavaClass.h"
 #include "Scripting/Script.h"
 
 #pragma comment(lib, "jvm.lib")
@@ -144,8 +143,8 @@ namespace Engine {
 		inline jfieldID f12Field = nullptr;
 
 		// Buffers
-		inline std::vector<jobject> refs;
-		inline std::vector<Engine::JavaClass> classes;
+		inline std::set<jobject> refs;
+		inline std::map<String, jclass> classes;
 
 		// Setup
 		void Init();

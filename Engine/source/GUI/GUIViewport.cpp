@@ -8,7 +8,8 @@
 #include "Physics/Physics.h"
 
 
-std::list<Engine::Entity> savedEntities;
+static std::list<std::shared_ptr<Engine::Entity>> savedEntities;
+static std::vector<String> savedNames;
 
 void Engine::GUI::Viewport() {
 	if (ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoBackground)) {
@@ -23,7 +24,10 @@ void Engine::GUI::Viewport() {
 		if (!Engine::gameRunning) {
 			if (ImGui::Button("PLAY")) {
 				// Saving entites
-				savedEntities = entities;
+				for (auto& ent : Engine::entities) {
+					savedEntities.push_back(std::make_shared<Engine::Entity>(*ent));
+					savedNames.push_back(ent->getName());
+				}
 
 				// Physics scene creation
 				Engine::Physics::CreateScene();
@@ -42,18 +46,23 @@ void Engine::GUI::Viewport() {
 		else {
 			if (ImGui::Button("STOP")) {
 				// Saving selected's name
-				const String lastSelectedName = Engine::Picking::selected ? Engine::Picking::selected->name : "";
+				const String lastSelectedName = Engine::Picking::selected ? Engine::Picking::selected->getName() : "";
 
 				// Physics scene cleanup
 				Engine::Physics::DestroyScene();
 
 				// Loading saved entities
 				Engine::entities = savedEntities;
+				savedEntities.clear();
+				for (size_t i = 0; auto & ent : Engine::entities) {
+					ent->updateName(savedNames[i++]);
+				}
+				savedNames.clear();
 
 				// Selected fix
 				for (auto& ent : Engine::entities) {
-					if (ent.name == lastSelectedName) {
-						Engine::Picking::selected = &ent;
+					if (ent->getName() == lastSelectedName) {
+						Engine::Picking::selected = ent.get();
 						break;
 					}
 				}

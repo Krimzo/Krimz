@@ -38,24 +38,24 @@ void Engine::Render::Entity() {
 
 	// Rendering entities
 	for (int i = 0; auto & ent : Engine::entities) {
-		if (ent.visible) {
+		if (ent->visible) {
 			// Updating the vert data
-			draw_vert_data.w = ent.matrix();
+			draw_vert_data.w = ent->matrix();
 			Engine::Render::gpu->setBuffData(Engine::CBuffers::buff192_1, &draw_vert_data);
 
 			// Updating the pixl data
-			draw_pixl_data.rghFac.x = ent.roughness;
+			draw_pixl_data.rghFac.x = ent->roughness;
 			draw_pixl_data.objInd.x = float(i);
 			Engine::Render::gpu->setBuffData(Engine::CBuffers::buff96_1, &draw_pixl_data);
 
 			// Rendering the entity
-			if (&ent == Engine::Picking::selected) {
+			if (ent.get() == Engine::Picking::selected) {
 				Engine::Render::gpu->bind(Engine::DepthStencil::write);
-				ent.render(Engine::Render::gpu, true);
+				ent->render(Engine::Render::gpu, true);
 				Engine::Render::gpu->bind(Engine::DepthStencil::depth);
 			}
 			else {
-				ent.render(Engine::Render::gpu, true);
+				ent->render(Engine::Render::gpu, true);
 			}
 		}
 

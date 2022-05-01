@@ -29,13 +29,13 @@ void Engine::Render::Shadows() {
 
 	// Rendering entity shadows
 	for (auto& ent : Engine::entities) {
-		if (ent.shadows) {
+		if (ent->shadows) {
 			// Getting the full wvp matrix
-			kl::mat4 wvp = vpSun * ent.matrix();
+			kl::mat4 wvp = vpSun * ent->matrix();
 			Engine::Render::gpu->setBuffData(Engine::CBuffers::buff64_1, &wvp);
 
 			// Rendering the entity
-			ent.render(Engine::Render::gpu, false);
+			ent->render(Engine::Render::gpu, false);
 		}
 	}
 

@@ -8,13 +8,16 @@ namespace Engine {
 	class Script {
 	public:
 		String path;
-		jobject inst = nullptr;
+		jobject inst;
 
 		// Methods
 		jmethodID startMethod = nullptr;
 		jmethodID updateMethod = nullptr;
 
 		Script(const String& filePath);
+		Script(const Engine::Script&) = delete;
+		void operator=(const Engine::Script&) = delete;
+		~Script();
 
 		// Reloads bytes
 		void reload();

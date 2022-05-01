@@ -34,7 +34,7 @@ void LMBPress() {
 		if (Engine::Picking::mouseIndex >= 0) {
 			auto entIt = Engine::entities.begin();
 			std::advance(entIt, Engine::Picking::mouseIndex);
-			Engine::Picking::selected = &*entIt;
+			Engine::Picking::selected = entIt->get();
 			Engine::Picking::selectedInd = Engine::Picking::mouseIndex;
 		}
 		else if (Engine::Picking::mouseIndex == -1) {

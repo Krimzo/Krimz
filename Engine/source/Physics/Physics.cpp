@@ -52,9 +52,9 @@ void Engine::Physics::CreateScene() {
 void Engine::Physics::DestroyScene() {
 	if (scene) {
 		for (auto& ent : Engine::entities) {
-			ent.collider.delShape();
-			ent.collider.delActor();
-			ent.collider.delMaterial();
+			ent->collider.delShape();
+			ent->collider.delActor();
+			ent->collider.delMaterial();
 		}
 		scene->release();
 		scene = nullptr;
@@ -66,38 +66,38 @@ void Engine::Physics::Update() {
 	// Setting sim data
 	for (auto& ent : Engine::entities) {
 		// Actor creation
-		ent.collider.newActor(ent.dynamic);
+		ent->collider.newActor(ent->dynamic);
 
 		// Data setting
-		ent.collider.setGravity(ent.gravity);
-		ent.collider.setFriction(ent.friction);
-		ent.collider.setMass(ent.mass);
-		ent.collider.setWorldRotation(ent.rotation);
-		ent.collider.setWorldPosition(ent.position);
-		ent.collider.setVelocity(ent.velocity);
-		ent.collider.setAngular(ent.angular);
+		ent->collider.setGravity(ent->gravity);
+		ent->collider.setFriction(ent->friction);
+		ent->collider.setMass(ent->mass);
+		ent->collider.setWorldRotation(ent->rotation);
+		ent->collider.setWorldPosition(ent->position);
+		ent->collider.setVelocity(ent->velocity);
+		ent->collider.setAngular(ent->angular);
 
 		// Shape creation
-		switch (ent.collider.shape) {
+		switch (ent->collider.shape) {
 		case Engine::Collider::Shape::Box:
-			ent.collider.newShape(ent.scale * ent.collider.scale);
+			ent->collider.newShape(ent->scale * ent->collider.scale);
 			break;
 
 		case Engine::Collider::Shape::Sphere:
-			ent.collider.newShape(ent.collider.scale.y);
+			ent->collider.newShape(ent->collider.scale.y);
 			break;
 
 		case Engine::Collider::Shape::Capsule:
-			ent.collider.newShape(kl::float2(ent.collider.scale.y, ent.collider.scale.x));
+			ent->collider.newShape(kl::float2(ent->collider.scale.y, ent->collider.scale.x));
 			break;
 
 		case Engine::Collider::Shape::Mesh:
-			ent.collider.newShape(ent.mesh, ent.scale * ent.collider.scale);
+			ent->collider.newShape(ent->mesh, ent->scale * ent->collider.scale);
 			break;
 		}
 
 		// Adding actor to scene
-		scene->addActor(*ent.collider.actor);
+		scene->addActor(*ent->collider.actor);
 	}
 
 	// Simulation
@@ -106,12 +106,12 @@ void Engine::Physics::Update() {
 
 	// Reading sim data
 	for (auto& ent : Engine::entities) {
-		if (ent.dynamic) {
-			ent.position = ent.collider.getWorldPosition() - ent.collider.position;
-			ent.rotation = ent.collider.getWorldRotation() - ent.collider.rotation;
-			ent.velocity = ent.collider.getVelocity();
-			ent.angular = ent.collider.getAngular();
+		if (ent->dynamic) {
+			ent->position = ent->collider.getWorldPosition() - ent->collider.position;
+			ent->rotation = ent->collider.getWorldRotation() - ent->collider.rotation;
+			ent->velocity = ent->collider.getVelocity();
+			ent->angular = ent->collider.getAngular();
 		}
-		scene->removeActor(*ent.collider.actor);
+		scene->removeActor(*ent->collider.actor);
 	}
 }

@@ -13,12 +13,15 @@
 
 
 void Entites() {
+	static String nameBuff = {};
+	static String inputBuff = {};
+
 	if (ImGui::Begin("Entities", nullptr, ImGuiWindowFlags_NoScrollbar)) {
 		// New entity
 		if (ImGui::BeginPopupContextWindow()) {
 			// New button
 			if (ImGui::Button("New", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-				Engine::entities.push_back(Engine::Entity());
+				Engine::entities.push_back(std::make_shared<Engine::Entity>());
 				ImGui::CloseCurrentPopup();
 			}
 			ImGui::EndPopup();
@@ -28,26 +31,20 @@ void Entites() {
 		bool noSelection = true;
 		for (int i = 0; auto & ent : Engine::entities) {
 			// Name input
-			static int nameIndex = -1;
-			static char nameBuff[64] = {};
-			if (i == nameIndex) {
-				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const String newName(nameBuff);
-					if (newName == ent.name) {
-						nameIndex = -1;
-					}
-					else if (!Engine::find(Engine::entities, newName)) {
-						ent.name = newName;
-						nameIndex = -1;
-					}
+			if (ent->getName() == nameBuff) {
+				ImGui::SetNextItemWidth(ImGui::GetWindowWidth());
+				if (ImGui::InputText("##NewName", &inputBuff[0], inputBuff.size(), ImGuiInputTextFlags_EnterReturnsTrue)) {
+					ent->updateName(inputBuff.c_str());
+					inputBuff.clear();
+					nameBuff.clear();
 				}
 			}
 			// Draw
 			else {
-				bool state = (Engine::Picking::selected == &ent);
-				ImGui::Selectable(ent.name.c_str(), &state);
+				bool state = (Engine::Picking::selected == ent.get());
+				ImGui::Selectable(ent->getName().c_str(), &state);
 				if (state) {
-					Engine::Picking::selected = &ent;
+					Engine::Picking::selected = ent.get();
 					noSelection = false;
 				}
 			}
@@ -56,14 +53,14 @@ void Entites() {
 			if (ImGui::BeginPopupContextItem()) {
 				// Rename
 				if (ImGui::Button("Rename", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-					nameIndex = i;
-					memcpy(nameBuff, ent.name.c_str(), ent.name.size() + 1);
+					nameBuff = ent->getName();
+					inputBuff.resize(64);
 					ImGui::CloseCurrentPopup();
 				}
 
 				// Delete
 				if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-					if (Engine::Picking::selected == &ent) {
+					if (Engine::Picking::selected == ent.get()) {
 						Engine::Picking::selected = nullptr;
 					}
 					auto entIt = Engine::entities.begin();
@@ -85,6 +82,9 @@ void Entites() {
 }
 
 void Meshes() {
+	static String nameBuff = {};
+	static String inputBuff = {};
+
 	if (ImGui::Begin("Meshes", nullptr, ImGuiWindowFlags_NoScrollbar)) {
 		// Transfer
 		ImVec2 winPos = ImGui::GetWindowPos();
@@ -99,7 +99,7 @@ void Meshes() {
 			// Payload accept
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("MeshTransfer")) {
 				std::filesystem::path filePath((char*)payload->Data);
-				Engine::meshes.push_back(Engine::Mesh(filePath.stem().string(), kl::file::parseObj(filePath.string())));
+				Engine::meshes.push_back(std::make_shared<Engine::Mesh>(filePath.stem().string(), kl::file::parseObj(filePath.string())));
 			}
 			ImGui::EndDragDropTarget();
 		}
@@ -107,37 +107,32 @@ void Meshes() {
 		// Mesh names
 		for (int i = 0; auto & mes : Engine::meshes) {
 			// Name input
-			static int nameIndex = -1;
-			static char nameBuff[64] = {};
-			if (i == nameIndex) {
-				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const String newName(nameBuff);
-					if (newName == mes.name) {
-						nameIndex = -1;
-					}
-					else if (!Engine::find(Engine::meshes, newName)) {
-						mes.name = newName;
-						nameIndex = -1;
-					}
+			if (nameBuff == mes->getName()) {
+				ImGui::SetNextItemWidth(ImGui::GetWindowWidth());
+				if (ImGui::InputText("##NewName", &inputBuff[0], inputBuff.size(), ImGuiInputTextFlags_EnterReturnsTrue)) {
+					mes->updateName(inputBuff.c_str());
+					inputBuff.clear();
+					nameBuff.clear();
 				}
 			}
-			else
-				ImGui::Selectable(mes.name.c_str());
+			else {
+				ImGui::Selectable(mes->getName().c_str());
+			}
 
 			// RMB menu
 			if (ImGui::BeginPopupContextItem()) {
 				// Rename
 				if (ImGui::Button("Rename", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-					nameIndex = i;
-					memcpy(nameBuff, mes.name.c_str(), mes.name.size() + 1);
+					nameBuff = mes->getName();
+					inputBuff.resize(64);
 					ImGui::CloseCurrentPopup();
 				}
 
 				// Delete
 				if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
 					for (auto& ent : Engine::entities) {
-						if (ent.mesh == &mes) {
-							ent.mesh = Engine::Default::cube;
+						if (ent->mesh == mes.get()) {
+							ent->mesh = Engine::Default::cube;
 						}
 					}
 					auto mesIt = Engine::meshes.begin();
@@ -156,6 +151,9 @@ void Meshes() {
 }
 
 void Textures() {
+	static String nameBuff = {};
+	static String inputBuff = {};
+
 	if (ImGui::Begin("Textures", nullptr, ImGuiWindowFlags_NoScrollbar)) {
 		// Transfer
 		ImVec2 winPos = ImGui::GetWindowPos();
@@ -170,7 +168,7 @@ void Textures() {
 			// Payload accept
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TextureTransfer")) {
 				std::filesystem::path filePath((char*)payload->Data);
-				Engine::textures.push_back(Engine::Texture(filePath.stem().string(), kl::image(filePath.string())));
+				Engine::textures.push_back(std::make_shared<Engine::Texture>(filePath.stem().string(), kl::image(filePath.string())));
 			}
 			ImGui::EndDragDropTarget();
 		}
@@ -178,22 +176,16 @@ void Textures() {
 		// Texture names
 		for (int i = 0; auto & tex : Engine::textures) {
 			// Name input
-			static int nameIndex = -1;
-			static char nameBuff[64] = {};
-			if (i == nameIndex) {
-				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const String newName(nameBuff);
-					if (newName == tex.name) {
-						nameIndex = -1;
-					}
-					else if (!Engine::find(Engine::textures, newName)) {
-						tex.name = newName;
-						nameIndex = -1;
-					}
+			if (nameBuff == tex->getName()) {
+				ImGui::SetNextItemWidth(ImGui::GetWindowWidth());
+				if (ImGui::InputText("##NewName", &inputBuff[0], inputBuff.size(), ImGuiInputTextFlags_EnterReturnsTrue)) {
+					tex->updateName(inputBuff.c_str());
+					inputBuff.clear();
+					nameBuff.clear();
 				}
 			}
 			else {
-				ImGui::Selectable(tex.name.c_str());
+				ImGui::Selectable(tex->getName().c_str());
 			}
 
 			// RMB menu
@@ -202,20 +194,20 @@ void Textures() {
 				const float winWidth = ImGui::GetWindowContentRegionWidth();
 
 				// Texture display
-				ImGui::Image(tex.view, ImVec2(winWidth, winWidth), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
+				ImGui::Image(tex->view, ImVec2(winWidth, winWidth), ImVec2(0.0f, 1.0f), ImVec2(1.0f, 0.0f));
 
 				// Rename
 				if (ImGui::Button("Rename", ImVec2(winWidth, 0.0f))) {
-					nameIndex = i;
-					memcpy(nameBuff, tex.name.c_str(), tex.name.size() + 1);
+					nameBuff = tex->getName();
+					inputBuff.resize(64);
 					ImGui::CloseCurrentPopup();
 				}
 
 				// Delete
 				if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(winWidth, 0.0f))) {
 					for (auto& ent : Engine::entities) {
-						if (ent.texture == &tex) {
-							ent.texture = Engine::Default::texture;
+						if (ent->texture == tex.get()) {
+							ent->texture = Engine::Default::texture;
 						}
 					}
 					auto texIt = Engine::textures.begin();
@@ -246,7 +238,7 @@ void Textures() {
 			if (ImGui::Begin("Texture color")) {
 				ImGui::ColorPicker3("##Color picker", (float*)&textureColor);
 				if (ImGui::Button("Done", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-					Engine::textures.push_back(Engine::Texture("undefined", kl::image(kl::int2(1), kl::convert::toColor(textureColor))));
+					Engine::textures.push_back(std::make_shared<Engine::Texture>("undefined", kl::image(kl::int2(1), kl::convert::toColor(textureColor))));
 					displayColorPicker = false;
 				}
 				ImGui::End();
@@ -257,6 +249,9 @@ void Textures() {
 }
 
 void Skyboxes() {
+	static String nameBuff = {};
+	static String inputBuff = {};
+
 	if (ImGui::Begin("Skyboxes", nullptr, ImGuiWindowFlags_NoScrollbar)) {
 		// Transfer
 		ImVec2 winPos = ImGui::GetWindowPos();
@@ -271,8 +266,8 @@ void Skyboxes() {
 			// Payload accept
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TextureTransfer")) {
 				std::filesystem::path filePath((char*)payload->Data);
-				Engine::Skybox loadedSB = Engine::Skybox(filePath.filename().stem().string(), kl::image(filePath.string()));
-				if (loadedSB.isValid()) {
+				std::shared_ptr<Engine::Skybox> loadedSB = std::make_shared<Engine::Skybox>(filePath.filename().stem().string(), kl::image(filePath.string()));
+				if (loadedSB->isValid()) {
 					Engine::skyboxes.push_back(loadedSB);
 				}
 			}
@@ -283,25 +278,19 @@ void Skyboxes() {
 		bool noSelection = true;
 		for (int i = 0; auto & skyb : Engine::skyboxes) {
 			// Name input
-			static int nameIndex = -1;
-			static char nameBuff[64] = {};
-			if (i == nameIndex) {
-				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const String newName(nameBuff);
-					if (newName == skyb.name) {
-						nameIndex = -1;
-					}
-					else if (!Engine::find(Engine::skyboxes, newName)) {
-						skyb.name = newName;
-						nameIndex = -1;
-					}
+			if (nameBuff == skyb->getName()) {
+				ImGui::SetNextItemWidth(ImGui::GetWindowWidth());
+				if (ImGui::InputText("##NewName", &inputBuff[0], inputBuff.size(), ImGuiInputTextFlags_EnterReturnsTrue)) {
+					skyb->updateName(inputBuff.c_str());
+					inputBuff.clear();
+					nameBuff.clear();
 				}
 			}
 			else {
-				bool state = (Engine::Background::skybox == &skyb);
-				ImGui::Selectable(skyb.name.c_str(), &state);
+				bool state = (Engine::Background::skybox == skyb.get());
+				ImGui::Selectable(skyb->getName().c_str(), &state);
 				if (state) {
-					Engine::Background::skybox = &skyb;
+					Engine::Background::skybox = skyb.get();
 					noSelection = false;
 				}
 			}
@@ -310,14 +299,14 @@ void Skyboxes() {
 			if (ImGui::BeginPopupContextItem()) {
 				// Rename
 				if (ImGui::Button("Rename", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-					nameIndex = i;
-					memcpy(nameBuff, skyb.name.c_str(), skyb.name.size() + 1);
+					nameBuff = skyb->getName();
+					inputBuff.resize(64);
 					ImGui::CloseCurrentPopup();
 				}
 
 				// Delete
 				if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-					if (Engine::Background::skybox == &skyb) {
+					if (Engine::Background::skybox == skyb.get()) {
 						Engine::Background::skybox = nullptr;
 					}
 					auto skybIt = Engine::skyboxes.begin();

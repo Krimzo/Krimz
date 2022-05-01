@@ -8,7 +8,7 @@
 
 void PropMeshPick(Engine::Mesh* mesh) {
 	bool selectedOne = (Engine::Picking::selected->mesh == mesh);
-	if (ImGui::Selectable(mesh->name.c_str(), selectedOne)) {
+	if (ImGui::Selectable(mesh->getName().c_str(), selectedOne)) {
 		if (selectedOne) {
 			ImGui::SetItemDefaultFocus();
 		}
@@ -26,9 +26,9 @@ void PropGeometry() {
 			ImGui::DragFloat3("Position", (float*)&Engine::Picking::selected->position, 0.1f, 0.0f, 0.0f, "%.2f");
 
 			// Mesh
-			if (ImGui::BeginCombo("Mesh", Engine::Picking::selected->mesh->name.c_str())) {
+			if (ImGui::BeginCombo("Mesh", Engine::Picking::selected->mesh->getName().c_str())) {
 				for (auto& mes : Engine::meshes) {
-					PropMeshPick(&mes);
+					PropMeshPick(mes.get());
 				}
 				PropMeshPick(Engine::Default::cube);
 				PropMeshPick(Engine::Default::sphere);
@@ -44,7 +44,7 @@ void PropGeometry() {
 
 void PropTexPick(Engine::Texture* texture) {
 	bool selectedOne = (Engine::Picking::selected->texture == texture);
-	if (ImGui::Selectable(texture->name.c_str(), selectedOne)) {
+	if (ImGui::Selectable(texture->getName().c_str(), selectedOne)) {
 		if (selectedOne) {
 			ImGui::SetItemDefaultFocus();
 		}
@@ -58,9 +58,9 @@ void PropView() {
 		if (Engine::Picking::selected) {
 			ImGui::Checkbox("Visible", &Engine::Picking::selected->visible);
 			ImGui::Checkbox("Shadows", &Engine::Picking::selected->shadows);
-			if (ImGui::BeginCombo("Texture", Engine::Picking::selected->texture->name.c_str())) {
+			if (ImGui::BeginCombo("Texture", Engine::Picking::selected->texture->getName().c_str())) {
 				for (auto& tex : Engine::textures) {
-					PropTexPick(&tex);
+					PropTexPick(tex.get());
 				}
 				PropTexPick(Engine::Default::texture);
 				ImGui::EndCombo();
@@ -156,7 +156,7 @@ void PropScripts() {
 				// Payload accept
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ScriptTransfer")) {
 					std::filesystem::path filePath((char*)payload->Data);
-					Engine::Picking::selected->scripts.push_back(Engine::Script(filePath.string()));
+					Engine::Picking::selected->scripts.push_back(std::make_shared<Engine::Script>(filePath.string()));
 				}
 				ImGui::EndDragDropTarget();
 			}
@@ -165,7 +165,7 @@ void PropScripts() {
 			for (int i = 0; i < Engine::Picking::selected->scripts.size(); i++) {
 				// Draw
 				ImGui::PushID(i);
-				ImGui::Selectable(std::filesystem::path(Engine::Picking::selected->scripts[i].path).stem().string().c_str());
+				ImGui::Selectable(std::filesystem::path(Engine::Picking::selected->scripts[i]->path).stem().string().c_str());
 				ImGui::PopID();
 
 				// RMB menu

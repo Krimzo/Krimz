@@ -6,10 +6,14 @@
 Engine::Script::Script(const String& filePath) : path(filePath) {
 	reload();
 }
+Engine::Script::~Script() {
+	Engine::JavaHandler::DelInst(inst);
+}
 
 // Reloads bytes
 void Engine::Script::reload() {
 	if (jclass scptCls = Engine::JavaHandler::LoadClass(path)) {
+		Engine::JavaHandler::DelInst(inst);
 		inst = Engine::JavaHandler::NewInst(scptCls, Engine::JavaHandler::GetMethod(scptCls, "<init>", "()V"));
 		startMethod = Engine::JavaHandler::GetMethod(scptCls, "start", "()V");
 		updateMethod = Engine::JavaHandler::GetMethod(scptCls, "update", "()V");
@@ -41,7 +45,9 @@ void Engine::Script::setEntityData(void* entAddr) {
 		Engine::Entity* ent = (Engine::Entity*)entAddr;
 
 		// Name
-		Engine::JavaHandler::env->SetObjectField(inst, Engine::JavaHandler::nameField, Engine::JavaHandler::env->NewStringUTF(ent->name.c_str()));
+		jstring entName = Engine::JavaHandler::env->NewStringUTF(ent->getName().c_str());
+		Engine::JavaHandler::env->SetObjectField(inst, Engine::JavaHandler::nameField, entName);
+		Engine::JavaHandler::env->DeleteLocalRef(entName);
 
 		// View		
 		Engine::JavaHandler::env->SetBooleanField(inst, Engine::JavaHandler::visibleField, ent->visible);
@@ -69,8 +75,8 @@ void Engine::Script::setEntityData(void* entAddr) {
 		Engine::JavaHandler::env->SetIntField(collider, Engine::JavaHandler::collShapeField, int(ent->collider.shape));
 
 		// Mesh/Texture
-		Engine::JavaHandler::env->SetObjectField(inst, Engine::JavaHandler::meshField, Engine::JavaHandler::env->NewStringUTF(ent->mesh->name.c_str()));
-		Engine::JavaHandler::env->SetObjectField(inst, Engine::JavaHandler::textureField, Engine::JavaHandler::env->NewStringUTF(ent->texture->name.c_str()));
+		Engine::JavaHandler::env->SetObjectField(inst, Engine::JavaHandler::meshField, Engine::JavaHandler::env->NewStringUTF(ent->mesh->getName().c_str()));
+		Engine::JavaHandler::env->SetObjectField(inst, Engine::JavaHandler::textureField, Engine::JavaHandler::env->NewStringUTF(ent->texture->getName().c_str()));
 	}
 }
 void Engine::Script::getEntityData(void* entAddr) {
@@ -104,20 +110,20 @@ void Engine::Script::getEntityData(void* entAddr) {
 		ent->collider.shape = Engine::Collider::Shape(Engine::JavaHandler::env->GetIntField(collider, Engine::JavaHandler::collShapeField));
 
 		// Mesh/Texture
-		String scriptMesh = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::meshField), nullptr);
-		if (scriptMesh != ent->mesh->name) {
+		const String scriptMesh = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::meshField), nullptr);
+		if (scriptMesh != ent->mesh->getName()) {
 			for (auto& mes : Engine::meshes) {
-				if (mes.name == scriptMesh) {
-					ent->mesh = &mes;
+				if (mes->getName() == scriptMesh) {
+					ent->mesh = mes.get();
 					break;
 				}
 			}
 		}
-		String scriptTexture = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::textureField), nullptr);
-		if (scriptTexture != ent->texture->name) {
+		const String scriptTexture = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::textureField), nullptr);
+		if (scriptTexture != ent->texture->getName()) {
 			for (auto& tex : Engine::textures) {
-				if (tex.name == scriptTexture) {
-					ent->texture = &tex;
+				if (tex->getName() == scriptTexture) {
+					ent->texture = tex.get();
 					break;
 				}
 			}

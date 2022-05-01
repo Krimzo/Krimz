@@ -13,12 +13,12 @@ void Engine::Scripting::UpdateTime() {
 // Entities scripts callers
 void Engine::Scripting::CallStarts() {
 	for (auto& ent : Engine::entities) {
-		ent.callStarts();
+		ent->callStarts();
 	}
 }
 void Engine::Scripting::CallUpdates() {
 	for (auto& ent : Engine::entities) {
-		ent.callUpdates();
+		ent->callUpdates();
 	}
 }
 
