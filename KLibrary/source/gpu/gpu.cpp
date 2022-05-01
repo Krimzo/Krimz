@@ -162,15 +162,15 @@ void kl::gpu::viewport(const kl::int2& pos, const kl::int2& size) {
 // Binds the internal render targets
 void kl::gpu::bindInternal(const std::vector<ID3D11RenderTargetView*> targets, ID3D11DepthStencilView* depthView) {
 	std::vector<ID3D11RenderTargetView*> combinedTargets = { interFrameBuff };
-	for (auto& ref : targets) {
-		combinedTargets.push_back(ref);
+	for (auto& target : targets) {
+		combinedTargets.push_back(target);
 	}
 	devcon->OMSetRenderTargets(UINT(combinedTargets.size()), &combinedTargets[0], depthView ? depthView : interDepthBuff);
 }
 
 // Binds given render target
 void kl::gpu::bindTargets(const std::vector<ID3D11RenderTargetView*> targets, ID3D11DepthStencilView* depthView) {
-	devcon->OMSetRenderTargets(UINT(targets.size()), &targets[0], depthView);
+	devcon->OMSetRenderTargets(UINT(targets.size()), &targets[0], depthView ? depthView : interDepthBuff);
 }
 
 // Clears the buffer

@@ -18,6 +18,7 @@ void Engine::Stage::Update() {
 
 	// Clearing the buffers
 	Engine::Render::gpu->clear(Engine::Background::color);
+	Engine::Render::gpu->clear(Engine::Render::targetV, Engine::Background::color);
 
 	// Game
 	if (Engine::gameRunning) {
@@ -36,19 +37,15 @@ void Engine::Stage::Update() {
 	Engine::Render::Shadows();
 
 	// Viewport fix
-	Engine::Render::gpu->viewport(Engine::GUI::viewportPos, Engine::GUI::viewportSize);
-	Engine::Render::camera.aspect = float(Engine::GUI::viewportSize.x) / Engine::GUI::viewportSize.y;
+	Engine::Render::FixViewport();
 
 	// Skybox draw
 	if (Engine::Background::skybox) {
-		Engine::Render::gpu->bind(Engine::DepthStencil::disabled);
-		Engine::Render::gpu->bind(Engine::Rasters::solid);
-		Engine::Background::skybox->render(Engine::Render::camera.matrix());
-		Engine::Render::gpu->bind(Engine::DepthStencil::depth);
+		Engine::Render::Skybox();
 	}
 
 	// Entity render
-	Engine::Render::Entity();
+	Engine::Render::Entities();
 
 	// Selected postprocess
 	if (Engine::Picking::selected) {
@@ -69,5 +66,5 @@ void Engine::Stage::Update() {
 	Engine::Render::GUI();
 
 	// Backbuffer swap
-	Engine::Render::gpu->swap(true);
+	Engine::Render::gpu->swap(Engine::Render::vSync);
 }

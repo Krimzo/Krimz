@@ -122,7 +122,7 @@
     <ClCompile Include="source\Logging\Logging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\RenderEntity.cpp">
+    <ClCompile Include="source\Render\RenderEntities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\RenderGizmo.cpp">
@@ -186,6 +186,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Data\Cameras.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\RenderSkybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\RenderFixViewport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

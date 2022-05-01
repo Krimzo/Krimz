@@ -25,8 +25,8 @@ namespace Engine {
 
 		// Viewport
 		inline bool viewportFocus = false;
-		inline kl::int2 viewportPos;
-		inline kl::int2 viewportSize;
+		inline kl::int2 viewportPos = {};
+		inline kl::int2 viewportSize = kl::int2(100);
 
 		// Setup
 		void Init();

@@ -5,12 +5,6 @@
 
 
 void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& col, int index, float alterScale = 1.0f) {
-	// Binding gizmo shaders
-	Engine::Render::gpu->bind(Engine::Shaders::Vertex::gizmo);
-	Engine::Render::gpu->bind(Engine::Shaders::Pixel::gizmo);
-	Engine::Render::gpu->bindVertCBuff(Engine::CBuffers::buff64_1, 0);
-	Engine::Render::gpu->bindPixlCBuff(Engine::CBuffers::buff32_1, 0);
-
 	// Building the wvp matrix
 	const kl::mat4 sc = kl::mat4::scale((Engine::Render::camera.position - Engine::Picking::selected->position).length() * Engine::Gizmo::scale * alterScale);
 	const kl::mat4 ro = kl::mat4::rotate(rot);
@@ -30,8 +24,23 @@ void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& co
 
 void Engine::Render::Gizmo() {
 	if (Engine::Gizmo::selected != Engine::Gizmo::Type::NONE) {
+		// Binding render texture
+		Engine::Render::gpu->bindTargets({ Engine::Render::targetV, Engine::Picking::targetV });
+
 		// Raster bind
 		Engine::Render::gpu->bind(Engine::Rasters::solid);
+
+		// Depth bind
+		Engine::Render::gpu->bind(Engine::DepthStencil::depth);
+
+		// Clearing the depth
+		Engine::Render::gpu->clearDepth();
+
+		// Binding gizmo shaders
+		Engine::Render::gpu->bind(Engine::Shaders::Vertex::gizmo);
+		Engine::Render::gpu->bind(Engine::Shaders::Pixel::gizmo);
+		Engine::Render::gpu->bindVertCBuff(Engine::CBuffers::buff64_1, 0);
+		Engine::Render::gpu->bindPixlCBuff(Engine::CBuffers::buff32_1, 0);
 
 		// Color reset
 		Engine::Gizmo::colX = kl::color(205, 55, 75);
@@ -80,12 +89,6 @@ void Engine::Render::Gizmo() {
 			zRot = kl::float3(90.0f, 0.0f, 0.0f);
 			gizmoMesh = (Engine::Gizmo::selected == Engine::Gizmo::Type::SCALE) ? Engine::Gizmo::scaleM : Engine::Gizmo::moveM;
 		}
-
-		// Binding internal
-		Engine::Render::gpu->bindInternal({ Engine::Picking::targetV });
-
-		// Clearing the depth
-		Engine::Render::gpu->clearDepth();
 
 		// Drawing the gizmos
 		DrawGizmo(Engine::Default::sphere->buff, {}, kl::colors::white, -2, 0.06f);

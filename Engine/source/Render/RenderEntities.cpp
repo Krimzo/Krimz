@@ -5,15 +5,18 @@
 #include "Data/Entities.h"
 
 
-void Engine::Render::Entity() {
-	// Binding internal + index texture
-	Engine::Render::gpu->bindInternal({ Engine::Picking::targetV });
+void Engine::Render::Entities() {
+	// Binding render + index texture
+	Engine::Render::gpu->bindTargets({ Engine::Render::targetV, Engine::Picking::targetV });
 
 	// Clearing picking tex
 	Engine::Render::gpu->clear(Engine::Picking::targetV, kl::float4(-1.0f));
 
 	// Raster bind
 	Engine::Render::gpu->bind(Engine::Render::entityRaster);
+
+	// Depth bind
+	Engine::Render::gpu->bind(Engine::DepthStencil::depth);
 
 	// Binding the editor shaders
 	Engine::Render::gpu->bind(Engine::Shaders::Vertex::editor);

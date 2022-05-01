@@ -76,12 +76,14 @@
     <ClCompile Include="source\Physics\Collider.cpp" />
     <ClCompile Include="source\Physics\Physics.cpp" />
     <ClCompile Include="source\Render\RenderCollider.cpp" />
-    <ClCompile Include="source\Render\RenderEntity.cpp" />
+    <ClCompile Include="source\Render\RenderEntities.cpp" />
+    <ClCompile Include="source\Render\RenderFixViewport.cpp" />
     <ClCompile Include="source\Render\RenderGizmo.cpp" />
     <ClCompile Include="source\Render\RenderGUI.cpp" />
     <ClCompile Include="source\Render\RenderOutline.cpp" />
     <ClCompile Include="source\Render\RenderShadows.cpp" />
     <ClCompile Include="source\Data\Textures.cpp" />
+    <ClCompile Include="source\Render\RenderSkybox.cpp" />
     <ClCompile Include="source\Scripting\Script.cpp" />
     <ClCompile Include="source\Scripting\JavaHandler.cpp" />
     <ClCompile Include="source\Scripting\Scripting.cpp" />

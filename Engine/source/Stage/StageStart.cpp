@@ -96,13 +96,13 @@ void Engine::Stage::Start() {
 	Engine::Picking::targetV = Engine::Render::gpu->newTargetView(Engine::Picking::texture);
 
 	// Outline
-	Engine::Render::screenM = Engine::Render::gpu->newVertBuffer({
+	Engine::Outline::screenM = Engine::Render::gpu->newVertBuffer({
 		kl::vertex(kl::float3(1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)),
 		kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, 1.0f, 0.5f))
 		});
 	ID3D11Texture2D* outlineTex = Engine::Render::gpu->newTexture(&pickTexDes);
-	Engine::Render::targetV = Engine::Render::gpu->newTargetView(outlineTex);
-	Engine::Render::shaderV = Engine::Render::gpu->newShaderView(outlineTex);
+	Engine::Outline::targetV = Engine::Render::gpu->newTargetView(outlineTex);
+	Engine::Outline::shaderV = Engine::Render::gpu->newShaderView(outlineTex);
 	Engine::Render::gpu->destroy(outlineTex);
 
 	// Camera

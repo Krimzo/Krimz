@@ -16,7 +16,7 @@ void Engine::GUI::MainMenu() {
 
 		// View
 		if (ImGui::BeginMenu("View")) {
-			ImGui::Selectable("Render Colliders", &Engine::Render::colliders);
+			ImGui::Selectable("Render Colliders", &Engine::Outline::renderColliders);
 			ImGui::EndMenu();
 		}
 

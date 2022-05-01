@@ -12,7 +12,12 @@ static std::list<std::shared_ptr<Engine::Entity>> savedEntities;
 static std::vector<String> savedNames;
 
 void Engine::GUI::Viewport() {
-	if (ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoBackground)) {
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+	if (ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_NoScrollbar)) {
+		// Displaying render texture
+		ImGui::SetCursorPos(ImVec2(0.0f, 0.0f));
+		ImGui::Image(Engine::Render::shaderV, ImVec2(float(Engine::Render::targetSize.x), float(Engine::Render::targetSize.y)));
+
 		// Focuse save
 		Engine::GUI::viewportFocus = ImGui::IsWindowHovered();
 
@@ -101,4 +106,5 @@ void Engine::GUI::Viewport() {
 		// End draw
 		ImGui::End();
 	}
+	ImGui::PopStyleVar();
 }

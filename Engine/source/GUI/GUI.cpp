@@ -46,7 +46,7 @@ void Engine::GUI::LoadKrimzTheme() {
 	const ImVec4 colorSpec = ImVec4(0.7f, 0.4f, 0.0f, 1.0f);
 	style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.95f, 1.0f);
 	style.Colors[ImGuiCol_TextDisabled] = colorLight;
-	style.Colors[ImGuiCol_WindowBg] = colorNone;
+	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.077f, 0.077f, 0.077f, 1.0f);
 	style.Colors[ImGuiCol_ChildBg] = colorDark;
 	style.Colors[ImGuiCol_PopupBg] = colorDark;
 	style.Colors[ImGuiCol_Border] = colorLight;

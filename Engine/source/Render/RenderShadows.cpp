@@ -7,17 +7,17 @@ void Engine::Render::Shadows() {
 	// Binding the shadow render target
 	Engine::Render::gpu->bindTargets({}, Engine::Light::sun.shadowMapDV);
 
+	// Clearing the shadow depth
+	Engine::Render::gpu->clear(Engine::Light::sun.shadowMapDV);
+
 	// Setting the viewport
 	Engine::Render::gpu->viewport(kl::int2(0), kl::int2(4096));
-
-	// Setting default depth state
-	Engine::Render::gpu->bind(Engine::DepthStencil::depth);
 
 	// Front culling
 	Engine::Render::gpu->bind(Engine::Rasters::shadow);
 
-	// Clearing the shadow depth
-	Engine::Render::gpu->clear(Engine::Light::sun.shadowMapDV);
+	// Setting default depth state
+	Engine::Render::gpu->bind(Engine::DepthStencil::depth);
 
 	// Binding the shadow shaders
 	Engine::Render::gpu->bind(Engine::Shaders::Vertex::shadow);
@@ -38,7 +38,4 @@ void Engine::Render::Shadows() {
 			ent->render(Engine::Render::gpu, false);
 		}
 	}
-
-	// Binding the default states
-	Engine::Render::gpu->bindInternal();
 }

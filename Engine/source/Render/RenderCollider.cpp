@@ -4,15 +4,18 @@
 
 void Engine::Render::Collider() {
 	// Render check
-	if (!Engine::Render::colliders) {
+	if (!Engine::Outline::renderColliders) {
 		return;
 	}
 
 	// Render target reset
-	Engine::Render::gpu->bindInternal();
+	Engine::Render::gpu->bindTargets({ Engine::Render::targetV });
 
 	// Raster bind
 	Engine::Render::gpu->bind(Engine::Rasters::wire);
+
+	// Depth bind
+	Engine::Render::gpu->bind(Engine::DepthStencil::depth);
 
 	// Binding collider shaders
 	Engine::Render::gpu->bind(Engine::Shaders::Vertex::collider);
@@ -26,7 +29,7 @@ void Engine::Render::Collider() {
 		kl::mat4::rotate(Engine::Picking::selected->rotation + Engine::Picking::selected->collider.rotation);
 
 	// Setting pxl data
-	kl::float4 colliderColor = Engine::Render::collOutlineCol;
+	kl::float4 colliderColor = Engine::Outline::colliderColor;
 	Engine::Render::gpu->setBuffData(Engine::CBuffers::buff16_1, &colliderColor);
 
 	// Drawing the selected collider

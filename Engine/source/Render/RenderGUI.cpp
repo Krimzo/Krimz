@@ -3,6 +3,9 @@
 
 
 void Engine::Render::GUI() {
+	// Backbuffer bind
+	Engine::Render::gpu->bindInternal();
+
 	// Draw start
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();

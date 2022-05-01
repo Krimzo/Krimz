@@ -6,24 +6,32 @@
 namespace Engine {
 	namespace Render {
 		inline kl::gpu* gpu = nullptr;
-		inline kl::camera camera;
+		inline bool vSync = true;
 
-		inline ID3D11RasterizerState* entityRaster = nullptr;
+		inline kl::camera camera = {};
 
-		inline kl::color outlineCol = kl::colors::orange;
-		inline kl::color collOutlineCol = kl::colors::cyan;
-		inline bool colliders = false;
-
-		inline ID3D11Buffer* screenM = nullptr;
+		inline kl::int2 targetSize = kl::int2(100);
 		inline ID3D11RenderTargetView* targetV = nullptr;
 		inline ID3D11ShaderResourceView* shaderV = nullptr;
 
+		inline ID3D11RasterizerState* entityRaster = nullptr;
+
 		void Shadows();
-		void Entity();
+		void FixViewport();
+		void Skybox();
+		void Entities();
 		void Outline();
 		void Collider();
 		void Gizmo();
 		void GUI();
+	}
+	namespace Outline {
+		inline ID3D11Buffer* screenM = nullptr;
+		inline ID3D11RenderTargetView* targetV = nullptr;
+		inline ID3D11ShaderResourceView* shaderV = nullptr;
+		inline kl::color color = kl::colors::orange;
+		inline kl::color colliderColor = kl::colors::cyan;
+		inline bool renderColliders = false;
 	}
 	namespace Rasters {
 		inline ID3D11RasterizerState* solid = nullptr;
