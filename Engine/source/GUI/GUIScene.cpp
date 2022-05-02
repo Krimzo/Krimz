@@ -10,6 +10,16 @@
 #include "Logging/Logging.h"
 
 
+void Cameras() {
+	static String nameBuff = {};
+	static String inputBuff = {};
+
+	if (ImGui::Begin("Cameras", nullptr, ImGuiWindowFlags_NoScrollbar)) {
+
+		ImGui::End();
+	}
+}
+
 void Entites() {
 	static String nameBuff = {};
 	static String inputBuff = {};
@@ -30,6 +40,7 @@ void Entites() {
 		for (int i = 0; auto & ent : Engine::entities) {
 			// Name input
 			if (ent->getName() == nameBuff) {
+				ImGui::SetKeyboardFocusHere();
 				ImGui::SetNextItemWidth(ImGui::GetWindowWidth());
 				if (ImGui::InputText("##NewName", &inputBuff[0], inputBuff.size(), ImGuiInputTextFlags_EnterReturnsTrue)) {
 					ent->updateName(inputBuff.c_str());
@@ -106,6 +117,7 @@ void Meshes() {
 		for (int i = 0; auto & mes : Engine::meshes) {
 			// Name input
 			if (nameBuff == mes->getName()) {
+				ImGui::SetKeyboardFocusHere();
 				ImGui::SetNextItemWidth(ImGui::GetWindowWidth());
 				if (ImGui::InputText("##NewName", &inputBuff[0], inputBuff.size(), ImGuiInputTextFlags_EnterReturnsTrue)) {
 					mes->updateName(inputBuff.c_str());
@@ -175,6 +187,7 @@ void Textures() {
 		for (int i = 0; auto & tex : Engine::textures) {
 			// Name input
 			if (nameBuff == tex->getName()) {
+				ImGui::SetKeyboardFocusHere();
 				ImGui::SetNextItemWidth(ImGui::GetWindowWidth());
 				if (ImGui::InputText("##NewName", &inputBuff[0], inputBuff.size(), ImGuiInputTextFlags_EnterReturnsTrue)) {
 					tex->updateName(inputBuff.c_str());
@@ -277,6 +290,7 @@ void Skyboxes() {
 		for (int i = 0; auto & skyb : Engine::skyboxes) {
 			// Name input
 			if (nameBuff == skyb->getName()) {
+				ImGui::SetKeyboardFocusHere();
 				ImGui::SetNextItemWidth(ImGui::GetWindowWidth());
 				if (ImGui::InputText("##NewName", &inputBuff[0], inputBuff.size(), ImGuiInputTextFlags_EnterReturnsTrue)) {
 					skyb->updateName(inputBuff.c_str());
@@ -285,10 +299,10 @@ void Skyboxes() {
 				}
 			}
 			else {
-				bool state = (Engine::Background::skybox == skyb.get());
+				bool state = (Engine::Default::camera->skybox == skyb.get());
 				ImGui::Selectable(skyb->getName().c_str(), &state);
 				if (state) {
-					Engine::Background::skybox = skyb.get();
+					Engine::Default::camera->skybox = skyb.get();
 					noSelection = false;
 				}
 			}
@@ -304,8 +318,8 @@ void Skyboxes() {
 
 				// Delete
 				if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-					if (Engine::Background::skybox == skyb.get()) {
-						Engine::Background::skybox = nullptr;
+					if (Engine::Default::camera->skybox == skyb.get()) {
+						Engine::Default::camera->skybox = nullptr;
 					}
 					auto skybIt = Engine::skyboxes.begin();
 					std::advance(skybIt, i);
@@ -319,13 +333,14 @@ void Skyboxes() {
 			i++;
 		}
 		if (noSelection) {
-			Engine::Background::skybox = nullptr;
+			Engine::Default::camera->skybox = nullptr;
 		}
 		ImGui::End();
 	}
 }
 
 void Engine::GUI::Scene() {
+	Cameras();
 	Entites();
 	Meshes();
 	Skyboxes();

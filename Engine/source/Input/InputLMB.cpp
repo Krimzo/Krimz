@@ -20,11 +20,11 @@ kl::ray GetMouseRay() {
 	mouseUV -= 1.0f;
 
 	// Far mouse point
-	kl::float4 farMousePoint = Engine::Render::camera.matrix().inverse() * kl::float4(mouseUV, 1.0f, 1.0f);
+	kl::float4 farMousePoint = Engine::Render::camera->matrix().inverse() * kl::float4(mouseUV, 1.0f, 1.0f);
 	farMousePoint /= farMousePoint.w;
 
 	// Mouse pos ray constuction
-	return kl::ray(Engine::Render::camera.position, farMousePoint.xyz() - Engine::Render::camera.position);
+	return kl::ray(Engine::Render::camera->position, farMousePoint.xyz() - Engine::Render::camera->position);
 }
 
 void LMBPress() {
@@ -51,7 +51,7 @@ void LMBPress() {
 			// Intersection
 			kl::float3 inter1, inter2, inter3;
 			const kl::ray mouseRay = GetMouseRay();
-			const kl::float3 camFor = Engine::Render::camera.getForward();
+			const kl::float3 camFor = Engine::Render::camera->getForward();
 			mouseRay.intersect(kl::plane(kl::float3::pos_y, Engine::Picking::selected->position), &inter1);
 			mouseRay.intersect(kl::plane(abs(camFor.x) > abs(camFor.z) ? kl::float3::pos_x : kl::float3::pos_z, Engine::Picking::selected->position), &inter2);
 			mouseRay.intersect(kl::plane(kl::float3::pos_y, Engine::Picking::selected->position), &inter3);
@@ -87,7 +87,7 @@ void LMBDown() {
 		// Intersection
 		kl::float3 inter1, inter2, inter3;
 		const kl::ray mouseRay = GetMouseRay();
-		const kl::float3 camFor = Engine::Render::camera.getForward();
+		const kl::float3 camFor = Engine::Render::camera->getForward();
 		mouseRay.intersect(kl::plane(kl::float3::pos_y, Engine::Picking::selected->position), &inter1);
 		mouseRay.intersect(kl::plane(abs(camFor.x) > abs(camFor.z) ? kl::float3::pos_x : kl::float3::pos_z, Engine::Picking::selected->position), &inter2);
 		mouseRay.intersect(kl::plane(kl::float3::pos_y, Engine::Picking::selected->position), &inter3);

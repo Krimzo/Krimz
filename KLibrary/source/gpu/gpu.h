@@ -37,6 +37,7 @@ namespace kl {
 	public:
 		gpu(HWND hwnd);
 		gpu(const kl::gpu&) = delete;
+		void operator=(const kl::gpu&) = delete;
 		~gpu();
 
 		// Getters

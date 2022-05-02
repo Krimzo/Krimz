@@ -45,10 +45,7 @@ void kl::direct::genBuff(kl::gpu* gpu, int size) {
 // Returns the light vp matrix
 kl::mat4 kl::direct::matrix(const kl::camera& cam) const {
 	// Inverse camera matrix calculation
-	const kl::mat4 invCam = (
-		kl::mat4::persp(cam.fov, cam.aspect, cam.near, cam.shadows) *
-		kl::mat4::lookAt(cam.position, cam.position + cam.getForward(),
-			cam.getUp())).inverse();
+	const kl::mat4 invCam = (kl::mat4::persp(cam.fov, cam.aspect, cam.near, cam.far) * kl::mat4::lookAt(cam.position, cam.position + cam.getForward(), cam.getUp())).inverse();
 
 	// Frustum world corners
 	std::vector<kl::float4> frustumCorners;

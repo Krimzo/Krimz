@@ -13,5 +13,5 @@ void Engine::Render::Skybox() {
 	Engine::Render::gpu->bind(Engine::DepthStencil::disabled);
 
 	// Render box
-	Engine::Background::skybox->render(Engine::Render::camera.matrix());
+	Engine::Render::camera->skybox->render(Engine::Render::camera->matrix());
 }

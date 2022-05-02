@@ -21,11 +21,11 @@ void Engine::Render::Outline() {
 	Engine::Render::gpu->bindVertCBuff(Engine::CBuffers::buff64_1, 0);
 
 	// Setting the index vertex data
-	kl::mat4 wvp = Engine::Render::camera.matrix() * Engine::Picking::selected->matrix();
+	kl::mat4 wvp = Engine::Render::camera->matrix() * Engine::Picking::selected->matrix();
 	Engine::Render::gpu->setBuffData(Engine::CBuffers::buff64_1, &wvp);
 
 	// Drawing the selected
-	Engine::Picking::selected->render(Engine::Render::gpu, false);
+	Engine::Picking::selected->render(Engine::Render::gpu.get(), false);
 
 	// Render target reset
 	Engine::Render::gpu->bindTargets({ Engine::Render::targetV });

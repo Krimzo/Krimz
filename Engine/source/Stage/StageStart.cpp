@@ -17,7 +17,11 @@ void Engine::Stage::Start() {
 	Engine::win.maximize();
 
 	// Creating the gpu
-	Engine::Render::gpu = new kl::gpu(Engine::win.getWND());
+	Engine::Render::gpu = std::make_unique<kl::gpu>(Engine::win.getWND());
+
+	// Camera
+	Engine::Default::camera = std::make_unique<Engine::Camera>();
+	Engine::Render::camera = Engine::Default::camera.get();
 
 	// Resize callback
 	Engine::win.resize = Engine::Stage::Resize;
@@ -102,15 +106,8 @@ void Engine::Stage::Start() {
 	Engine::Outline::shaderV = Engine::Render::gpu->newShaderView(outlineTex);
 	Engine::Render::gpu->destroy(outlineTex);
 
-	// Camera
-	Engine::Render::camera.sens = 0.1f;
-	Engine::Render::camera.far = 500.0f;
-	Engine::Render::camera.shadows = 50.0f;
-	Engine::Render::camera.position = kl::float3(-1.4f, 1.25f, -6.0f);
-	Engine::Render::camera.forward = kl::float3(0.55f, -0.3f, 0.9f);
-
 	// Sun
-	Engine::Light::sun.genBuff(Engine::Render::gpu, 4096);
+	Engine::Light::sun.genBuff(Engine::Render::gpu.get(), 4096);
 	Engine::Light::sun.direction = kl::float3(0.575f, -0.75f, 2.0f);
 
 	// Default meshes

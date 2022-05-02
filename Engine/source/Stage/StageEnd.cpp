@@ -8,12 +8,8 @@
 
 
 void Engine::Stage::End() {
-	// Buffer cleanup
 	Engine::entities.clear();
 	Engine::skyboxes.clear();
 	Engine::textures.clear();
 	Engine::meshes.clear();
-
-	// Gpu cleanup
-	delete Engine::Render::gpu;
 }

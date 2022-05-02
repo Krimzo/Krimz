@@ -1,7 +1,7 @@
 #pragma once
 
 #include "KrimzLib.h"
-#include "Data/Skyboxes.h"
+#include "Data/Cameras.h"
 
 
 namespace Engine {
@@ -12,16 +12,14 @@ namespace Engine {
 		inline float elapsed = 0;
 	}
 	namespace Render {
-		inline kl::gpu* gpu = nullptr;
 		inline bool vSync = true;
-
-		inline kl::camera camera = {};
+		inline std::unique_ptr<kl::gpu> gpu = nullptr;
+		inline Engine::Camera* camera = nullptr;
+		inline ID3D11RasterizerState* entityRaster = nullptr;
 
 		inline kl::int2 targetSize = kl::int2(100);
 		inline ID3D11RenderTargetView* targetV = nullptr;
 		inline ID3D11ShaderResourceView* shaderV = nullptr;
-
-		inline ID3D11RasterizerState* entityRaster = nullptr;
 
 		void Shadows();
 		void FixViewport();
@@ -105,9 +103,5 @@ namespace Engine {
 	namespace Light {
 		inline kl::ambient ambient;
 		inline kl::direct sun;
-	}
-	namespace Background {
-		inline kl::color color = kl::color(20, 20, 20);
-		inline Engine::Skybox* skybox = nullptr;
 	}
 }

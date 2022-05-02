@@ -27,15 +27,15 @@ void Engine::Render::Entities() {
 
 	// Setting the camera data
 	Engine::Struct::DRAW_VS_CB draw_vert_data = {};
-	draw_vert_data.vpCam = Engine::Render::camera.matrix();
-	draw_vert_data.vpSun = Engine::Light::sun.matrix(Engine::Render::camera);
+	draw_vert_data.vpCam = Engine::Render::camera->matrix();
+	draw_vert_data.vpSun = Engine::Light::sun.matrix(*Engine::Render::camera);
 
 	// Setting the lighting data
 	Engine::Struct::DRAW_PS_CB draw_pixl_data = {};
 	draw_pixl_data.ambCol = Engine::Light::ambient.getCol();
 	draw_pixl_data.dirCol = Engine::Light::sun.getCol();
 	draw_pixl_data.dirDir = Engine::Light::sun.getDir();
-	draw_pixl_data.camPos = Engine::Render::camera.position;
+	draw_pixl_data.camPos = Engine::Render::camera->position;
 
 	// Rendering entities
 	for (int i = 0; auto & ent : Engine::entities) {
@@ -52,11 +52,11 @@ void Engine::Render::Entities() {
 			// Rendering the entity
 			if (ent.get() == Engine::Picking::selected) {
 				Engine::Render::gpu->bind(Engine::DepthStencil::write);
-				ent->render(Engine::Render::gpu, true);
+				ent->render(Engine::Render::gpu.get(), true);
 				Engine::Render::gpu->bind(Engine::DepthStencil::depth);
 			}
 			else {
-				ent->render(Engine::Render::gpu, true);
+				ent->render(Engine::Render::gpu.get(), true);
 			}
 		}
 

@@ -24,7 +24,7 @@ void Engine::Render::Collider() {
 	Engine::Render::gpu->bindPixlCBuff(Engine::CBuffers::buff16_1, 0);
 
 	// wvp matrix
-	kl::mat4 wvp = Engine::Render::camera.matrix() *
+	kl::mat4 wvp = Engine::Render::camera->matrix() *
 		kl::mat4::translate(Engine::Picking::selected->position + Engine::Picking::selected->collider.position) *
 		kl::mat4::rotate(Engine::Picking::selected->rotation + Engine::Picking::selected->collider.rotation);
 

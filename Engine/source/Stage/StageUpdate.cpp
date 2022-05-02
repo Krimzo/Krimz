@@ -14,10 +14,6 @@ void Engine::Stage::Update() {
 	Engine::Time::delta = Engine::Time::timer.interval();
 	Engine::Time::elapsed = Engine::Time::timer.elapsed();
 
-	// Clearing the buffers
-	Engine::Render::gpu->clear(Engine::Background::color);
-	Engine::Render::gpu->clear(Engine::Render::targetV, Engine::Background::color);
-
 	// Game
 	if (Engine::gameRunning) {
 		// Physics
@@ -31,34 +27,46 @@ void Engine::Stage::Update() {
 		Engine::Scripting::HandleLogs();
 	}
 
-	// Rendering shadows
-	Engine::Render::Shadows();
+	// Clearing the frame buffers
+	static const kl::color defBackColor = kl::color(20, 20, 20);
+	const kl::color& backColor = Engine::Render::camera ? Engine::Render::camera->color : defBackColor;
+	Engine::Render::gpu->clear(backColor);
+	Engine::Render::gpu->clear(Engine::Render::targetV, backColor);
 
-	// Viewport fix
-	Engine::Render::FixViewport();
+	// Camera bound check
+	if (Engine::Render::camera) {
+		// Rendering shadows
+		Engine::Render::Shadows();
 
-	// Skybox draw
-	if (Engine::Background::skybox) {
-		Engine::Render::Skybox();
+		// Viewport fix
+		Engine::Render::FixViewport();
+
+		// Skybox draw
+		if (Engine::Render::camera->skybox) {
+			Engine::Render::Skybox();
+		}
+
+		// Entity render
+		Engine::Render::Entities();
+
+		// Selected postprocess
+		if (Engine::Picking::selected) {
+			// Outline draw
+			Engine::Render::Outline();
+
+			// Collider draw
+			Engine::Render::Collider();
+
+			// Gizmo render
+			Engine::Render::Gizmo();
+		}
+
+		// Mouse object index
+		Engine::Picking::ReadObjectIndex();
 	}
-
-	// Entity render
-	Engine::Render::Entities();
-
-	// Selected postprocess
-	if (Engine::Picking::selected) {
-		// Outline draw
-		Engine::Render::Outline();
-
-		// Collider draw
-		Engine::Render::Collider();
-
-		// Gizmo render
-		Engine::Render::Gizmo();
+	else {
+		Engine::Picking::mouseIndex = -1;
 	}
-
-	// Mouse object index
-	Engine::Picking::ReadObjectIndex();
 
 	// GUI draw
 	Engine::Render::GUI();
