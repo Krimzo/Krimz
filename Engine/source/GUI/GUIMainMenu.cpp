@@ -1,6 +1,4 @@
 #include "GUI/GUI.h"
-#include "Utility/Utility.h"
-#include "View/Background.h"
 #include "Render/Render.h"
 
 
@@ -15,8 +13,8 @@ void Engine::GUI::MainMenu() {
 		}
 
 		// View
-		if (ImGui::BeginMenu("View")) {
-			ImGui::Selectable("Render Colliders", &Engine::Outline::renderColliders);
+		if (ImGui::BeginMenu("Render")) {
+			ImGui::Selectable("Colliders", &Engine::Outline::renderColliders);
 			ImGui::EndMenu();
 		}
 

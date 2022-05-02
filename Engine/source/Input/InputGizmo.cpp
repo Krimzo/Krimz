@@ -1,7 +1,7 @@
 #include "Input/Input.h"
-#include "Input/Gizmo.h"
-#include "Utility/Utility.h"
-#include "imgui.h"
+#include "Editor/Gizmo.h"
+#include "Render/Render.h"
+#include "GUI/GUI.h"
 
 
 void Engine::Input::Gizmo() {

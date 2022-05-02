@@ -1,7 +1,5 @@
 #include "Render/Render.h"
-#include "Input/Picking.h"
-#include "Utility/Utility.h"
-#include "View/Light.h"
+#include "Editor/Picking.h"
 #include "Data/Entities.h"
 
 

@@ -40,17 +40,14 @@
     <ClInclude Include="source\Stage\Stage.h" />
     <ClInclude Include="source\Data\Entities.h" />
     <ClInclude Include="source\GUI\GUI.h" />
-    <ClInclude Include="source\Input\Gizmo.h" />
+    <ClInclude Include="source\Editor\Gizmo.h" />
     <ClInclude Include="source\Input\Input.h" />
-    <ClInclude Include="source\Input\Picking.h" />
-    <ClInclude Include="source\Utility\Utility.h" />
-    <ClInclude Include="source\View\Light.h" />
+    <ClInclude Include="source\Editor\Picking.h" />
     <ClInclude Include="source\Logging\Logging.h" />
     <ClInclude Include="source\Render\Render.h" />
     <ClInclude Include="source\Scripting\Script.h" />
     <ClInclude Include="source\Scripting\JavaHandler.h" />
     <ClInclude Include="source\Scripting\Scripting.h" />
-    <ClInclude Include="source\View\Background.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Data\Cameras.cpp" />
@@ -71,7 +68,7 @@
     <ClCompile Include="source\Input\InputGizmo.cpp" />
     <ClCompile Include="source\Input\InputLMB.cpp" />
     <ClCompile Include="source\Input\Input.cpp" />
-    <ClCompile Include="source\Input\Picking.cpp" />
+    <ClCompile Include="source\Editor\Picking.cpp" />
     <ClCompile Include="source\Logging\Logging.cpp" />
     <ClCompile Include="source\Physics\Collider.cpp" />
     <ClCompile Include="source\Physics\Physics.cpp" />

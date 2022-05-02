@@ -6,7 +6,7 @@
 namespace Engine {
 	namespace Gizmo {
 		// Types
-		enum Type {
+		enum class Type {
 			NONE = 0,
 			SCALE,
 			MOVE,
@@ -14,7 +14,7 @@ namespace Engine {
 		};
 
 		// Selected gizmo
-		inline int selected = Type::NONE;
+		inline Gizmo::Type selected = Gizmo::Type::NONE;
 
 		// Global gizmo scale
 		inline const float scale = 0.25f;

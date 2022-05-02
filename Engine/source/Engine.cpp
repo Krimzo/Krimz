@@ -1,7 +1,7 @@
 #include "KrimzLib.h"
-#include "Utility/Utility.h"
 #include "Stage/Stage.h"
 #include "Input/Input.h"
+#include "Render/Render.h"
 #include "Scripting/Scripting.h"
 #include "Physics/Physics.h"
 #include "GUI/GUI.h"

@@ -1,14 +1,12 @@
 #include "Stage/Stage.h"
 #include "Render/Render.h"
-#include "View/Background.h"
 #include "Data/Entities.h"
 #include "Stage/Stage.h"
-#include "Utility/Utility.h"
-#include "Input/Picking.h"
-#include "GUI/GUI.h"
+#include "Editor/Picking.h"
 #include "Logging/Logging.h"
 #include "Scripting/Scripting.h"
 #include "Physics/Physics.h"
+#include "GUI/GUI.h"
 
 
 void Engine::Stage::Update() {

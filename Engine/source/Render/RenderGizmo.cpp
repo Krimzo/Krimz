@@ -1,7 +1,6 @@
 #include "Render/Render.h"
-#include "Input/Picking.h"
-#include "Input/Gizmo.h"
-#include "Utility/Utility.h"
+#include "Editor/Picking.h"
+#include "Editor/Gizmo.h"
 
 
 void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& col, int index, float alterScale = 1.0f) {

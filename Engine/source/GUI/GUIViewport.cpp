@@ -1,10 +1,9 @@
 #include "GUI/GUI.h"
 #include "Data/Entities.h"
 #include "Stage/Stage.h"
-#include "Input/Picking.h"
-#include "Utility/Utility.h"
-#include "Scripting/Scripting.h"
+#include "Editor/Picking.h"
 #include "Render/Render.h"
+#include "Scripting/Scripting.h"
 #include "Physics/Physics.h"
 
 

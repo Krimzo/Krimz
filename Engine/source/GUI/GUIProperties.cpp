@@ -1,5 +1,5 @@
 #include "GUI/GUI.h"
-#include "Input/Picking.h"
+#include "Editor/Picking.h"
 #include "Scripting/Scripting.h"
 #include "Stage/Stage.h"
 #include "Physics/Physics.h"

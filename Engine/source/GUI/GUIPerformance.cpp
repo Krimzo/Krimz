@@ -1,6 +1,5 @@
 #include "GUI/GUI.h"
-#include "Utility/Utility.h"
-#include "implot.h"
+#include "Render/Render.h"
 
 
 std::vector<float> frameHistory(30);

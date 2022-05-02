@@ -1,7 +1,7 @@
 #include "Stage/Stage.h"
 #include "Window/Window.h"
 #include "Render/Render.h"
-#include "Input/Picking.h"
+#include "Editor/Picking.h"
 
 
 void Engine::Stage::Resize(const kl::int2& siz) {

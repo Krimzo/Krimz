@@ -1,6 +1,5 @@
 #include "GUI/GUI.h"
-#include "Utility/Utility.h"
-#include "Input/Picking.h"
+#include "Editor/Picking.h"
 #include "Data/Meshes.h"
 #include "Data/Textures.h"
 #include "Data/Entities.h"
@@ -9,7 +8,6 @@
 #include "Scripting/Scripting.h"
 #include "Render/Render.h"
 #include "Logging/Logging.h"
-#include "View/Background.h"
 
 
 void Entites() {

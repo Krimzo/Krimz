@@ -1,9 +1,8 @@
 #include "Input/Input.h"
-#include "Utility/Utility.h"
 #include "Render/Render.h"
-#include "Input/Picking.h"
+#include "Editor/Picking.h"
+#include "Editor/Gizmo.h"
 #include "Data/Entities.h"
-#include "Input/Gizmo.h"
 #include "GUI/GUI.h"
 
 

@@ -4,7 +4,6 @@
 #include "Data/Skyboxes.h"
 #include "Data/Textures.h"
 #include "Data/Meshes.h"
-#include "View/Background.h"
 #include "Scripting/Scripting.h"
 
 

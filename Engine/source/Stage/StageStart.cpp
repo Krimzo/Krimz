@@ -1,15 +1,12 @@
 #include "Stage/Stage.h"
-#include "Utility/Utility.h"
 #include "Render/Render.h"
-#include "Input/Picking.h"
-#include "View/Light.h"
-#include "View/Background.h"
-#include "Input/Gizmo.h"
-#include "GUI/GUI.h"
+#include "Editor/Picking.h"
+#include "Editor/Gizmo.h"
 #include "Scripting/Scripting.h"
 #include "Data/Meshes.h"
 #include "Data/Textures.h"
 #include "Data/Entities.h"
+#include "GUI/GUI.h"
 
 
 void Engine::Stage::Start() {

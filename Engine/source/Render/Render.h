@@ -1,9 +1,16 @@
 #pragma once
 
 #include "KrimzLib.h"
+#include "Data/Skyboxes.h"
 
 
 namespace Engine {
+	inline kl::window win;
+	namespace Time {
+		inline kl::timer timer;
+		inline float delta = 0;
+		inline float elapsed = 0;
+	}
 	namespace Render {
 		inline kl::gpu* gpu = nullptr;
 		inline bool vSync = true;
@@ -31,7 +38,7 @@ namespace Engine {
 		inline ID3D11ShaderResourceView* shaderV = nullptr;
 		inline kl::color color = kl::colors::orange;
 		inline kl::color colliderColor = kl::colors::cyan;
-		inline bool renderColliders = false;
+		inline bool renderColliders = true;
 	}
 	namespace Rasters {
 		inline ID3D11RasterizerState* solid = nullptr;
@@ -75,5 +82,32 @@ namespace Engine {
 		inline ID3D11Buffer* buff96_2 = nullptr;
 		inline ID3D11Buffer* buff192_1 = nullptr;
 		inline ID3D11Buffer* buff192_2 = nullptr;
+	}
+	namespace Struct {
+		struct DRAW_VS_CB {
+			kl::mat4 w;
+			kl::mat4 vpCam;
+			kl::mat4 vpSun;
+		};
+		struct DRAW_PS_CB {
+			kl::float4 ambCol;
+			kl::float4 dirCol;
+			kl::float4 dirDir;
+			kl::float4 camPos;
+			kl::float4 rghFac;
+			kl::float4 objInd;
+		};
+		struct GIZM_PS_CB {
+			kl::float4 objCol;
+			kl::float4 objInd;
+		};
+	}
+	namespace Light {
+		inline kl::ambient ambient;
+		inline kl::direct sun;
+	}
+	namespace Background {
+		inline kl::color color = kl::color(20, 20, 20);
+		inline Engine::Skybox* skybox = nullptr;
 	}
 }

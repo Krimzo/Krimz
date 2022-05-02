@@ -1,6 +1,5 @@
 #include "Input/Input.h"
 #include "Render/Render.h"
-#include "Utility/Utility.h"
 #include "GUI/GUI.h"
 
 
