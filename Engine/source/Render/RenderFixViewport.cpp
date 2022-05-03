@@ -46,5 +46,5 @@ void Engine::Render::FixViewport() {
 
 	// GPU viewport fix
 	Engine::Render::gpu->viewport(kl::int2(0), Engine::Render::targetSize);
-	Engine::Render::camera->aspect = float(Engine::Render::targetSize.x) / Engine::Render::targetSize.y;
+	Engine::Selected::camera->aspect = float(Engine::Render::targetSize.x) / Engine::Render::targetSize.y;
 }

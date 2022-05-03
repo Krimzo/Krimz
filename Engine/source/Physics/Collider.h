@@ -9,7 +9,6 @@ namespace Engine {
 	class Collider {
 	private:
 		bool dynamic = false;
-		bool canDelete = true;
 
 	public:
 		// Shape types
@@ -31,7 +30,8 @@ namespace Engine {
 		physx::PxMaterial* material = nullptr;
 
 		Collider();
-		Collider(const Collider& coll);
+		Collider(const Collider& obj);
+		void operator=(const Collider& obj);
 		~Collider();
 
 		// Transform
@@ -59,7 +59,7 @@ namespace Engine {
 		void newShape(const kl::float3& sca);
 		void newShape(float radius);
 		void newShape(const kl::float2& heiRad);
-		void newShape(Engine::Mesh* mesh, const kl::float3& sca);
+		void newShape(const std::shared_ptr<Engine::Mesh>& mesh, const kl::float3& sca);
 
 		// Data getting
 		kl::float3 getWorldRotation() const;

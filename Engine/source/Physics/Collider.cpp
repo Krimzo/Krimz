@@ -4,13 +4,22 @@
 
 
 Engine::Collider::Collider() {}
-Engine::Collider::Collider(const Collider& coll) {
-	memcpy(this, &coll, sizeof(Engine::Collider));
-	((Engine::Collider*)&coll)->canDelete = false;
-	canDelete = true;
+Engine::Collider::Collider(const Engine::Collider& obj) {
+	dynamic = obj.dynamic;
+	scale = obj.scale;
+	rotation = obj.rotation;
+	position = obj.position;
+	shape = obj.shape;
+}
+void Engine::Collider::operator=(const Collider& obj) {
+	dynamic = obj.dynamic;
+	scale = obj.scale;
+	rotation = obj.rotation;
+	position = obj.position;
+	shape = obj.shape;
 }
 Engine::Collider::~Collider() {
-	if (canDelete) {
+	if (Engine::Physics::physics) {
 		delShape();
 		delActor();
 		delMaterial();
@@ -126,7 +135,7 @@ void Engine::Collider::newShape(float radius) {
 void Engine::Collider::newShape(const kl::float2& heiRad) {
 	newShape(physx::PxCapsuleGeometry(heiRad.x, heiRad.y));
 }
-void Engine::Collider::newShape(Engine::Mesh* mesh, const kl::float3& sca) {
+void Engine::Collider::newShape(const std::shared_ptr<Engine::Mesh>& mesh, const kl::float3& sca) {
 	newShape(physx::PxTriangleMeshGeometry(mesh->cooked, *(physx::PxVec3*)&sca));
 }
 

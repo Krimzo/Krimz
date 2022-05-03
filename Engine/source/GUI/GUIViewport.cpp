@@ -50,7 +50,8 @@ void Engine::GUI::Viewport() {
 		else {
 			if (ImGui::Button("STOP")) {
 				// Saving selected's name
-				const String lastSelectedName = Engine::Picking::selected ? Engine::Picking::selected->getName() : "";
+				const String lastSelectedName = Engine::Selected::entity ? Engine::Selected::entity->getName() : "";
+				Engine::Selected::entity = nullptr;
 
 				// Physics scene cleanup
 				Engine::Physics::DestroyScene();
@@ -66,7 +67,7 @@ void Engine::GUI::Viewport() {
 				// Selected fix
 				for (auto& ent : Engine::entities) {
 					if (ent->getName() == lastSelectedName) {
-						Engine::Picking::selected = ent.get();
+						Engine::Selected::entity = ent;
 						break;
 					}
 				}

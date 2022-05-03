@@ -1,9 +1,10 @@
 #include "Data/Entities.h"
 #include "Scripting/Scripting.h"
+#include "Render/Render.h"
 
 
 Engine::Entity::Entity() : Named(Named::Type::Entity), mesh(Engine::Default::cube), texture(Engine::Default::texture) {}
-Engine::Entity::Entity(const String& name, Engine::Mesh* mesh, Engine::Texture* texture) : Named(Named::Type::Entity, name), mesh(mesh), texture(texture) {}
+Engine::Entity::Entity(const String& name, const std::shared_ptr<Engine::Mesh>& mesh, const std::shared_ptr<Engine::Texture>& texture) : Named(Named::Type::Entity, name), mesh(mesh), texture(texture) {}
 Engine::Entity::Entity(const Engine::Entity& obj) : Named(Named::Type::Entity, obj.getName()) {
 	// View
 	visible = obj.visible;
@@ -50,12 +51,12 @@ kl::mat4 Engine::Entity::matrix() const {
 }
 
 // Renders the mesh
-void Engine::Entity::render(kl::gpu* gpu, bool useTex) const {
+void Engine::Entity::render(bool useTex) const {
 	// Texture bind
 	if (useTex) {
-		gpu->bindPixlTex(texture->view, 0);
+		Engine::Render::gpu->bindPixlTex(texture->view, 0);
 	}
 
 	// Rendering
-	gpu->draw(mesh->buff);
+	Engine::Render::gpu->draw(mesh->buff);
 }

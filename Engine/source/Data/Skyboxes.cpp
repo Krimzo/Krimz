@@ -84,7 +84,7 @@ Engine::Skybox::Skybox(const String& name, const kl::image& fullbox) : Named(Nam
 	}
 }
 Engine::Skybox::~Skybox() {
-	if (isValid()) {
+	if (Engine::Render::gpu && isValid()) {
 		Engine::Render::gpu->destroy(sky_vtx);
 		Engine::Render::gpu->destroy(sky_pxl);
 		Engine::Render::gpu->destroy(vtx_cb);

@@ -50,10 +50,10 @@ void Entites() {
 			}
 			// Draw
 			else {
-				bool state = (Engine::Picking::selected == ent.get());
+				bool state = (Engine::Selected::entity == ent);
 				ImGui::Selectable(ent->getName().c_str(), &state);
 				if (state) {
-					Engine::Picking::selected = ent.get();
+					Engine::Selected::entity = ent;
 					noSelection = false;
 				}
 			}
@@ -69,8 +69,8 @@ void Entites() {
 
 				// Delete
 				if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-					if (Engine::Picking::selected == ent.get()) {
-						Engine::Picking::selected = nullptr;
+					if (Engine::Selected::entity == ent) {
+						Engine::Selected::entity = nullptr;
 					}
 					auto entIt = Engine::entities.begin();
 					std::advance(entIt, i);
@@ -84,7 +84,7 @@ void Entites() {
 			i++;
 		}
 		if (noSelection) {
-			Engine::Picking::selected = nullptr;
+			Engine::Selected::entity = nullptr;
 		}
 		ImGui::End();
 	}
@@ -141,7 +141,7 @@ void Meshes() {
 				// Delete
 				if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
 					for (auto& ent : Engine::entities) {
-						if (ent->mesh == mes.get()) {
+						if (ent->mesh == mes) {
 							ent->mesh = Engine::Default::cube;
 						}
 					}
@@ -217,7 +217,7 @@ void Textures() {
 				// Delete
 				if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(winWidth, 0.0f))) {
 					for (auto& ent : Engine::entities) {
-						if (ent->texture == tex.get()) {
+						if (ent->texture == tex) {
 							ent->texture = Engine::Default::texture;
 						}
 					}
@@ -299,10 +299,10 @@ void Skyboxes() {
 				}
 			}
 			else {
-				bool state = (Engine::Default::camera->skybox == skyb.get());
+				bool state = (Engine::Default::camera->skybox == skyb);
 				ImGui::Selectable(skyb->getName().c_str(), &state);
 				if (state) {
-					Engine::Default::camera->skybox = skyb.get();
+					Engine::Default::camera->skybox = skyb;
 					noSelection = false;
 				}
 			}
@@ -318,7 +318,7 @@ void Skyboxes() {
 
 				// Delete
 				if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-					if (Engine::Default::camera->skybox == skyb.get()) {
+					if (Engine::Default::camera->skybox == skyb) {
 						Engine::Default::camera->skybox = nullptr;
 					}
 					auto skybIt = Engine::skyboxes.begin();

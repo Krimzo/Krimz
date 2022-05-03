@@ -19,11 +19,11 @@ namespace Engine {
 	};
 
 	namespace Default {
-		inline Engine::Mesh* cube = nullptr;
-		inline Engine::Mesh* sphere = nullptr;
-		inline Engine::Mesh* capsule = nullptr;
-		inline Engine::Mesh* pyramid = nullptr;
-		inline Engine::Mesh* monke = nullptr;
+		inline std::shared_ptr<Engine::Mesh> cube;
+		inline std::shared_ptr<Engine::Mesh> sphere;
+		inline std::shared_ptr<Engine::Mesh> capsule;
+		inline std::shared_ptr<Engine::Mesh> pyramid;
+		inline std::shared_ptr<Engine::Mesh> monke;
 	}
 
 	inline std::list<std::shared_ptr<Engine::Mesh>> meshes;

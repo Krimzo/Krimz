@@ -32,14 +32,14 @@ namespace Engine {
 		Engine::Collider collider;
 
 		// Mesh/texture
-		Engine::Mesh* mesh = nullptr;
-		Engine::Texture* texture = nullptr;
+		std::shared_ptr<Engine::Mesh> mesh;
+		std::shared_ptr<Engine::Texture> texture;
 
 		// Scripts
 		std::vector<std::shared_ptr<Engine::Script>> scripts;
 
 		Entity();
-		Entity(const String& name, Engine::Mesh* mesh, Engine::Texture* texture);
+		Entity(const String& name, const std::shared_ptr<Engine::Mesh>& mesh, const std::shared_ptr<Engine::Texture>& texture);
 		Entity(const Engine::Entity& obj);
 
 		// Script callers
@@ -50,8 +50,12 @@ namespace Engine {
 		kl::mat4 matrix() const;
 
 		// Renders the mesh
-		void render(kl::gpu* gpu, bool useTex) const;
+		void render(bool useTex) const;
 	};
+
+	namespace Selected {
+		inline std::shared_ptr<Engine::Entity> entity;
+	}
 
 	inline std::list<std::shared_ptr<Engine::Entity>> entities;
 }

@@ -24,7 +24,7 @@ void Engine::Render::Shadows() {
 	Engine::Render::gpu->bindVertCBuff(Engine::CBuffers::buff64_1, 0);
 
 	// Getting the sun vp matrix
-	const kl::mat4 vpSun = Engine::Light::sun.matrix(*Engine::Render::camera);
+	const kl::mat4 vpSun = Engine::Light::sun.matrix(*Engine::Selected::camera);
 
 	// Rendering entity shadows
 	for (auto& ent : Engine::entities) {
@@ -34,7 +34,7 @@ void Engine::Render::Shadows() {
 			Engine::Render::gpu->setBuffData(Engine::CBuffers::buff64_1, &wvp);
 
 			// Rendering the entity
-			ent->render(Engine::Render::gpu.get(), false);
+			ent->render(false);
 		}
 	}
 }

@@ -8,5 +8,7 @@ Engine::Texture::Texture(const String& name, const kl::image& img) : Named(Named
 	Engine::Render::gpu->destroy(tex);
 }
 Engine::Texture::~Texture() {
-	Engine::Render::gpu->destroy(view);
+	if (Engine::Render::gpu) {
+		Engine::Render::gpu->destroy(view);
+	}
 }

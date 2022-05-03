@@ -14,7 +14,6 @@ namespace Engine {
 	namespace Render {
 		inline bool vSync = true;
 		inline std::unique_ptr<kl::gpu> gpu = nullptr;
-		inline Engine::Camera* camera = nullptr;
 		inline ID3D11RasterizerState* entityRaster = nullptr;
 
 		inline kl::int2 targetSize = kl::int2(100);

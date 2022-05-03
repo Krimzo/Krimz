@@ -23,6 +23,10 @@ Engine::Mesh::Mesh(const String& name, const std::vector<kl::vertex>& vertices) 
 	cooked = CookMesh(vertices);
 }
 Engine::Mesh::~Mesh() {
-	Engine::Render::gpu->destroy(buff);
-	cooked->release();
+	if (Engine::Render::gpu) {
+		Engine::Render::gpu->destroy(buff);
+	}
+	if (Engine::Physics::physics) {
+		cooked->release();
+	}
 }

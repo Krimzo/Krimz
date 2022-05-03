@@ -20,8 +20,8 @@ void Engine::Stage::Start() {
 	Engine::Render::gpu = std::make_unique<kl::gpu>(Engine::win.getWND());
 
 	// Camera
-	Engine::Default::camera = std::make_unique<Engine::Camera>();
-	Engine::Render::camera = Engine::Default::camera.get();
+	Engine::Default::camera = std::make_shared<Engine::Camera>();
+	Engine::Selected::camera = Engine::Default::camera;
 
 	// Resize callback
 	Engine::win.resize = Engine::Stage::Resize;
@@ -111,11 +111,11 @@ void Engine::Stage::Start() {
 	Engine::Light::sun.direction = kl::float3(0.575f, -0.75f, 2.0f);
 
 	// Default meshes
-	Engine::Default::cube = new Engine::Mesh("cube", kl::file::parseObj("resource/meshes/default/cube.obj"));
-	Engine::Default::sphere = new Engine::Mesh("sphere", kl::file::parseObj("resource/meshes/default/sphere.obj"));
-	Engine::Default::capsule = new Engine::Mesh("capsule", kl::file::parseObj("resource/meshes/default/capsule.obj"));
-	Engine::Default::pyramid = new Engine::Mesh("pyramid", kl::file::parseObj("resource/meshes/default/pyramid.obj"));
-	Engine::Default::monke = new Engine::Mesh("monke", kl::file::parseObj("resource/meshes/default/monke.obj"));
+	Engine::Default::cube = std::make_shared<Engine::Mesh>("cube", kl::file::parseObj("resource/meshes/default/cube.obj"));
+	Engine::Default::sphere = std::make_shared<Engine::Mesh>("sphere", kl::file::parseObj("resource/meshes/default/sphere.obj"));
+	Engine::Default::capsule = std::make_shared<Engine::Mesh>("capsule", kl::file::parseObj("resource/meshes/default/capsule.obj"));
+	Engine::Default::pyramid = std::make_shared<Engine::Mesh>("pyramid", kl::file::parseObj("resource/meshes/default/pyramid.obj"));
+	Engine::Default::monke = std::make_shared<Engine::Mesh>("monke", kl::file::parseObj("resource/meshes/default/monke.obj"));
 
 	// Gizmos
 	Engine::Gizmo::scaleM = Engine::Render::gpu->newVertBuffer("resource/meshes/gizmo/scale.obj");
@@ -123,7 +123,7 @@ void Engine::Stage::Start() {
 	Engine::Gizmo::rotateM = Engine::Render::gpu->newVertBuffer("resource/meshes/gizmo/rotate.obj");
 
 	// Default textures
-	Engine::Default::texture = new Engine::Texture("default", kl::image(kl::int2(1), kl::colors::magenta));
+	Engine::Default::texture = std::make_shared<Engine::Texture>("default", kl::image(kl::int2(1), kl::colors::magenta));
 
 	// GUI icons
 	Engine::GUI::folderIcon = Engine::Render::gpu->newShaderView(

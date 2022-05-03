@@ -190,6 +190,8 @@ void Engine::JavaHandler::Uninit() {
 	refs.clear();
 	classes.clear();
 	jvm->DestroyJavaVM();
+	jvm = nullptr;
+	env = nullptr;
 }
 
 // Clears all loaded references

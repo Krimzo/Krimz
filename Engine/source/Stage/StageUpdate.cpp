@@ -29,12 +29,12 @@ void Engine::Stage::Update() {
 
 	// Clearing the frame buffers
 	static const kl::color defBackColor = kl::color(20, 20, 20);
-	const kl::color& backColor = Engine::Render::camera ? Engine::Render::camera->color : defBackColor;
+	const kl::color& backColor = Engine::Selected::camera ? Engine::Selected::camera->color : defBackColor;
 	Engine::Render::gpu->clear(backColor);
 	Engine::Render::gpu->clear(Engine::Render::targetV, backColor);
 
 	// Camera bound check
-	if (Engine::Render::camera) {
+	if (Engine::Selected::camera) {
 		// Rendering shadows
 		Engine::Render::Shadows();
 
@@ -42,7 +42,7 @@ void Engine::Stage::Update() {
 		Engine::Render::FixViewport();
 
 		// Skybox draw
-		if (Engine::Render::camera->skybox) {
+		if (Engine::Selected::camera->skybox) {
 			Engine::Render::Skybox();
 		}
 
@@ -50,7 +50,7 @@ void Engine::Stage::Update() {
 		Engine::Render::Entities();
 
 		// Selected postprocess
-		if (Engine::Picking::selected) {
+		if (Engine::Selected::entity) {
 			// Outline draw
 			Engine::Render::Outline();
 

@@ -5,10 +5,10 @@
 
 void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& col, int index, float alterScale = 1.0f) {
 	// Building the wvp matrix
-	const kl::mat4 sc = kl::mat4::scale((Engine::Render::camera->position - Engine::Picking::selected->position).length() * Engine::Gizmo::scale * alterScale);
+	const kl::mat4 sc = kl::mat4::scale((Engine::Selected::camera->position - Engine::Selected::entity->position).length() * Engine::Gizmo::scale * alterScale);
 	const kl::mat4 ro = kl::mat4::rotate(rot);
-	const kl::mat4 tr = kl::mat4::translate(Engine::Picking::selected->position);
-	kl::mat4 wvp = Engine::Render::camera->matrix() * tr * ro * sc;
+	const kl::mat4 tr = kl::mat4::translate(Engine::Selected::entity->position);
+	kl::mat4 wvp = Engine::Selected::camera->matrix() * tr * ro * sc;
 	Engine::Render::gpu->setBuffData(Engine::CBuffers::buff64_1, &wvp);
 
 	// Setting the pixl data
@@ -76,7 +76,7 @@ void Engine::Render::Gizmo() {
 		kl::float3 yRot;
 		ID3D11Buffer* gizmoMesh = nullptr;
 		if (Engine::Gizmo::selected == Engine::Gizmo::Type::ROTATE) {
-			const kl::float3 posDif = (Engine::Render::camera->position - Engine::Picking::selected->position).normalize();
+			const kl::float3 posDif = (Engine::Selected::camera->position - Engine::Selected::entity->position).normalize();
 			xRot = kl::float3((posDif.y < 0.0f) ? 180.0f : 0.0f, (posDif.z < 0.0f) ? 90.0f : -90.0f, 0.0f);
 			yRot = kl::float3(90.0f, ((posDif.x < 0.0f) ? ((posDif.z < 0.0f) ? 180.0f : 270.0f) : ((posDif.z < 0.0f) ? 90.0f : 0.0f)), 0.0f);
 			zRot = kl::float3((posDif.y < 0.0f) ? 180.0f : 0.0f, (posDif.x < 0.0f) ? 180.0f : 0.0f, 0.0f);

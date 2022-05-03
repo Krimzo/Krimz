@@ -35,8 +35,11 @@ void Engine::Physics::Init() {
 }
 void Engine::Physics::Uninit() {
 	cooking->release();
+	cooking = nullptr;
 	physics->release();
+	physics = nullptr;
 	foundation->release();
+	foundation = nullptr;
 }
 
 // Scene

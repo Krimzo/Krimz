@@ -17,7 +17,7 @@ namespace Engine {
 	};
 
 	namespace Default {
-		inline Engine::Texture* texture = nullptr;
+		inline std::shared_ptr<Engine::Texture> texture;
 	}
 
 	inline std::list<std::shared_ptr<Engine::Texture>> textures;

@@ -7,7 +7,9 @@ Engine::Script::Script(const String& filePath) : path(filePath) {
 	reload();
 }
 Engine::Script::~Script() {
-	Engine::JavaHandler::DelInst(inst);
+	if (Engine::JavaHandler::jvm) {
+		Engine::JavaHandler::DelInst(inst);
+	}
 }
 
 // Reloads bytes
@@ -114,7 +116,7 @@ void Engine::Script::getEntityData(void* entAddr) {
 		if (scriptMesh != ent->mesh->getName()) {
 			for (auto& mes : Engine::meshes) {
 				if (mes->getName() == scriptMesh) {
-					ent->mesh = mes.get();
+					ent->mesh = mes;
 					break;
 				}
 			}
@@ -123,7 +125,7 @@ void Engine::Script::getEntityData(void* entAddr) {
 		if (scriptTexture != ent->texture->getName()) {
 			for (auto& tex : Engine::textures) {
 				if (tex->getName() == scriptTexture) {
-					ent->texture = tex.get();
+					ent->texture = tex;
 					break;
 				}
 			}
