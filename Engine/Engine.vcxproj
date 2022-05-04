@@ -31,6 +31,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Data\Cameras.h" />
+    <ClInclude Include="source\Data\Light\Ambient.h" />
+    <ClInclude Include="source\Data\Light\Direct.h" />
     <ClInclude Include="source\Data\Named.h" />
     <ClInclude Include="source\Data\Meshes.h" />
     <ClInclude Include="source\Data\Skyboxes.h" />
@@ -51,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Data\Cameras.cpp" />
+    <ClCompile Include="source\Data\Light\Direct.cpp" />
     <ClCompile Include="source\Data\Named.cpp" />
     <ClCompile Include="source\Data\Meshes.cpp" />
     <ClCompile Include="source\Data\Skyboxes.cpp" />

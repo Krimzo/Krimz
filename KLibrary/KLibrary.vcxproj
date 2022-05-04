@@ -198,8 +198,6 @@
     <ClCompile Include="source\graphics\color.cpp" />
     <ClCompile Include="source\graphics\image.cpp" />
     <ClCompile Include="source\graphics\video.cpp" />
-    <ClCompile Include="source\light\ambient.cpp" />
-    <ClCompile Include="source\light\direct.cpp" />
     <ClCompile Include="source\math\float2.cpp" />
     <ClCompile Include="source\math\float3.cpp" />
     <ClCompile Include="source\math\float4.cpp" />
@@ -236,8 +234,6 @@
     <ClInclude Include="source\graphics\video.h" />
     <ClInclude Include="source\KrimzLib.h" />
     <ClInclude Include="source\libspec\using.h" />
-    <ClInclude Include="source\light\ambient.h" />
-    <ClInclude Include="source\light\direct.h" />
     <ClInclude Include="source\math\float2.h" />
     <ClInclude Include="source\math\float3.h" />
     <ClInclude Include="source\math\float4.h" />

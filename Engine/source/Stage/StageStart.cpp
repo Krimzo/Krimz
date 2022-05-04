@@ -66,8 +66,10 @@ void Engine::Stage::Start() {
 	Engine::CBuffers::buff64_2 = Engine::Render::gpu->newConstBuffer(64);
 	Engine::CBuffers::buff96_1 = Engine::Render::gpu->newConstBuffer(96);
 	Engine::CBuffers::buff96_2 = Engine::Render::gpu->newConstBuffer(96);
-	Engine::CBuffers::buff192_1 = Engine::Render::gpu->newConstBuffer(192);
-	Engine::CBuffers::buff192_2 = Engine::Render::gpu->newConstBuffer(192);
+	Engine::CBuffers::buff176_1 = Engine::Render::gpu->newConstBuffer(176);
+	Engine::CBuffers::buff176_2 = Engine::Render::gpu->newConstBuffer(176);
+	Engine::CBuffers::buff384_1 = Engine::Render::gpu->newConstBuffer(384);
+	Engine::CBuffers::buff384_2 = Engine::Render::gpu->newConstBuffer(384);
 
 	// Samplers
 	Engine::Render::gpu->bind(Engine::Render::gpu->newSamplerState(true, true), 0);
@@ -107,8 +109,8 @@ void Engine::Stage::Start() {
 	Engine::Render::gpu->destroy(outlineTex);
 
 	// Sun
-	Engine::Light::sun.genBuff(Engine::Render::gpu.get(), 4096);
-	Engine::Light::sun.direction = kl::float3(0.575f, -0.75f, 2.0f);
+	Engine::Light::sun = std::make_shared<Engine::Light::Direct>(kl::int2(3096));
+	Engine::Light::sun->setDir(kl::float3(0.575f, -0.75f, 2.0f));
 
 	// Default meshes
 	Engine::Default::cube = std::make_shared<Engine::Mesh>("cube", kl::file::parseObj("resource/meshes/default/cube.obj"));

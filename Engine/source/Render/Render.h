@@ -2,6 +2,8 @@
 
 #include "KrimzLib.h"
 #include "Data/Cameras.h"
+#include "Data/Light/Ambient.h"
+#include "Data/Light/Direct.h"
 
 
 namespace Engine {
@@ -28,6 +30,10 @@ namespace Engine {
 		void Collider();
 		void Gizmo();
 		void GUI();
+	}
+	namespace Light {
+		inline Ambient ambient = kl::float4(0.1f);
+		inline std::shared_ptr<Direct> sun;
 	}
 	namespace Outline {
 		inline ID3D11Buffer* screenM = nullptr;
@@ -77,14 +83,16 @@ namespace Engine {
 		inline ID3D11Buffer* buff64_2 = nullptr;
 		inline ID3D11Buffer* buff96_1 = nullptr;
 		inline ID3D11Buffer* buff96_2 = nullptr;
-		inline ID3D11Buffer* buff192_1 = nullptr;
-		inline ID3D11Buffer* buff192_2 = nullptr;
+		inline ID3D11Buffer* buff176_1 = nullptr;
+		inline ID3D11Buffer* buff176_2 = nullptr;
+		inline ID3D11Buffer* buff384_1 = nullptr;
+		inline ID3D11Buffer* buff384_2 = nullptr;
 	}
 	namespace Struct {
 		struct DRAW_VS_CB {
 			kl::mat4 w;
 			kl::mat4 vpCam;
-			kl::mat4 vpSun;
+			kl::mat4 vpSun[4];
 		};
 		struct DRAW_PS_CB {
 			kl::float4 ambCol;
@@ -93,14 +101,12 @@ namespace Engine {
 			kl::float4 camPos;
 			kl::float4 rghFac;
 			kl::float4 objInd;
+			kl::float4 frFars;
+			kl::mat4 camViewM;
 		};
 		struct GIZM_PS_CB {
 			kl::float4 objCol;
 			kl::float4 objInd;
 		};
-	}
-	namespace Light {
-		inline kl::ambient ambient;
-		inline kl::direct sun;
 	}
 }

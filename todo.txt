@@ -1,10 +1,10 @@
-# Entity duplicate
 # Cameras as entities
+# Entity duplicate
 # Scene system
+# Normal mapping
 # Entity parenting
 # Custom main menu
 # Implement msaa
-# Multiple lights with shadows
 # Game export
 
 ? Documentation
