@@ -3,9 +3,10 @@
 #include "Editor/Picking.h"
 #include "Editor/Gizmo.h"
 #include "Scripting/Scripting.h"
-#include "Data/Meshes.h"
-#include "Data/Textures.h"
-#include "Data/Entities.h"
+#include "Types/Camera.h"
+#include "Types/Mesh.h"
+#include "Types/Texture.h"
+#include "Types/Entity.h"
 #include "GUI/GUI.h"
 
 

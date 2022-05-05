@@ -1,9 +1,9 @@
 #pragma once
 
 #include "KrimzLib.h"
-#include "Data/Named.h"
-#include "Data/Meshes.h"
-#include "Data/Textures.h"
+#include "Types/Named.h"
+#include "Types/Mesh.h"
+#include "Types/Texture.h"
 #include "Scripting/Script.h"
 #include "Physics/Physics.h"
 #include "Physics/Collider.h"

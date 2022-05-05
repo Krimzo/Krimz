@@ -30,12 +30,6 @@ int main() {
 	Engine::Time::timer.reset();
 	Engine::Time::timer.interval();
 
-	// Window start
+	// Start
 	Engine::win.startNew(kl::int2(1600, 900), "Editor", true, true);
-
-	// Physics cleanup
-	Engine::Physics::Uninit();
-
-	// Script cleanup
-	Engine::JavaHandler::Uninit();
 }

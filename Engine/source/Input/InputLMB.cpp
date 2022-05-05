@@ -2,7 +2,8 @@
 #include "Render/Render.h"
 #include "Editor/Picking.h"
 #include "Editor/Gizmo.h"
-#include "Data/Entities.h"
+#include "Types/Camera.h"
+#include "Types/Entity.h"
 #include "GUI/GUI.h"
 
 

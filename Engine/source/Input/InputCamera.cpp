@@ -1,4 +1,5 @@
 #include "Input/Input.h"
+#include "Types/Camera.h"
 #include "Render/Render.h"
 #include "GUI/GUI.h"
 

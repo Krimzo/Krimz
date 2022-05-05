@@ -1,6 +1,7 @@
 #include "Render/Render.h"
 #include "Editor/Picking.h"
 #include "Editor/Gizmo.h"
+#include "Types/Camera.h"
 
 
 struct GIZMO_PS_CB {

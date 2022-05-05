@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Data/Skyboxes.h"
+#include "Types/Skybox.h"
 
 
 namespace Engine {

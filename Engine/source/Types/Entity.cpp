@@ -1,6 +1,6 @@
-#include "Data/Entities.h"
-#include "Scripting/Scripting.h"
+#include "Types/Entity.h"
 #include "Render/Render.h"
+#include "Scripting/Scripting.h"
 
 
 Engine::Entity::Entity() : Named(Named::Type::Entity), mesh(Engine::Default::cube), texture(Engine::Default::texture) {}

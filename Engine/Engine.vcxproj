@@ -30,17 +30,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\Data\Cameras.h" />
-    <ClInclude Include="source\Data\Light\Ambient.h" />
-    <ClInclude Include="source\Data\Light\Direct.h" />
-    <ClInclude Include="source\Data\Named.h" />
-    <ClInclude Include="source\Data\Meshes.h" />
-    <ClInclude Include="source\Data\Skyboxes.h" />
-    <ClInclude Include="source\Data\Textures.h" />
+    <ClInclude Include="source\Types\Camera.h" />
+    <ClInclude Include="source\Types\Light\Ambient.h" />
+    <ClInclude Include="source\Types\Light\Direct.h" />
+    <ClInclude Include="source\Types\Material.h" />
+    <ClInclude Include="source\Types\Named.h" />
+    <ClInclude Include="source\Types\Mesh.h" />
+    <ClInclude Include="source\Types\Skybox.h" />
+    <ClInclude Include="source\Types\Texture.h" />
     <ClInclude Include="source\Physics\Collider.h" />
     <ClInclude Include="source\Physics\Physics.h" />
     <ClInclude Include="source\Stage\Stage.h" />
-    <ClInclude Include="source\Data\Entities.h" />
+    <ClInclude Include="source\Types\Entity.h" />
     <ClInclude Include="source\GUI\GUI.h" />
     <ClInclude Include="source\Editor\Gizmo.h" />
     <ClInclude Include="source\Input\Input.h" />
@@ -52,13 +53,14 @@
     <ClInclude Include="source\Scripting\Scripting.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\Data\Cameras.cpp" />
-    <ClCompile Include="source\Data\Light\Direct.cpp" />
-    <ClCompile Include="source\Data\Named.cpp" />
-    <ClCompile Include="source\Data\Meshes.cpp" />
-    <ClCompile Include="source\Data\Skyboxes.cpp" />
+    <ClCompile Include="source\Types\Camera.cpp" />
+    <ClCompile Include="source\Types\Light\Direct.cpp" />
+    <ClCompile Include="source\Types\Material.cpp" />
+    <ClCompile Include="source\Types\Named.cpp" />
+    <ClCompile Include="source\Types\Mesh.cpp" />
+    <ClCompile Include="source\Types\Skybox.cpp" />
     <ClCompile Include="source\Engine.cpp" />
-    <ClCompile Include="source\Data\Entities.cpp" />
+    <ClCompile Include="source\Types\Entity.cpp" />
     <ClCompile Include="source\GUI\GUI.cpp" />
     <ClCompile Include="source\GUI\GUIExplorer.cpp" />
     <ClCompile Include="source\GUI\GUILog.cpp" />
@@ -82,7 +84,7 @@
     <ClCompile Include="source\Render\RenderGUI.cpp" />
     <ClCompile Include="source\Render\RenderOutline.cpp" />
     <ClCompile Include="source\Render\RenderShadows.cpp" />
-    <ClCompile Include="source\Data\Textures.cpp" />
+    <ClCompile Include="source\Types\Texture.cpp" />
     <ClCompile Include="source\Render\RenderSkybox.cpp" />
     <ClCompile Include="source\Scripting\Script.cpp" />
     <ClCompile Include="source\Scripting\JavaHandler.cpp" />

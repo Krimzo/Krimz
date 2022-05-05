@@ -1,4 +1,4 @@
-#include "Data/Light/Direct.h"
+#include "Types/Light/Direct.h"
 #include "Render/Render.h"
 
 

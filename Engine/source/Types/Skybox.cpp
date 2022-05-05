@@ -1,5 +1,4 @@
-#include "Data/Skyboxes.h"
-
+#include "Types/Skybox.h"
 #include "Render/Render.h"
 #include "Logging/Logging.h"
 

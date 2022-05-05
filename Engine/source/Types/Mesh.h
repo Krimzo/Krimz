@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Data/Named.h"
+#include "Types/Named.h"
 #include "Physics/Physics.h"
 #include "KrimzLib.h"
 

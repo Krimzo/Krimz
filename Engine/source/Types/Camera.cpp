@@ -1,4 +1,4 @@
-#include "Data/Cameras.h"
+#include "Types/Camera.h"
 
 
 Engine::Camera::Camera() : Named(Named::Type::Camera) {}

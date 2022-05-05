@@ -1,7 +1,7 @@
 #pragma once
 
 #include "KrimzLib.h"
-#include "Data/Named.h"
+#include "Types/Named.h"
 
 
 namespace Engine {

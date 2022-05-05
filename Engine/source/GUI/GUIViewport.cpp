@@ -1,5 +1,5 @@
 #include "GUI/GUI.h"
-#include "Data/Entities.h"
+#include "Types/Entity.h"
 #include "Stage/Stage.h"
 #include "Editor/Picking.h"
 #include "Render/Render.h"

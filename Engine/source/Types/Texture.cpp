@@ -1,4 +1,4 @@
-#include "Data/Textures.h"
+#include "Types/Texture.h"
 #include "Render/Render.h"
 
 

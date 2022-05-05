@@ -1,4 +1,5 @@
 #include "Render/Render.h"
+#include "Types/Camera.h"
 #include "Editor/Picking.h"
 #include "GUI/GUI.h"
 

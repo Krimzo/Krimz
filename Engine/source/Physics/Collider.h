@@ -2,7 +2,7 @@
 
 #include "KrimzLib.h"
 #include "Physics/Physics.h"
-#include "Data/Meshes.h"
+#include "Types/Mesh.h"
 
 
 namespace Engine {

@@ -2,7 +2,7 @@
 
 #include <d3d11.h>
 #include "KrimzLib.h"
-#include "Data/Named.h"
+#include "Types/Named.h"
 
 
 namespace Engine {

@@ -1,6 +1,7 @@
 #include "Render/Render.h"
 #include "Editor/Picking.h"
-#include "Data/Entities.h"
+#include "Types/Camera.h"
+#include "Types/Entity.h"
 
 
 struct EDITOR_VS_CB {

@@ -1,5 +1,5 @@
 #include "Scripting/Scripting.h"
-#include "Data/Entities.h"
+#include "Types/Entity.h"
 #include "Render/Render.h"
 #include "Logging/Logging.h"
 

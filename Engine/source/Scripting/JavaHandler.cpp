@@ -1,6 +1,6 @@
 #include "Scripting/Scripting.h"
 #include "Logging/Logging.h"
-#include "Data/Entities.h"
+#include "Types/Entity.h"
 
 
 void Engine::JavaHandler::Init() {

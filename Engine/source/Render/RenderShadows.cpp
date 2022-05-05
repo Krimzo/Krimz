@@ -1,5 +1,6 @@
 #include "Render/Render.h"
-#include "Data/Entities.h"
+#include "Types/Camera.h"
+#include "Types/Entity.h"
 
 
 void Engine::Render::Shadows() {

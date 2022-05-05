@@ -1,6 +1,6 @@
 #include "Physics/Physics.h"
 #include "Render/Render.h"
-#include "Data/Entities.h"
+#include "Types/Entity.h"
 #include "Logging/Logging.h"
 
 

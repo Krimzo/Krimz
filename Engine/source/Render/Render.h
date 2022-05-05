@@ -1,9 +1,8 @@
 #pragma once
 
 #include "KrimzLib.h"
-#include "Data/Cameras.h"
-#include "Data/Light/Ambient.h"
-#include "Data/Light/Direct.h"
+#include "Types/Light/Ambient.h"
+#include "Types/Light/Direct.h"
 
 
 namespace Engine {
