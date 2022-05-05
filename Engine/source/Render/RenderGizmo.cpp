@@ -3,6 +3,11 @@
 #include "Editor/Gizmo.h"
 
 
+struct GIZMO_PS_CB {
+	kl::float4 objCol;
+	kl::float4 objInd;
+};
+
 void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& col, int index, float alterScale = 1.0f) {
 	// Building the wvp matrix
 	const kl::mat4 sc = kl::mat4::scale((Engine::Selected::camera->position - Engine::Selected::entity->position).length() * Engine::Gizmo::scale * alterScale);
@@ -12,7 +17,7 @@ void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& co
 	Engine::Render::gpu->autoSetVertBuff(wvp);
 
 	// Setting the pixl data
-	Engine::Struct::GIZM_PS_CB gizm_pixl_data = {};
+	GIZMO_PS_CB gizm_pixl_data = {};
 	gizm_pixl_data.objCol = col;
 	gizm_pixl_data.objInd = float(index);
 	Engine::Render::gpu->autoSetPixlBuff(gizm_pixl_data);

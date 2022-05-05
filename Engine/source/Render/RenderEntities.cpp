@@ -3,6 +3,22 @@
 #include "Data/Entities.h"
 
 
+struct EDITOR_VS_CB {
+	kl::mat4 w;
+	kl::mat4 vpCam;
+	kl::mat4 vpSun[4];
+};
+struct EDITOR_PS_CB {
+	kl::float4 ambCol;
+	kl::float4 dirCol;
+	kl::float4 dirDir;
+	kl::float4 camPos;
+	kl::float4 rghFac;
+	kl::float4 objInd;
+	kl::float4 frFars;
+	kl::mat4 camViewM;
+};
+
 void Engine::Render::Entities() {
 	// Binding render + index texture
 	Engine::Render::gpu->bindTargets({ Engine::Render::targetV, Engine::Picking::targetV });
@@ -26,32 +42,32 @@ void Engine::Render::Entities() {
 	}
 
 	// Setting the camera data
-	Engine::Struct::DRAW_VS_CB draw_vert_data = {};
-	draw_vert_data.vpCam = Engine::Selected::camera->matrix();
+	EDITOR_VS_CB editor_vert_data = {};
+	editor_vert_data.vpCam = Engine::Selected::camera->matrix();
 	for (int i = 0; i < 4; i++) {
-		draw_vert_data.vpSun[i] = Engine::Light::sun->matrix(*Engine::Selected::camera, i);
+		editor_vert_data.vpSun[i] = Engine::Light::sun->matrix(*Engine::Selected::camera, i);
 	}
 
 	// Setting the lighting data
-	Engine::Struct::DRAW_PS_CB draw_pixl_data = {};
-	draw_pixl_data.ambCol = Engine::Light::ambient;
-	draw_pixl_data.dirCol = Engine::Light::sun->color;
-	draw_pixl_data.dirDir = Engine::Light::sun->getDir();
-	draw_pixl_data.camPos = Engine::Selected::camera->position;
-	draw_pixl_data.frFars = Engine::Light::sun->getFBounds(*Engine::Selected::camera);
-	draw_pixl_data.camViewM = kl::mat4::lookAt(Engine::Selected::camera->position, Engine::Selected::camera->position + Engine::Selected::camera->getForward(), kl::float3::pos_y);;
+	EDITOR_PS_CB editor_pixl_data = {};
+	editor_pixl_data.ambCol = Engine::Light::ambient;
+	editor_pixl_data.dirCol = Engine::Light::sun->color;
+	editor_pixl_data.dirDir = Engine::Light::sun->getDir();
+	editor_pixl_data.camPos = Engine::Selected::camera->position;
+	editor_pixl_data.frFars = Engine::Light::sun->getFBounds(*Engine::Selected::camera);
+	editor_pixl_data.camViewM = kl::mat4::lookAt(Engine::Selected::camera->position, Engine::Selected::camera->position + Engine::Selected::camera->getForward(), kl::float3::pos_y);;
 
 	// Rendering entities
 	for (int i = 0; auto & ent : Engine::entities) {
 		if (ent->visible) {
 			// Updating the vert data
-			draw_vert_data.w = ent->matrix();
-			Engine::Render::gpu->autoSetVertBuff(draw_vert_data);
+			editor_vert_data.w = ent->matrix();
+			Engine::Render::gpu->autoSetVertBuff(editor_vert_data);
 
 			// Updating the pixl data
-			draw_pixl_data.rghFac.x = ent->roughness;
-			draw_pixl_data.objInd.x = float(i);
-			Engine::Render::gpu->autoSetPixlBuff(draw_pixl_data);
+			editor_pixl_data.rghFac.x = ent->roughness;
+			editor_pixl_data.objInd.x = float(i);
+			Engine::Render::gpu->autoSetPixlBuff(editor_pixl_data);
 
 			// Rendering the entity
 			if (ent == Engine::Selected::entity) {

@@ -72,25 +72,4 @@ namespace Engine {
 			inline ID3D11PixelShader* gizmo = nullptr;
 		}
 	}
-	namespace Struct {
-		struct DRAW_VS_CB {
-			kl::mat4 w;
-			kl::mat4 vpCam;
-			kl::mat4 vpSun[4];
-		};
-		struct DRAW_PS_CB {
-			kl::float4 ambCol;
-			kl::float4 dirCol;
-			kl::float4 dirDir;
-			kl::float4 camPos;
-			kl::float4 rghFac;
-			kl::float4 objInd;
-			kl::float4 frFars;
-			kl::mat4 camViewM;
-		};
-		struct GIZM_PS_CB {
-			kl::float4 objCol;
-			kl::float4 objInd;
-		};
-	}
 }
