@@ -55,22 +55,6 @@ void Engine::Stage::Start() {
 	Engine::Shaders::Pixel::gizmo = Engine::Render::gpu->newPixelShader(kl::file::read("resource/shaders/gizmo.hlsl"));
 	Engine::Render::gpu->bind(defaultLayout);
 
-	// Constant buffers
-	Engine::CBuffers::buff16_1 = Engine::Render::gpu->newConstBuffer(16);
-	Engine::CBuffers::buff16_2 = Engine::Render::gpu->newConstBuffer(16);
-	Engine::CBuffers::buff32_1 = Engine::Render::gpu->newConstBuffer(32);
-	Engine::CBuffers::buff32_2 = Engine::Render::gpu->newConstBuffer(32);
-	Engine::CBuffers::buff48_1 = Engine::Render::gpu->newConstBuffer(48);
-	Engine::CBuffers::buff48_2 = Engine::Render::gpu->newConstBuffer(48);
-	Engine::CBuffers::buff64_1 = Engine::Render::gpu->newConstBuffer(64);
-	Engine::CBuffers::buff64_2 = Engine::Render::gpu->newConstBuffer(64);
-	Engine::CBuffers::buff96_1 = Engine::Render::gpu->newConstBuffer(96);
-	Engine::CBuffers::buff96_2 = Engine::Render::gpu->newConstBuffer(96);
-	Engine::CBuffers::buff176_1 = Engine::Render::gpu->newConstBuffer(176);
-	Engine::CBuffers::buff176_2 = Engine::Render::gpu->newConstBuffer(176);
-	Engine::CBuffers::buff384_1 = Engine::Render::gpu->newConstBuffer(384);
-	Engine::CBuffers::buff384_2 = Engine::Render::gpu->newConstBuffer(384);
-
 	// Samplers
 	Engine::Render::gpu->bind(Engine::Render::gpu->newSamplerState(true, true), 0);
 	D3D11_SAMPLER_DESC shadowSamp = {};

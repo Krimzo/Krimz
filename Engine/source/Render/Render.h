@@ -72,22 +72,6 @@ namespace Engine {
 			inline ID3D11PixelShader* gizmo = nullptr;
 		}
 	}
-	namespace CBuffers {
-		inline ID3D11Buffer* buff16_1 = nullptr;
-		inline ID3D11Buffer* buff16_2 = nullptr;
-		inline ID3D11Buffer* buff32_1 = nullptr;
-		inline ID3D11Buffer* buff32_2 = nullptr;
-		inline ID3D11Buffer* buff48_1 = nullptr;
-		inline ID3D11Buffer* buff48_2 = nullptr;
-		inline ID3D11Buffer* buff64_1 = nullptr;
-		inline ID3D11Buffer* buff64_2 = nullptr;
-		inline ID3D11Buffer* buff96_1 = nullptr;
-		inline ID3D11Buffer* buff96_2 = nullptr;
-		inline ID3D11Buffer* buff176_1 = nullptr;
-		inline ID3D11Buffer* buff176_2 = nullptr;
-		inline ID3D11Buffer* buff384_1 = nullptr;
-		inline ID3D11Buffer* buff384_2 = nullptr;
-	}
 	namespace Struct {
 		struct DRAW_VS_CB {
 			kl::mat4 w;

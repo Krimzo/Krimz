@@ -15,7 +15,7 @@
 
 
 // Constructor
-kl::gpu::gpu(HWND hwnd) {
+kl::gpu::gpu(HWND hwnd, bool predefineCBuffs) : cbuffsPredefined(predefineCBuffs) {
 	// Getting the window size
 	RECT clientArea = {};
 	GetClientRect(hwnd, &clientArea);
@@ -77,6 +77,14 @@ kl::gpu::gpu(HWND hwnd) {
 
 	// Setting the triangle as the main primitive type
 	devcon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	// Generating predefined cbuffs
+	if (predefineCBuffs) {
+		for (int i = 0; i < 32; i++) {
+			vertCBuffs[i] = newConstBuffer((i + 1) * 16);
+			pixlCBuffs[i] = newConstBuffer((i + 1) * 16);
+		}
+	}
 
 #ifdef KL_USING_IMGUI
 	ImGui_ImplDX11_Init(device, devcon);

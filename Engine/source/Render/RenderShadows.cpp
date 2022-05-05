@@ -15,7 +15,6 @@ void Engine::Render::Shadows() {
 	// Binding the shadow shaders
 	Engine::Render::gpu->bind(Engine::Shaders::Vertex::shadow);
 	Engine::Render::gpu->bind(Engine::Shaders::Pixel::shadow);
-	Engine::Render::gpu->bindVertCBuff(Engine::CBuffers::buff64_1, 0);
 
 	// Render
 	for (int i = 0; i < 4; i++) {
@@ -33,7 +32,7 @@ void Engine::Render::Shadows() {
 			if (ent->shadows) {
 				// Getting the full wvp matrix
 				kl::mat4 wvp = vpSun * ent->matrix();
-				Engine::Render::gpu->setBuffData(Engine::CBuffers::buff64_1, &wvp);
+				Engine::Render::gpu->autoSetVertBuff(wvp);
 
 				// Rendering the entity
 				ent->render(false);
