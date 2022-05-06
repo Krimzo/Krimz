@@ -148,31 +148,37 @@ void Engine::JavaHandler::Init() {
 	loggerFlushMethod = GetMethod(loggerClass, "flush", "()[Ljava/lang/String;", true);
 	loaderConstr = GetMethod(loaderClass, "<init>", "()V");
 
+	// Material
+	materialClass = LoadEternalClass("engine/entity/Material");
+	roughnessField = GetField(materialClass, "roughness", "F");
+	colorMapField = GetField(materialClass, "colorMap", "Ljava/lang/String;");
+	normalMapField = GetField(materialClass, "normalMap", "Ljava/lang/String;");
+	roughnessMapField = GetField(materialClass, "roughnessMap", "Ljava/lang/String;");
+
 	// Collider
-	colliderClass = LoadEternalClass("engine/Collider");
+	colliderClass = LoadEternalClass("engine/entity/Collider");
 	collScaleField = GetField(colliderClass, "scale", "Lengine/math/Float3;");
 	collRotationField = GetField(colliderClass, "rotation", "Lengine/math/Float3;");
 	collPositionField = GetField(colliderClass, "position", "Lengine/math/Float3;");
 	collShapeField = GetField(colliderClass, "shape", "I");
 
 	// Entity
-	entityClass = LoadEternalClass("engine/Entity");
+	entityClass = LoadEternalClass("engine/entity/Entity");
 	nameField = GetField(entityClass, "name", "Ljava/lang/String;");
 	visibleField = GetField(entityClass, "visible", "Z");
 	shadowsField = GetField(entityClass, "shadows", "Z");
-	roughnessField = GetField(entityClass, "roughness", "F");
+	materialField = GetField(entityClass, "material", "Lengine/entity/Material;");
 	scaleField = GetField(entityClass, "scale", "Lengine/math/Float3;");
 	rotationField = GetField(entityClass, "rotation", "Lengine/math/Float3;");
 	positionField = GetField(entityClass, "position", "Lengine/math/Float3;");
+	meshField = GetField(entityClass, "mesh", "Ljava/lang/String;");
 	dynamicField = GetField(entityClass, "dynamic", "Z");
 	gravityField = GetField(entityClass, "gravity", "Z");
 	frictionField = GetField(entityClass, "friction", "F");
 	massField = GetField(entityClass, "mass", "F");
 	velocityField = GetField(entityClass, "velocity", "Lengine/math/Float3;");
 	angularField = GetField(entityClass, "angular", "Lengine/math/Float3;");
-	colliderField = GetField(entityClass, "collider", "Lengine/Collider;");
-	meshField = GetField(entityClass, "mesh", "Ljava/lang/String;");
-	textureField = GetField(entityClass, "texture", "Ljava/lang/String;");
+	colliderField = GetField(entityClass, "collider", "Lengine/entity/Collider;");
 
 	// Loader creation
 	loader = env->NewObject(loaderClass, loaderConstr);

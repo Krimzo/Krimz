@@ -219,7 +219,7 @@ void Engine::GUI::Explorer() {
 					// Creating new script
 					std::ofstream file(currentPath.string() + "/" + newName + ".java");
 					if (file.is_open()) {
-						file << "import engine.*;\nimport engine.math.*;\nimport engine.script.*;\nimport engine.input.*;\n\n\npublic class " <<
+						file << "import engine.*;\nimport engine.math.*;\nimport engine.script.*;\nimport engine.input.*;\nimport engine.entity.*;\n\n\npublic class " <<
 							newName << " extends Entity implements Script {\n\n\t// Called on first frame\n\tpublic void start() {\n\n\t}\n\n\t// Called every frame\n\tpublic void update() {\n\n\t}\n}\n";
 						file.close();
 					}

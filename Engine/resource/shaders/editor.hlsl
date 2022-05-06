@@ -1,9 +1,9 @@
 // Vertex shader
 cbuffer VS_CB : register(b0)
 {
-    matrix w;
-    matrix vpCam;
-    matrix vpSun[4];
+    matrix wMatrix;
+    matrix vpCameraMatrix;
+    matrix vpSunMatrices[4];
 }
 
 struct VS_OUT
@@ -20,21 +20,22 @@ VS_OUT vShader(float3 pos : POS_IN, float2 tex : TEX_IN, float3 norm : NORM_IN)
     VS_OUT data;
 
     // World transform
-    data.world = mul(float4(pos, 1.0f), w).xyz;
+    data.world = mul(float4(pos, 1.0f), wMatrix).xyz;
 
     // Screen transform
-    data.screen = mul(float4(data.world, 1.0f), vpCam);
+    data.screen = mul(float4(data.world, 1.0f), vpCameraMatrix);
 
     // Texture transform
     data.textur = tex;
 
     // Normal transform
-    data.normal = mul(float4(norm, 0.0f), w).xyz;
+    data.normal = mul(float4(norm, 0.0f), wMatrix).xyz;
 
     // Lightspace transform
+    float3 alterPos = pos + norm * 0.05f;
     for (int i = 0; i < 4; i++)
     {
-        data.sunPos[i] = mul(float4(pos, 1.0f), mul(w, vpSun[i]));
+        data.sunPos[i] = mul(float4(alterPos, 1.0f), mul(wMatrix, vpSunMatrices[i]));
         data.sunPos[i] = data.sunPos[i] * float4(0.5f, -0.5f, 1.0f, 1.0f) + float4(0.5f, 0.5f, 0.0f, 0.0f) * data.sunPos[i].w;
     }
     
@@ -44,23 +45,24 @@ VS_OUT vShader(float3 pos : POS_IN, float2 tex : TEX_IN, float3 norm : NORM_IN)
 // Pixel shader
 cbuffer PS_CB : register(b0)
 {
-    float4 ambCol;
-    float4 dirCol;
-    float4 dirDir;
-    float4 camPos;
-    float4 rghFac;
-    float4 objInd;
-    float4 frFars;
-    matrix camViewM;
+    float4 multiData;
+    float4 ambientColor;
+    float4 sunColor;
+    float4 sunDirection;
+    float4 cameraPosition;
+    float4 frustumFarPlanes;
+    matrix cameraViewMatrix;
 }
 
-SamplerState samp0 : register(s0);
-SamplerState samp1 : register(s1);
-Texture2D tex0 : register(t0);
-Texture2D sun0 : register(t1);
-Texture2D sun1 : register(t2);
-Texture2D sun2 : register(t3);
-Texture2D sun3 : register(t4);
+SamplerState defaultSampler : register(s0);
+SamplerState shadowSampler : register(s1);
+Texture2D colorMap : register(t0);
+Texture2D normalMap : register(t1);
+Texture2D roughnessMap : register(t2);
+Texture2D sunDepthMap0 : register(t3);
+Texture2D sunDepthMap1 : register(t4);
+Texture2D sunDepthMap2 : register(t5);
+Texture2D sunDepthMap3 : register(t6);
 
 struct PS_OUT
 {
@@ -68,112 +70,134 @@ struct PS_OUT
     float index : SV_TARGET1;
 };
 
-float CalcShadow(float3 lightPos, float lightNormDot, int layer);
-
-PS_OUT pShader(VS_OUT data)
+float3 GetFragNormal(float3 fragPosition, float3 fragNormal, float2 fragTexture)
 {
-    // Base pixel color
-    const float4 baseCol = tex0.Sample(samp0, data.textur);
-
-    // Diffuse
-    const float3 norm = normalize(data.normal);
-    const float diffuseFac = max(dot(-dirDir.xyz, norm), 0.0f);
-    const float3 diffuse = dirCol.rgb * diffuseFac;
-
-    // Specular
-    const float specStr = 1.0f - rghFac.x;
-    const float3 viewDir = normalize(camPos.xyz - data.world);
-    const float3 reflDir = reflect(dirDir.xyz, norm);
-    const float specFac = pow(max(dot(viewDir, reflDir), 0.0f), 64.0f);
-    const float3 specular = specStr * specFac * dirCol.rgb;
-
-    // Shadow
-    float4 camViewPos = mul(float4(data.world, 1.0f), camViewM);
-    float depthValue = abs(camViewPos.z);
-    int layer;
-    for (int i = 0; i < 4; i++)
+    float3 newNormal = fragNormal;
+    if (multiData.y)
     {
-        if (depthValue < frFars[i])
-        {
-            layer = i;
-            break;
-        }
+        const float3 Q1 = ddx(fragPosition);
+        const float3 Q2 = ddy(fragPosition);
+        const float2 st1 = ddx(fragTexture);
+        const float2 st2 = ddy(fragTexture);
+        const float3 T = normalize(Q1 * st2.x - Q2 * st1.x);
+        const float3 B = normalize(-Q1 * st2.y + Q2 * st1.y);
+        const float3x3 TBN = float3x3(T, B, fragNormal);
+        newNormal = normalize(normalMap.Sample(defaultSampler, fragTexture).xyz * 2.0f - 1.0f);
+        newNormal = normalize(mul(newNormal, TBN));
     }
-    float4 sunPos = data.sunPos[layer];
-    sunPos /= sunPos.w;
-    sunPos.z = min(sunPos.z, 1.0f);
-    const float shadow = CalcShadow(sunPos.xyz, diffuseFac, layer);
-
-    // Full light
-    const float4 light = float4(shadow * (diffuse + specular) + ambCol.rgb, 1.0f);
-  
-    PS_OUT output;
-    output.color = baseCol * light;
-    output.index = objInd.x;
-    return output;
+    return newNormal;
 }
 
-float CalcShadow(float3 lightPos, float lightNormDot, int layer)
+float GetFragRoughnes(float2 fragTexture)
+{
+    if (multiData.z)
+    {
+        return roughnessMap.Sample(defaultSampler, fragTexture).x;
+    }
+    return multiData.w;
+}
+
+float CalcShadow(float3 lightPosition, float lightNormalDot, int frustumLayer)
 {
     // Shadow factor
-    float shadowFac = 0.0f;
-
-    // Calculating bias
-    const float biasMin = 0.0001f;
-    const float biasMax = 0.00025f;
-    const float bias = max(biasMax * (1.0f - lightNormDot), biasMin);
-
+    float shadowFactor = 0.0f;
+    
     // Getting the texture size
     uint mapWidth = 0;
     uint mapHeight = 0;
     uint ignore = 0;
-    sun0.GetDimensions(0, mapWidth, mapHeight, ignore);
+    sunDepthMap0.GetDimensions(0, mapWidth, mapHeight, ignore);
     const float2 texelSize = 1.0f / float2(mapWidth, mapHeight);
     
     // Smoothing the shadow
-    if (layer == 0)
+    if (frustumLayer == 0)
     {
         for (int y = -1; y <= 1; y++)
         {
             for (int x = -1; x <= 1; x++)
             {
-                const float depth = sun0.Sample(samp1, lightPos.xy + float2(x, y) * texelSize).r;
-                shadowFac += ((depth + bias) < lightPos.z) ? 0.0f : 1.0f;
+                const float depth = sunDepthMap0.Sample(shadowSampler, lightPosition.xy + float2(x, y) * texelSize).r;
+                shadowFactor += (depth < lightPosition.z) ? 0.0f : 1.0f;
             }
         }
     }
-    else if (layer == 1)
+    else if (frustumLayer == 1)
     {
         for (int y = -1; y <= 1; y++)
         {
             for (int x = -1; x <= 1; x++)
             {
-                const float depth = sun1.Sample(samp1, lightPos.xy + float2(x, y) * texelSize).r;
-                shadowFac += ((depth + bias) < lightPos.z) ? 0.0f : 1.0f;
+                const float depth = sunDepthMap1.Sample(shadowSampler, lightPosition.xy + float2(x, y) * texelSize).r;
+                shadowFactor += (depth < lightPosition.z) ? 0.0f : 1.0f;
             }
         }
     }
-    else if (layer == 2)
+    else if (frustumLayer == 2)
     {
         for (int y = -1; y <= 1; y++)
         {
             for (int x = -1; x <= 1; x++)
             {
-                const float depth = sun2.Sample(samp1, lightPos.xy + float2(x, y) * texelSize).r;
-                shadowFac += ((depth + bias) < lightPos.z) ? 0.0f : 1.0f;
+                const float depth = sunDepthMap2.Sample(shadowSampler, lightPosition.xy + float2(x, y) * texelSize).r;
+                shadowFactor += (depth < lightPosition.z) ? 0.0f : 1.0f;
             }
         }
     }
-    else if (layer == 3)
+    else if (frustumLayer == 3)
     {
         for (int y = -1; y <= 1; y++)
         {
             for (int x = -1; x <= 1; x++)
             {
-                const float depth = sun3.Sample(samp1, lightPos.xy + float2(x, y) * texelSize).r;
-                shadowFac += ((depth + bias) < lightPos.z) ? 0.0f : 1.0f;
+                const float depth = sunDepthMap3.Sample(shadowSampler, lightPosition.xy + float2(x, y) * texelSize).r;
+                shadowFactor += (depth < lightPosition.z) ? 0.0f : 1.0f;
             }
         }
     }
-    return shadowFac * 0.111f;
+    return shadowFactor * 0.111f;
 }
+
+PS_OUT pShader(VS_OUT data)
+{
+    // Recalculate frag normal
+    data.normal = GetFragNormal(data.world, normalize(data.normal), data.textur);
+    
+    // Base pixel color
+    const float4 baseColor = colorMap.Sample(defaultSampler, data.textur);
+    
+    // Diffuse
+    const float diffuseFactor = max(dot(-sunDirection.xyz, data.normal), 0.0f);
+    const float3 diffuseComponent = sunColor.rgb * diffuseFactor;
+
+    // Specular
+    const float specularStrength = 1.0f - GetFragRoughnes(data.textur);
+    const float3 viewDirection = normalize(cameraPosition.xyz - data.world);
+    const float3 reflectionDirection = reflect(sunDirection.xyz, data.normal);
+    const float specularFactor = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 64.0f);
+    const float3 specularComponent = specularStrength * specularFactor * sunColor.rgb;
+
+    // Shadow
+    float4 cameraViewPosition = mul(float4(data.world, 1.0f), cameraViewMatrix);
+    float distanceFromCamera = abs(cameraViewPosition.z);
+    int frustumLayer;
+    for (int i = 0; i < 4; i++)
+    {
+        if (distanceFromCamera < frustumFarPlanes[i])
+        {
+            frustumLayer = i;
+            break;
+        }
+    }
+    float3 sunPosition = data.sunPos[frustumLayer] / data.sunPos[frustumLayer].w;
+    sunPosition.z = min(sunPosition.z, 1.0f);
+    const float shadowComponent = CalcShadow(sunPosition, diffuseFactor, frustumLayer);
+
+    // Full light
+    const float4 fullLight = float4(shadowComponent * (diffuseComponent + specularComponent) + ambientColor.rgb, 1.0f);
+    
+    PS_OUT output;
+    output.color = baseColor * fullLight;
+    output.index = multiData.x;
+    return output;
+}
+

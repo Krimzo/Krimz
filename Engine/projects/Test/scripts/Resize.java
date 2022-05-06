@@ -2,6 +2,7 @@ import engine.*;
 import engine.math.*;
 import engine.script.*;
 import engine.input.*;
+import engine.entity.*;
 
 
 public class Resize extends Entity implements Script {

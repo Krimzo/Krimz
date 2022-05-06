@@ -41,6 +41,13 @@ namespace Engine {
 		inline jclass loggerClass = nullptr;
 		inline jmethodID loggerFlushMethod = nullptr;
 
+		// Material
+		inline jclass materialClass = nullptr;
+		inline jfieldID roughnessField = nullptr;
+		inline jfieldID colorMapField = nullptr;
+		inline jfieldID normalMapField = nullptr;
+		inline jfieldID roughnessMapField = nullptr;
+
 		// Collider
 		inline jclass colliderClass = nullptr;
 		inline jfieldID collScaleField = nullptr;
@@ -53,10 +60,11 @@ namespace Engine {
 		inline jfieldID nameField = nullptr;
 		inline jfieldID visibleField = nullptr;
 		inline jfieldID shadowsField = nullptr;
-		inline jfieldID roughnessField = nullptr;
+		inline jfieldID materialField = nullptr;
 		inline jfieldID scaleField = nullptr;
 		inline jfieldID rotationField = nullptr;
 		inline jfieldID positionField = nullptr;
+		inline jfieldID meshField = nullptr;
 		inline jfieldID dynamicField = nullptr;
 		inline jfieldID gravityField = nullptr;
 		inline jfieldID frictionField = nullptr;
@@ -64,8 +72,6 @@ namespace Engine {
 		inline jfieldID velocityField = nullptr;
 		inline jfieldID angularField = nullptr;
 		inline jfieldID colliderField = nullptr;
-		inline jfieldID meshField = nullptr;
-		inline jfieldID textureField = nullptr;
 
 		// Input class/fields
 		inline jclass mouseClass = nullptr;

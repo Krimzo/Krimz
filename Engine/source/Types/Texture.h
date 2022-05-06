@@ -17,7 +17,8 @@ namespace Engine {
 	};
 
 	namespace Default {
-		inline std::shared_ptr<Engine::Texture> texture;
+		inline std::shared_ptr<Engine::Texture> colorMap;
+		inline std::shared_ptr<Engine::Texture> noneMap;
 	}
 
 	inline std::list<std::shared_ptr<Engine::Texture>> textures;

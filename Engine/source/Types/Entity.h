@@ -3,7 +3,7 @@
 #include "KrimzLib.h"
 #include "Types/Named.h"
 #include "Types/Mesh.h"
-#include "Types/Texture.h"
+#include "Types/Material.h"
 #include "Scripting/Script.h"
 #include "Physics/Physics.h"
 #include "Physics/Collider.h"
@@ -15,12 +15,13 @@ namespace Engine {
 		// View
 		bool visible = true;
 		bool shadows = true;
-		float roughness = 0.5f;
+		Engine::Material material;
 
 		// Geometry
 		kl::float3 scale = kl::float3(1.0f);
 		kl::float3 rotation;
 		kl::float3 position;
+		std::shared_ptr<Engine::Mesh> mesh;
 
 		// Physics
 		bool dynamic = false;
@@ -31,15 +32,11 @@ namespace Engine {
 		kl::float3 angular;
 		Engine::Collider collider;
 
-		// Mesh/texture
-		std::shared_ptr<Engine::Mesh> mesh;
-		std::shared_ptr<Engine::Texture> texture;
-
 		// Scripts
 		std::vector<std::shared_ptr<Engine::Script>> scripts;
 
 		Entity();
-		Entity(const String& name, const std::shared_ptr<Engine::Mesh>& mesh, const std::shared_ptr<Engine::Texture>& texture);
+		Entity(const String& name, const std::shared_ptr<Engine::Mesh>& mesh, const Engine::Material& material);
 		Entity(const Engine::Entity& obj);
 
 		// Script callers

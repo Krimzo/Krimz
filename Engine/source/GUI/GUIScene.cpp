@@ -218,8 +218,11 @@ void Textures() {
 				// Delete
 				if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(winWidth, 0.0f))) {
 					for (auto& ent : Engine::entities) {
-						if (ent->texture == tex) {
-							ent->texture = Engine::Default::texture;
+						if (ent->material.colorMap == tex) {
+							ent->material.colorMap = Engine::Default::colorMap;
+						}
+						if (ent->material.normalMap == tex) {
+							ent->material.normalMap = Engine::Default::noneMap;
 						}
 					}
 					auto texIt = Engine::textures.begin();

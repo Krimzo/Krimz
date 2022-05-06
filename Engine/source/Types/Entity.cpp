@@ -3,13 +3,12 @@
 #include "Scripting/Scripting.h"
 
 
-Engine::Entity::Entity() : Named(Named::Type::Entity), mesh(Engine::Default::cube), texture(Engine::Default::texture) {}
-Engine::Entity::Entity(const String& name, const std::shared_ptr<Engine::Mesh>& mesh, const std::shared_ptr<Engine::Texture>& texture) : Named(Named::Type::Entity, name), mesh(mesh), texture(texture) {}
-Engine::Entity::Entity(const Engine::Entity& obj) : Named(Named::Type::Entity, obj.getName()) {
+Engine::Entity::Entity() : Named(Named::Type::Entity), mesh(Engine::Default::cube) {}
+Engine::Entity::Entity(const String& name, const std::shared_ptr<Engine::Mesh>& mesh, const Engine::Material& material) : Named(Named::Type::Entity, name), mesh(mesh), material(material) {}
+Engine::Entity::Entity(const Engine::Entity& obj) : Named(Named::Type::Entity, obj.getName()), mesh(obj.mesh), material(obj.material), collider(obj.collider) {
 	// View
 	visible = obj.visible;
 	shadows = obj.shadows;
-	roughness = obj.roughness;
 
 	// Geometry
 	scale = obj.scale;
@@ -23,11 +22,6 @@ Engine::Entity::Entity(const Engine::Entity& obj) : Named(Named::Type::Entity, o
 	mass = obj.mass;
 	velocity = obj.velocity;
 	angular = obj.angular;
-	collider = obj.collider;
-
-	// Mesh/texture
-	mesh = obj.mesh;
-	texture = obj.texture;
 
 	// Scripts
 	scripts = obj.scripts;
@@ -54,7 +48,9 @@ kl::mat4 Engine::Entity::matrix() const {
 void Engine::Entity::render(bool useTex) const {
 	// Texture bind
 	if (useTex) {
-		Engine::Render::gpu->bindPixlTex(texture->view, 0);
+		Engine::Render::gpu->bindPixlTex(material.colorMap->view, 0);
+		Engine::Render::gpu->bindPixlTex(material.normalMap->view, 1);
+		Engine::Render::gpu->bindPixlTex(material.roughnessMap->view, 2);
 	}
 
 	// Rendering

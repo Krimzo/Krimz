@@ -7,8 +7,8 @@ void Engine::Render::Shadows() {
 	// Setting the viewport
 	Engine::Render::gpu->viewport(kl::int2(0), Engine::Light::sun->getSize());
 
-	// Front culling
-	Engine::Render::gpu->bind(Engine::Rasters::shadow);
+	// Raster bind
+	Engine::Render::gpu->bind(Engine::Rasters::solid);
 
 	// Setting default depth state
 	Engine::Render::gpu->bind(Engine::DepthStencil::depth);

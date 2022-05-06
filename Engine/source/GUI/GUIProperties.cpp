@@ -42,14 +42,36 @@ void PropGeometry() {
 	}
 }
 
-void PropTexPick(const std::shared_ptr<Engine::Texture>& texture) {
-	bool selectedOne = (Engine::Selected::entity->texture == texture);
-	if (ImGui::Selectable(texture->getName().c_str(), selectedOne)) {
+void PropColorMapPick(const std::shared_ptr<Engine::Texture>& colorMap) {
+	bool selectedOne = (Engine::Selected::entity->material.colorMap == colorMap);
+	if (ImGui::Selectable(colorMap->getName().c_str(), selectedOne)) {
 		if (selectedOne) {
 			ImGui::SetItemDefaultFocus();
 		}
 		else {
-			Engine::Selected::entity->texture = texture;
+			Engine::Selected::entity->material.colorMap = colorMap;
+		}
+	}
+}
+void PropNormalMapPick(const std::shared_ptr<Engine::Texture>& normalMap) {
+	bool selectedOne = (Engine::Selected::entity->material.normalMap == normalMap);
+	if (ImGui::Selectable(normalMap->getName().c_str(), selectedOne)) {
+		if (selectedOne) {
+			ImGui::SetItemDefaultFocus();
+		}
+		else {
+			Engine::Selected::entity->material.normalMap = normalMap;
+		}
+	}
+}
+void PropRoughnessMapPick(const std::shared_ptr<Engine::Texture>& roughnessMap) {
+	bool selectedOne = (Engine::Selected::entity->material.roughnessMap == roughnessMap);
+	if (ImGui::Selectable(roughnessMap->getName().c_str(), selectedOne)) {
+		if (selectedOne) {
+			ImGui::SetItemDefaultFocus();
+		}
+		else {
+			Engine::Selected::entity->material.roughnessMap = roughnessMap;
 		}
 	}
 }
@@ -58,14 +80,30 @@ void PropView() {
 		if (Engine::Selected::entity) {
 			ImGui::Checkbox("Visible", &Engine::Selected::entity->visible);
 			ImGui::Checkbox("Shadows", &Engine::Selected::entity->shadows);
-			if (ImGui::BeginCombo("Texture", Engine::Selected::entity->texture->getName().c_str())) {
+			if (ImGui::BeginCombo("Color Map", Engine::Selected::entity->material.colorMap->getName().c_str())) {
 				for (auto& tex : Engine::textures) {
-					PropTexPick(tex);
+					PropColorMapPick(tex);
 				}
-				PropTexPick(Engine::Default::texture);
+				PropColorMapPick(Engine::Default::colorMap);
 				ImGui::EndCombo();
 			}
-			ImGui::SliderFloat("Roughness", &Engine::Selected::entity->roughness, 0.0f, 1.0f, "%.2f");
+			if (ImGui::BeginCombo("Normal Map", Engine::Selected::entity->material.normalMap->getName().c_str())) {
+				for (auto& tex : Engine::textures) {
+					PropNormalMapPick(tex);
+				}
+				PropNormalMapPick(Engine::Default::noneMap);
+				ImGui::EndCombo();
+			}
+			if (ImGui::BeginCombo("Roughness Map", Engine::Selected::entity->material.roughnessMap->getName().c_str())) {
+				for (auto& tex : Engine::textures) {
+					PropRoughnessMapPick(tex);
+				}
+				PropRoughnessMapPick(Engine::Default::noneMap);
+				ImGui::EndCombo();
+			}
+			if (!Engine::Selected::entity->material.hasRoughnessMap()) {
+				ImGui::SliderFloat("Roughness", &Engine::Selected::entity->material.roughness, 0.0f, 1.0f, "%.2f");
+			}
 		}
 		ImGui::End();
 	}

@@ -30,7 +30,6 @@ void Engine::Stage::Start() {
 	// Rasters
 	Engine::Rasters::solid = Engine::Render::gpu->newRasterState(false, true);
 	Engine::Rasters::wire = Engine::Render::gpu->newRasterState(true, false);
-	Engine::Rasters::shadow = Engine::Render::gpu->newRasterState(false, true, false);
 	Engine::Render::entityRaster = Engine::Rasters::solid;
 	Engine::Render::gpu->bind(Engine::Rasters::solid);
 
@@ -110,7 +109,8 @@ void Engine::Stage::Start() {
 	Engine::Gizmo::rotateM = Engine::Render::gpu->newVertBuffer("resource/meshes/gizmo/rotate.obj");
 
 	// Default textures
-	Engine::Default::texture = std::make_shared<Engine::Texture>("default", kl::image(kl::int2(1), kl::colors::magenta));
+	Engine::Default::colorMap = std::make_shared<Engine::Texture>("Default", kl::image(kl::int2(1), kl::colors::gray));
+	Engine::Default::noneMap = std::make_shared<Engine::Texture>("None", kl::image(kl::int2(1), kl::colors::black));
 
 	// GUI icons
 	Engine::GUI::folderIcon = Engine::Render::gpu->newShaderView(

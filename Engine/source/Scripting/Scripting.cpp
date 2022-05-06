@@ -42,16 +42,16 @@ void Engine::Scripting::HandleLogs() {
 
 // Input
 void SetScriptInt2(jobject field, const kl::int2& dat) {
-	jclass objCls = Engine::JavaHandler::env->GetObjectClass(field);
-	jfieldID xField = Engine::JavaHandler::GetField(objCls, "x", "I");
-	jfieldID yField = Engine::JavaHandler::GetField(objCls, "y", "I");
+	static jclass objCls = Engine::JavaHandler::env->GetObjectClass(field);
+	static jfieldID xField = Engine::JavaHandler::GetField(objCls, "x", "I");
+	static jfieldID yField = Engine::JavaHandler::GetField(objCls, "y", "I");
 	Engine::JavaHandler::env->SetIntField(field, xField, dat.x);
 	Engine::JavaHandler::env->SetIntField(field, yField, dat.y);
 }
 void GetScriptInt2(jobject field, kl::int2& dat) {
-	jclass objCls = Engine::JavaHandler::env->GetObjectClass(field);
-	jfieldID xField = Engine::JavaHandler::GetField(objCls, "x", "I");
-	jfieldID yField = Engine::JavaHandler::GetField(objCls, "y", "I");
+	static jclass objCls = Engine::JavaHandler::env->GetObjectClass(field);
+	static jfieldID xField = Engine::JavaHandler::GetField(objCls, "x", "I");
+	static jfieldID yField = Engine::JavaHandler::GetField(objCls, "y", "I");
 	dat.x = Engine::JavaHandler::env->GetIntField(field, xField);
 	dat.y = Engine::JavaHandler::env->GetIntField(field, yField);
 }

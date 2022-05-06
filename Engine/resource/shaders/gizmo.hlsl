@@ -1,19 +1,19 @@
 // Vertex shader
 cbuffer VS_CB : register(b0)
 {
-    matrix wvp;
+    matrix wvpMatrix;
 }
 
 float4 vShader(float3 pos : POS_IN) : SV_POSITION
 {
-    return mul(float4(pos, 1.0f), wvp);
+    return mul(float4(pos, 1.0f), wvpMatrix);
 }
 
 // Pixel shader
 cbuffer PS_CB : register(b0)
 {
-    float4 objCol;
-    float4 objInd;
+    float4 objectColor;
+    float4 objectIndex;
 }
 
 struct PS_OUT
@@ -25,7 +25,7 @@ struct PS_OUT
 PS_OUT pShader(float4 screen : SV_POSITION)
 {
     PS_OUT output;
-    output.color = objCol;
-    output.index = objInd.x;
+    output.color = objectColor;
+    output.index = objectIndex.x;
     return output;
 }
