@@ -1,7 +1,7 @@
 # Cameras as entities
 # Entity duplicate
 # Scene system
-# Normal mapping
+# Multiple lights
 # Entity parenting
 # Custom main menu
 # Implement msaa

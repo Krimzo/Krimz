@@ -105,7 +105,8 @@ void Engine::Collider::setVelocity(const kl::float3& vel) {
 }
 void Engine::Collider::setAngular(const kl::float3& ang) {
 	if (actor && dynamic) {
-		((physx::PxRigidDynamic*)actor)->setAngularVelocity(*(physx::PxVec3*)&ang);
+		const kl::float3 radAngu = kl::convert::toRadians(ang);
+		((physx::PxRigidDynamic*)actor)->setAngularVelocity(*(physx::PxVec3*)&radAngu);
 	}
 }
 
@@ -164,8 +165,8 @@ kl::float3 Engine::Collider::getVelocity() const {
 }
 kl::float3 Engine::Collider::getAngular() const {
 	if (actor && dynamic) {
-		const physx::PxVec3 angVel = ((physx::PxRigidDynamic*)actor)->getAngularVelocity();
-		return *(kl::float3*)&angVel;
+		const physx::PxVec3 radAngu = ((physx::PxRigidDynamic*)actor)->getAngularVelocity();
+		return kl::convert::toDegrees(*(kl::float3*)&radAngu);
 	}
 	return {};
 }
