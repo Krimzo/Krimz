@@ -29,9 +29,5 @@ namespace kl {
 
 		// Converts a string to a wstring
 		std::wstring toWString(const String& data);
-
-		// Alligns the minus sign
-		String toString(int a);
-		String toString(float a);
 	};
 }

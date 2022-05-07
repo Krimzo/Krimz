@@ -52,15 +52,3 @@ std::wstring kl::convert::toWString(const String& data) {
 	mbstowcs(&toReturn[0], &data[0], data.size());
 	return toReturn;
 }
-
-// Alligns the minus sign
-String kl::convert::toString(int a) {
-	std::stringstream ss;
-	ss << std::setw(5) << a;
-	return ss.str();
-}
-String kl::convert::toString(float a) {
-	std::stringstream ss;
-	ss << std::fixed << std::setprecision(2) << std::setw(8) << a;
-	return ss.str();
-}
