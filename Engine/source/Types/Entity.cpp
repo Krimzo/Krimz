@@ -54,5 +54,5 @@ void Engine::Entity::render(bool useTex) const {
 	}
 
 	// Rendering
-	Engine::Render::gpu->draw(mesh->buff);
+	Engine::Render::gpu->draw(mesh->buffer);
 }

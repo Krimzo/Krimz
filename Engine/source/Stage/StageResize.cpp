@@ -6,6 +6,6 @@
 
 void Engine::Stage::Resize(const kl::int2& siz) {
 	if (siz.x > 0 && siz.y > 0) {
-		Engine::Render::gpu->regenBuffers(siz);
+		Engine::Render::gpu->regenInternal(siz);
 	}
 };

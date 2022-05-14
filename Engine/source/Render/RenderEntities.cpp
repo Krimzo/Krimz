@@ -33,8 +33,7 @@ void Engine::Render::Entities() {
 	Engine::Render::gpu->bind(Engine::DepthStencil::depth);
 
 	// Binding the editor shaders
-	Engine::Render::gpu->bind(Engine::Shaders::Vertex::editor);
-	Engine::Render::gpu->bind(Engine::Shaders::Pixel::editor);
+	Engine::Render::gpu->bind(Engine::Shaders::editor);
 
 	// Binding the shadow maps
 	for (int i = 0; i < 4; i++) {
@@ -62,14 +61,14 @@ void Engine::Render::Entities() {
 		if (ent->visible) {
 			// Updating the vert data
 			editor_vert_data.wMatrix = ent->matrix();
-			Engine::Render::gpu->autoSetVertBuff(editor_vert_data);
+			Engine::Render::gpu->autoVertexCBuffer(editor_vert_data);
 
 			// Updating the pixl data
 			editor_pixl_data.multiData.x = float(i);
 			editor_pixl_data.multiData.y = float(ent->material.hasNormalMap());
 			editor_pixl_data.multiData.z = float(ent->material.hasRoughnessMap());
 			editor_pixl_data.multiData.w = ent->material.roughness;
-			Engine::Render::gpu->autoSetPixlBuff(editor_pixl_data);
+			Engine::Render::gpu->autoPixelCBuffer(editor_pixl_data);
 
 			// Rendering the entity
 			if (ent == Engine::Selected::entity) {

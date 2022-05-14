@@ -17,12 +17,11 @@ void Engine::Render::Outline() {
 	Engine::Render::gpu->bind(Engine::DepthStencil::disabled);
 
 	// Binding index shaders
-	Engine::Render::gpu->bind(Engine::Shaders::Vertex::index);
-	Engine::Render::gpu->bind(Engine::Shaders::Pixel::index);
+	Engine::Render::gpu->bind(Engine::Shaders::index);
 
 	// Setting the index vertex data
 	kl::mat4 wvp = Engine::Selected::camera->matrix() * Engine::Selected::entity->matrix();
-	Engine::Render::gpu->autoSetVertBuff(wvp);
+	Engine::Render::gpu->autoVertexCBuffer(wvp);
 
 	// Drawing the selected
 	Engine::Selected::entity->render(false);
@@ -34,12 +33,11 @@ void Engine::Render::Outline() {
 	Engine::Render::gpu->bind(Engine::Rasters::solid);
 
 	// Binding outline shaders
-	Engine::Render::gpu->bind(Engine::Shaders::Vertex::outline);
-	Engine::Render::gpu->bind(Engine::Shaders::Pixel::outline);
+	Engine::Render::gpu->bind(Engine::Shaders::outline);
 
 	// Setting the outline pixel data
 	kl::float4 higCol = Engine::Outline::color;
-	Engine::Render::gpu->autoSetPixlBuff(higCol);
+	Engine::Render::gpu->autoPixelCBuffer(higCol);
 
 	// Binding the outline index tex
 	Engine::Render::gpu->bindPixlTex(Engine::Outline::shaderV, 0);

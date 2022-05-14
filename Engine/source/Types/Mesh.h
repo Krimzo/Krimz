@@ -9,7 +9,7 @@ namespace Engine {
 	class Mesh : public Named {
 	public:
 		std::vector<kl::vertex> vertices;
-		ID3D11Buffer* buff = nullptr;
+		ID3D11Buffer* buffer = nullptr;
 		physx::PxTriangleMesh* cooked = nullptr;
 
 		Mesh(const String& name, const std::vector<kl::vertex>& vertices);

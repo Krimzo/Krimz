@@ -19,12 +19,12 @@ physx::PxTriangleMesh* CookMesh(const std::vector<kl::vertex>& vertData) {
 }
 
 Engine::Mesh::Mesh(const String& name, const std::vector<kl::vertex>& vertices) : Named(Named::Type::Mesh, name), vertices(vertices) {
-	buff = Engine::Render::gpu->newVertBuffer(vertices);
+	buffer = Engine::Render::gpu->newVertexBuffer(vertices);
 	cooked = CookMesh(vertices);
 }
 Engine::Mesh::~Mesh() {
 	if (Engine::Render::gpu) {
-		Engine::Render::gpu->destroy(buff);
+		Engine::Render::gpu->destroy(buffer);
 	}
 	if (Engine::Physics::physics) {
 		cooked->release();

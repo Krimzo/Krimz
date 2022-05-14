@@ -14,8 +14,7 @@ void Engine::Render::Shadows() {
 	Engine::Render::gpu->bind(Engine::DepthStencil::depth);
 
 	// Binding the shadow shaders
-	Engine::Render::gpu->bind(Engine::Shaders::Vertex::shadow);
-	Engine::Render::gpu->bind(Engine::Shaders::Pixel::shadow);
+	Engine::Render::gpu->bind(Engine::Shaders::shadow);
 
 	// Render
 	for (int i = 0; i < 4; i++) {
@@ -33,7 +32,7 @@ void Engine::Render::Shadows() {
 			if (ent->shadows) {
 				// Getting the full wvp matrix
 				kl::mat4 wvp = vpSun * ent->matrix();
-				Engine::Render::gpu->autoSetVertBuff(wvp);
+				Engine::Render::gpu->autoVertexCBuffer(wvp);
 
 				// Rendering the entity
 				ent->render(false);

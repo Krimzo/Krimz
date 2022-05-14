@@ -15,13 +15,13 @@ void DrawGizmo(ID3D11Buffer* toDraw, const kl::float3& rot, const kl::float4& co
 	const kl::mat4 ro = kl::mat4::rotate(rot);
 	const kl::mat4 tr = kl::mat4::translate(Engine::Selected::entity->position);
 	kl::mat4 wvp = Engine::Selected::camera->matrix() * tr * ro * sc;
-	Engine::Render::gpu->autoSetVertBuff(wvp);
+	Engine::Render::gpu->autoVertexCBuffer(wvp);
 
 	// Setting the pixl data
 	GIZMO_PS_CB gizm_pixl_data = {};
 	gizm_pixl_data.objCol = col;
 	gizm_pixl_data.objInd = float(index);
-	Engine::Render::gpu->autoSetPixlBuff(gizm_pixl_data);
+	Engine::Render::gpu->autoPixelCBuffer(gizm_pixl_data);
 
 	// Drawing the mesh
 	Engine::Render::gpu->draw(toDraw);
@@ -42,8 +42,7 @@ void Engine::Render::Gizmo() {
 		Engine::Render::gpu->clearDepth();
 
 		// Binding gizmo shaders
-		Engine::Render::gpu->bind(Engine::Shaders::Vertex::gizmo);
-		Engine::Render::gpu->bind(Engine::Shaders::Pixel::gizmo);
+		Engine::Render::gpu->bind(Engine::Shaders::gizmo);
 
 		// Color reset
 		Engine::Gizmo::colX = kl::color(205, 55, 75);
@@ -94,7 +93,7 @@ void Engine::Render::Gizmo() {
 		}
 
 		// Drawing the gizmos
-		DrawGizmo(Engine::Default::sphere->buff, {}, kl::colors::white, -2, 0.06f);
+		DrawGizmo(Engine::Default::sphere->buffer, {}, kl::colors::white, -2, 0.06f);
 		DrawGizmo(gizmoMesh, xRot, Engine::Gizmo::colX, -3);
 		DrawGizmo(gizmoMesh, yRot, Engine::Gizmo::colY, -4);
 		DrawGizmo(gizmoMesh, zRot, Engine::Gizmo::colZ, -5);

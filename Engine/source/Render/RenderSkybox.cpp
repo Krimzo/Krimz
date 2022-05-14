@@ -8,7 +8,7 @@ void Engine::Render::Skybox() {
 	Engine::Render::gpu->bindTargets({ Engine::Render::targetV });
 
 	// Set raster
-	Engine::Render::gpu->bind(Engine::Rasters::solid);
+	Engine::Render::gpu->bind(Engine::Rasters::skybox);
 
 	// Disable depth
 	Engine::Render::gpu->bind(Engine::DepthStencil::disabled);

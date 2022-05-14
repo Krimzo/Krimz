@@ -30,8 +30,9 @@ void Engine::Stage::Start() {
 	// Rasters
 	Engine::Rasters::solid = Engine::Render::gpu->newRasterState(false, true);
 	Engine::Rasters::wire = Engine::Render::gpu->newRasterState(true, false);
+	Engine::Rasters::skybox = Engine::Render::gpu->newRasterState(false, false);
 	Engine::Render::entityRaster = Engine::Rasters::solid;
-	Engine::Render::gpu->bind(Engine::Rasters::solid);
+	Engine::Render::gpu->bind(Engine::Render::entityRaster);
 
 	// Depth states
 	Engine::DepthStencil::disabled = Engine::Render::gpu->newDepthState(false, false, false);
@@ -40,20 +41,13 @@ void Engine::Stage::Start() {
 	Engine::DepthStencil::mask = Engine::Render::gpu->newDepthState(false, true, true);
 
 	// Shaders
-	ID3D11InputLayout* defaultLayout = nullptr;
-	Engine::Shaders::Vertex::editor = Engine::Render::gpu->newVertexShader(kl::file::read("resource/shaders/editor.hlsl"), &defaultLayout);
-	Engine::Shaders::Pixel::editor = Engine::Render::gpu->newPixelShader(kl::file::read("resource/shaders/editor.hlsl"));
-	Engine::Shaders::Vertex::shadow = Engine::Render::gpu->newVertexShader(kl::file::read("resource/shaders/shadows.hlsl"));
-	Engine::Shaders::Pixel::shadow = Engine::Render::gpu->newPixelShader(kl::file::read("resource/shaders/shadows.hlsl"));
-	Engine::Shaders::Vertex::index = Engine::Render::gpu->newVertexShader(kl::file::read("resource/shaders/index.hlsl"));
-	Engine::Shaders::Pixel::index = Engine::Render::gpu->newPixelShader(kl::file::read("resource/shaders/index.hlsl"));
-	Engine::Shaders::Vertex::outline = Engine::Render::gpu->newVertexShader(kl::file::read("resource/shaders/outline.hlsl"));
-	Engine::Shaders::Pixel::outline = Engine::Render::gpu->newPixelShader(kl::file::read("resource/shaders/outline.hlsl"));
-	Engine::Shaders::Vertex::collider = Engine::Render::gpu->newVertexShader(kl::file::read("resource/shaders/collider.hlsl"));
-	Engine::Shaders::Pixel::collider = Engine::Render::gpu->newPixelShader(kl::file::read("resource/shaders/collider.hlsl"));
-	Engine::Shaders::Vertex::gizmo = Engine::Render::gpu->newVertexShader(kl::file::read("resource/shaders/gizmo.hlsl"));
-	Engine::Shaders::Pixel::gizmo = Engine::Render::gpu->newPixelShader(kl::file::read("resource/shaders/gizmo.hlsl"));
-	Engine::Render::gpu->bind(defaultLayout);
+	Engine::Shaders::editor = Engine::Render::gpu->newShaders(kl::file::read("resource/shaders/editor.hlsl"), kl::file::read("resource/shaders/editor.hlsl"));
+	Engine::Shaders::shadow = Engine::Render::gpu->newShaders(kl::file::read("resource/shaders/shadows.hlsl"), kl::file::read("resource/shaders/shadows.hlsl"));
+	Engine::Shaders::index = Engine::Render::gpu->newShaders(kl::file::read("resource/shaders/index.hlsl"), kl::file::read("resource/shaders/index.hlsl"));
+	Engine::Shaders::outline = Engine::Render::gpu->newShaders(kl::file::read("resource/shaders/outline.hlsl"), kl::file::read("resource/shaders/outline.hlsl"));
+	Engine::Shaders::collider = Engine::Render::gpu->newShaders(kl::file::read("resource/shaders/collider.hlsl"), kl::file::read("resource/shaders/collider.hlsl"));
+	Engine::Shaders::gizmo = Engine::Render::gpu->newShaders(kl::file::read("resource/shaders/gizmo.hlsl"), kl::file::read("resource/shaders/gizmo.hlsl"));
+	Engine::Skybox::shaders = Engine::Render::gpu->newShaders(kl::file::read("resource/shaders/skybox.hlsl"), kl::file::read("resource/shaders/skybox.hlsl"));
 
 	// Samplers
 	Engine::Render::gpu->bind(Engine::Render::gpu->newSamplerState(true, true), 0);
@@ -83,7 +77,7 @@ void Engine::Stage::Start() {
 	Engine::Picking::targetV = Engine::Render::gpu->newTargetView(Engine::Picking::texture);
 
 	// Outline
-	Engine::Outline::screenM = Engine::Render::gpu->newVertBuffer({
+	Engine::Outline::screenM = Engine::Render::gpu->newVertexBuffer({
 		kl::vertex(kl::float3(1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)),
 		kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, 1.0f, 0.5f))
 		});
@@ -104,9 +98,9 @@ void Engine::Stage::Start() {
 	Engine::Default::monke = std::make_shared<Engine::Mesh>("monke", kl::file::parseObj("resource/meshes/default/monke.obj"));
 
 	// Gizmos
-	Engine::Gizmo::scaleM = Engine::Render::gpu->newVertBuffer("resource/meshes/gizmo/scale.obj");
-	Engine::Gizmo::moveM = Engine::Render::gpu->newVertBuffer("resource/meshes/gizmo/move.obj");
-	Engine::Gizmo::rotateM = Engine::Render::gpu->newVertBuffer("resource/meshes/gizmo/rotate.obj");
+	Engine::Gizmo::scaleM = Engine::Render::gpu->newVertexBuffer("resource/meshes/gizmo/scale.obj");
+	Engine::Gizmo::moveM = Engine::Render::gpu->newVertexBuffer("resource/meshes/gizmo/move.obj");
+	Engine::Gizmo::rotateM = Engine::Render::gpu->newVertexBuffer("resource/meshes/gizmo/rotate.obj");
 
 	// Default textures
 	Engine::Default::colorMap = std::make_shared<Engine::Texture>("Default", kl::image(kl::int2(1), kl::colors::gray));

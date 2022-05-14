@@ -108,6 +108,9 @@
     <ClCompile Include="source\utility\convert.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\utility\encrypter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\utility\file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -207,6 +210,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\utility\convert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\utility\encrypter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\utility\file.h">

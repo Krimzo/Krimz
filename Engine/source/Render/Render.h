@@ -45,6 +45,7 @@ namespace Engine {
 	namespace Rasters {
 		inline ID3D11RasterizerState* solid = nullptr;
 		inline ID3D11RasterizerState* wire = nullptr;
+		inline ID3D11RasterizerState* skybox = nullptr;
 	}
 	namespace DepthStencil {
 		inline ID3D11DepthStencilState* disabled = nullptr;
@@ -53,21 +54,11 @@ namespace Engine {
 		inline ID3D11DepthStencilState* mask = nullptr;
 	}
 	namespace Shaders {
-		namespace Vertex {
-			inline ID3D11VertexShader* editor = nullptr;
-			inline ID3D11VertexShader* shadow = nullptr;
-			inline ID3D11VertexShader* index = nullptr;
-			inline ID3D11VertexShader* outline = nullptr;
-			inline ID3D11VertexShader* collider = nullptr;
-			inline ID3D11VertexShader* gizmo = nullptr;
-		}
-		namespace Pixel {
-			inline ID3D11PixelShader* editor = nullptr;
-			inline ID3D11PixelShader* shadow = nullptr;
-			inline ID3D11PixelShader* index = nullptr;
-			inline ID3D11PixelShader* outline = nullptr;
-			inline ID3D11PixelShader* collider = nullptr;
-			inline ID3D11PixelShader* gizmo = nullptr;
-		}
+		inline kl::shaders editor = {};
+		inline kl::shaders shadow = {};
+		inline kl::shaders index = {};
+		inline kl::shaders outline = {};
+		inline kl::shaders collider = {};
+		inline kl::shaders gizmo = {};
 	}
 }
