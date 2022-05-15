@@ -66,7 +66,7 @@ void Engine::Skybox::render(const kl::mat4& vpMat) const {
 		Engine::Render::gpu->autoVertexCBuffer(vpMat);
 
 		// Binding the texture
-		Engine::Render::gpu->bindPixlTex(shaderV, 0);
+		Engine::Render::gpu->bindPixelShaderView(shaderV, 0);
 
 		// Drawing the cubemap
 		Engine::Render::gpu->draw(Engine::Default::cube->buffer);

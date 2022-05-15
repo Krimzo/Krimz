@@ -40,7 +40,7 @@ void Engine::Render::Outline() {
 	Engine::Render::gpu->autoPixelCBuffer(higCol);
 
 	// Binding the outline index tex
-	Engine::Render::gpu->bindPixlTex(Engine::Outline::shaderV, 0);
+	Engine::Render::gpu->bindPixelShaderView(Engine::Outline::shaderV, 0);
 
 	// Drawing the outline
 	Engine::Render::gpu->bind(Engine::DepthStencil::mask);

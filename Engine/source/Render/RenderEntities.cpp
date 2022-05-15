@@ -37,7 +37,7 @@ void Engine::Render::Entities() {
 
 	// Binding the shadow maps
 	for (int i = 0; i < 4; i++) {
-		Engine::Render::gpu->bindPixlTex(Engine::Light::sun->getShaderV(i), i + 3);
+		Engine::Render::gpu->bindPixelShaderView(Engine::Light::sun->getShaderV(i), i + 3);
 	}
 
 	// Setting the camera data

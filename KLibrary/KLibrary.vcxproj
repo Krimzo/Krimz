@@ -192,6 +192,7 @@
     <ClCompile Include="source\gpu\utility\shaders.cpp" />
     <ClCompile Include="source\gpu\utility\texture.cpp" />
     <ClCompile Include="source\gpu\utility\vbuffer.cpp" />
+    <ClCompile Include="source\gpu\views\access_view.cpp" />
     <ClCompile Include="source\gpu\views\depth_view.cpp" />
     <ClCompile Include="source\gpu\views\shader_view.cpp" />
     <ClCompile Include="source\gpu\views\target_view.cpp" />

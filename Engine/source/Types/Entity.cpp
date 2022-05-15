@@ -48,9 +48,9 @@ kl::mat4 Engine::Entity::matrix() const {
 void Engine::Entity::render(bool useTex) const {
 	// Texture bind
 	if (useTex) {
-		Engine::Render::gpu->bindPixlTex(material.colorMap->view, 0);
-		Engine::Render::gpu->bindPixlTex(material.normalMap->view, 1);
-		Engine::Render::gpu->bindPixlTex(material.roughnessMap->view, 2);
+		Engine::Render::gpu->bindPixelShaderView(material.colorMap->view, 0);
+		Engine::Render::gpu->bindPixelShaderView(material.normalMap->view, 1);
+		Engine::Render::gpu->bindPixelShaderView(material.roughnessMap->view, 2);
 	}
 
 	// Rendering
