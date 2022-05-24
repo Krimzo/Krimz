@@ -1,2 +1,2 @@
 # Krimz
-My C++/DirectX game engine!
+C++/DirectX game engine
