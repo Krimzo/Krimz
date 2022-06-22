@@ -3,24 +3,15 @@
 #include "utility/console.h"
 
 
-ID3D11RenderTargetView* kl::gpu::newTargetView(ID3D11Texture2D* tex, D3D11_RENDER_TARGET_VIEW_DESC* desc) {
-	// Creating the render target view
-	ID3D11RenderTargetView* targetView = nullptr;
-	device->CreateRenderTargetView(tex, desc, &targetView);
-	if (!targetView) {
-		kl::console::show();
-		std::cout << "DirectX: Could not create a backbuffer!";
-		std::cin.get();
-		exit(69);
-	}
+kl::dx::view::target kl::gpu::newTargetView(kl::dx::texture tex, kl::dx::view::desc::target* desc) {
+	kl::dx::view::target targetView = nullptr;
+	m_Device->CreateRenderTargetView(tex, desc, &targetView);
+	kl::console::error(!targetView, "Failed to create render target view");
 
-	// Saving child
-	children.insert(targetView);
-
-	// Return
+	m_Children.insert(targetView);
 	return targetView;
 }
 
-void kl::gpu::clear(ID3D11RenderTargetView* view, const kl::float4& color) {
-	devcon->ClearRenderTargetView(view, (float*)&color);
+void kl::gpu::clear(kl::dx::view::target view, const kl::float4& color) {
+	m_Context->ClearRenderTargetView(view, (float*)&color);
 }

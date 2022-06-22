@@ -5,33 +5,52 @@
 #include <sstream>
 #include <windows.h>
 
-#include "libspec/using.h"
-#include "graphics/color.h"
+#include "math/math.h"
 
 
 namespace kl {
 	namespace random {
-		// Returns a random bool
 		bool BOOL();
 
-		// Returns a random byte
 		byte BYTE();
+		kl::color COLOR(bool gray = false);
 
-		// Returns a random integer
 		int INT(int startInclusive, int endExclusive);
 		int INT(int endExclusive);
 
-		// Returns a random float
 		float FLOAT(float startInclusive, float endInclusive);
 		float FLOAT(float endInclusive);
 
-		// Returns a random letter
-		char LETTER(bool upperCase = false);
+		char CHAR(bool upper = false);
+		std::string STRING(uint length);
 
-		// Returns a random string
-		String STRING(int len);
-
-		// Returns a random color
-		kl::color COLOR(bool grayScaled = false);
+		template<typename T> kl::vector2<T> VECTOR2(T startInclusive, T endInclusive) {
+			return kl::vector2<T>(
+				FLOAT(startInclusive, endInclusive),
+				FLOAT(startInclusive, endInclusive)
+				);
+		}
+		template<typename T> kl::vector3<T> VECTOR3(T startInclusive, T endInclusive) {
+			return kl::vector3<T>(
+				FLOAT(startInclusive, endInclusive),
+				FLOAT(startInclusive, endInclusive),
+				FLOAT(startInclusive, endInclusive)
+				);
+		}
+		template<typename T> kl::vector4<T> VECTOR4(T startInclusive, T endInclusive) {
+			return kl::vector4<T>(
+				FLOAT(startInclusive, endInclusive),
+				FLOAT(startInclusive, endInclusive),
+				FLOAT(startInclusive, endInclusive),
+				FLOAT(startInclusive, endInclusive)
+				);
+		}
+		template<typename T, uint64 W, uint64 H> kl::matrix<T, W, H> MATRIX(T startInclusive, T endInclusive) {
+			kl::matrix<T, W, H> m;
+			for (auto& val : m) {
+				val = FLOAT(startInclusive, endInclusive);
+			}
+			return m;
+		}
 	};
 }

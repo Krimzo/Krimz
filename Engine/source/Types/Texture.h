@@ -8,17 +8,19 @@
 namespace Engine {
 	class Texture : public Named {
 	public:
-		ID3D11ShaderResourceView* view = nullptr;
+		kl::dx::view::shader view = nullptr;
 
-		Texture(const String& name, const kl::image& img);
+		Texture(const std::string& name, const kl::image& img);
 		Texture(const Engine::Texture&) = delete;
 		void operator=(const Engine::Texture&) = delete;
 		~Texture();
 	};
 
-	namespace Default {
-		inline std::shared_ptr<Engine::Texture> colorMap;
-		inline std::shared_ptr<Engine::Texture> noneMap;
+	namespace Textures {
+		namespace Default {
+			inline std::shared_ptr<Engine::Texture> colorMap;
+			inline std::shared_ptr<Engine::Texture> nullMap;
+		}
 	}
 
 	inline std::list<std::shared_ptr<Engine::Texture>> textures;

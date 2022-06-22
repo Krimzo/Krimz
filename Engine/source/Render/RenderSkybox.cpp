@@ -4,15 +4,8 @@
 
 
 void Engine::Render::Skybox() {
-	// Binding internal
-	Engine::Render::gpu->bindTargets({ Engine::Render::targetV });
-
-	// Set raster
-	Engine::Render::gpu->bind(Engine::Rasters::skybox);
-
-	// Disable depth
-	Engine::Render::gpu->bind(Engine::DepthStencil::disabled);
-
-	// Render box
+	Engine::gpu->bindTargets({ Engine::Render::targetView });
+	Engine::gpu->bind(Engine::Rasters::skybox);
+	Engine::gpu->bind(Engine::DepthStencil::disabled);
 	Engine::Selected::camera->skybox->render(Engine::Selected::camera->matrix());
 }

@@ -5,7 +5,6 @@
 
 namespace Engine {
 	namespace Gizmo {
-		// Types
 		enum class Type {
 			NONE = 0,
 			SCALE,
@@ -13,20 +12,15 @@ namespace Engine {
 			ROTATE
 		};
 
-		// Selected gizmo
-		inline Gizmo::Type selected = Gizmo::Type::NONE;
-
-		// Global gizmo scale
 		inline const float scale = 0.25f;
 
-		// Gizmo meshes
-		inline ID3D11Buffer* scaleM = nullptr;
-		inline ID3D11Buffer* moveM = nullptr;
-		inline ID3D11Buffer* rotateM = nullptr;
-
-		// Gizmo colors
-		inline kl::float4 colX = kl::color(205, 55, 75);
-		inline kl::float4 colY = kl::color(115, 175, 40);
-		inline kl::float4 colZ = kl::color(55, 120, 205);
+		inline kl::vector3<kl::float4> colors = {
+			kl::color(205, 055, 075),
+			kl::color(115, 175, 40),
+			kl::color(055, 120, 205)
+		};
+	}
+	namespace Selected {
+		inline Gizmo::Type gizmo = Gizmo::Type::NONE;
 	}
 }

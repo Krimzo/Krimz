@@ -2,13 +2,13 @@
 #include "Render/Render.h"
 
 
-Engine::Texture::Texture(const String& name, const kl::image& img) : Named(Named::Type::Texture, name) {
-	ID3D11Texture2D* tex = Engine::Render::gpu->newTexture(img);
-	view = Engine::Render::gpu->newShaderView(tex);
-	Engine::Render::gpu->destroy(tex);
+Engine::Texture::Texture(const std::string& name, const kl::image& img) : Named(Named::Type::Texture, name) {
+	kl::dx::texture tex = Engine::gpu->newTexture(img);
+	view = Engine::gpu->newShaderView(tex);
+	Engine::gpu->destroy(tex);
 }
 Engine::Texture::~Texture() {
-	if (Engine::Render::gpu) {
-		Engine::Render::gpu->destroy(view);
+	if (Engine::gpu) {
+		Engine::gpu->destroy(view);
 	}
 }

@@ -10,7 +10,7 @@ namespace Engine {
 		std::shared_ptr<Engine::Skybox> skybox;
 
 		Camera();
-		Camera(const String& name);
+		Camera(const std::string& name);
 		Camera(const Engine::Camera&) = delete;
 		void operator=(const Engine::Camera&) = delete;
 	};

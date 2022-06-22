@@ -3,9 +3,10 @@
 #include <windows.h>
 #include <wininet.h>
 
+#pragma comment(lib, "wininet.lib")
 
-// Downloads website data(bytes) from the given url
-String kl::web::getWebsiteData(const String& url, int bufferSize) {
+
+std::string kl::web::siteData(const std::string& url, uint bufferSize) {
 	// Create browser
 	HINTERNET connection = InternetOpenA("Browser", INTERNET_OPEN_TYPE_PRECONFIG, nullptr, nullptr, 0);
 	if (!connection) {
@@ -21,8 +22,8 @@ String kl::web::getWebsiteData(const String& url, int bufferSize) {
 	}
 
 	// Download data
-	String finalData;
-	String dataBuffer;
+	std::string finalData;
+	std::string dataBuffer;
 	dataBuffer.resize(bufferSize);
 	DWORD byteReadCount = 0;
 	while (InternetReadFile(openAddress, &dataBuffer[0], (DWORD)dataBuffer.size(), &byteReadCount) && byteReadCount) {
@@ -39,7 +40,6 @@ String kl::web::getWebsiteData(const String& url, int bufferSize) {
 	return finalData;
 }
 
-// Downloads data from the website and saves it in a file
-void kl::web::downloadToFile(const String& url, const String& fileName) {
-	kl::file::write(fileName, kl::web::getWebsiteData(url));
+void kl::web::toFile(const std::string& url, const std::string& fileName) {
+	kl::file::write(fileName, kl::web::siteData(url));
 }

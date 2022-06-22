@@ -15,21 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\geometry\plane.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\geometry\ray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\geometry\sphere.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\geometry\triangle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\geometry\vertex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\gpu\buffer\constant_buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,6 +39,9 @@
     <ClCompile Include="source\gpu\utility\vbuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\gpu\views\access_view.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="source\gpu\views\depth_view.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -75,37 +63,28 @@
     <ClCompile Include="source\graphics\video.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\math\float2.cpp">
+    <ClCompile Include="source\render\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\math\float3.cpp">
+    <ClCompile Include="source\render\plane.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\math\float4.cpp">
+    <ClCompile Include="source\render\ray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\math\int2.cpp">
+    <ClCompile Include="source\render\sphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\math\int3.cpp">
+    <ClCompile Include="source\render\triangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\math\int4.cpp">
+    <ClCompile Include="source\render\vertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\math\mat3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\math\mat4.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\math\math.cpp">
+    <ClCompile Include="source\utility\async.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\utility\console.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\utility\convert.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\utility\encrypter.cpp">
@@ -120,16 +99,10 @@
     <ClCompile Include="source\utility\socket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\utility\thread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\utility\time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\utility\web.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\view\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\window\double_buffer.cpp">
@@ -147,24 +120,12 @@
     <ClCompile Include="source\window\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\gpu\views\access_view.cpp">
+    <ClCompile Include="source\window\window_private.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\geometry\plane.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\geometry\ray.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\geometry\sphere.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\geometry\triangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\geometry\vertex.h">
+    <ClInclude Include="source\gpu\dx_types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\gpu\gpu.h">
@@ -179,40 +140,52 @@
     <ClInclude Include="source\graphics\video.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\libspec\using.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\math\float2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\math\float3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\math\float4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\math\int2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\math\int3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\math\int4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\math\mat3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\math\mat4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\math\math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\utility\console.h">
+    <ClInclude Include="source\math\matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\utility\convert.h">
+    <ClInclude Include="source\math\matrix2x2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\matrix3x3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\matrix4x4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\vector2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\vector3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\math\vector4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\plane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\ray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\sphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\triangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\render\vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\utility\async.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\utility\console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\utility\encrypter.h">
@@ -227,16 +200,10 @@
     <ClInclude Include="source\utility\socket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\utility\thread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\utility\time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\utility\web.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\view\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\window\double_buffer.h">

@@ -2,23 +2,20 @@
 #include "Render/Render.h"
 
 
-void Engine::GUI::MainMenu() {
+void Engine::GUI::MainMenuRender() {
 	if (ImGui::BeginMainMenuBar()) {
-		// File
 		if (ImGui::BeginMenu("File")) {
 			if (ImGui::MenuItem("Exit")) {
-				Engine::win.stop();
+				Engine::window.stop();
 			}
 			ImGui::EndMenu();
 		}
 
-		// View
 		if (ImGui::BeginMenu("Render")) {
-			ImGui::Selectable("Colliders", &Engine::Outline::renderColliders);
+			ImGui::Selectable("Colliders", &Engine::Colliders::shouldRender);
 			ImGui::EndMenu();
 		}
 
-		// End draw
 		ImGui::EndMainMenuBar();
 	}
 }

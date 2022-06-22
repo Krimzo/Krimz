@@ -8,28 +8,25 @@
 
 
 int main() {
-	// Callback setup
-	Engine::win.start = Engine::Stage::Start;
-	Engine::win.update = Engine::Stage::Update;
-	Engine::win.end = Engine::Stage::End;
+	Engine::window.start = Engine::Stage::Start;
+	Engine::window.update = Engine::Stage::Update;
+	Engine::window.end = Engine::Stage::End;
 
-	// Input setup
 	Engine::Input::Setup();
 
-	// GUI setup
 	Engine::GUI::Init();
 	Engine::GUI::LoadKrimzTheme();
 
-	// Script setup
 	Engine::JavaHandler::Init();
 
-	// Physics setup
 	Engine::Physics::Init();
 
-	// Time
 	Engine::Time::timer.reset();
 	Engine::Time::timer.interval();
 
-	// Start
-	Engine::win.startNew(kl::int2(1600, 900), "Editor", true, true);
+	Engine::window.run({ 1600, 900 }, "Editor", true, true);
+
+	Engine::Physics::Uninit();
+
+	Engine::JavaHandler::Uninit();
 }

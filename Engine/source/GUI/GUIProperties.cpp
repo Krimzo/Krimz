@@ -20,21 +20,19 @@ void PropMeshPick(const std::shared_ptr<Engine::Mesh>& mesh) {
 void PropGeometry() {
 	if (ImGui::Begin("Geometry", nullptr, ImGuiWindowFlags_NoScrollbar)) {
 		if (Engine::Selected::entity) {
-			// Axis
 			ImGui::DragFloat3("Scale", (float*)&Engine::Selected::entity->scale, 0.1f, 0.0f, 0.0f, "%.2f");
 			ImGui::DragFloat3("Rotation", (float*)&Engine::Selected::entity->rotation, 0.1f, 0.0f, 0.0f, "%.2f");
 			ImGui::DragFloat3("Position", (float*)&Engine::Selected::entity->position, 0.1f, 0.0f, 0.0f, "%.2f");
 
-			// Mesh
 			if (ImGui::BeginCombo("Mesh", Engine::Selected::entity->mesh->getName().c_str())) {
 				for (auto& mes : Engine::meshes) {
 					PropMeshPick(mes);
 				}
-				PropMeshPick(Engine::Default::cube);
-				PropMeshPick(Engine::Default::sphere);
-				PropMeshPick(Engine::Default::capsule);
-				PropMeshPick(Engine::Default::pyramid);
-				PropMeshPick(Engine::Default::monke);
+				PropMeshPick(Engine::Meshes::Default::cube);
+				PropMeshPick(Engine::Meshes::Default::sphere);
+				PropMeshPick(Engine::Meshes::Default::capsule);
+				PropMeshPick(Engine::Meshes::Default::pyramid);
+				PropMeshPick(Engine::Meshes::Default::monke);
 				ImGui::EndCombo();
 			}
 		}
@@ -84,21 +82,21 @@ void PropView() {
 				for (auto& tex : Engine::textures) {
 					PropColorMapPick(tex);
 				}
-				PropColorMapPick(Engine::Default::colorMap);
+				PropColorMapPick(Engine::Textures::Default::colorMap);
 				ImGui::EndCombo();
 			}
 			if (ImGui::BeginCombo("Normal Map", Engine::Selected::entity->material.normalMap->getName().c_str())) {
 				for (auto& tex : Engine::textures) {
 					PropNormalMapPick(tex);
 				}
-				PropNormalMapPick(Engine::Default::noneMap);
+				PropNormalMapPick(Engine::Textures::Default::nullMap);
 				ImGui::EndCombo();
 			}
 			if (ImGui::BeginCombo("Roughness Map", Engine::Selected::entity->material.roughnessMap->getName().c_str())) {
 				for (auto& tex : Engine::textures) {
 					PropRoughnessMapPick(tex);
 				}
-				PropRoughnessMapPick(Engine::Default::noneMap);
+				PropRoughnessMapPick(Engine::Textures::Default::nullMap);
 				ImGui::EndCombo();
 			}
 			if (!Engine::Selected::entity->material.hasRoughnessMap()) {
@@ -181,17 +179,13 @@ void PropPhysics() {
 void PropScripts() {
 	if (ImGui::Begin("Scripts", nullptr, ImGuiWindowFlags_NoScrollbar)) {
 		if (Engine::Selected::entity) {
-			// Transfer
 			ImVec2 winPos = ImGui::GetWindowPos();
 			ImVec2 winSize = ImGui::GetWindowSize();
 			ImGuiID winId = ImGui::GetID("Scripts");
 			if (ImGui::BeginDragDropTargetCustom(ImRect(winPos, ImVec2(winPos.x + winSize.x, winPos.y + winSize.y)), winId)) {
-				// Highlight
 				if (ImGui::GetDragDropPayload()->IsDataType("ScriptTransfer")) {
 					ImGui::GetForegroundDrawList()->AddRect(winPos, ImVec2(winPos.x + winSize.x, winPos.y + winSize.y), IM_COL32(180, 100, 0, 255));
 				}
-
-				// Payload accept
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ScriptTransfer")) {
 					std::filesystem::path filePath((char*)payload->Data);
 					Engine::Selected::entity->scripts.push_back(std::make_shared<Engine::Script>(filePath.string()));
@@ -199,42 +193,33 @@ void PropScripts() {
 				ImGui::EndDragDropTarget();
 			}
 
-			// Script names
 			for (int i = 0; i < Engine::Selected::entity->scripts.size(); i++) {
-				// Draw
 				ImGui::PushID(i);
 				ImGui::Selectable(std::filesystem::path(Engine::Selected::entity->scripts[i]->path).stem().string().c_str());
 				ImGui::PopID();
 
-				// RMB menu
 				if (ImGui::BeginPopupContextItem()) {
-					// Delete
 					if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
 						Engine::Selected::entity->scripts.erase(Engine::Selected::entity->scripts.begin() + i);
 						ImGui::CloseCurrentPopup();
 					}
-
-					// End
 					ImGui::EndPopup();
 				}
 			}
 		}
 
-		// Script reload
 		if (ImGui::BeginPopupContextWindow(nullptr, ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems)) {
 			if (ImGui::Button("Reload", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
 				Engine::JavaHandler::ReloadScripts();
 				ImGui::CloseCurrentPopup();
 			}
-
-			// End
 			ImGui::EndPopup();
 		}
 		ImGui::End();
 	}
 }
 
-void Engine::GUI::Properties() {
+void Engine::GUI::PropertiesRender() {
 	PropGeometry();
 	PropView();
 	PropPhysics();

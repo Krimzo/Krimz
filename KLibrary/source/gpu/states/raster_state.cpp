@@ -3,38 +3,26 @@
 #include "utility/console.h"
 
 
-ID3D11RasterizerState* kl::gpu::newRasterState(D3D11_RASTERIZER_DESC* desc) {
-	// Raster creation
-	ID3D11RasterizerState* rasterState = nullptr;
-	device->CreateRasterizerState(desc, &rasterState);
-	if (!rasterState) {
-		kl::console::show();
-		std::cout << "DirectX: Could not create a raster state!";
-		std::cin.get();
-		exit(69);
-	}
+kl::dx::state::raster kl::gpu::newRasterState(kl::dx::state::desc::raster* desc) {
+	kl::dx::state::raster rasterState = nullptr;
+	m_Device->CreateRasterizerState(desc, &rasterState);
+	kl::console::error(!rasterState, "Failed to create rasterizer state");
 
-	// Saving child
-	children.insert(rasterState);
-
-	// Return
+	m_Children.insert(rasterState);
 	return rasterState;
 }
 
-ID3D11RasterizerState* kl::gpu::newRasterState(bool wireframe, bool cull, bool cullBack) {
-	// Raster descriptor
-	D3D11_RASTERIZER_DESC rasterStateDesc = {};
+kl::dx::state::raster kl::gpu::newRasterState(bool wireframe, bool cull, bool cullBack) {
+	kl::dx::state::desc::raster rasterStateDesc = {};
 	rasterStateDesc.FillMode = wireframe ? D3D11_FILL_WIREFRAME : D3D11_FILL_SOLID;
 	rasterStateDesc.CullMode = cull ? (cullBack ? D3D11_CULL_BACK : D3D11_CULL_FRONT) : D3D11_CULL_NONE;
 	rasterStateDesc.FrontCounterClockwise = true;
 	rasterStateDesc.MultisampleEnable = true;
 	rasterStateDesc.AntialiasedLineEnable = true;
 
-	// Return
 	return newRasterState(&rasterStateDesc);
 }
 
-// Binds the raster state
-void kl::gpu::bind(ID3D11RasterizerState* state) {
-	devcon->RSSetState(state);
+void kl::gpu::bind(kl::dx::state::raster state) {
+	m_Context->RSSetState(state);
 }

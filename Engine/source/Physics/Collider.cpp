@@ -5,14 +5,14 @@
 
 Engine::Collider::Collider() {}
 Engine::Collider::Collider(const Engine::Collider& obj) {
-	dynamic = obj.dynamic;
+	m_Dynamic = obj.m_Dynamic;
 	scale = obj.scale;
 	rotation = obj.rotation;
 	position = obj.position;
 	shape = obj.shape;
 }
 void Engine::Collider::operator=(const Collider& obj) {
-	dynamic = obj.dynamic;
+	m_Dynamic = obj.m_Dynamic;
 	scale = obj.scale;
 	rotation = obj.rotation;
 	position = obj.position;
@@ -26,17 +26,15 @@ Engine::Collider::~Collider() {
 	}
 }
 
-// Transform
 physx::PxTransform Engine::Collider::getTransform(const kl::float3& entPos, const kl::float3 entRot) const {
 	physx::PxTransform tempTra;
 	const kl::float3 sumPos = entPos + position;
-	const kl::float4 sumRot = kl::math::eulToQuat(entRot + rotation);
+	const kl::float4 sumRot = kl::math::toQuat(entRot + rotation);
 	tempTra.p = *(physx::PxVec3*)&sumPos;
 	tempTra.q = *(physx::PxQuat*)&sumRot;
 	return tempTra;
 }
 
-// Actor
 void Engine::Collider::delActor() {
 	if (actor) {
 		actor->release();
@@ -51,10 +49,9 @@ void Engine::Collider::newActor(bool dynamic, const kl::float3& entPos, const kl
 	else {
 		actor = Engine::Physics::physics->createRigidStatic(getTransform(entPos, entRot));
 	}
-	this->dynamic = dynamic;
+	this->m_Dynamic = dynamic;
 }
 
-// Material
 void Engine::Collider::setFriction(float val) {
 	if (material) {
 		material->setStaticFriction(val);
@@ -71,20 +68,19 @@ void Engine::Collider::delMaterial() {
 	}
 }
 
-// Data setting
 void Engine::Collider::setGravity(bool enabled) {
 	if (actor) {
 		actor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, !enabled);
 	}
 }
 void Engine::Collider::setMass(float val) {
-	if (actor && dynamic) {
+	if (actor && m_Dynamic) {
 		((physx::PxRigidDynamic*)actor)->setMass(val);
 	}
 }
 void Engine::Collider::setWorldRotation(const kl::float3& entRot) {
 	if (actor) {
-		const kl::float4 sumRot = kl::math::eulToQuat(entRot + rotation);
+		const kl::float4 sumRot = kl::math::toQuat(entRot + rotation);
 		physx::PxTransform oldTransform = actor->getGlobalPose();
 		oldTransform.q = *(physx::PxQuat*)&sumRot;
 		actor->setGlobalPose(oldTransform);
@@ -99,18 +95,17 @@ void Engine::Collider::setWorldPosition(const kl::float3& entPos) {
 	}
 }
 void Engine::Collider::setVelocity(const kl::float3& vel) {
-	if (actor && dynamic) {
+	if (actor && m_Dynamic) {
 		((physx::PxRigidDynamic*)actor)->setLinearVelocity(*(physx::PxVec3*)&vel);
 	}
 }
 void Engine::Collider::setAngular(const kl::float3& ang) {
-	if (actor && dynamic) {
-		const kl::float3 radAngu = kl::convert::toRadians(ang);
+	if (actor && m_Dynamic) {
+		const kl::float3 radAngu = kl::math::toRadians<kl::float3>(ang);
 		((physx::PxRigidDynamic*)actor)->setAngularVelocity(*(physx::PxVec3*)&radAngu);
 	}
 }
 
-// Shape
 void Engine::Collider::delShape() {
 	if (shapeP) {
 		if (actor && actor->getNbShapes()) {
@@ -140,11 +135,10 @@ void Engine::Collider::newShape(const std::shared_ptr<Engine::Mesh>& mesh, const
 	newShape(physx::PxTriangleMeshGeometry(mesh->cooked, *(physx::PxVec3*)&sca));
 }
 
-// Data getting
 kl::float3 Engine::Collider::getWorldRotation() const {
 	if (actor) {
 		physx::PxTransform transform = actor->getGlobalPose();
-		return kl::math::quatToEul(*(kl::float4*)&transform.q);
+		return kl::math::toEul(*(kl::float4*)&transform.q);
 	}
 	return {};
 }
@@ -157,22 +151,21 @@ kl::float3 Engine::Collider::getWorldPosition() const {
 }
 
 kl::float3 Engine::Collider::getVelocity() const {
-	if (actor && dynamic) {
+	if (actor && m_Dynamic) {
 		const physx::PxVec3 linVel = ((physx::PxRigidDynamic*)actor)->getLinearVelocity();
 		return *(kl::float3*)&linVel;
 	}
 	return {};
 }
 kl::float3 Engine::Collider::getAngular() const {
-	if (actor && dynamic) {
+	if (actor && m_Dynamic) {
 		const physx::PxVec3 radAngu = ((physx::PxRigidDynamic*)actor)->getAngularVelocity();
-		return kl::convert::toDegrees(*(kl::float3*)&radAngu);
+		return kl::math::toDegrees<kl::float3>(*(kl::float3*)&radAngu);
 	}
 	return {};
 }
 
-// Type name
-String Engine::Collider::getName(const Collider::Shape& shape) {
+std::string Engine::Collider::getName(Collider::Shape shape) {
 	switch (shape) {
 	case Engine::Collider::Shape::Box:
 		return "Box";

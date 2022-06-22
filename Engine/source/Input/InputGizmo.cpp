@@ -5,33 +5,33 @@
 
 
 void Engine::Input::Gizmo() {
-	Engine::win.keys.num1.press = [&]() {
+	Engine::window.keys.num1.press = [&]() {
 		if (!ImGui::GetIO().WantCaptureKeyboard) {
-			if (Engine::Gizmo::selected == Engine::Gizmo::Type::SCALE) {
-				Engine::Gizmo::selected = Engine::Gizmo::Type::NONE;
+			if (Engine::Selected::gizmo == Engine::Gizmo::Type::SCALE) {
+				Engine::Selected::gizmo = Engine::Gizmo::Type::NONE;
 			}
 			else {
-				Engine::Gizmo::selected = Engine::Gizmo::Type::SCALE;
+				Engine::Selected::gizmo = Engine::Gizmo::Type::SCALE;
 			}
 		}
 	};
-	Engine::win.keys.num2.press = [&]() {
+	Engine::window.keys.num2.press = [&]() {
 		if (!ImGui::GetIO().WantCaptureKeyboard) {
-			if (Engine::Gizmo::selected == Engine::Gizmo::Type::MOVE) {
-				Engine::Gizmo::selected = Engine::Gizmo::Type::NONE;
+			if (Engine::Selected::gizmo == Engine::Gizmo::Type::MOVE) {
+				Engine::Selected::gizmo = Engine::Gizmo::Type::NONE;
 			}
 			else {
-				Engine::Gizmo::selected = Engine::Gizmo::Type::MOVE;
+				Engine::Selected::gizmo = Engine::Gizmo::Type::MOVE;
 			}
 		}
 	};
-	Engine::win.keys.num3.press = [&]() {
+	Engine::window.keys.num3.press = [&]() {
 		if (!ImGui::GetIO().WantCaptureKeyboard) {
-			if (Engine::Gizmo::selected == Engine::Gizmo::Type::ROTATE) {
-				Engine::Gizmo::selected = Engine::Gizmo::Type::NONE;
+			if (Engine::Selected::gizmo == Engine::Gizmo::Type::ROTATE) {
+				Engine::Selected::gizmo = Engine::Gizmo::Type::NONE;
 			}
 			else {
-				Engine::Gizmo::selected = Engine::Gizmo::Type::ROTATE;
+				Engine::Selected::gizmo = Engine::Gizmo::Type::ROTATE;
 			}
 		}
 	};

@@ -2,81 +2,74 @@
 #include "Render/Render.h"
 
 
-Engine::Light::Direct::Direct(const kl::int2& size) : texSize(size) {
-	// Texture gen
-	D3D11_TEXTURE2D_DESC depTexDesc = {};
-	depTexDesc.Width = UINT(size.x);
-	depTexDesc.Height = UINT(size.y);
-	depTexDesc.MipLevels = 1;
-	depTexDesc.ArraySize = 1;
-	depTexDesc.Format = DXGI_FORMAT_R32_TYPELESS;
-	depTexDesc.SampleDesc.Count = 1;
-	depTexDesc.Usage = D3D11_USAGE_DEFAULT;
-	depTexDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
-	ID3D11Texture2D* depTexs[4] = {};
-	for (auto& depTex : depTexs) {
-		depTex = Engine::Render::gpu->newTexture(&depTexDesc);
+Engine::Light::Direct::Direct(const kl::uint2& size) : m_TextureSize(size) {
+	kl::dx::desc::texture depthDescriptor = {};
+	depthDescriptor.Width = uint(size.x);
+	depthDescriptor.Height = uint(size.y);
+	depthDescriptor.MipLevels = 1;
+	depthDescriptor.ArraySize = 1;
+	depthDescriptor.Format = DXGI_FORMAT_R32_TYPELESS;
+	depthDescriptor.SampleDesc.Count = 1;
+	depthDescriptor.Usage = D3D11_USAGE_DEFAULT;
+	depthDescriptor.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+	kl::dx::texture depthTextures[4] = {};
+	for (auto& texture : depthTextures) {
+		texture = Engine::gpu->newTexture(&depthDescriptor);
 	}
 
-	// Depth view gen
-	D3D11_DEPTH_STENCIL_VIEW_DESC depthVDesc = {};
-	depthVDesc.Format = DXGI_FORMAT_D32_FLOAT;
-	depthVDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	kl::dx::view::desc::depth depthViewDescriptor = {};
+	depthViewDescriptor.Format = DXGI_FORMAT_D32_FLOAT;
+	depthViewDescriptor.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	for (int i = 0; i < 4; i++) {
-		depthVs[i] = Engine::Render::gpu->newDepthView(depTexs[i], &depthVDesc);
+		m_DepthViews[i] = Engine::gpu->newDepthView(depthTextures[i], &depthViewDescriptor);
 	}
 
-	// Shader view gen
-	D3D11_SHADER_RESOURCE_VIEW_DESC shaderVDesc = {};
-	shaderVDesc.Format = DXGI_FORMAT_R32_FLOAT;
-	shaderVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	shaderVDesc.Texture2D.MipLevels = 1;
+	kl::dx::view::desc::shader shaderViewDescriptor = {};
+	shaderViewDescriptor.Format = DXGI_FORMAT_R32_FLOAT;
+	shaderViewDescriptor.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	shaderViewDescriptor.Texture2D.MipLevels = 1;
 	for (int i = 0; i < 4; i++) {
-		shaderVs[i] = Engine::Render::gpu->newShaderView(depTexs[i], &shaderVDesc);
+		m_ShaderViews[i] = Engine::gpu->newShaderView(depthTextures[i], &shaderViewDescriptor);
 	}
 
-	// Cleanup
-	for (auto& depTex : depTexs) {
-		Engine::Render::gpu->destroy(depTex);
+	for (auto& texture : depthTextures) {
+		Engine::gpu->destroy(texture);
 	}
 }
 Engine::Light::Direct::~Direct() {
-	if (Engine::Render::gpu) {
-		for (auto& depthV : depthVs) {
-			Engine::Render::gpu->destroy(depthV);
-			depthV = nullptr;
+	if (Engine::gpu) {
+		for (auto& depthView : m_DepthViews) {
+			Engine::gpu->destroy(depthView);
+			depthView = nullptr;
 		}
-		for (auto& shaderV : shaderVs) {
-			Engine::Render::gpu->destroy(shaderV);
-			shaderV = nullptr;
+		for (auto& shaderView : m_ShaderViews) {
+			Engine::gpu->destroy(shaderView);
+			shaderView = nullptr;
 		}
 	}
 }
 
-kl::int2 Engine::Light::Direct::getSize() const {
-	return texSize;
+kl::uint2 Engine::Light::Direct::size() const {
+	return m_TextureSize;
 }
 
-kl::float3 Engine::Light::Direct::getDir() const {
-	return direction;
+kl::float3 Engine::Light::Direct::direction() const {
+	return m_Direction;
 }
-void Engine::Light::Direct::setDir(const kl::float3& dir) {
-	direction = dir.normalize();
+void Engine::Light::Direct::direction(const kl::float3& dir) {
+	m_Direction = dir.normalize();
 }
 
-kl::mat4 Engine::Light::Direct::matrix(const kl::camera& cam, uint32_t ind) const {
-	// Ind check
-	if (ind >= 4) {
+kl::mat4 Engine::Light::Direct::matrix(const kl::camera& cam, uint ind) const {
+	if (kl::console::warning(ind > 3, "Accessing out of bounds frustum")) {
 		return {};
 	}
 
-	// Inverse camera matrix calculation
 	kl::camera copyCam = cam;
 	copyCam.near = cam.near + (cam.far - cam.near) * (ind > 0 ? farLimits[ind - 1] : 0.0f);
 	copyCam.far = cam.near + (cam.far - cam.near) * farLimits[ind];
 	const kl::mat4 invCam = copyCam.matrix().inverse();
 
-	// Frustum world corners
 	std::vector<kl::float4> frustumCorners;
 	for (int x = 0; x < 2; x++) {
 		for (int y = 0; y < 2; y++) {
@@ -87,17 +80,14 @@ kl::mat4 Engine::Light::Direct::matrix(const kl::camera& cam, uint32_t ind) cons
 		}
 	}
 
-	// Centroid calculation
 	kl::float3 centroid;
 	for (auto& corn : frustumCorners) {
-		centroid += corn.xyz();
+		centroid += corn.xyz;
 	}
 	centroid /= 8.0f;
 
-	// Light view matrix
-	const kl::mat4 view = kl::mat4::lookAt(centroid - getDir(), centroid, kl::float3::pos_y);
+	const kl::mat4 view = kl::mat4::lookAt(centroid - m_Direction, centroid, { 0.0f, 1.0f, 0.0f });
 
-	// Finding min and max points
 	kl::float3 minp(FLT_MAX);
 	kl::float3 maxp(-FLT_MAX);
 	for (auto& corn : frustumCorners) {
@@ -109,31 +99,27 @@ kl::mat4 Engine::Light::Direct::matrix(const kl::camera& cam, uint32_t ind) cons
 		minp.z = min(minp.z, lightCorn.z);
 		maxp.z = max(maxp.z, lightCorn.z);
 	}
-
-	// Tunning z
 	maxp.z *= 5.0f;
 
-	// Light proj matrix
 	const kl::mat4 proj = kl::mat4::ortho(minp.x, maxp.x, minp.y, maxp.y, maxp.z, minp.z);
 
-	// Return
 	return proj * view;
 }
 
-ID3D11DepthStencilView* Engine::Light::Direct::getDepthV(uint32_t ind) const {
-	if (ind < 4) {
-		return depthVs[ind];
+kl::dx::view::depth Engine::Light::Direct::depthView(uint ind) const {
+	if (kl::console::warning(ind > 3, "Accessing out of bounds frustum")) {
+		return nullptr;
 	}
-	return nullptr;
+	return m_DepthViews[ind];
 }
-ID3D11ShaderResourceView* Engine::Light::Direct::getShaderV(uint32_t ind) const {
-	if (ind < 4) {
-		return shaderVs[ind];
+ID3D11ShaderResourceView* Engine::Light::Direct::shaderView(uint ind) const {
+	if (kl::console::warning(ind > 3, "Accessing out of bounds frustum")) {
+		return nullptr;
 	}
-	return nullptr;
+	return m_ShaderViews[ind];
 }
 
-kl::float4 Engine::Light::Direct::getFBounds(const kl::camera& cam) const {
+kl::float4 Engine::Light::Direct::frustumBounds(const kl::camera& cam) const {
 	kl::float4 bounds;
 	bounds.x = cam.near + (cam.far - cam.near) * farLimits[0];
 	bounds.y = cam.near + (cam.far - cam.near) * farLimits[1];

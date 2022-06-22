@@ -3,16 +3,13 @@
 #include "Utility/Time.h"
 
 
-Engine::Script::Script(const String& filePath) : path(filePath) {
+Engine::Script::Script(const std::string& filePath) : path(filePath) {
 	reload();
 }
 Engine::Script::~Script() {
-	if (Engine::JavaHandler::jvm) {
-		Engine::JavaHandler::DelInst(inst);
-	}
+	Engine::JavaHandler::DelInst(inst);
 }
 
-// Reloads bytes
 void Engine::Script::reload() {
 	if (jclass scptCls = Engine::JavaHandler::LoadClass(path)) {
 		Engine::JavaHandler::DelInst(inst);
@@ -22,7 +19,6 @@ void Engine::Script::reload() {
 	}
 }
 
-// Data editors
 void SetScriptFloat3(jobject field, const kl::float3& dat) {
 	static jclass objCls = Engine::JavaHandler::env->GetObjectClass(field);
 	static jfieldID xField = Engine::JavaHandler::GetField(objCls, "x", "F");
@@ -43,30 +39,23 @@ void GetScriptFloat3(jobject field, kl::float3& dat) {
 }
 void Engine::Script::setEntityData(void* entAddr) {
 	if (inst) {
-		// Cast
 		Engine::Entity* ent = (Engine::Entity*)entAddr;
 
-		// Name
 		Engine::JavaHandler::env->SetObjectField(inst, Engine::JavaHandler::nameField, Engine::JavaHandler::env->NewStringUTF(ent->getName().c_str()));
-
-		// View		
 		Engine::JavaHandler::env->SetBooleanField(inst, Engine::JavaHandler::visibleField, ent->visible);
 		Engine::JavaHandler::env->SetBooleanField(inst, Engine::JavaHandler::shadowsField, ent->shadows);
 
-		// Material
 		jobject material = Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::materialField);
 		Engine::JavaHandler::env->SetFloatField(material, Engine::JavaHandler::roughnessField, ent->material.roughness);
 		Engine::JavaHandler::env->SetObjectField(material, Engine::JavaHandler::colorMapField, Engine::JavaHandler::env->NewStringUTF(ent->material.colorMap->getName().c_str()));
 		Engine::JavaHandler::env->SetObjectField(material, Engine::JavaHandler::normalMapField, Engine::JavaHandler::env->NewStringUTF(ent->material.normalMap->getName().c_str()));
 		Engine::JavaHandler::env->SetObjectField(material, Engine::JavaHandler::roughnessMapField, Engine::JavaHandler::env->NewStringUTF(ent->material.roughnessMap->getName().c_str()));
 
-		// Geometry
 		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::scaleField), ent->scale);
 		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::rotationField), ent->rotation);
 		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::positionField), ent->position);
 		Engine::JavaHandler::env->SetObjectField(inst, Engine::JavaHandler::meshField, Engine::JavaHandler::env->NewStringUTF(ent->mesh->getName().c_str()));
 
-		// Physics
 		Engine::JavaHandler::env->SetBooleanField(inst, Engine::JavaHandler::dynamicField, ent->dynamic);
 		Engine::JavaHandler::env->SetBooleanField(inst, Engine::JavaHandler::gravityField, ent->gravity);
 		Engine::JavaHandler::env->SetFloatField(inst, Engine::JavaHandler::frictionField, ent->friction);
@@ -74,7 +63,6 @@ void Engine::Script::setEntityData(void* entAddr) {
 		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::velocityField), ent->velocity);
 		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::angularField), ent->angular);
 
-		// Collider
 		jobject collider = Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::colliderField);
 		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collScaleField), ent->collider.scale);
 		SetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collRotationField), ent->collider.rotation);
@@ -84,17 +72,14 @@ void Engine::Script::setEntityData(void* entAddr) {
 }
 void Engine::Script::getEntityData(void* entAddr) {
 	if (inst) {
-		// Cast
 		Engine::Entity* ent = (Engine::Entity*)entAddr;
 
-		// View
 		ent->visible = Engine::JavaHandler::env->GetBooleanField(inst, Engine::JavaHandler::visibleField);
 		ent->shadows = Engine::JavaHandler::env->GetBooleanField(inst, Engine::JavaHandler::shadowsField);
 
-		// Material
 		jobject material = Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::materialField);
 		ent->material.roughness = Engine::JavaHandler::env->GetFloatField(material, Engine::JavaHandler::roughnessField);
-		const String colorMapName = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(material, Engine::JavaHandler::colorMapField), nullptr);
+		const std::string colorMapName = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(material, Engine::JavaHandler::colorMapField), nullptr);
 		if (colorMapName != ent->material.colorMap->getName()) {
 			for (auto& tex : Engine::textures) {
 				if (tex->getName() == colorMapName) {
@@ -103,7 +88,7 @@ void Engine::Script::getEntityData(void* entAddr) {
 				}
 			}
 		}
-		const String normalMapName = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(material, Engine::JavaHandler::normalMapField), nullptr);
+		const std::string normalMapName = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(material, Engine::JavaHandler::normalMapField), nullptr);
 		if (normalMapName != ent->material.normalMap->getName()) {
 			for (auto& tex : Engine::textures) {
 				if (tex->getName() == normalMapName) {
@@ -112,7 +97,7 @@ void Engine::Script::getEntityData(void* entAddr) {
 				}
 			}
 		}
-		const String roughnessMapName = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(material, Engine::JavaHandler::roughnessMapField), nullptr);
+		const std::string roughnessMapName = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(material, Engine::JavaHandler::roughnessMapField), nullptr);
 		if (roughnessMapName != ent->material.roughnessMap->getName()) {
 			for (auto& tex : Engine::textures) {
 				if (tex->getName() == roughnessMapName) {
@@ -122,11 +107,10 @@ void Engine::Script::getEntityData(void* entAddr) {
 			}
 		}
 
-		// Geometry
 		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::scaleField), ent->scale);
 		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::rotationField), ent->rotation);
 		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::positionField), ent->position);
-		const String meshName = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::meshField), nullptr);
+		const std::string meshName = Engine::JavaHandler::env->GetStringUTFChars((jstring)Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::meshField), nullptr);
 		if (meshName != ent->mesh->getName()) {
 			for (auto& mes : Engine::meshes) {
 				if (mes->getName() == meshName) {
@@ -136,7 +120,6 @@ void Engine::Script::getEntityData(void* entAddr) {
 			}
 		}
 
-		// Physics
 		ent->dynamic = Engine::JavaHandler::env->GetBooleanField(inst, Engine::JavaHandler::dynamicField);
 		ent->gravity = Engine::JavaHandler::env->GetBooleanField(inst, Engine::JavaHandler::gravityField);
 		ent->friction = Engine::JavaHandler::env->GetFloatField(inst, Engine::JavaHandler::frictionField);
@@ -144,7 +127,6 @@ void Engine::Script::getEntityData(void* entAddr) {
 		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::velocityField), ent->velocity);
 		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::angularField), ent->angular);
 
-		// Collider
 		jobject collider = Engine::JavaHandler::env->GetObjectField(inst, Engine::JavaHandler::colliderField);
 		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collScaleField), ent->collider.scale);
 		GetScriptFloat3(Engine::JavaHandler::env->GetObjectField(collider, Engine::JavaHandler::collRotationField), ent->collider.rotation);
@@ -153,7 +135,6 @@ void Engine::Script::getEntityData(void* entAddr) {
 	}
 }
 
-// Method callers
 void Engine::Script::callStart(void* ent) {
 	if (inst) {
 		setEntityData(ent);

@@ -3,35 +3,25 @@
 #include "Types/Entity.h"
 #include "Logging/Logging.h"
 
+#pragma comment(lib, "PhysX_static_64.lib")
+#pragma comment(lib, "PhysXCharacterKinematic_static_64.lib")
+#pragma comment(lib, "PhysXCommon_static_64.lib")
+#pragma comment(lib, "PhysXCooking_static_64.lib")
+#pragma comment(lib, "PhysXExtensions_static_64.lib")
+#pragma comment(lib, "PhysXFoundation_static_64.lib")
+#pragma comment(lib, "PhysXPvdSDK_static_64.lib")
+#pragma comment(lib, "PhysXVehicle_static_64.lib")
 
-// Setup
+
 void Engine::Physics::Init() {
-	// Foundation creation
-	foundation = PxCreateFoundation(PX_PHYSICS_VERSION, allocatorCB, errorCB);
-	if (!foundation) {
-		kl::console::show();
-		std::cout << "PhysX: Failed to create foundation!";
-		std::cin.get();
-		exit(69);
-	}
+	foundation = PxCreateFoundation(PX_PHYSICS_VERSION, allocatorCallback, errorCallback);
+	kl::console::error(!foundation, "Failed to create foundation");
 
-	// Physics creation
 	physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation, physx::PxTolerancesScale());
-	if (!physics) {
-		kl::console::show();
-		std::cout << "PhysX: Failed to create physics!";
-		std::cin.get();
-		exit(69);
-	}
+	kl::console::error(!physics, "Failed to create physics");
 
-	// Cooking
 	cooking = PxCreateCooking(PX_PHYSICS_VERSION, *foundation, physx::PxCookingParams(physics->getTolerancesScale()));
-	if (!cooking) {
-		kl::console::show();
-		std::cout << "PhysX: Failed to create cooking!";
-		std::cin.get();
-		exit(69);
-	}
+	kl::console::error(!cooking, "Failed to create cooking");
 }
 void Engine::Physics::Uninit() {
 	cooking->release();
@@ -42,7 +32,6 @@ void Engine::Physics::Uninit() {
 	foundation = nullptr;
 }
 
-// Scene
 void Engine::Physics::CreateScene() {
 	static physx::PxDefaultCpuDispatcher* workerThreads = physx::PxDefaultCpuDispatcherCreate(2);
 	physx::PxSceneDesc sceneDesc(physics->getTolerancesScale());
@@ -63,57 +52,49 @@ void Engine::Physics::DestroyScene() {
 	}
 }
 
-// Frame update
 void Engine::Physics::Update() {
-	// Setting sim data
-	for (auto& ent : Engine::entities) {
-		// Actor creation
-		ent->collider.newActor(ent->dynamic);
+	for (auto& entity : Engine::entities) {
+		entity->collider.newActor(entity->dynamic);
 
-		// Data setting
-		ent->collider.setGravity(ent->gravity);
-		ent->collider.setFriction(ent->friction);
-		ent->collider.setMass(ent->mass);
-		ent->collider.setWorldRotation(ent->rotation);
-		ent->collider.setWorldPosition(ent->position);
-		ent->collider.setVelocity(ent->velocity);
-		ent->collider.setAngular(ent->angular);
+		entity->collider.setGravity(entity->gravity);
+		entity->collider.setFriction(entity->friction);
+		entity->collider.setMass(entity->mass);
+		entity->collider.setWorldRotation(entity->rotation);
+		entity->collider.setWorldPosition(entity->position);
+		entity->collider.setVelocity(entity->velocity);
+		entity->collider.setAngular(entity->angular);
 
-		// Shape creation
-		switch (ent->collider.shape) {
+		switch (entity->collider.shape) {
 		case Engine::Collider::Shape::Box:
-			ent->collider.newShape(ent->scale * ent->collider.scale);
+			entity->collider.newShape(entity->scale * entity->collider.scale);
 			break;
 
 		case Engine::Collider::Shape::Sphere:
-			ent->collider.newShape(ent->collider.scale.y);
+			entity->collider.newShape(entity->collider.scale.y);
 			break;
 
 		case Engine::Collider::Shape::Capsule:
-			ent->collider.newShape(kl::float2(ent->collider.scale.y, ent->collider.scale.x));
+			entity->collider.newShape(kl::float2(entity->collider.scale.y, entity->collider.scale.x));
 			break;
 
 		case Engine::Collider::Shape::Mesh:
-			ent->collider.newShape(ent->mesh, ent->scale * ent->collider.scale);
+			entity->collider.newShape(entity->mesh, entity->scale * entity->collider.scale);
 			break;
 		}
 
-		// Adding actor to scene
-		scene->addActor(*ent->collider.actor);
+		scene->addActor(*entity->collider.actor);
 	}
 
-	// Simulation
 	scene->simulate(Engine::Time::delta);
 	scene->fetchResults(true);
 
-	// Reading sim data
-	for (auto& ent : Engine::entities) {
-		if (ent->dynamic) {
-			ent->position = ent->collider.getWorldPosition() - ent->collider.position;
-			ent->rotation = ent->collider.getWorldRotation() - ent->collider.rotation;
-			ent->velocity = ent->collider.getVelocity();
-			ent->angular = ent->collider.getAngular();
+	for (auto& entity : Engine::entities) {
+		if (entity->dynamic) {
+			entity->position = entity->collider.getWorldPosition() - entity->collider.position;
+			entity->rotation = entity->collider.getWorldRotation() - entity->collider.rotation;
+			entity->velocity = entity->collider.getVelocity();
+			entity->angular = entity->collider.getAngular();
 		}
-		scene->removeActor(*ent->collider.actor);
+		scene->removeActor(*entity->collider.actor);
 	}
 }

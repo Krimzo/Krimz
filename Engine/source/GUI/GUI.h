@@ -10,36 +10,40 @@
 
 namespace Engine {
 	namespace GUI {
-		// Icon textures
-		inline ID3D11ShaderResourceView* folderIcon = nullptr;
-		inline ID3D11ShaderResourceView* folderEIcon = nullptr;
-		inline ID3D11ShaderResourceView* fileIcon = nullptr;
-		inline ID3D11ShaderResourceView* imageIcon = nullptr;
-		inline ID3D11ShaderResourceView* objectIcon = nullptr;
-		inline ID3D11ShaderResourceView* codeIcon = nullptr;
-		inline ID3D11ShaderResourceView* scriptIcon = nullptr;
-		inline ID3D11ShaderResourceView* solidRaIcon = nullptr;
-		inline ID3D11ShaderResourceView* solidRaGIcon = nullptr;
-		inline ID3D11ShaderResourceView* wireRaIcon = nullptr;
-		inline ID3D11ShaderResourceView* wireRaGIcon = nullptr;
+		inline kl::dx::view::shader folderIcon = nullptr;
+		inline kl::dx::view::shader folderEIcon = nullptr;
+		inline kl::dx::view::shader fileIcon = nullptr;
+		inline kl::dx::view::shader imageIcon = nullptr;
+		inline kl::dx::view::shader objectIcon = nullptr;
+		inline kl::dx::view::shader codeIcon = nullptr;
+		inline kl::dx::view::shader scriptIcon = nullptr;
+		inline kl::dx::view::shader solidRaIcon = nullptr;
+		inline kl::dx::view::shader solidRaGIcon = nullptr;
+		inline kl::dx::view::shader wireRaIcon = nullptr;
+		inline kl::dx::view::shader wireRaGIcon = nullptr;
 
-		// Viewport
 		inline bool viewportFocus = false;
-		inline kl::int2 viewportPos = {};
-		inline kl::int2 viewportSize = kl::int2(100);
+		inline kl::uint2 viewportPosition = {};
+		inline kl::uint2 viewportSize = 100;
 
-		// Setup
 		void Init();
 		void Uninit();
 		void LoadKrimzTheme();
 
-		// Stages
-		void MainMenu();
-		void Scene();
-		void Viewport();
-		void Performance();
-		void Log();
-		void Explorer();
-		void Properties();
+		void MainMenuRender();
+		void SceneRender();
+		void ViewportRender();
+		void PerformanceRender();
+		void LogRender();
+		void ExplorerRender();
+		void PropertiesRender();
+
+		namespace Scene {
+			void Cameras();
+			void Entites();
+			void Meshes();
+			void Skyboxes();
+			void Textures();
+		}
 	}
 }

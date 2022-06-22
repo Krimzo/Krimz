@@ -1,7 +1,6 @@
 #include "GUI/GUI.h"
 
 
-// Inits the ImGui context
 void Engine::GUI::Init() {
 	ImGui::CreateContext();
 	ImPlot::CreateContext();
@@ -9,18 +8,14 @@ void Engine::GUI::Init() {
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
 
-// Destroys the ImGui context
 void Engine::GUI::Uninit() {
 	ImPlot::DestroyContext();
 	ImGui::DestroyContext();
 }
 
-// Loads my custom theme
 void Engine::GUI::LoadKrimzTheme() {
-	// Getting the gui style
 	ImGuiStyle& style = ImGui::GetStyle();
 
-	// Setting the window properties
 	style.WindowPadding = ImVec2(15.0f, 15.0f);
 	style.WindowRounding = 2.0f;
 	style.FramePadding = ImVec2(5.0f, 5.0f);
@@ -38,7 +33,6 @@ void Engine::GUI::LoadKrimzTheme() {
 	style.ChildBorderSize = 1.0f;
 	style.ChildRounding = 5.0f;
 
-	// Setting the colors
 	const ImVec4 colorNone = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
 	const ImVec4 colorDark = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);
 	const ImVec4 colorMid = ImVec4(0.2f, 0.2f, 0.2f, 1.0f);
@@ -100,7 +94,6 @@ void Engine::GUI::LoadKrimzTheme() {
 	style.Colors[ImGuiCol_NavWindowingDimBg] = colorMid;
 	style.Colors[ImGuiCol_ModalWindowDimBg] = colorMid;
 
-	// Loading fonts
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontFromFileTTF("resource/fonts/Balsamiq.ttf", 15);
 }

@@ -5,40 +5,40 @@
 
 
 void MovementSetup() {
-	Engine::win.keys.w.down = [&]() {
+	Engine::window.keys.w.down = [&]() {
 		if (!ImGui::GetIO().WantCaptureKeyboard) {
 			Engine::Selected::camera->moveForward(Engine::Time::delta);
 		}
 	};
-	Engine::win.keys.s.down = [&]() {
+	Engine::window.keys.s.down = [&]() {
 		if (!ImGui::GetIO().WantCaptureKeyboard) {
 			Engine::Selected::camera->moveBack(Engine::Time::delta);
 		}
 	};
-	Engine::win.keys.d.down = [&]() {
+	Engine::window.keys.d.down = [&]() {
 		if (!ImGui::GetIO().WantCaptureKeyboard) {
 			Engine::Selected::camera->moveRight(Engine::Time::delta);
 		}
 	};
-	Engine::win.keys.a.down = [&]() {
+	Engine::window.keys.a.down = [&]() {
 		if (!ImGui::GetIO().WantCaptureKeyboard) {
 			Engine::Selected::camera->moveLeft(Engine::Time::delta);
 		}
 	};
-	Engine::win.keys.e.down = [&]() {
+	Engine::window.keys.e.down = [&]() {
 		if (!ImGui::GetIO().WantCaptureKeyboard) {
 			Engine::Selected::camera->moveUp(Engine::Time::delta);
 		}
 	};
-	Engine::win.keys.q.down = [&]() {
+	Engine::window.keys.q.down = [&]() {
 		if (!ImGui::GetIO().WantCaptureKeyboard) {
 			Engine::Selected::camera->moveDown(Engine::Time::delta);
 		}
 	};
-	Engine::win.keys.shift.press = [&]() {
+	Engine::window.keys.shift.press = [&]() {
 		Engine::Selected::camera->speed = 5.0f;
 	};
-	Engine::win.keys.shift.release = [&]() {
+	Engine::window.keys.shift.release = [&]() {
 		Engine::Selected::camera->speed = 2.0f;
 	};
 }
@@ -46,39 +46,33 @@ void MovementSetup() {
 bool firstClick = true;
 bool camMoving = false;
 void RotationSetup() {
-	Engine::win.mouse.rmb.press = [&]() {
+	Engine::window.mouse.rmb.press = [&]() {
 		if (Engine::GUI::viewportFocus) {
-			Engine::win.mouse.hide();
+			Engine::window.mouse.hide();
 			camMoving = true;
 		}
 	};
-	Engine::win.mouse.rmb.down = [&]() {
+	Engine::window.mouse.rmb.down = [&]() {
 		if (camMoving) {
-			// Window center
-			const kl::int2 frameCenter = Engine::win.getCenter();
+			const kl::int2 frameCenter = Engine::window.center();
 
-			// First click jump fix
 			if (firstClick) {
-				Engine::win.mouse.position = frameCenter;
+				Engine::window.mouse.position = frameCenter;
 				firstClick = false;
 			}
 
-			// Camera rotation
-			Engine::Selected::camera->rotate(Engine::win.mouse.position, frameCenter);
-			Engine::win.mouse.move(frameCenter);
+			Engine::Selected::camera->rotate(Engine::window.mouse.position, frameCenter);
+			Engine::window.mouse.move(frameCenter);
 		}
 	};
-	Engine::win.mouse.rmb.release = [&]() {
-		Engine::win.mouse.show();
+	Engine::window.mouse.rmb.release = [&]() {
+		Engine::window.mouse.show();
 		firstClick = true;
 		camMoving = false;
 	};
 }
 
 void Engine::Input::Camera() {
-	// Movement
 	MovementSetup();
-
-	// Camera rotation
 	RotationSetup();
 }

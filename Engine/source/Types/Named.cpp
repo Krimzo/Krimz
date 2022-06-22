@@ -1,28 +1,28 @@
 #include "Types/Named.h"
 
 
-static std::set<String> existingNames[5] = {};
+static std::set<std::string> existingNames[5] = {};
 
-Engine::Named::Named(Named::Type type) : type(type) {
+Engine::Named::Named(Named::Type type) : m_Type(type) {
 	updateName("undefined");
 }
-Engine::Named::Named(Named::Type type, const String& name) : type(type) {
+Engine::Named::Named(Named::Type type, const std::string& name) : m_Type(type) {
 	updateName(name);
 }
 Engine::Named::~Named() {
-	existingNames[int(type)].erase(name);
+	existingNames[uint(m_Type)].erase(m_Name);
 }
 
-const String& Engine::Named::getName() const {
-	return name;
+const std::string& Engine::Named::getName() const {
+	return m_Name;
 }
-void Engine::Named::updateName(const String& newName) {
-	String candName = newName;
-	size_t nameCounter = 0;
-	existingNames[int(type)].erase(name);
-	while (existingNames[int(type)].contains(candName)) {
+void Engine::Named::updateName(const std::string& newName) {
+	std::string candName = newName;
+	uint64 nameCounter = 0;
+	existingNames[uint(m_Type)].erase(m_Name);
+	while (existingNames[uint(m_Type)].contains(candName)) {
 		candName = newName + std::to_string(++nameCounter);
 	}
-	existingNames[int(type)].insert(candName);
-	name = candName;
+	existingNames[uint(m_Type)].insert(candName);
+	m_Name = candName;
 }

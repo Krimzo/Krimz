@@ -4,15 +4,9 @@
 Engine::Material::Material() {}
 
 bool Engine::Material::hasNormalMap() const {
-	if (normalMap == Engine::Default::noneMap) {
-		return false;
-	}
-	return true;
+	return normalMap != Engine::Textures::Default::nullMap;
 }
 
 bool Engine::Material::hasRoughnessMap() const {
-	if (roughnessMap == Engine::Default::noneMap) {
-		return false;
-	}
-	return true;
+	return roughnessMap != Engine::Textures::Default::nullMap;
 }

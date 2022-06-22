@@ -7,9 +7,9 @@ namespace Engine {
 	class Material {
 	public:
 		float roughness = 0.5f;
-		std::shared_ptr<Engine::Texture> colorMap = Engine::Default::colorMap;
-		std::shared_ptr<Engine::Texture> normalMap = Engine::Default::noneMap;
-		std::shared_ptr<Engine::Texture> roughnessMap = Engine::Default::noneMap;
+		std::shared_ptr<Engine::Texture> colorMap = Engine::Textures::Default::colorMap;
+		std::shared_ptr<Engine::Texture> normalMap = Engine::Textures::Default::nullMap;
+		std::shared_ptr<Engine::Texture> roughnessMap = Engine::Textures::Default::nullMap;
 
 		Material();
 

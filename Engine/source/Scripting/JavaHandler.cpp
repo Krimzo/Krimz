@@ -2,17 +2,12 @@
 #include "Logging/Logging.h"
 #include "Types/Entity.h"
 
+#pragma comment(lib, "jvm.lib")
+
 
 void Engine::JavaHandler::Init() {
-	// Loading java dll
-	if (!LoadLibraryA("../OpenJDK/bin/server/jvm.dll")) {
-		kl::console::show();
-		std::cout << "Could not load java dll!";
-		std::cin.get();
-		exit(69);
-	}
+	kl::console::error(!LoadLibraryA("../OpenJDK/bin/server/jvm.dll"), "Failed to load java dll");
 
-	// Virtual machine arguments
 	JavaVMInitArgs vmArgs = {};
 	vmArgs.version = JNI_VERSION_10;
 	JavaVMOption jvmOptions[1] = {};
@@ -20,19 +15,11 @@ void Engine::JavaHandler::Init() {
 	vmArgs.options = jvmOptions;
 	vmArgs.nOptions = 1;
 
-	// Virtual machine creation
-	if (JNI_CreateJavaVM(&jvm, (void**)&env, &vmArgs) != JNI_OK) {
-		kl::console::show();
-		std::cout << "JVM creation error!";
-		std::cin.get();
-		exit(69);
-	}
+	kl::console::error(JNI_CreateJavaVM(&jvm, (void**)&env, &vmArgs) != JNI_OK, "Failed to create JVM");
 
-	// System
 	sysClass = LoadEternalClass("java/lang/System");
 	sysGCMethod = GetMethod(sysClass, "gc", "()V", true);
 
-	// Compiler
 	stringClass = env->FindClass("Ljava/lang/String;");
 	jclass providerClass = LoadEternalClass("javax/tools/ToolProvider");
 	jclass compilerClass = LoadEternalClass("javax/tools/JavaCompiler");
@@ -40,10 +27,8 @@ void Engine::JavaHandler::Init() {
 	compiler = env->CallStaticObjectMethod(providerClass, providerMethod);
 	compileMethod = GetMethod(compilerClass, "run", "(Ljava/io/InputStream;Ljava/io/OutputStream;Ljava/io/OutputStream;[Ljava/lang/String;)I");
 
-	// Class loader
 	loaderClass = LoadEternalClass("engine/script/Loader");
 
-	// Math
 	LoadEternalClass("engine/math/Int2");
 	LoadEternalClass("engine/math/Int3");
 	LoadEternalClass("engine/math/Int4");
@@ -58,12 +43,10 @@ void Engine::JavaHandler::Init() {
 	LoadEternalClass("engine/math/Triangle");
 	LoadEternalClass("engine/math/Ray");
 
-	// Time
 	timeClass = LoadEternalClass("engine/Time");
 	deltaTField = GetField(timeClass, "deltaT", "F", true);
 	elapsedTField = GetField(timeClass, "elapsedT", "F", true);
 
-	// Input mouse
 	mouseClass = LoadEternalClass("engine/input/Mouse");
 	lmbField = GetField(mouseClass, "lmb", "Z", true);
 	mmbField = GetField(mouseClass, "mmb", "Z", true);
@@ -71,7 +54,6 @@ void Engine::JavaHandler::Init() {
 	moPosField = GetField(mouseClass, "position", "Lengine/math/Int2;", true);
 	scrollField = GetField(mouseClass, "scroll", "I", true);
 
-	// Input keys
 	keysClass = LoadEternalClass("engine/input/Keys");
 	qField = GetField(keysClass, "q", "Z", true);
 	wField = GetField(keysClass, "w", "Z", true);
@@ -140,29 +122,24 @@ void Engine::JavaHandler::Init() {
 	f11Field = GetField(keysClass, "f11", "Z", true);
 	f12Field = GetField(keysClass, "f12", "Z", true);
 
-	// Scripting
 	LoadEternalClass("engine/script/Script");
 
-	// Logging
 	loggerClass = LoadEternalClass("engine/Logger");
 	loggerFlushMethod = GetMethod(loggerClass, "flush", "()[Ljava/lang/String;", true);
 	loaderConstr = GetMethod(loaderClass, "<init>", "()V");
 
-	// Material
 	materialClass = LoadEternalClass("engine/entity/Material");
 	roughnessField = GetField(materialClass, "roughness", "F");
 	colorMapField = GetField(materialClass, "colorMap", "Ljava/lang/String;");
 	normalMapField = GetField(materialClass, "normalMap", "Ljava/lang/String;");
 	roughnessMapField = GetField(materialClass, "roughnessMap", "Ljava/lang/String;");
 
-	// Collider
 	colliderClass = LoadEternalClass("engine/entity/Collider");
 	collScaleField = GetField(colliderClass, "scale", "Lengine/math/Float3;");
 	collRotationField = GetField(colliderClass, "rotation", "Lengine/math/Float3;");
 	collPositionField = GetField(colliderClass, "position", "Lengine/math/Float3;");
 	collShapeField = GetField(colliderClass, "shape", "I");
 
-	// Entity
 	entityClass = LoadEternalClass("engine/entity/Entity");
 	nameField = GetField(entityClass, "name", "Ljava/lang/String;");
 	visibleField = GetField(entityClass, "visible", "Z");
@@ -180,16 +157,9 @@ void Engine::JavaHandler::Init() {
 	angularField = GetField(entityClass, "angular", "Lengine/math/Float3;");
 	colliderField = GetField(entityClass, "collider", "Lengine/entity/Collider;");
 
-	// Loader creation
 	loader = env->NewObject(loaderClass, loaderConstr);
-	if (!loader) {
-		kl::console::show();
-		std::cout << "Could not create a class loader!";
-		std::cin.get();
-		exit(69);
-	}
+	kl::console::error(!loader, "Failed to create class loader");
 
-	// First cleanup
 	env->CallStaticVoidMethod(sysClass, sysGCMethod);
 }
 void Engine::JavaHandler::Uninit() {
@@ -200,9 +170,7 @@ void Engine::JavaHandler::Uninit() {
 	env = nullptr;
 }
 
-// Clears all loaded references
 void Engine::JavaHandler::ResetLoader() {
-	// Cleanup
 	for (auto& ref : refs) {
 		env->DeleteLocalRef(ref);
 	}
@@ -212,24 +180,15 @@ void Engine::JavaHandler::ResetLoader() {
 	}
 	classes.clear();
 
-	// Deleting class loader
 	env->DeleteLocalRef(loader);
 
-	// Collecting garbage
 	env->CallStaticVoidMethod(sysClass, sysGCMethod);
 
-	// Loader creation
 	loader = env->NewObject(loaderClass, loaderConstr);
-	if (!loader) {
-		kl::console::show();
-		std::cout << "Could not create a class loader!";
-		std::cin.get();
-		exit(69);
-	}
+	kl::console::error(!loader, "Failed to create class loader");
 }
 
-// Loads eternal class
-jclass Engine::JavaHandler::LoadEternalClass(const String& name) {
+jclass Engine::JavaHandler::LoadEternalClass(const std::string& name) {
 	jclass loaded = env->FindClass(name.c_str());
 	if (!loaded) {
 		Engine::log("Could not load eternal class \"" + name + "\"!");
@@ -237,15 +196,12 @@ jclass Engine::JavaHandler::LoadEternalClass(const String& name) {
 	return loaded;
 }
 
-// Loads a new class from file
-jclass Engine::JavaHandler::LoadClass(const String& filePath) {
-	// Compilation and byte-code loading
+jclass Engine::JavaHandler::LoadClass(const std::string& filePath) {
 	CompileFile(filePath);
-	const String classPath = std::filesystem::path(filePath).replace_extension("class").string();
+	const std::string classPath = std::filesystem::path(filePath).replace_extension("class").string();
 	const std::vector<byte> clsBytes = kl::file::readB(classPath);
 
-	// Cleanup and check
-	const String parentPath = std::filesystem::path(filePath).parent_path().string();
+	const std::string parentPath = std::filesystem::path(filePath).parent_path().string();
 	for (const auto& file : std::filesystem::recursive_directory_iterator(parentPath)) {
 		if (std::filesystem::path(file).extension().string() == ".class") {
 			std::filesystem::remove(file);
@@ -255,15 +211,12 @@ jclass Engine::JavaHandler::LoadClass(const String& filePath) {
 		return nullptr;
 	}
 
-	// Defining class with bytes
 	jclass clsDef = env->DefineClass(nullptr, loader, (jbyte*)&clsBytes[0], jsize(clsBytes.size()));
 	if (!clsDef) {
-		// Exists check
 		if (classes.contains(filePath)) {
 			return classes[filePath];
 		}
 
-		// Bad script
 		Engine::log("Could not define class \"" + filePath + "\"!");
 		return nullptr;
 	}
@@ -272,8 +225,7 @@ jclass Engine::JavaHandler::LoadClass(const String& filePath) {
 	return clsDef;
 }
 
-// Gets a class method
-jmethodID Engine::JavaHandler::GetMethod(jclass cls, const String& name, const String& sig, bool isStatic) {
+jmethodID Engine::JavaHandler::GetMethod(jclass cls, const std::string& name, const std::string& sig, bool isStatic) {
 	jmethodID methodID = isStatic ? env->GetStaticMethodID(cls, name.c_str(), sig.c_str()) : env->GetMethodID(cls, name.c_str(), sig.c_str());
 	if (!methodID) {
 		Engine::log("Could not get method \"" + name + "\"!");
@@ -281,8 +233,7 @@ jmethodID Engine::JavaHandler::GetMethod(jclass cls, const String& name, const S
 	return methodID;
 }
 
-// Gets a class field
-jfieldID Engine::JavaHandler::GetField(jclass cls, const String& name, const String& sig, bool isStatic) {
+jfieldID Engine::JavaHandler::GetField(jclass cls, const std::string& name, const std::string& sig, bool isStatic) {
 	jfieldID fieldID = isStatic ? env->GetStaticFieldID(cls, name.c_str(), sig.c_str()) : env->GetFieldID(cls, name.c_str(), sig.c_str());
 	if (!fieldID) {
 		Engine::log("Could not get field \"" + name + "\"!");
@@ -290,7 +241,6 @@ jfieldID Engine::JavaHandler::GetField(jclass cls, const String& name, const Str
 	return fieldID;
 }
 
-// Creates a new class instance
 jobject Engine::JavaHandler::NewInst(jclass cls, jmethodID constr) {
 	jobject obj = env->NewObject(cls, constr);
 	if (!obj) {
@@ -302,20 +252,19 @@ jobject Engine::JavaHandler::NewInst(jclass cls, jmethodID constr) {
 	return obj;
 }
 
-// Deletes a class instance
 void Engine::JavaHandler::DelInst(jobject obj) {
 	if (refs.contains(obj)) {
-		env->DeleteLocalRef(obj);
+		if (env) {
+			env->DeleteLocalRef(obj);
+		}
 		refs.erase(obj);
 	}
 }
 
-// Compiles given script
-void Engine::JavaHandler::CompileFile(const String& filePath) {
-	// Setup
+void Engine::JavaHandler::CompileFile(const std::string& filePath) {
 	jstring args[3] = {
 		env->NewStringUTF("-cp"),
-		env->NewStringUTF((String(".;../JavApi/JavApi.jar;") + std::filesystem::path(filePath).parent_path().string() + ";").c_str()),
+		env->NewStringUTF((std::string(".;../JavApi/JavApi.jar;") + std::filesystem::path(filePath).parent_path().string() + ";").c_str()),
 		env->NewStringUTF(filePath.c_str())
 	};
 	jobjectArray argArray = env->NewObjectArray(3, stringClass, args[2]);
@@ -323,24 +272,18 @@ void Engine::JavaHandler::CompileFile(const String& filePath) {
 		env->SetObjectArrayElement(argArray, i, args[i]);
 	}
 
-	// Compilation
 	if (env->CallIntMethod(compiler, compileMethod, NULL, NULL, NULL, argArray)) {
 		Engine::log("An error occured compiling script \"" + filePath + "\"!");
 	}
 
-	// Cleanup
 	env->DeleteLocalRef(argArray);
 	for (auto& arg : args) {
 		env->DeleteLocalRef(arg);
 	}
 }
 
-// Reloads all scripts from files
 void Engine::JavaHandler::ReloadScripts() {
-	// Old cleanup
 	ResetLoader();
-
-	// Loading new data
 	for (auto& ent : Engine::entities) {
 		for (auto& scr : ent->scripts) {
 			scr->reload();

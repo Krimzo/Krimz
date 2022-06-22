@@ -8,5 +8,5 @@
 
 
 void Engine::Stage::End() {
-	exit(0);
+	Engine::gpu = nullptr;
 }

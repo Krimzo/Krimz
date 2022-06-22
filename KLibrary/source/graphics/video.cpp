@@ -1,7 +1,14 @@
 #include "graphics/video.h"
 
 #include "utility/console.h"
-#include "utility/convert.h"
+#include "utility/encrypter.h"
+
+#pragma comment(lib, "mf.lib")
+#pragma comment(lib, "mfplay.lib")
+#pragma comment(lib, "mfplat.lib")
+#pragma comment(lib, "mfuuid.lib")
+#pragma comment(lib, "mfreadwrite.lib")
+#pragma comment(lib, "propsys.lib")
 
 
 static int vidInstCount = 0;
@@ -11,12 +18,8 @@ void VidUtilInit() {
 	vidThrdLock.lock();
 	vidInstCount++;
 	if (!vidUtilInited) {
-		if ((FAILED(CoInitializeEx(nullptr, COINIT_MULTITHREADED | COINIT_SPEED_OVER_MEMORY)) || FAILED(MFStartup(MF_VERSION)))) {
-			kl::console::show();
-			std::cout << "Failed to init video loader!";
-			std::cin.get();
-			exit(69);
-		}
+		kl::console::error((FAILED(CoInitializeEx(nullptr, COINIT_MULTITHREADED | COINIT_SPEED_OVER_MEMORY)) || FAILED(MFStartup(MF_VERSION))),
+			"Failed to initialize video utility");
 		vidUtilInited = true;
 	}
 	vidThrdLock.unlock();
@@ -35,7 +38,7 @@ void VidUtilUninit() {
 kl::video::video() {
 	VidUtilInit();
 }
-kl::video::video(const String& filePath) {
+kl::video::video(const std::string& filePath) {
 	VidUtilInit();
 	open(filePath);
 }
@@ -45,63 +48,49 @@ kl::video::~video() {
 }
 
 void ConfigureDecoder(IMFSourceReader* reader) {
-	// Getting default types
 	IMFMediaType* defType = nullptr;
-	if (FAILED(reader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, &defType))) {
-		exit(1);
-	}
+	kl::console::error(FAILED(reader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, &defType)), "Failed to get default video type");
+
 	GUID majorType = {};
-	if (FAILED(defType->GetGUID(MF_MT_MAJOR_TYPE, &majorType))) {
-		exit(2);
-	}
+	kl::console::error(FAILED(defType->GetGUID(MF_MT_MAJOR_TYPE, &majorType)), "Failed to get major video type");
 
-	// Creating/setting new type
 	IMFMediaType* newType = nullptr;
-	if (FAILED(MFCreateMediaType(&newType))) {
-		exit(3);
-	}
-	if (FAILED(newType->SetGUID(MF_MT_MAJOR_TYPE, majorType))) {
-		exit(4);
-	}
-	if (FAILED(newType->SetGUID(MF_MT_SUBTYPE, MFVideoFormat_RGB32))) {
-		exit(6);
-	}
-	if (FAILED(reader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, nullptr, newType))) {
-		exit(7);
-	}
+	kl::console::error(FAILED(MFCreateMediaType(&newType)), "Failed to create new video type");
+	kl::console::error(FAILED(newType->SetGUID(MF_MT_MAJOR_TYPE, majorType)), "Failed to set major video type");
+	kl::console::error(FAILED(newType->SetGUID(MF_MT_SUBTYPE, MFVideoFormat_RGB32)), "Failed to set sub video type");
+	kl::console::error(FAILED(reader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, nullptr, newType)), "Failed to set video type");
 
-	// Cleanup
 	defType->Release();
 	newType->Release();
 }
-void kl::video::open(const String& filePath) {
+void kl::video::open(const std::string& filePath) {
 	close();
 	IMFAttributes* attr = nullptr;
 	MFCreateAttributes(&attr, 1);
 	attr->SetUINT32(MF_SOURCE_READER_ENABLE_VIDEO_PROCESSING, true);
-	std::wstring wFilePath = kl::convert::toWString(filePath);
-	MFCreateSourceReaderFromURL(wFilePath.c_str(), attr, &reader);
-	if (reader) {
-		ConfigureDecoder(reader);
+	std::wstring wFilePath = kl::toWString(filePath);
+	MFCreateSourceReaderFromURL(wFilePath.c_str(), attr, &m_Reader);
+	if (m_Reader) {
+		ConfigureDecoder(m_Reader);
 	}
 	attr->Release();
 }
 void kl::video::close() {
-	if (reader) {
-		reader->Release();
-		reader = nullptr;
+	if (m_Reader) {
+		m_Reader->Release();
+		m_Reader = nullptr;
 	}
 }
 
 bool kl::video::isOpen() const {
-	return bool(reader);
+	return bool(m_Reader);
 }
 
 float kl::video::duration() const {
-	if (reader) {
+	if (m_Reader) {
 		PROPVARIANT var = {};
-		if (SUCCEEDED(reader->GetPresentationAttribute(MF_SOURCE_READER_MEDIASOURCE, MF_PD_DURATION, &var))) {
-			LONGLONG nanoTime = 0;
+		if (SUCCEEDED(m_Reader->GetPresentationAttribute(MF_SOURCE_READER_MEDIASOURCE, MF_PD_DURATION, &var))) {
+			int64 nanoTime = 0;
 			PropVariantToInt64(var, &nanoTime);
 			PropVariantClear(&var);
 			return (nanoTime * 1e-7f);
@@ -110,12 +99,12 @@ float kl::video::duration() const {
 	return 0.0f;
 }
 
-size_t kl::video::byteSize() const {
-	if (reader) {
+uint64 kl::video::byteSize() const {
+	if (m_Reader) {
 		PROPVARIANT var = {};
-		if (SUCCEEDED(reader->GetPresentationAttribute(MF_SOURCE_READER_MEDIASOURCE, MF_PD_TOTAL_FILE_SIZE, &var))) {
-			size_t byteSize = 0;
-			PropVariantToInt64(var, (LONGLONG*)&byteSize);
+		if (SUCCEEDED(m_Reader->GetPresentationAttribute(MF_SOURCE_READER_MEDIASOURCE, MF_PD_TOTAL_FILE_SIZE, &var))) {
+			uint64 byteSize = 0;
+			PropVariantToUInt64(var, &byteSize);
 			PropVariantClear(&var);
 			return byteSize;
 		}
@@ -123,13 +112,13 @@ size_t kl::video::byteSize() const {
 	return 0;
 }
 
-kl::int2 kl::video::frameSize() const {
-	if (reader) {
+kl::uint2 kl::video::frameSize() const {
+	if (m_Reader) {
 		IMFMediaType* currentType = nullptr;
-		reader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, &currentType);
+		m_Reader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, &currentType);
 		if (currentType) {
-			kl::int2 frameSize;
-			MFGetAttributeSize(currentType, MF_MT_FRAME_SIZE, (UINT32*)&frameSize.x, (UINT32*)&frameSize.y);
+			kl::uint2 frameSize;
+			MFGetAttributeSize(currentType, MF_MT_FRAME_SIZE, &frameSize.x, &frameSize.y);
 			currentType->Release();
 			return frameSize;
 		}
@@ -138,11 +127,11 @@ kl::int2 kl::video::frameSize() const {
 }
 
 float kl::video::frameRate() const {
-	if (reader) {
+	if (m_Reader) {
 		IMFMediaType* currentType = nullptr;
-		reader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, &currentType);
+		m_Reader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, &currentType);
 		if (currentType) {
-			UINT32 num = 0, den = 0;
+			uint num = 0, den = 0;
 			MFGetAttributeRatio(currentType, MF_MT_FRAME_RATE, &num, &den);
 			currentType->Release();
 			return float(num) / den;
@@ -153,9 +142,9 @@ float kl::video::frameRate() const {
 
 bool kl::video::getFrame(kl::image& out) {
 	bool state = false;
-	if (reader) {
+	if (m_Reader) {
 		DWORD flags = 0; LONGLONG timeStamp = 0; IMFSample* sample = nullptr;
-		reader->ReadSample(MF_SOURCE_READER_FIRST_VIDEO_STREAM, NULL, nullptr, &flags, &timeStamp, &sample);
+		m_Reader->ReadSample(MF_SOURCE_READER_FIRST_VIDEO_STREAM, NULL, nullptr, &flags, &timeStamp, &sample);
 		if (sample) {
 			IMFMediaBuffer* frameBuff = nullptr;
 			sample->ConvertToContiguousBuffer(&frameBuff);
@@ -163,7 +152,7 @@ bool kl::video::getFrame(kl::image& out) {
 				byte* frameData = nullptr; DWORD dataLen = 0;
 				frameBuff->Lock(&frameData, nullptr, &dataLen);
 				out.resize(frameSize());
-				memcpy(out.pointer(), frameData, dataLen);
+				memcpy(out.data(), frameData, dataLen);
 				frameBuff->Release();
 				state = true;
 			}

@@ -1,109 +1,81 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include "utility/console.h"
-
-#include "math/int2.h"
-#include "utility/convert.h"
+#include "utility/encrypter.h"
+#include "math/math.h"
 
 #include <iostream>
 #include <sstream>
+#include <conio.h>
 #include <windows.h>
 
+#undef min
+#undef max
 
-// Getting the console handle and rgb init
-HANDLE kl::console::handle = []() {
-	// Getting the standard console handle
+
+static const HANDLE consoleHandle = []() {
 	HANDLE tempHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-
-	// Enabling the console RGB
 	DWORD consoleMode = {};
 	GetConsoleMode(tempHandle, &consoleMode);
 	SetConsoleMode(tempHandle, consoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
-
-	// Returning the handle
 	return tempHandle;
 }();
 
-// Clears the console screen
 void kl::console::clear() {
 	system("cls");
 }
 
-// Hides the console
 void kl::console::hide() {
 	ShowWindow(GetConsoleWindow(), SW_HIDE);
 }
 
-// Shows the console
 void kl::console::show() {
 	ShowWindow(GetConsoleWindow(), SW_SHOW);
 }
 
-// Sets the console cursor position
-void kl::console::setCursor(const kl::int2& position) {
-	SetConsoleCursorPosition(kl::console::handle, { short(position.x), short(position.y) });
+void kl::console::moveCursor(const kl::uint2& position) {
+	SetConsoleCursorPosition(consoleHandle, { short(position.x), short(position.y) });
 }
 
-// Hides the console cursor
 void kl::console::hideCursor() {
 	CONSOLE_CURSOR_INFO cursorInfo = {};
-	GetConsoleCursorInfo(kl::console::handle, &cursorInfo);
+	GetConsoleCursorInfo(consoleHandle, &cursorInfo);
 	cursorInfo.bVisible = false;
-	SetConsoleCursorInfo(kl::console::handle, &cursorInfo);
+	SetConsoleCursorInfo(consoleHandle, &cursorInfo);
 }
 
-// Shows the console cursor
 void kl::console::showCursor() {
 	CONSOLE_CURSOR_INFO cursorInfo = {};
-	GetConsoleCursorInfo(kl::console::handle, &cursorInfo);
+	GetConsoleCursorInfo(consoleHandle, &cursorInfo);
 	cursorInfo.bVisible = true;
-	SetConsoleCursorInfo(kl::console::handle, &cursorInfo);
+	SetConsoleCursorInfo(consoleHandle, &cursorInfo);
 }
 
-// Sets the console title
-void kl::console::setTitle(const String& text) {
+void kl::console::setTitle(const std::string& text) {
 	SetConsoleTitleA(text.c_str());
 }
 
-// Returns screen buffer size
-kl::int2 kl::console::getBufferSize() {
+kl::uint2 kl::console::size() {
 	CONSOLE_SCREEN_BUFFER_INFO csbi = {};
-	GetConsoleScreenBufferInfo(kl::console::handle, &csbi);
-	return kl::int2(csbi.dwSize.X, csbi.dwSize.Y);
+	GetConsoleScreenBufferInfo(consoleHandle, &csbi);
+	return kl::uint2(csbi.srWindow.Right - csbi.srWindow.Left + 1, csbi.srWindow.Bottom - csbi.srWindow.Top + 1);
 }
 
-// Returns the current console size
-kl::int2 kl::console::getSize() {
-	CONSOLE_SCREEN_BUFFER_INFO csbi = {};
-	GetConsoleScreenBufferInfo(kl::console::handle, &csbi);
-	return kl::int2(csbi.srWindow.Right - csbi.srWindow.Left + 1, csbi.srWindow.Bottom - csbi.srWindow.Top + 1);
-}
-
-// Changes the console buffer size
-void kl::console::setBufferSize(const kl::int2& size) {
-	SetConsoleScreenBufferSize(kl::console::handle, { (short)size.x, (short)size.y });
-}
-
-// Changes the console size
-void kl::console::setSize(const kl::int2& size) {
-	setBufferSize(size);
+void kl::console::resize(const kl::uint2& size) {
 	SMALL_RECT consoleRect = { 0, 0, SHORT(size.x - 1), SHORT(size.y - 1) };
-	SetConsoleWindowInfo(kl::console::handle, true, &consoleRect);
+	SetConsoleWindowInfo(consoleHandle, true, &consoleRect);
 }
 
-// Changes the console font size
-void kl::console::setFont(const kl::int2& size, const String& fontName) {
+void kl::console::setFont(const kl::uint2& size, const std::string& fontName) {
 	CONSOLE_FONT_INFOEX cfi = {};
 	cfi.cbSize = sizeof(cfi);
 	cfi.dwFontSize.X = SHORT(size.x);
 	cfi.dwFontSize.Y = SHORT(size.y);
 	cfi.FontFamily = FF_DONTCARE;
 	cfi.FontWeight = FW_NORMAL;
-	wcscpy(cfi.FaceName, kl::convert::toWString(fontName).c_str());
-	SetCurrentConsoleFontEx(kl::console::handle, false, &cfi);
+	wcscpy_s(cfi.FaceName, kl::toWString(fontName).c_str());
+	SetCurrentConsoleFontEx(consoleHandle, false, &cfi);
 }
 
-// Returns a pressed key
-char kl::console::getInput() {
+char kl::console::input() {
 	char input = 0;
 	while (_kbhit()) {
 		input = _getch();
@@ -111,36 +83,55 @@ char kl::console::getInput() {
 	return input;
 }
 
-// Waits until the wanted key is pressed
 void kl::console::waitFor(char toWaitFor, bool echo) {
 	if (echo) {
 		if (toWaitFor > 31 && toWaitFor < 127) {
-			printf("Press '%c' to continue\n", toWaitFor);
+			std::cout << "Press '" << toWaitFor << "' to continue..." << std::endl;
 		}
 		else {
-			printf("Press %d to continue\n", toWaitFor);
+			std::cout << "Press '" << int(toWaitFor) << "' to continue..." << std::endl;
 		}
 	}
 	while (_getch() != toWaitFor);
 }
 
-// Waits for any key to be pressed
 char kl::console::waitForAny(bool echo) {
 	if (echo) {
-		printf("Press any key to continue\n");
+		std::cout << "Press any key to continue..." << std::endl;
 	}
 	return _getch();
 }
 
-// Outputs a progress bar on the console
-void kl::console::progressBar(const String& message, int outputY, float percentage) {
-	// Prep
-	percentage = max(min(percentage, 1.0f), 0.0f);
-	const int barLen = console::getSize().x - int(message.length()) - 12;
+bool kl::console::warning(bool occured, const std::string& message, bool wait) {
+	if (occured) {
+		kl::console::show();
+		std::cout << kl::colors::orange << "Warning: " << message << std::endl;
+		if (wait) {
+			kl::console::waitForAny(false);
+		}
+		std::cout << kl::colors::defaul;
+	}
+	return occured;
+}
+
+void kl::console::error(bool occured, const std::string& message, bool wait) {
+	if (occured) {
+		kl::console::show();
+		std::cout << kl::colors::red << "Error: " << message << std::endl;
+		if (wait) {
+			kl::console::waitForAny(false);
+		}
+		std::cout << kl::colors::defaul;
+		exit(1);
+	}
+}
+
+void kl::console::progressBar(const std::string& message, uint outputY, float percentage) {
+	percentage = std::max(std::min(percentage, 1.0f), 0.0f);
+	const int barLen = kl::console::size().x - int(message.length()) - 12;
 	const int finishLen = int(barLen * percentage);
 	const int emptyLen = barLen - finishLen;
 
-	// Printing
 	std::stringstream ss;
 	ss << "  " << message << " [";
 	for (int i = 0; i < finishLen; i++) {
@@ -149,12 +140,11 @@ void kl::console::progressBar(const String& message, int outputY, float percenta
 	for (int i = 0; i < emptyLen; i++) {
 		ss << ' ';
 	}
-	console::setCursor(kl::int2(0, outputY));
+	kl::console::moveCursor(kl::uint2(0, outputY));
 	printf("%s] %3d%% ", ss.str().c_str(), int(percentage * 100.0f));
 }
 
-// Fast console writing
 static DWORD ignore = 0;
-void kl::console::fastOut(const String& data, const kl::int2& location) {
-	WriteConsoleOutputCharacterA(kl::console::handle, data.c_str(), DWORD(data.length()), { short(location.x), short(location.y) }, &ignore);
+void kl::console::fastOut(const std::string& data, const kl::uint2& location) {
+	WriteConsoleOutputCharacterA(consoleHandle, data.c_str(), DWORD(data.length()), { short(location.x), short(location.y) }, &ignore);
 }

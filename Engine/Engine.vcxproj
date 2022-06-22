@@ -30,6 +30,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Render\Include\RenderColliders.h" />
+    <ClInclude Include="source\Render\Include\RenderDepth.h" />
+    <ClInclude Include="source\Render\Include\RenderLight.h" />
+    <ClInclude Include="source\Render\Include\RenderOutline.h" />
+    <ClInclude Include="source\Render\Include\RenderRasters.h" />
+    <ClInclude Include="source\Render\Include\RenderShaders.h" />
+    <ClInclude Include="source\Render\Include\RenderTime.h" />
     <ClInclude Include="source\Types\Camera.h" />
     <ClInclude Include="source\Types\Light\Ambient.h" />
     <ClInclude Include="source\Types\Light\Direct.h" />
@@ -53,6 +60,11 @@
     <ClInclude Include="source\Scripting\Scripting.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\GUI\Scene\GuiSceneCameras.cpp" />
+    <ClCompile Include="source\GUI\Scene\GuiSceneEntities.cpp" />
+    <ClCompile Include="source\GUI\Scene\GuiSceneMeshes.cpp" />
+    <ClCompile Include="source\GUI\Scene\GuiSceneSkyboxes.cpp" />
+    <ClCompile Include="source\GUI\Scene\GuiSceneTextures.cpp" />
     <ClCompile Include="source\Types\Camera.cpp" />
     <ClCompile Include="source\Types\Light\Direct.cpp" />
     <ClCompile Include="source\Types\Material.cpp" />
@@ -74,7 +86,6 @@
     <ClCompile Include="source\Input\InputLMB.cpp" />
     <ClCompile Include="source\Input\Input.cpp" />
     <ClCompile Include="source\Editor\Picking.cpp" />
-    <ClCompile Include="source\Logging\Logging.cpp" />
     <ClCompile Include="source\Physics\Collider.cpp" />
     <ClCompile Include="source\Physics\Physics.cpp" />
     <ClCompile Include="source\Render\RenderCollider.cpp" />

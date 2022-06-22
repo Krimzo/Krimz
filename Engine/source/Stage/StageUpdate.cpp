@@ -10,16 +10,12 @@
 
 
 void Engine::Stage::Update() {
-	// Time
-	Engine::Time::delta = Engine::Time::timer.interval();
-	Engine::Time::elapsed = Engine::Time::timer.elapsed();
+	Engine::Time::delta = float(Engine::Time::timer.interval());
+	Engine::Time::elapsed = float(Engine::Time::timer.elapsed());
 
-	// Game
 	if (Engine::gameRunning) {
-		// Physics
 		Engine::Physics::Update();
 
-		// Scripts
 		Engine::Scripting::UpdateTime();
 		Engine::Scripting::UpdateInput();
 		Engine::Scripting::CallUpdates();
@@ -27,50 +23,33 @@ void Engine::Stage::Update() {
 		Engine::Scripting::HandleLogs();
 	}
 
-	// Clearing the frame buffers
-	static const kl::color defBackColor = kl::color(20, 20, 20);
-	const kl::color& backColor = Engine::Selected::camera ? Engine::Selected::camera->color : defBackColor;
-	Engine::Render::gpu->clear(backColor);
-	Engine::Render::gpu->clear(Engine::Render::targetV, backColor);
+	const kl::color& clearColor = Engine::Selected::camera ? Engine::Selected::camera->color : kl::colors::gray;
+	Engine::gpu->clear(clearColor);
+	Engine::gpu->clear(Engine::Render::targetView, clearColor);
 
-	// Camera bound check
 	if (Engine::Selected::camera) {
-		// Rendering shadows
 		Engine::Render::Shadows();
-
-		// Viewport fix
 		Engine::Render::FixViewport();
 
-		// Skybox draw
 		if (Engine::Selected::camera->skybox) {
 			Engine::Render::Skybox();
 		}
 
-		// Entity render
 		Engine::Render::Entities();
 
-		// Selected postprocess
 		if (Engine::Selected::entity) {
-			// Outline draw
 			Engine::Render::Outline();
-
-			// Collider draw
 			Engine::Render::Collider();
-
-			// Gizmo render
 			Engine::Render::Gizmo();
 		}
 
-		// Mouse object index
 		Engine::Picking::ReadObjectIndex();
 	}
 	else {
 		Engine::Picking::mouseIndex = -1;
 	}
 
-	// GUI draw
 	Engine::Render::GUI();
 
-	// Backbuffer swap
-	Engine::Render::gpu->swap(Engine::Render::vSync);
+	Engine::gpu->swap(Engine::Render::vSync);
 }

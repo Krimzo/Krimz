@@ -9,47 +9,38 @@
 #include <windowsx.h>
 #include <d3d11.h>
 
-#include "libspec/using.h"
-#include "math/int2.h"
-#include "math/float4.h"
-#include "geometry/vertex.h"
+#include "gpu/dx_types.h"
+#include "render/vertex.h"
 #include "graphics/image.h"
-
-#pragma comment (lib, "d3d11.lib")
 
 #define KL_CBUFFER_PREDEFINED_SIZE 64
 
-
 namespace kl {
 	struct shaders {
-		ID3D11VertexShader* vertexS = nullptr;
-		ID3D11PixelShader* pixelS = nullptr;
-		ID3D11InputLayout* inLayout = nullptr;
+		kl::dx::shader::vertex vertexS = nullptr;
+		kl::dx::shader::pixel pixelS = nullptr;
+		kl::dx::shader::input inLayout = nullptr;
 
 		shaders() {}
-		shaders(ID3D11VertexShader* vertexS, ID3D11PixelShader* pixelS, ID3D11InputLayout* inLayout) : vertexS(vertexS), pixelS(pixelS), inLayout(inLayout) {}
+		shaders(kl::dx::shader::vertex vertexS, kl::dx::shader::pixel pixelS, kl::dx::shader::input inLayout) : vertexS(vertexS), pixelS(pixelS), inLayout(inLayout) {}
 	};
 }
 
 namespace kl {
 	class gpu {
 	private:
-		// DirectX pointers
-		ID3D11Device* device = nullptr;
-		ID3D11DeviceContext* devcon = nullptr;
-		IDXGISwapChain* chain = nullptr;
+		kl::dx::device m_Device = nullptr;
+		kl::dx::context m_Context = nullptr;
+		kl::dx::chain m_Chain = nullptr;
 
-		// Internal buffers
-		ID3D11RenderTargetView* internalFrameBuffer = nullptr;
-		ID3D11DepthStencilView* internalDepthBuffer = nullptr;
+		kl::dx::view::target m_FrameBuffer = nullptr;
+		kl::dx::view::depth m_DepthBuffer = nullptr;
 
-		// Buffers
-		std::set<IUnknown*> children;
+		std::set<IUnknown*> m_Children;
 
-		// Predefined constant buffers
-		bool cbuffersPredefined = false;
-		ID3D11Buffer* vertexCBuffers[KL_CBUFFER_PREDEFINED_SIZE] = {};
-		ID3D11Buffer* pixelCBuffers[KL_CBUFFER_PREDEFINED_SIZE] = {};
+		bool m_CBuffersPredefined = false;
+		kl::dx::buffer m_VertexCBuffers[KL_CBUFFER_PREDEFINED_SIZE] = {};
+		kl::dx::buffer m_PixelCBuffers[KL_CBUFFER_PREDEFINED_SIZE] = {};
 
 	public:
 		gpu(HWND hwnd, bool predefineCBuffers = true);
@@ -57,113 +48,106 @@ namespace kl {
 		void operator=(const kl::gpu&) = delete;
 		~gpu();
 
-		// Getters
-		ID3D11Device* dev();
-		ID3D11DeviceContext* con();
+		kl::dx::device dev();
+		kl::dx::context con();
 
-		// Sets the viewport
-		void viewport(const kl::int2& pos, const kl::int2& size);
+		void viewport(const kl::int2& pos, const kl::uint2& size);
 
-		// Internal buffers
-		void regenInternal(const kl::int2& size);
-		void bindInternal(const std::vector<ID3D11RenderTargetView*> targets = {}, ID3D11DepthStencilView* depthView = nullptr);
+		void regenInternal(const kl::uint2& size);
+		void bindInternal(const std::vector<kl::dx::view::target> targets = {}, kl::dx::view::depth depthView = nullptr);
+		void bindTargets(const std::vector<kl::dx::view::target> targets, kl::dx::view::depth depthView = nullptr);
 
-		// Binds given render target
-		void bindTargets(const std::vector<ID3D11RenderTargetView*> targets, ID3D11DepthStencilView* depthView = nullptr);
-
-		// Clears the buffer
 		void clearColor(const kl::float4& color);
 		void clearDepth();
 		void clear(const kl::float4& color);
 
-		// Swaps the buffers
 		void swap(bool vSync);
 
 		// Raster state
-		ID3D11RasterizerState* newRasterState(D3D11_RASTERIZER_DESC* desc);
-		ID3D11RasterizerState* newRasterState(bool wireframe, bool cull, bool cullBack = true);
-		void bind(ID3D11RasterizerState* state);
+		kl::dx::state::raster newRasterState(kl::dx::state::desc::raster* desc);
+		kl::dx::state::raster newRasterState(bool wireframe, bool cull, bool cullBack = true);
+		void bind(kl::dx::state::raster state);
 
 		// Depth stenicl state
-		ID3D11DepthStencilState* newDepthState(D3D11_DEPTH_STENCIL_DESC* desc);
-		ID3D11DepthStencilState* newDepthState(bool depth, bool stencil, bool mask);
-		void bind(ID3D11DepthStencilState* state);
+		kl::dx::state::depth newDepthState(kl::dx::state::desc::depth* desc);
+		kl::dx::state::depth newDepthState(bool depth, bool stencil, bool mask);
+		void bind(kl::dx::state::depth state);
 
 		// Shaders
-		ID3D11VertexShader* newVertexShader(const String& source, ID3D11InputLayout** outLayout = nullptr, const std::vector<D3D11_INPUT_ELEMENT_DESC>& desc = {});
-		ID3D11PixelShader* newPixelShader(const String& source);
-		ID3D11GeometryShader* newGeometryShader(const String& source);
-		ID3D11ComputeShader* newComputeShader(const String& source);
-		kl::shaders newShaders(const String& vertSrc, const String& pixlSrc, const std::vector<D3D11_INPUT_ELEMENT_DESC>& desc = {});
-		void bind(ID3D11VertexShader* sha);
-		void bind(ID3D11PixelShader* sha);
-		void bind(ID3D11GeometryShader* sha);
-		void bind(ID3D11ComputeShader* sha);
-		void bind(ID3D11InputLayout* layout);
+		kl::dx::shader::vertex newVertexShader(const std::string& source, kl::dx::shader::input* outLayout = nullptr, const std::vector<kl::dx::shader::desc::input>& desc = {});
+		kl::dx::shader::pixel newPixelShader(const std::string& source);
+		kl::dx::shader::geometry newGeometryShader(const std::string& source);
+		kl::dx::shader::compute newComputeShader(const std::string& source);
+		kl::shaders newShaders(const std::string& vertSrc, const std::string& pixlSrc, const std::vector<kl::dx::shader::desc::input>& desc = {});
+		void bind(kl::dx::shader::vertex sha);
+		void bind(kl::dx::shader::pixel sha);
+		void bind(kl::dx::shader::geometry sha);
+		void bind(kl::dx::shader::compute sha);
+		void bind(kl::dx::shader::input layout);
 		void bind(const kl::shaders& shaders, bool bindLayout = true);
-		void dispatch(const kl::int3& size);
-		void execute(ID3D11ComputeShader* sha, const kl::int3& size);
+		void dispatch(const kl::uint3& size);
+		void execute(kl::dx::shader::compute sha, const kl::uint3& size);
 
 		// Buffer
-		ID3D11Buffer* newBuffer(D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* subData = nullptr);
+		kl::dx::buffer newBuffer(kl::dx::desc::buffer* desc, kl::dx::desc::subres* subData = nullptr);
 
 		// Constant buffer
-		ID3D11Buffer* newCBuffer(uint32_t byteSize);
-		void setCBufferData(ID3D11Buffer* buff, const void* data);
-		void bindVertexCBuffer(ID3D11Buffer* buff, uint32_t slot);
-		void bindPixelCBuffer(ID3D11Buffer* buff, uint32_t slot);
-		template<typename T> inline bool autoVertexCBuffer(const T& data, uint32_t slot = 0) {
-			if ((!cbuffersPredefined) || (sizeof(T) > (KL_CBUFFER_PREDEFINED_SIZE * 16)) || (sizeof(T) % 16)) {
+		kl::dx::buffer newCBuffer(uint byteSize);
+		void setCBufferData(kl::dx::buffer buff, const void* data);
+		void bindVertexCBuffer(kl::dx::buffer buff, uint slot);
+		void bindPixelCBuffer(kl::dx::buffer buff, uint slot);
+		template<typename T> inline bool autoVertexCBuffer(const T& data, uint slot = 0) {
+			if ((!m_CBuffersPredefined) || (sizeof(T) > (KL_CBUFFER_PREDEFINED_SIZE * 16)) || (sizeof(T) % 16)) {
 				return false;
 			}
-			ID3D11Buffer* chosenBuffer = vertexCBuffers[(sizeof(T) / 16) - 1];
+			kl::dx::buffer chosenBuffer = m_VertexCBuffers[(sizeof(T) / 16) - 1];
 			bindVertexCBuffer(chosenBuffer, slot);
 			setCBufferData(chosenBuffer, &data);
 			return true;
 		}
-		template<typename T> inline bool autoPixelCBuffer(const T& data, uint32_t slot = 0) {
-			if ((!cbuffersPredefined) || (sizeof(T) > (KL_CBUFFER_PREDEFINED_SIZE * 16)) || (sizeof(T) % 16)) {
+		template<typename T> inline bool autoPixelCBuffer(const T& data, uint slot = 0) {
+			if ((!m_CBuffersPredefined) || (sizeof(T) > (KL_CBUFFER_PREDEFINED_SIZE * 16)) || (sizeof(T) % 16)) {
 				return false;
 			}
-			ID3D11Buffer* chosenBuffer = pixelCBuffers[(sizeof(T) / 16) - 1];
+			kl::dx::buffer chosenBuffer = m_PixelCBuffers[(sizeof(T) / 16) - 1];
 			bindPixelCBuffer(chosenBuffer, slot);
 			setCBufferData(chosenBuffer, &data);
 			return true;
 		}
 
-		// Mesh
-		ID3D11Buffer* newVertexBuffer(const std::vector<kl::vertex>& vertexData);
-		ID3D11Buffer* newVertexBuffer(const String& filePath, bool flipZ = true);
-		void draw(ID3D11Buffer* mesh);
+		// Vertex buffer
+		kl::dx::mesh newVertexBuffer(const std::vector<kl::vertex>& vertexData);
+		kl::dx::mesh newVertexBuffer(const std::string& filePath, bool flipZ = true);
+		void draw(kl::dx::mesh mesh);
 
 		// Sampler
-		ID3D11SamplerState* newSamplerState(D3D11_SAMPLER_DESC* desc);
-		ID3D11SamplerState* newSamplerState(bool linear, bool mirror);
-		void bind(ID3D11SamplerState* sampState, uint32_t slot);
+		kl::dx::state::sampler newSamplerState(kl::dx::state::desc::sampler* desc);
+		kl::dx::state::sampler newSamplerState(bool linear, bool mirror);
+		void bind(kl::dx::state::sampler sampState, uint slot);
 
 		// Texture
-		ID3D11Texture2D* newTextureBB();
-		ID3D11Texture2D* newTexture(D3D11_TEXTURE2D_DESC* desc, D3D11_SUBRESOURCE_DATA* subData = nullptr);
-		ID3D11Texture2D* newTexture(const kl::image& img, bool enableUnorderedAccess = false);
-		ID3D11Texture2D* newTexture(const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom);
-		ID3D11Texture2D* newTextureST(ID3D11Texture2D* tex, const kl::int2& size = {});
+		kl::dx::texture newTextureBB();
+		kl::dx::texture newTexture(kl::dx::desc::texture* desc, kl::dx::desc::subres* subData = nullptr);
+		kl::dx::texture newTexture(const kl::image& img, bool enableUnorderedAccess = false);
+		kl::dx::texture newTexture(const kl::image& front, const kl::image& back, const kl::image& left, const kl::image& right, const kl::image& top, const kl::image& bottom);
+		kl::dx::texture newTextureST(kl::dx::texture tex, const kl::uint2& size = {});
 
 		// Render target view
-		ID3D11RenderTargetView* newTargetView(ID3D11Texture2D* tex, D3D11_RENDER_TARGET_VIEW_DESC* desc = nullptr);
-		void clear(ID3D11RenderTargetView* view, const kl::float4& color);
+		kl::dx::view::target newTargetView(kl::dx::texture tex, kl::dx::view::desc::target* desc = nullptr);
+		void clear(kl::dx::view::target view, const kl::float4& color);
 
 		// Depth stencil view
-		ID3D11DepthStencilView* newDepthView(ID3D11Texture2D* tex, D3D11_DEPTH_STENCIL_VIEW_DESC* desc = nullptr);
-		void clear(ID3D11DepthStencilView* view, float depth = 1.0f, byte stencil = 0);
+		kl::dx::view::depth newDepthView(kl::dx::texture tex, kl::dx::view::desc::depth* desc = nullptr);
+		void clear(kl::dx::view::depth view, float depth = 1.0f, byte stencil = 0);
 
 		// Shader resource view
-		ID3D11ShaderResourceView* newShaderView(ID3D11Texture2D* tex, D3D11_SHADER_RESOURCE_VIEW_DESC* desc = nullptr);
-		void bindPixelShaderView(ID3D11ShaderResourceView* view, uint32_t slot);
-		void bindComputeShaderView(ID3D11ShaderResourceView* view, uint32_t slot);
+		kl::dx::view::shader newShaderView(kl::dx::texture tex, kl::dx::view::desc::shader* desc = nullptr);
+		void bindPixelShaderView(kl::dx::view::shader view, uint slot);
+		void bindComputeShaderView(kl::dx::view::shader view, uint slot);
 
 		// Shader access view
-		ID3D11UnorderedAccessView* newAccessView(ID3D11Texture2D* tex, D3D11_UNORDERED_ACCESS_VIEW_DESC* desc = nullptr);
-		void bindComputeAccessView(ID3D11UnorderedAccessView* view, uint32_t slot, uint32_t* initalCounts = nullptr);
+		kl::dx::view::access newAccessView(kl::dx::texture tex, kl::dx::view::desc::access* desc = nullptr);
+		void bindComputeAccessView(kl::dx::view::access view, uint slot, uint* initalCounts = nullptr);
 
 		// Deletes child instance
 		bool destroy(IUnknown* child);

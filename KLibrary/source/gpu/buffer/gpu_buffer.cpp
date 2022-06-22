@@ -3,20 +3,11 @@
 #include "utility/console.h"
 
 
-ID3D11Buffer* kl::gpu::newBuffer(D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* subData) {
-	// Buffer creation
-	ID3D11Buffer* constBuff = nullptr;
-	device->CreateBuffer(desc, subData, &constBuff);
-	if (!constBuff) {
-		kl::console::show();
-		std::cout << "DirectX: Could not create a constant buffer!";
-		std::cin.get();
-		exit(69);
-	}
+kl::dx::buffer kl::gpu::newBuffer(kl::dx::desc::buffer* desc, kl::dx::desc::subres* subData) {
+	kl::dx::buffer buff = nullptr;
+	m_Device->CreateBuffer(desc, subData, &buff);
+	kl::console::error(!buff, "Failed to create gpu buffer");
 
-	// Saving child
-	children.insert(constBuff);
-
-	// Return
-	return constBuff;
+	m_Children.insert(buff);
+	return buff;
 }

@@ -78,6 +78,27 @@
     <ClInclude Include="source\Types\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\Render\Include\RenderTime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\Include\RenderLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\Include\RenderRasters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\Include\RenderDepth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\Include\RenderShaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\Include\RenderOutline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\Include\RenderColliders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Types\Entity.cpp">
@@ -117,9 +138,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Input\Input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Logging\Logging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\RenderEntities.cpp">
@@ -198,6 +216,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Types\Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\Scene\GuiSceneCameras.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\Scene\GuiSceneEntities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\Scene\GuiSceneMeshes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\Scene\GuiSceneTextures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\Scene\GuiSceneSkyboxes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

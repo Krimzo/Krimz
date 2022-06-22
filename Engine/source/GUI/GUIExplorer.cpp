@@ -5,11 +5,10 @@
 #include <algorithm>
 
 
-std::filesystem::path currentPath = std::filesystem::current_path();
+static std::filesystem::path currentPath = std::filesystem::current_path();
 
-void Engine::GUI::Explorer() {
+void Engine::GUI::ExplorerRender() {
 	if (ImGui::Begin("Explorer", nullptr, ImGuiWindowFlags_NoScrollbar)) {
-		// Transparency fix
 		ImGuiStyle& style = ImGui::GetStyle();
 		const float oldButt = style.Colors[ImGuiCol_Button].w;
 		const float oldButtHov = style.Colors[ImGuiCol_ButtonHovered].w;
@@ -18,7 +17,6 @@ void Engine::GUI::Explorer() {
 		style.Colors[ImGuiCol_ButtonHovered].w = 0.25f;
 		style.Colors[ImGuiCol_ButtonActive].w = 0.5f;
 
-		// Getting all content
 		std::vector<std::filesystem::path> folders;
 		std::vector<std::filesystem::path> files;
 		for (auto& cont : std::filesystem::directory_iterator(currentPath)) {
@@ -32,12 +30,10 @@ void Engine::GUI::Explorer() {
 		std::sort(folders.begin(), folders.end());
 		std::sort(files.begin(), files.end());
 
-		// Column setup
 		const int columnCount = 12;
 		ImGui::Columns(columnCount, nullptr, false);
 		const float buttonSize = 0.75f * ImGui::GetWindowSize().x / columnCount;
 
-		// Drawing parent folder
 		if (currentPath.has_parent_path()) {
 			ImGui::PushID("__FolderBack");
 			if (ImGui::ImageButton(Engine::GUI::folderIcon, ImVec2(buttonSize, buttonSize))) {
@@ -48,13 +44,10 @@ void Engine::GUI::Explorer() {
 			ImGui::NextColumn();
 		}
 
-		// Renaming info
 		static std::filesystem::path toRename;
 		static char nameBuff[64] = {};
 
-		// Drawing folders
 		for (auto& folder : folders) {
-			// Button draw
 			ImGui::PushID(folder.filename().string().c_str());
 			ImTextureID folderIco = std::filesystem::is_empty(folder) ? Engine::GUI::folderEIcon : Engine::GUI::folderIcon;
 			if (ImGui::ImageButton(folderIco, ImVec2(buttonSize, buttonSize))) {
@@ -62,30 +55,23 @@ void Engine::GUI::Explorer() {
 			}
 			ImGui::PopID();
 
-			// RMB
 			if (ImGui::BeginPopupContextItem()) {
-				// Renaming
 				if (ImGui::Button("Rename")) {
 					toRename = folder;
 					memcpy(nameBuff, folder.filename().string().c_str(), folder.filename().string().size() + 1);
 					ImGui::CloseCurrentPopup();
 				}
-
-				// Delete
 				if (ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
 					std::filesystem::remove_all(folder);
 					ImGui::CloseCurrentPopup();
 				}
-
-				// End
 				ImGui::EndPopup();
 			}
 
-			// Folder name
 			if (folder == toRename) {
 				ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
 				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const String newName(nameBuff);
+					const std::string newName(nameBuff);
 					memset(nameBuff, 0, sizeof(nameBuff));
 
 					std::filesystem::rename(toRename,
@@ -97,16 +83,13 @@ void Engine::GUI::Explorer() {
 				ImGui::TextWrapped(folder.filename().string().c_str());
 			}
 
-			// Next col
 			ImGui::NextColumn();
 		}
 
-		// Drawing files
 		for (auto& file : files) {
-			// Button draw
 			ImGui::PushID(file.filename().string().c_str());
 			ImTextureID fileIco = Engine::GUI::fileIcon;
-			const String fileExtension = file.filename().extension().string();
+			const std::string fileExtension = file.filename().extension().string();
 			if (fileExtension == ".obj") {
 				fileIco = Engine::GUI::objectIcon;
 			}
@@ -124,10 +107,9 @@ void Engine::GUI::Explorer() {
 			}
 			ImGui::PopID();
 
-			// Transfer
 			if (fileIco == Engine::GUI::objectIcon) {
 				if (ImGui::BeginDragDropSource()) {
-					const String filePath = file.string();
+					const std::string filePath = file.string();
 					ImGui::SetDragDropPayload("MeshTransfer", filePath.c_str(), filePath.size() + 1);
 					ImGui::Image(fileIco, ImVec2(50.0f, 50.0f));
 					ImGui::EndDragDropSource();
@@ -135,7 +117,7 @@ void Engine::GUI::Explorer() {
 			}
 			else if (fileIco == Engine::GUI::imageIcon) {
 				if (ImGui::BeginDragDropSource()) {
-					const String filePath = file.string();
+					const std::string filePath = file.string();
 					ImGui::SetDragDropPayload("TextureTransfer", filePath.c_str(), filePath.size() + 1);
 					ImGui::Image(fileIco, ImVec2(50.0f, 50.0f));
 					ImGui::EndDragDropSource();
@@ -143,37 +125,31 @@ void Engine::GUI::Explorer() {
 			}
 			else if (fileIco == Engine::GUI::scriptIcon) {
 				if (ImGui::BeginDragDropSource()) {
-					const String filePath = file.string();
+					const std::string filePath = file.string();
 					ImGui::SetDragDropPayload("ScriptTransfer", filePath.c_str(), filePath.size() + 1);
 					ImGui::Image(fileIco, ImVec2(50.0f, 50.0f));
 					ImGui::EndDragDropSource();
 				}
 			}
 
-			// RMB
 			if (ImGui::BeginPopupContextItem()) {
-				// Renaming
 				if (ImGui::Button("Rename", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
 					toRename = file;
 					memcpy(nameBuff, file.filename().string().c_str(), file.filename().string().size() + 1);
 					ImGui::CloseCurrentPopup();
 				}
 
-				// Delete
 				if (ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
 					std::filesystem::remove(file);
 					ImGui::CloseCurrentPopup();
 				}
-
-				// End
 				ImGui::EndPopup();
 			}
 
-			// File name
 			if (file == toRename) {
 				ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
 				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const String newName(nameBuff);
+					const std::string newName(nameBuff);
 					memset(nameBuff, 0, sizeof(nameBuff));
 
 					std::filesystem::rename(toRename,
@@ -184,61 +160,42 @@ void Engine::GUI::Explorer() {
 			else {
 				ImGui::TextWrapped(file.filename().string().c_str());
 			}
-
-			// Next col
 			ImGui::NextColumn();
 		}
 
-		// RMB
 		static bool namingNewScript = false;
 		if (ImGui::BeginPopupContextWindow(nullptr, ImGuiPopupFlags_MouseButtonRight | ImGuiPopupFlags_NoOpenOverItems)) {
-			// New script
 			if (ImGui::Button("New Script", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
 				namingNewScript = true;
 				ImGui::CloseCurrentPopup();
 			}
-
-			// New folder
 			if (ImGui::Button("New Folder", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
 				std::filesystem::create_directory(currentPath.string() + "/New Folder");
 				ImGui::CloseCurrentPopup();
 			}
-
-			// End
 			ImGui::EndPopup();
 		}
 
-		// New script name
 		if (namingNewScript) {
 			if (ImGui::Begin("New Script Name", nullptr, ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoScrollbar)) {
 				ImGui::SetNextItemWidth(ImGui::GetWindowContentRegionWidth());
 				if (ImGui::InputText("##NewName", nameBuff, sizeof(nameBuff), ImGuiInputTextFlags_EnterReturnsTrue)) {
-					const String newName(nameBuff);
+					const std::string newName(nameBuff);
 					memset(nameBuff, 0, sizeof(nameBuff));
-
-					// Creating new script
 					std::ofstream file(currentPath.string() + "/" + newName + ".java");
 					if (file.is_open()) {
 						file << "import engine.*;\nimport engine.math.*;\nimport engine.script.*;\nimport engine.input.*;\nimport engine.entity.*;\n\n\npublic class " <<
 							newName << " extends Entity implements Script {\n\n\t// Called on first frame\n\tpublic void start() {\n\n\t}\n\n\t// Called every frame\n\tpublic void update() {\n\n\t}\n}\n";
 						file.close();
 					}
-
-					// End
 					namingNewScript = false;
 				}
-
-				// End
 				ImGui::End();
 			}
 		}
-
-		// Style reset
 		style.Colors[ImGuiCol_Button].w = oldButt;
 		style.Colors[ImGuiCol_ButtonHovered].w = oldButtHov;
 		style.Colors[ImGuiCol_ButtonActive].w = oldButtAct;
-
-		// End draw
 		ImGui::End();
 	}
 }
