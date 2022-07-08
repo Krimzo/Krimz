@@ -29,7 +29,7 @@ Engine::Collider::~Collider() {
 physx::PxTransform Engine::Collider::getTransform(const kl::float3& entPos, const kl::float3 entRot) const {
 	physx::PxTransform tempTra;
 	const kl::float3 sumPos = entPos + position;
-	const kl::float4 sumRot = kl::math::toQuat(entRot + rotation);
+	const kl::float4 sumRot = kl::to::quaternion(entRot + rotation);
 	tempTra.p = *(physx::PxVec3*)&sumPos;
 	tempTra.q = *(physx::PxQuat*)&sumRot;
 	return tempTra;
@@ -80,7 +80,7 @@ void Engine::Collider::setMass(float val) {
 }
 void Engine::Collider::setWorldRotation(const kl::float3& entRot) {
 	if (actor) {
-		const kl::float4 sumRot = kl::math::toQuat(entRot + rotation);
+		const kl::float4 sumRot = kl::to::quaternion(entRot + rotation);
 		physx::PxTransform oldTransform = actor->getGlobalPose();
 		oldTransform.q = *(physx::PxQuat*)&sumRot;
 		actor->setGlobalPose(oldTransform);
@@ -101,7 +101,7 @@ void Engine::Collider::setVelocity(const kl::float3& vel) {
 }
 void Engine::Collider::setAngular(const kl::float3& ang) {
 	if (actor && m_Dynamic) {
-		const kl::float3 radAngu = kl::math::toRadians<kl::float3>(ang);
+		const kl::float3 radAngu = kl::to::radians<kl::float3>(ang);
 		((physx::PxRigidDynamic*)actor)->setAngularVelocity(*(physx::PxVec3*)&radAngu);
 	}
 }
@@ -131,14 +131,14 @@ void Engine::Collider::newShape(float radius) {
 void Engine::Collider::newShape(const kl::float2& heiRad) {
 	newShape(physx::PxCapsuleGeometry(heiRad.x, heiRad.y));
 }
-void Engine::Collider::newShape(const std::shared_ptr<Engine::Mesh>& mesh, const kl::float3& sca) {
+void Engine::Collider::newShape(const kl::reference<Engine::Mesh>& mesh, const kl::float3& sca) {
 	newShape(physx::PxTriangleMeshGeometry(mesh->cooked, *(physx::PxVec3*)&sca));
 }
 
 kl::float3 Engine::Collider::getWorldRotation() const {
 	if (actor) {
 		physx::PxTransform transform = actor->getGlobalPose();
-		return kl::math::toEul(*(kl::float4*)&transform.q);
+		return kl::to::euler(*(kl::float4*)&transform.q);
 	}
 	return {};
 }
@@ -160,7 +160,7 @@ kl::float3 Engine::Collider::getVelocity() const {
 kl::float3 Engine::Collider::getAngular() const {
 	if (actor && m_Dynamic) {
 		const physx::PxVec3 radAngu = ((physx::PxRigidDynamic*)actor)->getAngularVelocity();
-		return kl::math::toDegrees<kl::float3>(*(kl::float3*)&radAngu);
+		return kl::to::degrees<kl::float3>(*(kl::float3*)&radAngu);
 	}
 	return {};
 }

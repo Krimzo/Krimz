@@ -18,7 +18,7 @@ void Engine::GUI::Scene::Textures() {
 			}
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TextureTransfer")) {
 				std::filesystem::path filePath((char*)payload->Data);
-				Engine::textures.push_back(std::make_shared<Engine::Texture>(filePath.stem().string(), kl::image(filePath.string())));
+				Engine::textures.push_back(kl::make<Engine::Texture>(filePath.stem().string(), kl::image(filePath.string())));
 			}
 			ImGui::EndDragDropTarget();
 		}
@@ -84,7 +84,7 @@ void Engine::GUI::Scene::Textures() {
 			if (ImGui::Begin("Texture color")) {
 				ImGui::ColorPicker3("##Color picker", (float*)&textureColor);
 				if (ImGui::Button("Done", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-					Engine::textures.push_back(std::make_shared<Engine::Texture>("undefined", kl::image(1, textureColor.toColor())));
+					Engine::textures.push_back(kl::make<Engine::Texture>("undefined", kl::image(1, textureColor)));
 					displayColorPicker = false;
 				}
 				ImGui::End();

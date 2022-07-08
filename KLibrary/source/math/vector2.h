@@ -8,16 +8,20 @@ using uint = uint32_t;
 using int64 = int64_t;
 using uint64 = uint64_t;
 
-namespace kl::math {
-	inline const double pi = 3.14159265358979;
-
-	template<typename T> inline T toRadians(const T& degs) {
-		static const double conv = kl::math::pi / 180.0;
-		return T(degs * conv);
+namespace kl {
+	namespace math {
+		inline constexpr double pi = 3.14159265358979;
 	}
-	template<typename T> inline T toDegrees(const T& rads) {
-		static const double conv = 180.0 / kl::math::pi;
-		return T(rads * conv);
+
+	namespace to {
+		template<typename T> inline T radians(const T& degs) {
+			static const double conv = kl::math::pi / 180.0;
+			return T(degs * conv);
+		}
+		template<typename T> inline T degrees(const T& rads) {
+			static const double conv = 180.0 / kl::math::pi;
+			return T(rads * conv);
+		}
 	}
 }
 
@@ -39,7 +43,6 @@ namespace kl {
 		vector2() {}
 		vector2(const T& a) : x(a), y(a) {}
 		vector2(const T& x, const T& y) : x(x), y(y) {}
-		template<typename V> vector2(const kl::vector2<V>& obj) : x(T(obj.x)), y(T(obj.y)) {}
 
 		// Getters
 		T& operator[](uint64 ind) {
@@ -47,6 +50,9 @@ namespace kl {
 		}
 		const T& operator[](uint64 ind) const {
 			return data[ind];
+		}
+		template<typename T0> operator kl::vector2<T0>() const {
+			return { T0(x), T0(y) };
 		}
 
 		// Addition
@@ -203,15 +209,15 @@ namespace kl {
 		// Angle between vectors
 		T angle(const kl::vector2<T>& vec, bool full = false) const {
 			if (full) {
-				return kl::math::toDegrees(std::atan2(x * vec.y - y * vec.x, x * vec.x + y * vec.y));
+				return kl::to::degrees(std::atan2(x * vec.y - y * vec.x, x * vec.x + y * vec.y));
 			}
-			return kl::math::toDegrees(std::acos(normalize().dot(vec.normalize())));
+			return kl::to::degrees(std::acos(normalize().dot(vec.normalize())));
 		}
 
 		// Rotate vector by angle
 		kl::vector2<T> rotate(const T& angle) const {
-			const T sinA = T(std::sin(kl::math::toRadians(angle)));
-			const T cosA = T(std::cos(kl::math::toRadians(angle)));
+			const T sinA = T(std::sin(kl::to::radians(angle)));
+			const T cosA = T(std::cos(kl::to::radians(angle)));
 			return {
 				cosA * x - sinA * y,
 				sinA * x + cosA * y

@@ -25,7 +25,7 @@ public class FakeHit extends Entity implements Script {
 	// Called every frame
 	public void update() {
 		if (shouldChange()) {
-			this.material.colorMap = "green";
+			this.material.colorMap = "purple";
 		}
 	}
 }

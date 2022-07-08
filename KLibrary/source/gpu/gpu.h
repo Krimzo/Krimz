@@ -13,7 +13,15 @@
 #include "render/vertex.h"
 #include "graphics/image.h"
 
-#define KL_CBUFFER_PREDEFINED_SIZE 64
+
+inline constexpr uint KL_CBUFFER_PREDEFINED_SIZE = 64;
+
+namespace kl {
+	template<typename T> using reference = std::shared_ptr<T>;
+	template<typename T, typename... Args> inline kl::reference<T> make(const Args&... args) {
+		return std::make_shared<T>(args...);
+	}
+}
 
 namespace kl {
 	struct shaders {
@@ -51,6 +59,7 @@ namespace kl {
 		kl::dx::device dev();
 		kl::dx::context con();
 
+		void viewport(const kl::uint2& size);
 		void viewport(const kl::int2& pos, const kl::uint2& size);
 
 		void regenInternal(const kl::uint2& size);
@@ -79,6 +88,7 @@ namespace kl {
 		kl::dx::shader::geometry newGeometryShader(const std::string& source);
 		kl::dx::shader::compute newComputeShader(const std::string& source);
 		kl::shaders newShaders(const std::string& vertSrc, const std::string& pixlSrc, const std::vector<kl::dx::shader::desc::input>& desc = {});
+		kl::shaders newShaders(const std::string& fullSrc, const std::vector<kl::dx::shader::desc::input>& desc = {});
 		void bind(kl::dx::shader::vertex sha);
 		void bind(kl::dx::shader::pixel sha);
 		void bind(kl::dx::shader::geometry sha);

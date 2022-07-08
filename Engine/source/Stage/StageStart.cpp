@@ -14,9 +14,9 @@ void Engine::Stage::Start() {
 	Engine::window.icon("resource/textures/icons/k.ico");
 	Engine::window.maximize();
 
-	Engine::gpu = std::make_unique<kl::gpu>(Engine::window);
+	Engine::gpu = kl::make<kl::gpu>(Engine::window);
 
-	Engine::Default::camera = std::make_shared<Engine::Camera>();
+	Engine::Default::camera = kl::make<Engine::Camera>();
 	Engine::Selected::camera = Engine::Default::camera;
 
 	Engine::window.resize = Engine::Stage::Resize;
@@ -32,21 +32,13 @@ void Engine::Stage::Start() {
 	Engine::DepthStencil::write = Engine::gpu->newDepthState(true, true, false);
 	Engine::DepthStencil::mask = Engine::gpu->newDepthState(false, true, true);
 
-	const std::string editorShadersSource = kl::file::read("source/Shaders/Editor.hlsl");
-	const std::string shadowShadersSource = kl::file::read("source/Shaders/Shadows.hlsl");
-	const std::string indexShadersSource = kl::file::read("source/Shaders/Index.hlsl");
-	const std::string outlineShadersSource = kl::file::read("source/Shaders/Outline.hlsl");
-	const std::string colliderShadersSource = kl::file::read("source/Shaders/Collider.hlsl");
-	const std::string gizmoShadersSource = kl::file::read("source/Shaders/Gizmo.hlsl");
-	const std::string skyboxShadersSource = kl::file::read("source/Shaders/Skybox.hlsl");
-
-	Engine::Shaders::editor = Engine::gpu->newShaders(editorShadersSource, editorShadersSource);
-	Engine::Shaders::shadow = Engine::gpu->newShaders(shadowShadersSource, shadowShadersSource);
-	Engine::Shaders::index = Engine::gpu->newShaders(indexShadersSource, indexShadersSource);
-	Engine::Shaders::outline = Engine::gpu->newShaders(outlineShadersSource, outlineShadersSource);
-	Engine::Shaders::collider = Engine::gpu->newShaders(colliderShadersSource, colliderShadersSource);
-	Engine::Shaders::gizmo = Engine::gpu->newShaders(gizmoShadersSource, gizmoShadersSource);
-	Engine::Skybox::shaders = Engine::gpu->newShaders(skyboxShadersSource, skyboxShadersSource);
+	Engine::Shaders::editor = Engine::gpu->newShaders(kl::file::readString("source/Shaders/Editor.hlsl"));
+	Engine::Shaders::shadow = Engine::gpu->newShaders(kl::file::readString("source/Shaders/Shadows.hlsl"));
+	Engine::Shaders::index = Engine::gpu->newShaders(kl::file::readString("source/Shaders/Index.hlsl"));
+	Engine::Shaders::outline = Engine::gpu->newShaders(kl::file::readString("source/Shaders/Outline.hlsl"));
+	Engine::Shaders::collider = Engine::gpu->newShaders(kl::file::readString("source/Shaders/Collider.hlsl"));
+	Engine::Shaders::gizmo = Engine::gpu->newShaders(kl::file::readString("source/Shaders/Gizmo.hlsl"));
+	Engine::Skybox::shaders = Engine::gpu->newShaders(kl::file::readString("source/Shaders/Skybox.hlsl"));
 
 	Engine::gpu->bind(Engine::gpu->newSamplerState(true, true), 0);
 	kl::dx::state::desc::sampler shadowSamp = {};
@@ -70,7 +62,7 @@ void Engine::Stage::Start() {
 	pickTexDes.Usage = D3D11_USAGE_DEFAULT;
 	pickTexDes.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 	Engine::Picking::texture = Engine::gpu->newTexture(&pickTexDes);
-	Engine::Picking::textureStaging = Engine::gpu->newTextureST(Engine::Picking::texture, kl::int2(1));
+	Engine::Picking::textureStaging = Engine::gpu->newTextureST(Engine::Picking::texture, 1);
 	Engine::Picking::targetView = Engine::gpu->newTargetView(Engine::Picking::texture);
 
 	kl::dx::texture outlineTex = Engine::gpu->newTexture(&pickTexDes);
@@ -78,16 +70,16 @@ void Engine::Stage::Start() {
 	Engine::Outline::shaderView = Engine::gpu->newShaderView(outlineTex);
 	Engine::gpu->destroy(outlineTex);
 
-	Engine::Light::sun = std::make_shared<Engine::Light::Direct>(3096);
+	Engine::Light::sun = kl::make<Engine::Light::Direct>(3096);
 	Engine::Light::sun->direction({ 0.575f, -0.75f, 2.0f });
 
-	Engine::Meshes::Default::cube = std::make_shared<Engine::Mesh>("cube", kl::file::parseMesh("resource/meshes/default/cube.obj"));
-	Engine::Meshes::Default::sphere = std::make_shared<Engine::Mesh>("sphere", kl::file::parseMesh("resource/meshes/default/sphere.obj"));
-	Engine::Meshes::Default::capsule = std::make_shared<Engine::Mesh>("capsule", kl::file::parseMesh("resource/meshes/default/capsule.obj"));
-	Engine::Meshes::Default::pyramid = std::make_shared<Engine::Mesh>("pyramid", kl::file::parseMesh("resource/meshes/default/pyramid.obj"));
-	Engine::Meshes::Default::monke = std::make_shared<Engine::Mesh>("monke", kl::file::parseMesh("resource/meshes/default/monke.obj"));
+	Engine::Meshes::Default::cube = kl::make<Engine::Mesh>("cube", kl::file::parseMesh("resource/meshes/default/cube.obj"));
+	Engine::Meshes::Default::sphere = kl::make<Engine::Mesh>("sphere", kl::file::parseMesh("resource/meshes/default/sphere.obj"));
+	Engine::Meshes::Default::capsule = kl::make<Engine::Mesh>("capsule", kl::file::parseMesh("resource/meshes/default/capsule.obj"));
+	Engine::Meshes::Default::pyramid = kl::make<Engine::Mesh>("pyramid", kl::file::parseMesh("resource/meshes/default/pyramid.obj"));
+	Engine::Meshes::Default::monke = kl::make<Engine::Mesh>("monke", kl::file::parseMesh("resource/meshes/default/monke.obj"));
 
-	Engine::Meshes::Util::screen = std::make_shared<Engine::Mesh>("screen", std::vector<kl::vertex>{
+	Engine::Meshes::Util::screen = kl::make<Engine::Mesh>("screen", std::vector<kl::vertex>{
 		kl::vertex(kl::float3(1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, 1.0f, 0.5f)), kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)),
 			kl::vertex(kl::float3(-1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, -1.0f, 0.5f)), kl::vertex(kl::float3(1.0f, 1.0f, 0.5f))
 	});
@@ -96,8 +88,8 @@ void Engine::Stage::Start() {
 	Engine::Meshes::Gizmo::move = Engine::gpu->newVertexBuffer("resource/meshes/gizmo/move.obj");
 	Engine::Meshes::Gizmo::rotate = Engine::gpu->newVertexBuffer("resource/meshes/gizmo/rotate.obj");
 
-	Engine::Textures::Default::colorMap = std::make_shared<Engine::Texture>("Default", kl::image(1, kl::colors::gray));
-	Engine::Textures::Default::nullMap = std::make_shared<Engine::Texture>("Null", kl::image(1, kl::colors::black));
+	Engine::Textures::Default::colorMap = kl::make<Engine::Texture>("Default", kl::image(1, kl::colors::gray));
+	Engine::Textures::Default::nullMap = kl::make<Engine::Texture>("Null", kl::image(1, kl::colors::black));
 
 	Engine::GUI::folderIcon = Engine::gpu->newShaderView(
 		Engine::gpu->newTexture(kl::image("resource/textures/explorer/folder.png").flipV()));

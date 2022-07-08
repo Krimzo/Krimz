@@ -17,8 +17,8 @@ namespace kl {
 		kl::uint2 size();
 		void resize(const kl::uint2& size);
 
-		void setTitle(const std::string& text);
-		void setFont(const kl::uint2& size, const std::string& fontName = "Consolas");
+		void title(const std::string& text);
+		void font(const kl::uint2& size, const std::string& fontName = "Consolas");
 
 		char input();
 		void waitFor(char toWaitFor, bool echo = false);
@@ -27,8 +27,8 @@ namespace kl {
 		bool warning(bool occured, const std::string& message, bool wait = false);
 		void error(bool occured, const std::string& message, bool wait = true);
 
-		void fastOut(const std::string& data, const kl::uint2& location = {});
+		void dump(const std::string& data, const kl::uint2& location = {});
 
-		void progressBar(const std::string& message, uint outputY, float percentage);
+		void bar(const std::string& message, uint outputY, float percentage);
 	};
 }

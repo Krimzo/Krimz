@@ -21,12 +21,12 @@ void Engine::Scripting::CallUpdates() {
 }
 
 void Engine::Scripting::HandleLogs() {
-	jobjectArray logBuff = (jobjectArray)Engine::JavaHandler::env->CallStaticObjectMethod(
-		Engine::JavaHandler::loggerClass, Engine::JavaHandler::loggerFlushMethod);
+	jobjectArray logBuff = jobjectArray(Engine::JavaHandler::env->CallStaticObjectMethod(
+		Engine::JavaHandler::loggerClass, Engine::JavaHandler::loggerFlushMethod));
 
 	const int logBuffSize = Engine::JavaHandler::env->GetArrayLength(logBuff);
 	for (int i = 0; i < logBuffSize; i++) {
-		jstring logMess = (jstring)Engine::JavaHandler::env->GetObjectArrayElement(logBuff, i);
+		jstring logMess = jstring(Engine::JavaHandler::env->GetObjectArrayElement(logBuff, i));
 		Engine::log(Engine::JavaHandler::env->GetStringUTFChars(logMess, nullptr));
 		Engine::JavaHandler::env->DeleteLocalRef(logMess);
 	}

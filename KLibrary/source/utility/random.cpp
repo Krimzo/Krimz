@@ -2,7 +2,7 @@
 
 
 namespace _ignore {
-	const int _dontcare = [] {
+	static const int _dontcare = [] {
 		srand((unsigned int)std::time(nullptr));
 		return 0;
 	}();
@@ -35,7 +35,10 @@ float kl::random::FLOAT(float startInclusive, float endInclusive) {
 	return INT(int(startInclusive * 1000.0f), int(endInclusive * 1000.0f) + 1) * 0.001f;
 }
 float kl::random::FLOAT(float endInclusive) {
-	return FLOAT(0, endInclusive);
+	return FLOAT(0.0f, endInclusive);
+}
+float kl::random::FLOAT() {
+	return FLOAT(0.0f, 1.0f);
 }
 
 char kl::random::CHAR(bool upperCase) {

@@ -18,7 +18,7 @@ void Engine::GUI::Scene::Meshes() {
 			}
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("MeshTransfer")) {
 				std::filesystem::path filePath((char*)payload->Data);
-				Engine::meshes.push_back(std::make_shared<Engine::Mesh>(filePath.stem().string(), kl::file::parseMesh(filePath.string())));
+				Engine::meshes.push_back(kl::make<Engine::Mesh>(filePath.stem().string(), kl::file::parseMesh(filePath.string())));
 			}
 			ImGui::EndDragDropTarget();
 		}

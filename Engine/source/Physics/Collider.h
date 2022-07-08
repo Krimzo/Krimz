@@ -52,7 +52,7 @@ namespace Engine {
 		void newShape(const kl::float3& sca);
 		void newShape(float radius);
 		void newShape(const kl::float2& heiRad);
-		void newShape(const std::shared_ptr<Engine::Mesh>& mesh, const kl::float3& sca);
+		void newShape(const kl::reference<Engine::Mesh>& mesh, const kl::float3& sca);
 
 		kl::float3 getWorldRotation() const;
 		kl::float3 getWorldPosition() const;

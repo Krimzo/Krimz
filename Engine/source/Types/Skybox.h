@@ -22,5 +22,5 @@ namespace Engine {
 		void render(const kl::mat4& vpMat) const;
 	};
 
-	inline std::list<std::shared_ptr<Engine::Skybox>> skyboxes;
+	inline std::list<kl::reference<Engine::Skybox>> skyboxes;
 }

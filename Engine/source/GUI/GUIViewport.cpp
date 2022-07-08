@@ -7,7 +7,7 @@
 #include "Physics/Physics.h"
 
 
-static std::list<std::shared_ptr<Engine::Entity>> savedEntities;
+static std::list<kl::reference<Engine::Entity>> savedEntities;
 static std::vector<std::string> savedNames;
 
 void Engine::GUI::ViewportRender() {
@@ -23,7 +23,7 @@ void Engine::GUI::ViewportRender() {
 		if (!Engine::gameRunning) {
 			if (ImGui::Button("PLAY")) {
 				for (auto& ent : Engine::entities) {
-					savedEntities.push_back(std::make_shared<Engine::Entity>(*ent));
+					savedEntities.push_back(kl::make<Engine::Entity>(*ent));
 					savedNames.push_back(ent->getName());
 				}
 				Engine::Physics::CreateScene();

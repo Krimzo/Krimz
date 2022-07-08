@@ -19,7 +19,7 @@ namespace Engine {
 		kl::float3 scale = kl::float3(1.0f);
 		kl::float3 rotation;
 		kl::float3 position;
-		std::shared_ptr<Engine::Mesh> mesh;
+		kl::reference<Engine::Mesh> mesh;
 
 		bool dynamic = false;
 		bool gravity = true;
@@ -29,10 +29,10 @@ namespace Engine {
 		kl::float3 angular;
 		Engine::Collider collider;
 
-		std::vector<std::shared_ptr<Engine::Script>> scripts;
+		std::vector<kl::reference<Engine::Script>> scripts;
 
 		Entity();
-		Entity(const std::string& name, const std::shared_ptr<Engine::Mesh>& mesh, const Engine::Material& material);
+		Entity(const std::string& name, const kl::reference<Engine::Mesh>& mesh, const Engine::Material& material);
 		Entity(const Engine::Entity& obj);
 
 		void callStarts();
@@ -43,8 +43,8 @@ namespace Engine {
 	};
 
 	namespace Selected {
-		inline std::shared_ptr<Engine::Entity> entity;
+		inline kl::reference<Engine::Entity> entity;
 	}
 
-	inline std::list<std::shared_ptr<Engine::Entity>> entities;
+	inline std::list<kl::reference<Engine::Entity>> entities;
 }

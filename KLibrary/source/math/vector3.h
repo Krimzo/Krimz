@@ -29,6 +29,8 @@ namespace kl {
 				T width, height, depth;
 			};
 			kl::vector2<T> xy;
+			kl::vector2<T> rg;
+			kl::vector2<T> wh;
 			T data[3] = {};
 		};
 
@@ -38,7 +40,6 @@ namespace kl {
 		vector3(const kl::vector2<T>& v, const T& z) : x(v.x), y(v.y), z(z) {}
 		vector3(const T& x, const kl::vector2<T>& v) : x(x), y(v.x), z(v.y) {}
 		vector3(const kl::color& col) : x(toFloatColor(col.r)), y(toFloatColor(col.g)), z(toFloatColor(col.b)) {}
-		template<typename V> vector3(const kl::vector3<V>& obj) : x(T(obj.x)), y(T(obj.y)), z(T(obj.z)) {}
 
 		// Getters
 		T& operator[](uint64 ind) {
@@ -47,7 +48,10 @@ namespace kl {
 		const T& operator[](uint64 ind) const {
 			return data[ind];
 		}
-		kl::color toColor() const {
+		template<typename T0> operator kl::vector3<T0>() const {
+			return { T0(x), T0(y), T0(z) };
+		}
+		operator kl::color() const {
 			return { toByteColor(x), toByteColor(y), toByteColor(z) };
 		}
 
@@ -209,13 +213,13 @@ namespace kl {
 
 		// Angle between vectors
 		T angle(const kl::vector3<T>& vec) const {
-			return kl::math::toDegrees(std::acos(normalize().dot(vec.normalize())));
+			return kl::to::degrees(std::acos(normalize().dot(vec.normalize())));
 		}
 
 		// Rotate vector by around other vector
 		kl::vector3<T> rotate(const T& angle, const kl::vector3<T>& axis) const {
-			const T angleSin = T(std::sin(kl::math::toRadians(angle) * 0.5));
-			const T angleCos = T(std::cos(kl::math::toRadians(angle) * 0.5));
+			const T angleSin = T(std::sin(kl::to::radians(angle) * 0.5));
+			const T angleCos = T(std::cos(kl::to::radians(angle) * 0.5));
 			const T qx = T(axis.x * angleSin);
 			const T qy = T(axis.y * angleSin);
 			const T qz = T(axis.z * angleSin);

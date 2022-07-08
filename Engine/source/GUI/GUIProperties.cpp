@@ -6,7 +6,7 @@
 #include "Render/Render.h"
 
 
-void PropMeshPick(const std::shared_ptr<Engine::Mesh>& mesh) {
+void PropMeshPick(const kl::reference<Engine::Mesh>& mesh) {
 	bool selectedOne = (Engine::Selected::entity->mesh == mesh);
 	if (ImGui::Selectable(mesh->getName().c_str(), selectedOne)) {
 		if (selectedOne) {
@@ -40,7 +40,7 @@ void PropGeometry() {
 	}
 }
 
-void PropColorMapPick(const std::shared_ptr<Engine::Texture>& colorMap) {
+void PropColorMapPick(const kl::reference<Engine::Texture>& colorMap) {
 	bool selectedOne = (Engine::Selected::entity->material.colorMap == colorMap);
 	if (ImGui::Selectable(colorMap->getName().c_str(), selectedOne)) {
 		if (selectedOne) {
@@ -51,7 +51,7 @@ void PropColorMapPick(const std::shared_ptr<Engine::Texture>& colorMap) {
 		}
 	}
 }
-void PropNormalMapPick(const std::shared_ptr<Engine::Texture>& normalMap) {
+void PropNormalMapPick(const kl::reference<Engine::Texture>& normalMap) {
 	bool selectedOne = (Engine::Selected::entity->material.normalMap == normalMap);
 	if (ImGui::Selectable(normalMap->getName().c_str(), selectedOne)) {
 		if (selectedOne) {
@@ -62,7 +62,7 @@ void PropNormalMapPick(const std::shared_ptr<Engine::Texture>& normalMap) {
 		}
 	}
 }
-void PropRoughnessMapPick(const std::shared_ptr<Engine::Texture>& roughnessMap) {
+void PropRoughnessMapPick(const kl::reference<Engine::Texture>& roughnessMap) {
 	bool selectedOne = (Engine::Selected::entity->material.roughnessMap == roughnessMap);
 	if (ImGui::Selectable(roughnessMap->getName().c_str(), selectedOne)) {
 		if (selectedOne) {
@@ -188,7 +188,7 @@ void PropScripts() {
 				}
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ScriptTransfer")) {
 					std::filesystem::path filePath((char*)payload->Data);
-					Engine::Selected::entity->scripts.push_back(std::make_shared<Engine::Script>(filePath.string()));
+					Engine::Selected::entity->scripts.push_back(kl::make<Engine::Script>(filePath.string()));
 				}
 				ImGui::EndDragDropTarget();
 			}

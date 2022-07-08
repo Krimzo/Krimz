@@ -20,15 +20,15 @@ namespace Engine {
 
 	namespace Meshes {
 		namespace Util {
-			inline std::shared_ptr<Engine::Mesh> screen;
+			inline kl::reference<Engine::Mesh> screen;
 		}
 
 		namespace Default {
-			inline std::shared_ptr<Engine::Mesh> cube;
-			inline std::shared_ptr<Engine::Mesh> sphere;
-			inline std::shared_ptr<Engine::Mesh> capsule;
-			inline std::shared_ptr<Engine::Mesh> pyramid;
-			inline std::shared_ptr<Engine::Mesh> monke;
+			inline kl::reference<Engine::Mesh> cube;
+			inline kl::reference<Engine::Mesh> sphere;
+			inline kl::reference<Engine::Mesh> capsule;
+			inline kl::reference<Engine::Mesh> pyramid;
+			inline kl::reference<Engine::Mesh> monke;
 		}
 
 		namespace Gizmo {
@@ -38,5 +38,5 @@ namespace Engine {
 		}
 	}
 
-	inline std::list<std::shared_ptr<Engine::Mesh>> meshes;
+	inline std::list<kl::reference<Engine::Mesh>> meshes;
 }

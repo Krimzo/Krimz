@@ -18,10 +18,10 @@ namespace Engine {
 
 	namespace Textures {
 		namespace Default {
-			inline std::shared_ptr<Engine::Texture> colorMap;
-			inline std::shared_ptr<Engine::Texture> nullMap;
+			inline kl::reference<Engine::Texture> colorMap;
+			inline kl::reference<Engine::Texture> nullMap;
 		}
 	}
 
-	inline std::list<std::shared_ptr<Engine::Texture>> textures;
+	inline std::list<kl::reference<Engine::Texture>> textures;
 }

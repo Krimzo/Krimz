@@ -4,7 +4,7 @@
 
 
 Engine::Entity::Entity() : Named(Named::Type::Entity), mesh(Engine::Meshes::Default::cube) {}
-Engine::Entity::Entity(const std::string& name, const std::shared_ptr<Engine::Mesh>& mesh, const Engine::Material& material) : Named(Named::Type::Entity, name), mesh(mesh), material(material) {}
+Engine::Entity::Entity(const std::string& name, const kl::reference<Engine::Mesh>& mesh, const Engine::Material& material) : Named(Named::Type::Entity, name), mesh(mesh), material(material) {}
 Engine::Entity::Entity(const Engine::Entity& obj) : Named(Named::Type::Entity, obj.getName()), mesh(obj.mesh), material(obj.material), collider(obj.collider) {
 	visible = obj.visible;
 	shadows = obj.shadows;

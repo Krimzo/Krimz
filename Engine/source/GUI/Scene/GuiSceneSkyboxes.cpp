@@ -18,7 +18,7 @@ void Engine::GUI::Scene::Skyboxes() {
 			}
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("TextureTransfer")) {
 				std::filesystem::path filePath((char*)payload->Data);
-				std::shared_ptr<Engine::Skybox> loadedSB = std::make_shared<Engine::Skybox>(filePath.filename().stem().string(), kl::image(filePath.string()));
+				kl::reference<Engine::Skybox> loadedSB = kl::make<Engine::Skybox>(filePath.filename().stem().string(), kl::image(filePath.string()));
 				if (loadedSB->isValid()) {
 					Engine::skyboxes.push_back(loadedSB);
 				}

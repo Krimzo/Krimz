@@ -101,7 +101,7 @@ kl::mat4 Engine::Light::Direct::matrix(const kl::camera& cam, uint ind) const {
 	}
 	maxp.z *= 5.0f;
 
-	const kl::mat4 proj = kl::mat4::ortho(minp.x, maxp.x, minp.y, maxp.y, maxp.z, minp.z);
+	const kl::mat4 proj = kl::mat4::orthographic(minp.x, maxp.x, minp.y, maxp.y, maxp.z, minp.z);
 
 	return proj * view;
 }

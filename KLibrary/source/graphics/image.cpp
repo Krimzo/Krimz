@@ -7,7 +7,8 @@
 
 #include "math/math.h"
 #include "utility/file.h"
-#include "utility/encrypter.h"
+#include "utility/strings.h"
+#include "utility/console.h"
 
 #undef min
 #undef max
@@ -95,18 +96,16 @@ bool kl::image::pixel(const kl::uint2& coords, const kl::color& color) {
 }
 
 bool kl::image::fromFile(const std::string& filePath) {
-	uint64_t gdiplusToken = NULL;
+	uint64 gdiplusToken = NULL;
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput = {};
-	if (Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr)) {
-		std::cout << "Image: GdiPlus failed to init!" << std::endl;
+	if (kl::console::warning(Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr), "Failed to init GDIPlus")) {
 		return false;
 	}
 
 	{
-		Gdiplus::Bitmap loadedBitmap(kl::toWString(filePath).c_str());
+		Gdiplus::Bitmap loadedBitmap(kl::to::wstring(filePath).c_str());
 		Gdiplus::BitmapData bitmapData;
-		if (loadedBitmap.GetLastStatus()) {
-			std::cout << "Image: Could not open file \"" << filePath << "\"!" << std::endl;
+		if (kl::console::warning(loadedBitmap.GetLastStatus(), "Failed to open image file \"" + filePath + "\"")) {
 			return false;
 		}
 		resize(kl::int2(loadedBitmap.GetWidth(), loadedBitmap.GetHeight()));
@@ -118,22 +117,22 @@ bool kl::image::fromFile(const std::string& filePath) {
 	return true;
 }
 
-const CLSID bmpEncoderCLSID = { 0x557cf400, 0x1a04, 0x11d3, { 0x9a,0x73,0x00,0x00,0xf8,0x1e,0xf3,0x2e } };
-const CLSID jpgEncoderCLSID = { 0x557cf401, 0x1a04, 0x11d3, { 0x9a,0x73,0x00,0x00,0xf8,0x1e,0xf3,0x2e } };
-const CLSID pngEncoderCLSID = { 0x557cf406, 0x1a04, 0x11d3, { 0x9a,0x73,0x00,0x00,0xf8,0x1e,0xf3,0x2e } };
+static const CLSID bmpEncoderCLSID = { 0x557cf400, 0x1a04, 0x11d3, { 0x9a,0x73,0x00,0x00,0xf8,0x1e,0xf3,0x2e } };
+static const CLSID jpgEncoderCLSID = { 0x557cf401, 0x1a04, 0x11d3, { 0x9a,0x73,0x00,0x00,0xf8,0x1e,0xf3,0x2e } };
+static const CLSID pngEncoderCLSID = { 0x557cf406, 0x1a04, 0x11d3, { 0x9a,0x73,0x00,0x00,0xf8,0x1e,0xf3,0x2e } };
 bool kl::image::toFile(const std::string& fileName) const {
 	const CLSID* formatToUse = nullptr;
 	const std::string fileExtension = kl::file::extension(fileName);
-	if (fileExtension == "bmp") {
+	if (fileExtension == ".bmp") {
 		formatToUse = &bmpEncoderCLSID;
 	}
-	else if (fileExtension == "jpg") {
+	else if (fileExtension == ".jpg") {
 		formatToUse = &jpgEncoderCLSID;
 	}
-	else if (fileExtension == "png") {
+	else if (fileExtension == ".png") {
 		formatToUse = &pngEncoderCLSID;
 	}
-	else if (fileExtension == "txt") {
+	else if (fileExtension == ".txt") {
 		std::stringstream ss;
 		for (uint y = 0; y < m_Size.y; y++)
 			for (uint x = 0; x < m_Size.x; x++)
@@ -142,17 +141,16 @@ bool kl::image::toFile(const std::string& fileName) const {
 				uint(m_Pixels[uint64(y * m_Size.x + x)].r) << " " <<
 				uint(m_Pixels[uint64(y * m_Size.x + x)].g) << " " <<
 				uint(m_Pixels[uint64(y * m_Size.x + x)].b) << "\n";
-		kl::file::write(fileName, ss.str());
+		kl::file::writeString(fileName, ss.str());
 		return true;
 	}
 	else {
 		return false;
 	}
 
-	ULONG_PTR gdiplusToken = NULL;
+	uint64 gdiplusToken = NULL;
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput = {};
-	if (Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr)) {
-		std::cout << "Image: GdiPlus failed to init!" << std::endl;
+	if (kl::console::warning(Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr), "Failed to init GDIPlus")) {
 		return false;
 	}
 
@@ -162,7 +160,7 @@ bool kl::image::toFile(const std::string& fileName) const {
 		tempBitmap.LockBits(nullptr, Gdiplus::ImageLockModeWrite, PixelFormat32bppARGB, &bitmapData);
 		memcpy(bitmapData.Scan0, &m_Pixels[0], m_Pixels.size() * sizeof(kl::color));
 		tempBitmap.UnlockBits(&bitmapData);
-		tempBitmap.Save(kl::toWString(fileName).c_str(), formatToUse, nullptr);
+		tempBitmap.Save(kl::to::wstring(fileName).c_str(), formatToUse, nullptr);
 	}
 
 	Gdiplus::GdiplusShutdown(gdiplusToken);

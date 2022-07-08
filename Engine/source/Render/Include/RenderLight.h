@@ -6,5 +6,5 @@
 
 namespace Engine::Light {
 	inline Engine::Light::Ambient ambient = kl::float4(0.1f);
-	inline std::shared_ptr<Engine::Light::Direct> sun;
+	inline kl::reference<Engine::Light::Direct> sun;
 }

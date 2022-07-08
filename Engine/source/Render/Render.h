@@ -11,7 +11,7 @@
 
 namespace Engine {
 	inline kl::window window;
-	inline std::unique_ptr<kl::gpu> gpu = nullptr;
+	inline kl::reference<kl::gpu> gpu = nullptr;
 
 	namespace Render {
 		inline bool vSync = true;

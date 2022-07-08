@@ -199,11 +199,11 @@ jclass Engine::JavaHandler::LoadEternalClass(const std::string& name) {
 jclass Engine::JavaHandler::LoadClass(const std::string& filePath) {
 	CompileFile(filePath);
 	const std::string classPath = std::filesystem::path(filePath).replace_extension("class").string();
-	const std::vector<byte> clsBytes = kl::file::readB(classPath);
+	const std::string clsBytes = kl::file::readString(classPath);
 
 	const std::string parentPath = std::filesystem::path(filePath).parent_path().string();
 	for (const auto& file : std::filesystem::recursive_directory_iterator(parentPath)) {
-		if (std::filesystem::path(file).extension().string() == ".class") {
+		if (file.path().extension().string() == ".class") {
 			std::filesystem::remove(file);
 		}
 	}

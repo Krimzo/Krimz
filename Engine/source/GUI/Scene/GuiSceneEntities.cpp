@@ -10,7 +10,7 @@ void Engine::GUI::Scene::Entites() {
 	if (ImGui::Begin("Entities", nullptr, ImGuiWindowFlags_NoScrollbar)) {
 		if (ImGui::BeginPopupContextWindow()) {
 			if (ImGui::Button("New", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-				Engine::entities.push_back(std::make_shared<Engine::Entity>());
+				Engine::entities.push_back(kl::make<Engine::Entity>());
 				ImGui::CloseCurrentPopup();
 			}
 			ImGui::EndPopup();
