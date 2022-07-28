@@ -3,21 +3,25 @@
 #include "Types/Entity.h"
 
 
-void Engine::Render::Shadows() {
-	Engine::gpu->viewport(kl::int2(0), Engine::Light::sun->size());
-	Engine::gpu->bind(Engine::Rasters::solid);
-	Engine::gpu->bind(Engine::DepthStencil::depth);
-	Engine::gpu->bind(Engine::Shaders::shadow);
+void Krimz::Render::Shadows()
+{
+	Krimz::gpu->viewport(kl::int2(0), Krimz::Light::sun->size());
+	Krimz::gpu->bind(Krimz::Rasters::solid);
+	Krimz::gpu->bind(Krimz::DepthStencil::depth);
+	Krimz::gpu->bind(Krimz::Shaders::shadow);
 
-	for (int i = 0; i < 4; i++) {
-		Engine::gpu->bindTargets({}, Engine::Light::sun->depthView(i));
-		Engine::gpu->clear(Engine::Light::sun->depthView(i));
+	for (int i = 0; i < 4; i++)
+	{
+		Krimz::gpu->bindTargets({}, Krimz::Light::sun->depthView(i));
+		Krimz::gpu->clear(Krimz::Light::sun->depthView(i));
 
-		const kl::mat4 vpSun = Engine::Light::sun->matrix(*Engine::Selected::camera, i);
-		for (auto& ent : Engine::entities) {
-			if (ent->shadows) {
+		const kl::mat4 vpSun = Krimz::Light::sun->matrix(*Krimz::Selected::camera, i);
+		for (auto& ent : Krimz::entities)
+		{
+			if (ent->shadows)
+			{
 				const kl::mat4 wvp = vpSun * ent->matrix();
-				Engine::gpu->autoVertexCBuffer(wvp);
+				Krimz::gpu->autoVertexCBuffer(wvp);
 				ent->render(false);
 			}
 		}

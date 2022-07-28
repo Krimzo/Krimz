@@ -1,11 +1,15 @@
 <!doctype html>
 <html lang="en-us">
-  <head>
+<head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
     <title>Dear ImGui Emscripten example</title>
     <style>
-        body { margin: 0; background-color: black }
+        body {
+            margin: 0;
+            background-color: black
+        }
+
         .emscripten {
             position: absolute;
             top: 0px;
@@ -26,8 +30,8 @@
             -ms-interpolation-mode: nearest-neighbor;
         }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
     <script type='text/javascript'>
       var Module = {
@@ -60,5 +64,5 @@
       };
     </script>
     {{{ SCRIPT }}}
-  </body>
+</body>
 </html>

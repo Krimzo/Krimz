@@ -3,7 +3,8 @@
 #include "KrimzLib.h"
 
 
-namespace Engine::Shaders {
+namespace Krimz::Shaders
+{
 	inline kl::shaders editor = {};
 	inline kl::shaders shadow = {};
 	inline kl::shaders index = {};

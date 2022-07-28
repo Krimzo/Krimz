@@ -3,7 +3,8 @@
 #include "KrimzLib.h"
 
 
-namespace Engine::Colliders {
+namespace Krimz::Colliders
+{
 	inline kl::color color = kl::colors::cyan;
 	inline bool shouldRender = true;
 }

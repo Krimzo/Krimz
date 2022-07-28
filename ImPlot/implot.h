@@ -94,8 +94,9 @@ typedef int ImPlotLocation;       // -> enum ImPlotLocation_
 typedef int ImPlotBin;            // -> enum ImPlotBin_
 
 // Axis indices. The values assigned may change; NEVER hardcode these.
-enum ImAxis_ {
-	// horizontal axes
+enum ImAxis_
+{
+// horizontal axes
 	ImAxis_X1 = 0, // enabled by default
 	ImAxis_X2,     // disabled by default
 	ImAxis_X3,     // disabled by default
@@ -108,7 +109,8 @@ enum ImAxis_ {
 };
 
 // Options for plots (see BeginPlot).
-enum ImPlotFlags_ {
+enum ImPlotFlags_
+{
 	ImPlotFlags_None = 0,       // default
 	ImPlotFlags_NoTitle = 1 << 0,  // the plot title will not be displayed (titles are also hidden if preceeded by double hashes, e.g. "##MyPlot")
 	ImPlotFlags_NoLegend = 1 << 1,  // the legend will not be displayed
@@ -125,7 +127,8 @@ enum ImPlotFlags_ {
 };
 
 // Options for plot axes (see SetupAxis).
-enum ImPlotAxisFlags_ {
+enum ImPlotAxisFlags_
+{
 	ImPlotAxisFlags_None = 0,       // default
 	ImPlotAxisFlags_NoLabel = 1 << 0,  // the axis label will not be displayed (axis labels also hidden if the supplied string name is NULL)
 	ImPlotAxisFlags_NoGridLines = 1 << 1,  // no grid lines will be displayed
@@ -148,7 +151,8 @@ enum ImPlotAxisFlags_ {
 };
 
 // Options for subplots (see BeginSubplot).
-enum ImPlotSubplotFlags_ {
+enum ImPlotSubplotFlags_
+{
 	ImPlotSubplotFlags_None = 0,       // default
 	ImPlotSubplotFlags_NoTitle = 1 << 0,  // the subplot title will not be displayed (titles are also hidden if preceeded by double hashes, e.g. "##MySubplot")
 	ImPlotSubplotFlags_NoLegend = 1 << 1,  // the legend will not be displayed (only applicable if ImPlotSubplotFlags_ShareItems is enabled)
@@ -164,7 +168,8 @@ enum ImPlotSubplotFlags_ {
 };
 
 // Options for legends (see SetupLegend)
-enum ImPlotLegendFlags_ {
+enum ImPlotLegendFlags_
+{
 	ImPlotLegendFlags_None = 0,      // default
 	ImPlotLegendFlags_NoButtons = 1 << 0, // legend icons will not function as hide/show buttons
 	ImPlotLegendFlags_NoHighlightItem = 1 << 1, // plot items will not be highlighted when their legend entry is hovered
@@ -175,7 +180,8 @@ enum ImPlotLegendFlags_ {
 };
 
 // Options for mouse hover text (see SetupMouseText)
-enum ImPlotMouseTextFlags_ {
+enum ImPlotMouseTextFlags_
+{
 	ImPlotMouseTextFlags_None = 0,      // default
 	ImPlotMouseTextFlags_NoAuxAxes = 1 << 0, // only show the mouse position for primary axes
 	ImPlotMouseTextFlags_NoFormat = 1 << 1, // axes label formatters won't be used to render text
@@ -183,7 +189,8 @@ enum ImPlotMouseTextFlags_ {
 };
 
 // Options for DragPoint, DragLine, DragRect
-enum ImPlotDragToolFlags_ {
+enum ImPlotDragToolFlags_
+{
 	ImPlotDragToolFlags_None = 0,      // default
 	ImPlotDragToolFlags_NoCursors = 1 << 0, // drag tools won't change cursor icons when hovered or held
 	ImPlotDragToolFlags_NoFit = 1 << 1, // the drag tool won't be considered for plot fits
@@ -192,21 +199,24 @@ enum ImPlotDragToolFlags_ {
 };
 
 // Flags for ImPlot::PlotBarGroups
-enum ImPlotBarGroupsFlags_ {
+enum ImPlotBarGroupsFlags_
+{
 	ImPlotBarGroupsFlags_None = 0,      // default
 	ImPlotBarGroupsFlags_Stacked = 1 << 0, // items in a group will be stacked on top of each other
 };
 
 // Represents a condition for SetupAxisLimits etc. (same as ImGuiCond, but we only support a subset of those enums)
-enum ImPlotCond_ {
+enum ImPlotCond_
+{
 	ImPlotCond_None = ImGuiCond_None,    // No condition (always set the variable), same as _Always
 	ImPlotCond_Always = ImGuiCond_Always,  // No condition (always set the variable)
 	ImPlotCond_Once = ImGuiCond_Once,    // Set the variable once per runtime session (only the first call will succeed)
 };
 
 // Plot styling colors.
-enum ImPlotCol_ {
-	// item styling colors
+enum ImPlotCol_
+{
+// item styling colors
 	ImPlotCol_Line,          // plot line/outline color (defaults to next unused color in current colormap)
 	ImPlotCol_Fill,          // plot fill color for bars (defaults to the current line color)
 	ImPlotCol_MarkerOutline, // marker outline color (defaults to the current line color)
@@ -233,8 +243,9 @@ enum ImPlotCol_ {
 };
 
 // Plot styling variables.
-enum ImPlotStyleVar_ {
-	// item styling variables
+enum ImPlotStyleVar_
+{
+// item styling variables
 	ImPlotStyleVar_LineWeight,         // float,  plot item line weight in pixels
 	ImPlotStyleVar_Marker,             // int,    marker specification
 	ImPlotStyleVar_MarkerSize,         // float,  marker size in pixels (roughly the marker's "radius")
@@ -267,7 +278,8 @@ enum ImPlotStyleVar_ {
 };
 
 // Marker specifications.
-enum ImPlotMarker_ {
+enum ImPlotMarker_
+{
 	ImPlotMarker_None = -1, // no marker
 	ImPlotMarker_Circle,    // a circle marker
 	ImPlotMarker_Square,    // a square maker
@@ -283,7 +295,8 @@ enum ImPlotMarker_ {
 };
 
 // Built-in colormaps
-enum ImPlotColormap_ {
+enum ImPlotColormap_
+{
 	ImPlotColormap_Deep = 0,   // a.k.a. seaborn deep             (qual=true,  n=10) (default)
 	ImPlotColormap_Dark = 1,   // a.k.a. matplotlib "Set1"        (qual=true,  n=9 )
 	ImPlotColormap_Pastel = 2,   // a.k.a. matplotlib "Pastel1"     (qual=true,  n=9 )
@@ -303,7 +316,8 @@ enum ImPlotColormap_ {
 };
 
 // Used to position items on a plot (e.g. legends, labels, etc.)
-enum ImPlotLocation_ {
+enum ImPlotLocation_
+{
 	ImPlotLocation_Center = 0,                                          // center-center
 	ImPlotLocation_North = 1 << 0,                                     // top-center
 	ImPlotLocation_South = 1 << 1,                                     // bottom-center
@@ -316,7 +330,8 @@ enum ImPlotLocation_ {
 };
 
 // Enums for different automatic histogram binning methods (k = bin count or w = bin width)
-enum ImPlotBin_ {
+enum ImPlotBin_
+{
 	ImPlotBin_Sqrt = -1, // k = sqrt(n)
 	ImPlotBin_Sturges = -2, // k = 1 + log2(n)
 	ImPlotBin_Rice = -3, // k = 2 * cbrt(n)
@@ -324,13 +339,29 @@ enum ImPlotBin_ {
 };
 
 // Double precision version of ImVec2 used by ImPlot. Extensible by end users.
-struct ImPlotPoint {
+struct ImPlotPoint
+{
 	double x, y;
-	ImPlotPoint() { x = y = 0.0; }
-	ImPlotPoint(double _x, double _y) { x = _x; y = _y; }
-	ImPlotPoint(const ImVec2& p) { x = p.x; y = p.y; }
-	double  operator[] (size_t idx) const { return (&x)[idx]; }
-	double& operator[] (size_t idx) { return (&x)[idx]; }
+	ImPlotPoint()
+	{
+		x = y = 0.0;
+	}
+	ImPlotPoint(double _x, double _y)
+	{
+		x = _x; y = _y;
+	}
+	ImPlotPoint(const ImVec2& p)
+	{
+		x = p.x; y = p.y;
+	}
+	double  operator[] (size_t idx) const
+	{
+		return (&x)[idx];
+	}
+	double& operator[] (size_t idx)
+	{
+		return (&x)[idx];
+	}
 #ifdef IMPLOT_POINT_CLASS_EXTRA
 	IMPLOT_POINT_CLASS_EXTRA     // Define additional constructors and implicit cast operators in imconfig.h
 								 // to convert back and forth between your math types and ImPlotPoint.
@@ -338,32 +369,76 @@ struct ImPlotPoint {
 };
 
 // Range defined by a min/max value.
-struct ImPlotRange {
+struct ImPlotRange
+{
 	double Min, Max;
-	ImPlotRange() { Min = 0; Max = 0; }
-	ImPlotRange(double _min, double _max) { Min = _min; Max = _max; }
-	bool Contains(double value) const { return value >= Min && value <= Max; }
-	double Size() const { return Max - Min; }
-	double Clamp(double value) const { return (value < Min) ? Min : (value > Max) ? Max : value; }
+	ImPlotRange()
+	{
+		Min = 0; Max = 0;
+	}
+	ImPlotRange(double _min, double _max)
+	{
+		Min = _min; Max = _max;
+	}
+	bool Contains(double value) const
+	{
+		return value >= Min && value <= Max;
+	}
+	double Size() const
+	{
+		return Max - Min;
+	}
+	double Clamp(double value) const
+	{
+		return (value < Min) ? Min : (value > Max) ? Max : value;
+	}
 };
 
 // Combination of two range limits for X and Y axes. Also an AABB defined by Min()/Max().
-struct ImPlotRect {
+struct ImPlotRect
+{
 	ImPlotRange X, Y;
-	ImPlotRect() {}
-	ImPlotRect(double x_min, double x_max, double y_min, double y_max) { X.Min = x_min; X.Max = x_max; Y.Min = y_min; Y.Max = y_max; }
-	bool Contains(const ImPlotPoint& p) const { return Contains(p.x, p.y); }
-	bool Contains(double x, double y) const { return X.Contains(x) && Y.Contains(y); }
-	ImPlotPoint Size() const { return ImPlotPoint(X.Size(), Y.Size()); }
-	ImPlotPoint Clamp(const ImPlotPoint& p) { return Clamp(p.x, p.y); }
-	ImPlotPoint Clamp(double x, double y) { return ImPlotPoint(X.Clamp(x), Y.Clamp(y)); }
-	ImPlotPoint Min() const { return ImPlotPoint(X.Min, Y.Min); }
-	ImPlotPoint Max() const { return ImPlotPoint(X.Max, Y.Max); }
+	ImPlotRect()
+	{
+	}
+	ImPlotRect(double x_min, double x_max, double y_min, double y_max)
+	{
+		X.Min = x_min; X.Max = x_max; Y.Min = y_min; Y.Max = y_max;
+	}
+	bool Contains(const ImPlotPoint& p) const
+	{
+		return Contains(p.x, p.y);
+	}
+	bool Contains(double x, double y) const
+	{
+		return X.Contains(x) && Y.Contains(y);
+	}
+	ImPlotPoint Size() const
+	{
+		return ImPlotPoint(X.Size(), Y.Size());
+	}
+	ImPlotPoint Clamp(const ImPlotPoint& p)
+	{
+		return Clamp(p.x, p.y);
+	}
+	ImPlotPoint Clamp(double x, double y)
+	{
+		return ImPlotPoint(X.Clamp(x), Y.Clamp(y));
+	}
+	ImPlotPoint Min() const
+	{
+		return ImPlotPoint(X.Min, Y.Min);
+	}
+	ImPlotPoint Max() const
+	{
+		return ImPlotPoint(X.Max, Y.Max);
+	}
 };
 
 // Plot style structure
-struct ImPlotStyle {
-	// item styling variables
+struct ImPlotStyle
+{
+// item styling variables
 	float   LineWeight;              // = 1,      item line weight in pixels
 	int     Marker;                  // = ImPlotMarker_None, marker specification
 	float   MarkerSize;              // = 4,      marker size in pixels (roughly the marker's "radius")
@@ -405,7 +480,8 @@ struct ImPlotStyle {
 };
 
 // Input mapping structure. Default values listed. See also MapInputDefault, MapInputReverse.
-struct ImPlotInputMap {
+struct ImPlotInputMap
+{
 	ImGuiMouseButton Pan;           // LMB    enables panning when held,
 	ImGuiKeyModFlags PanMod;        // none   optional modifier that must be held for panning/fitting
 	ImGuiMouseButton Fit;           // LMB    initiates fit when double clicked
@@ -431,13 +507,14 @@ typedef void (*ImPlotFormatter)(double value, char* buff, int size, void* user_d
 // Callback signature for data getter.
 typedef ImPlotPoint(*ImPlotGetter)(void* user_data, int idx);
 
-namespace ImPlot {
+namespace ImPlot
+{
 
-	//-----------------------------------------------------------------------------
-	// [SECTION] Contexts
-	//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+// [SECTION] Contexts
+//-----------------------------------------------------------------------------
 
-	// Creates a new ImPlot context. Call this after ImGui::CreateContext.
+// Creates a new ImPlot context. Call this after ImGui::CreateContext.
 	IMPLOT_API ImPlotContext* CreateContext();
 	// Destroys an ImPlot context. Call this before ImGui::DestroyContext. NULL = destroy current context.
 	IMPLOT_API void DestroyContext(ImPlotContext* ctx = NULL);
@@ -1117,14 +1194,16 @@ namespace ImPlot {
 #define IMPLOT_DEPRECATED(method) method
 #endif
 
-enum ImPlotFlagsObsolete_ {
+enum ImPlotFlagsObsolete_
+{
 	ImPlotFlags_YAxis2 = 1 << 20,
 	ImPlotFlags_YAxis3 = 1 << 21,
 };
 
-namespace ImPlot {
+namespace ImPlot
+{
 
-	// OBSOLETED in v0.13 -> PLANNED REMOVAL in v1.0
+// OBSOLETED in v0.13 -> PLANNED REMOVAL in v1.0
 	IMPLOT_DEPRECATED(IMPLOT_API bool BeginPlot(const char* title_id,
 		const char* x_label,  // = NULL,
 		const char* y_label,  // = NULL,

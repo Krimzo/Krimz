@@ -1,7 +1,4 @@
 #include "Physics/Physics.h"
-#include "Render/Render.h"
-#include "Types/Entity.h"
-#include "Logging/Logging.h"
 
 #pragma comment(lib, "PhysX_static_64.lib")
 #pragma comment(lib, "PhysXCharacterKinematic_static_64.lib")
@@ -13,88 +10,55 @@
 #pragma comment(lib, "PhysXVehicle_static_64.lib")
 
 
-void Engine::Physics::Init() {
-	foundation = PxCreateFoundation(PX_PHYSICS_VERSION, allocatorCallback, errorCallback);
-	kl::console::error(!foundation, "Failed to create foundation");
+Krimz::Physics::Physics()
+{
+	PxDefaultErrorCallback m_ErrorCallback;
+	PxDefaultAllocator m_AllocatorCallback;
 
-	physics = PxCreatePhysics(PX_PHYSICS_VERSION, *foundation, physx::PxTolerancesScale());
-	kl::console::error(!physics, "Failed to create physics");
+	m_Foundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_AllocatorCallback, m_ErrorCallback);
+	kl::console::error(!m_Foundation, "Failed to create physics foundation");
 
-	cooking = PxCreateCooking(PX_PHYSICS_VERSION, *foundation, physx::PxCookingParams(physics->getTolerancesScale()));
-	kl::console::error(!cooking, "Failed to create cooking");
-}
-void Engine::Physics::Uninit() {
-	cooking->release();
-	cooking = nullptr;
-	physics->release();
-	physics = nullptr;
-	foundation->release();
-	foundation = nullptr;
-}
+	m_Physics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_Foundation, PxTolerancesScale());
+	kl::console::error(!m_Physics, "Failed to create physics");
 
-void Engine::Physics::CreateScene() {
-	static physx::PxDefaultCpuDispatcher* workerThreads = physx::PxDefaultCpuDispatcherCreate(2);
-	physx::PxSceneDesc sceneDesc(physics->getTolerancesScale());
+	m_Cooking = PxCreateCooking(PX_PHYSICS_VERSION, *m_Foundation, PxCookingParams(m_Physics->getTolerancesScale()));
+	kl::console::error(!m_Cooking, "Failed to create physics cooking");
+
+	m_Dispatcher = PxDefaultCpuDispatcherCreate(2);
+
+	PxSceneDesc sceneDesc(m_Physics->getTolerancesScale());
 	sceneDesc.gravity.y = -9.81f;
-	sceneDesc.cpuDispatcher = workerThreads;
-	sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
-	scene = physics->createScene(sceneDesc);
-}
-void Engine::Physics::DestroyScene() {
-	if (scene) {
-		for (auto& ent : Engine::entities) {
-			ent->collider.delShape();
-			ent->collider.delActor();
-			ent->collider.delMaterial();
-		}
-		scene->release();
-		scene = nullptr;
-	}
+	sceneDesc.cpuDispatcher = m_Dispatcher;
+	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+	m_Scene = m_Physics->createScene(sceneDesc);
 }
 
-void Engine::Physics::Update() {
-	for (auto& entity : Engine::entities) {
-		entity->collider.newActor(entity->dynamic);
+Krimz::Physics::~Physics()
+{
+	m_Scene->release();
+	m_Dispatcher->release();
+	m_Cooking->release();
+	m_Physics->release();
+	m_Foundation->release();
+}
 
-		entity->collider.setGravity(entity->gravity);
-		entity->collider.setFriction(entity->friction);
-		entity->collider.setMass(entity->mass);
-		entity->collider.setWorldRotation(entity->rotation);
-		entity->collider.setWorldPosition(entity->position);
-		entity->collider.setVelocity(entity->velocity);
-		entity->collider.setAngular(entity->angular);
+PxPhysics* Krimz::Physics::physics()
+{
+	return m_Physics;
+}
 
-		switch (entity->collider.shape) {
-		case Engine::Collider::Shape::Box:
-			entity->collider.newShape(entity->scale * entity->collider.scale);
-			break;
+void Krimz::Physics::add(kl::ref<Physical> physical)
+{
+	m_Scene->addActor(physical->actor());
+}
 
-		case Engine::Collider::Shape::Sphere:
-			entity->collider.newShape(entity->collider.scale.y);
-			break;
+void Krimz::Physics::remove(kl::ref<Physical> physical)
+{
+	m_Scene->removeActor(physical->actor());
+}
 
-		case Engine::Collider::Shape::Capsule:
-			entity->collider.newShape(kl::float2(entity->collider.scale.y, entity->collider.scale.x));
-			break;
-
-		case Engine::Collider::Shape::Mesh:
-			entity->collider.newShape(entity->mesh, entity->scale * entity->collider.scale);
-			break;
-		}
-
-		scene->addActor(*entity->collider.actor);
-	}
-
-	scene->simulate(Engine::Time::delta);
-	scene->fetchResults(true);
-
-	for (auto& entity : Engine::entities) {
-		if (entity->dynamic) {
-			entity->position = entity->collider.getWorldPosition() - entity->collider.position;
-			entity->rotation = entity->collider.getWorldRotation() - entity->collider.rotation;
-			entity->velocity = entity->collider.getVelocity();
-			entity->angular = entity->collider.getAngular();
-		}
-		scene->removeActor(*entity->collider.actor);
-	}
+void Krimz::Physics::update(float deltaTime)
+{
+	m_Scene->simulate(deltaTime);
+	m_Scene->fetchResults(true);
 }

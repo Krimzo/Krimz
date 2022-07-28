@@ -10,8 +10,10 @@
 #include "render/vertex.h"
 
 
-namespace kl {
-	class file {
+namespace kl
+{
+	class file
+	{
 	public:
 		static std::string extension(const std::string& filePath);
 		static std::vector<std::string> getFiles(const std::string& dirPath, bool recursive = false);
@@ -40,26 +42,34 @@ namespace kl {
 		bool unwind();
 		int64 tell() const;
 
-		template<typename T> bool read(T& object) const {
-			if (m_File) {
+		template<typename T> bool read(T& object) const
+		{
+			if (m_File)
+			{
 				return bool(fread(&object, sizeof(T), 1, m_File));
 			}
 			return false;
 		}
-		template<typename T> uint64 read(T* buffer, uint64 count) const {
-			if (m_File) {
+		template<typename T> uint64 read(T* buffer, uint64 count) const
+		{
+			if (m_File)
+			{
 				return fread(buffer, sizeof(T), count, m_File);
 			}
 			return false;
 		}
-		template<typename T> bool write(const T& object) {
-			if (m_File) {
+		template<typename T> bool write(const T& object)
+		{
+			if (m_File)
+			{
 				return bool(fwrite(&object, sizeof(T), 1, m_File));
 			}
 			return false;
 		}
-		template<typename T> uint64 write(const T* buffer, uint64 count) {
-			if (m_File) {
+		template<typename T> uint64 write(const T* buffer, uint64 count)
+		{
+			if (m_File)
+			{
 				return fwrite(buffer, sizeof(T), count, m_File);
 			}
 			return false;

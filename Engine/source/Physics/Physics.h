@@ -1,24 +1,30 @@
 #pragma once
 
-#include <PxPhysicsAPI.h>
+#include "KrimzLib.h"
+#include "Physics/Physical.h"
 
 
-namespace Engine {
-	namespace Physics {
-		inline physx::PxDefaultErrorCallback errorCallback;
-		inline physx::PxDefaultAllocator allocatorCallback;
-		inline physx::PxFoundation* foundation = nullptr;
-		inline physx::PxPhysics* physics = nullptr;
-		inline physx::PxCooking* cooking = nullptr;
-		inline physx::PxCpuDispatcher* dispatcher = nullptr;
-		inline physx::PxScene* scene = nullptr;
+namespace Krimz
+{
+	class Physics
+	{
+		PxFoundation* m_Foundation = nullptr;
+		PxPhysics* m_Physics = nullptr;
+		PxCooking* m_Cooking = nullptr;
+		PxDefaultCpuDispatcher* m_Dispatcher = nullptr;
+		PxScene* m_Scene = nullptr;
 
-		void Init();
-		void Uninit();
+	public:
+		Physics();
+		Physics(const Physics&) = delete;
+		void operator=(const Physics&) = delete;
+		~Physics();
 
-		void CreateScene();
-		void DestroyScene();
+		PxPhysics* physics();
 
-		void Update();
-	}
+		void add(kl::ref<Physical> physical);
+		void remove(kl::ref<Physical> physical);
+
+		void update(float deltaTime);
+	};
 }

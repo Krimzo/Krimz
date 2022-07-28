@@ -4,8 +4,10 @@
 static std::string nameBuffer = {};
 static std::string inputBuffer = {};
 
-void Engine::GUI::Scene::Cameras() {
-	if (ImGui::Begin("Cameras", nullptr, ImGuiWindowFlags_NoScrollbar)) {
+void Krimz::GUI::Scene::Cameras()
+{
+	if (ImGui::Begin("Cameras", nullptr, ImGuiWindowFlags_NoScrollbar))
+	{
 		ImGui::End();
 	}
 }

@@ -6,49 +6,62 @@
 static std::string nameBuff = {};
 static std::string inputBuff = {};
 
-void Engine::GUI::Scene::Entites() {
-	if (ImGui::Begin("Entities", nullptr, ImGuiWindowFlags_NoScrollbar)) {
-		if (ImGui::BeginPopupContextWindow()) {
-			if (ImGui::Button("New", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-				Engine::entities.push_back(kl::make<Engine::Entity>());
+void Krimz::GUI::Scene::Entites()
+{
+	if (ImGui::Begin("Entities", nullptr, ImGuiWindowFlags_NoScrollbar))
+	{
+		if (ImGui::BeginPopupContextWindow())
+		{
+			if (ImGui::Button("New", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f)))
+			{
+				Krimz::entities.push_back(kl::make<Krimz::Entity>());
 				ImGui::CloseCurrentPopup();
 			}
 			ImGui::EndPopup();
 		}
 
 		bool noSelection = true;
-		for (int i = 0; auto & ent : Engine::entities) {
-			if (ent->getName() == nameBuff) {
+		for (int i = 0; auto & ent : Krimz::entities)
+		{
+			if (ent->getName() == nameBuff)
+			{
 				ImGui::SetKeyboardFocusHere();
 				ImGui::SetNextItemWidth(ImGui::GetWindowWidth());
-				if (ImGui::InputText("##NewName", &inputBuff[0], inputBuff.size(), ImGuiInputTextFlags_EnterReturnsTrue)) {
+				if (ImGui::InputText("##NewName", &inputBuff[0], inputBuff.size(), ImGuiInputTextFlags_EnterReturnsTrue))
+				{
 					ent->updateName(inputBuff.c_str());
 					inputBuff.clear();
 					nameBuff.clear();
 				}
 			}
-			else {
-				bool state = (Engine::Selected::entity == ent);
+			else
+			{
+				bool state = (Krimz::Selected::entity == ent);
 				ImGui::Selectable(ent->getName().c_str(), &state);
-				if (state) {
-					Engine::Selected::entity = ent;
+				if (state)
+				{
+					Krimz::Selected::entity = ent;
 					noSelection = false;
 				}
 			}
 
-			if (ImGui::BeginPopupContextItem()) {
-				if (ImGui::Button("Rename", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
+			if (ImGui::BeginPopupContextItem())
+			{
+				if (ImGui::Button("Rename", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f)))
+				{
 					nameBuff = ent->getName();
 					inputBuff.resize(64);
 					ImGui::CloseCurrentPopup();
 				}
-				if (!Engine::gameRunning && ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f))) {
-					if (Engine::Selected::entity == ent) {
-						Engine::Selected::entity = nullptr;
+				if (!Krimz::gameRunning && ImGui::Button("Delete", ImVec2(ImGui::GetWindowContentRegionWidth(), 0.0f)))
+				{
+					if (Krimz::Selected::entity == ent)
+					{
+						Krimz::Selected::entity = nullptr;
 					}
-					auto entIt = Engine::entities.begin();
+					auto entIt = Krimz::entities.begin();
 					std::advance(entIt, i);
-					Engine::entities.erase(entIt);
+					Krimz::entities.erase(entIt);
 					ImGui::CloseCurrentPopup();
 				}
 				ImGui::EndPopup();
@@ -56,8 +69,9 @@ void Engine::GUI::Scene::Entites() {
 
 			i++;
 		}
-		if (noSelection) {
-			Engine::Selected::entity = nullptr;
+		if (noSelection)
+		{
+			Krimz::Selected::entity = nullptr;
 		}
 		ImGui::End();
 	}

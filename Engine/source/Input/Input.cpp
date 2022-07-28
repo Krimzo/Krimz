@@ -1,8 +1,9 @@
 #include "Input/Input.h"
 
 
-void Engine::Input::Setup() {
-	Engine::Input::LMB();
-	Engine::Input::Gizmo();
-	Engine::Input::Camera();
+void Krimz::Input::Setup()
+{
+	Krimz::Input::LMB();
+	Krimz::Input::Gizmo();
+	Krimz::Input::Camera();
 }

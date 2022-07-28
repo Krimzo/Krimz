@@ -1,64 +1,45 @@
 #pragma once
 
 #include "KrimzLib.h"
-#include "Physics/Physics.h"
-#include "Types/Mesh.h"
+#include "PxPhysicsAPI.h"
+#include "Mesh/Mesh.h"
+
+using namespace physx;
 
 
-namespace Engine {
-	class Collider {
+namespace Krimz
+{
+	class Collider
+	{
 	private:
-		bool m_Dynamic = false;
+		PxShape* m_Shape = nullptr;
+		PxMaterial* m_Material = nullptr;
 
 	public:
-		enum class Shape {
-			None = 0,
-			Box,
-			Sphere,
-			Capsule,
-			Mesh
-		};
+		static PxVec3 ConvertVector(const kl::float3& vector);
+		static kl::float3 ConvertVector(const PxVec3& vector);
 
-		kl::float3 scale = kl::float3(1.0f);
-		kl::float3 rotation = {};
-		kl::float3 position = {};
-		Shape shape = Shape::None;
-		physx::PxRigidActor* actor = nullptr;
-		physx::PxShape* shapeP = nullptr;
-		physx::PxMaterial* material = nullptr;
-
-		Collider();
-		Collider(const Collider& obj);
-		void operator=(const Collider& obj);
+		Collider(PxPhysics* physics, const PxGeometry& geometry);
+		Collider(PxPhysics* physics, const kl::float3& scale);
+		Collider(PxPhysics* physics, float radius);
+		Collider(PxPhysics* physics, float height, float radius);
+		Collider(PxPhysics* physics, kl::ref<Mesh> mesh, const kl::float3& scale);
+		Collider(const Collider&) = delete;
+		void operator=(const Collider&) = delete;
 		~Collider();
 
-		physx::PxTransform getTransform(const kl::float3& entPos, const kl::float3 entRot) const;
+		// Material
+		float staticFriction() const;
+		void staticFriction(float friction);
 
-		void delActor();
-		void newActor(bool dynamic, const kl::float3& entPos = {}, const kl::float3 entRot = {});
+		float dynamicFriction() const;
+		void dynamicFriction(float friction);
 
-		void setFriction(float val);
-		void delMaterial();
+		float restitution() const;
+		void restitution(float restitution);
 
-		void setGravity(bool enabled);
-		void setMass(float val);
-		void setWorldRotation(const kl::float3& entRot);
-		void setWorldPosition(const kl::float3& entPos);
-		void setVelocity(const kl::float3& vel);
-		void setAngular(const kl::float3& ang);
-
-		void delShape();
-		void newShape(const physx::PxGeometry& geo);
-		void newShape(const kl::float3& sca);
-		void newShape(float radius);
-		void newShape(const kl::float2& heiRad);
-		void newShape(const kl::reference<Engine::Mesh>& mesh, const kl::float3& sca);
-
-		kl::float3 getWorldRotation() const;
-		kl::float3 getWorldPosition() const;
-		kl::float3 getVelocity() const;
-		kl::float3 getAngular() const;
-
-		static std::string getName(Collider::Shape shape);
+		// Shape
+		PxShape& shape() const;
+		std::string type() const;
 	};
 }

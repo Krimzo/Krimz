@@ -7,6 +7,7 @@
 #include "Scripting/Scripting.h"
 
 
-void Engine::Stage::End() {
-	Engine::gpu = nullptr;
+void Krimz::Stage::End()
+{
+	Krimz::gpu = nullptr;
 }

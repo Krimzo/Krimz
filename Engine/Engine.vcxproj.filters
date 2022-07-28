@@ -15,49 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\Types\Mesh.h">
+    <ClInclude Include="source\Mesh\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Types\Texture.h">
+    <ClInclude Include="source\Material\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Types\Entity.h">
+    <ClInclude Include="source\Logger\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\GUI\GUI.h">
+    <ClInclude Include="source\Named\Named.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Input\Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Logging\Logging.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\Render.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Scripting\Script.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Scripting\JavaHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Scripting\Scripting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Editor\Picking.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Editor\Gizmo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Stage\Stage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Types\Named.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Types\Skybox.h">
+    <ClInclude Include="source\Skybox\Skybox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Physics\Physics.h">
@@ -66,132 +36,93 @@
     <ClInclude Include="source\Physics\Collider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Types\Camera.h">
+    <ClInclude Include="source\Camera\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Types\Light\Ambient.h">
+    <ClInclude Include="source\Light\Direct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Types\Light\Direct.h">
+    <ClInclude Include="source\Material\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Types\Material.h">
+    <ClInclude Include="source\GUI\GUIRenderable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\Include\RenderTime.h">
+    <ClInclude Include="source\Renderer\Renderable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\Include\RenderLight.h">
+    <ClInclude Include="source\Editor\Editor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\Include\RenderRasters.h">
+    <ClInclude Include="source\Game\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\Include\RenderDepth.h">
+    <ClInclude Include="source\Renderer\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\Include\RenderShaders.h">
+    <ClInclude Include="source\GUI\GUIRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\Include\RenderOutline.h">
+    <ClInclude Include="source\Physics\Physical.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\Include\RenderColliders.h">
+    <ClInclude Include="source\Mesh\MeshComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Physics\PhysicsComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\GUI\Section\Section.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Material\MaterialComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Transform\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Transform\TransformComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Entity\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Scene\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Scripter\ScriptComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Scripter\Scripter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Scripter\Script.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Scripter\JavaHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Scripter\Scripting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Light\Ambient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\Types\Entity.cpp">
+    <ClCompile Include="source\Krimz.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GUI\GUI.cpp">
+    <ClCompile Include="source\Material\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GUI\GUIExplorer.cpp">
+    <ClCompile Include="source\Mesh\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GUI\GUILog.cpp">
+    <ClCompile Include="source\Named\Named.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GUI\GUIMainMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\GUI\GUIPerformance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\GUI\GUIProperties.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\GUI\GUIScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\GUI\GUIViewport.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Input\InputCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Input\InputGizmo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Input\InputLMB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Input\Input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\RenderEntities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\RenderGizmo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\RenderOutline.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\RenderShadows.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Scripting\Script.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Scripting\JavaHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Scripting\Scripting.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\RenderGUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Stage\StageEnd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Stage\StageResize.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Stage\StageStart.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Stage\StageUpdate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Types\Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Types\Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Types\Named.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Editor\Picking.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Types\Skybox.cpp">
+    <ClCompile Include="source\Skybox\Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Physics\Physics.cpp">
@@ -200,37 +131,70 @@
     <ClCompile Include="source\Physics\Collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\RenderCollider.cpp">
+    <ClCompile Include="source\Camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Types\Camera.cpp">
+    <ClCompile Include="source\Light\Direct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\RenderSkybox.cpp">
+    <ClCompile Include="source\Material\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\RenderFixViewport.cpp">
+    <ClCompile Include="source\Editor\Editor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Types\Light\Direct.cpp">
+    <ClCompile Include="source\Game\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Types\Material.cpp">
+    <ClCompile Include="source\Renderer\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GUI\Scene\GuiSceneCameras.cpp">
+    <ClCompile Include="source\GUI\GUIRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GUI\Scene\GuiSceneEntities.cpp">
+    <ClCompile Include="source\Entity\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GUI\Scene\GuiSceneMeshes.cpp">
+    <ClCompile Include="source\Scene\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GUI\Scene\GuiSceneTextures.cpp">
+    <ClCompile Include="source\Material\MaterialComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\GUI\Scene\GuiSceneSkyboxes.cpp">
+    <ClCompile Include="source\Mesh\MeshComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scripter\ScriptComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scripter\Scripter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scripter\Script.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scripter\JavaHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scripter\Scripting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Transform\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Transform\TransformComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Physics\PhysicsComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Physics\Physical.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Light\Ambient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Logger\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

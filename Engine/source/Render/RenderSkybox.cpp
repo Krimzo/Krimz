@@ -3,9 +3,10 @@
 #include "Types/Camera.h"
 
 
-void Engine::Render::Skybox() {
-	Engine::gpu->bindTargets({ Engine::Render::targetView });
-	Engine::gpu->bind(Engine::Rasters::skybox);
-	Engine::gpu->bind(Engine::DepthStencil::disabled);
-	Engine::Selected::camera->skybox->render(Engine::Selected::camera->matrix());
+void Krimz::Render::Skybox()
+{
+	Krimz::gpu->bindTargets({ Krimz::Render::targetView });
+	Krimz::gpu->bind(Krimz::Rasters::skybox);
+	Krimz::gpu->bind(Krimz::DepthStencil::disabled);
+	Krimz::Selected::camera->skybox->render(Krimz::Selected::camera->matrix());
 }

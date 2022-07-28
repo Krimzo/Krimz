@@ -4,34 +4,47 @@
 #include "GUI/GUI.h"
 
 
-void Engine::Input::Gizmo() {
-	Engine::window.keys.num1.press = [&]() {
-		if (!ImGui::GetIO().WantCaptureKeyboard) {
-			if (Engine::Selected::gizmo == Engine::Gizmo::Type::SCALE) {
-				Engine::Selected::gizmo = Engine::Gizmo::Type::NONE;
+void Krimz::Input::Gizmo()
+{
+	Krimz::window.keys.num1.press = [&]()
+	{
+		if (!ImGui::GetIO().WantCaptureKeyboard)
+		{
+			if (Krimz::Selected::gizmo == Krimz::Gizmo::Type::SCALE)
+			{
+				Krimz::Selected::gizmo = Krimz::Gizmo::Type::NONE;
 			}
-			else {
-				Engine::Selected::gizmo = Engine::Gizmo::Type::SCALE;
-			}
-		}
-	};
-	Engine::window.keys.num2.press = [&]() {
-		if (!ImGui::GetIO().WantCaptureKeyboard) {
-			if (Engine::Selected::gizmo == Engine::Gizmo::Type::MOVE) {
-				Engine::Selected::gizmo = Engine::Gizmo::Type::NONE;
-			}
-			else {
-				Engine::Selected::gizmo = Engine::Gizmo::Type::MOVE;
+			else
+			{
+				Krimz::Selected::gizmo = Krimz::Gizmo::Type::SCALE;
 			}
 		}
 	};
-	Engine::window.keys.num3.press = [&]() {
-		if (!ImGui::GetIO().WantCaptureKeyboard) {
-			if (Engine::Selected::gizmo == Engine::Gizmo::Type::ROTATE) {
-				Engine::Selected::gizmo = Engine::Gizmo::Type::NONE;
+	Krimz::window.keys.num2.press = [&]()
+	{
+		if (!ImGui::GetIO().WantCaptureKeyboard)
+		{
+			if (Krimz::Selected::gizmo == Krimz::Gizmo::Type::MOVE)
+			{
+				Krimz::Selected::gizmo = Krimz::Gizmo::Type::NONE;
 			}
-			else {
-				Engine::Selected::gizmo = Engine::Gizmo::Type::ROTATE;
+			else
+			{
+				Krimz::Selected::gizmo = Krimz::Gizmo::Type::MOVE;
+			}
+		}
+	};
+	Krimz::window.keys.num3.press = [&]()
+	{
+		if (!ImGui::GetIO().WantCaptureKeyboard)
+		{
+			if (Krimz::Selected::gizmo == Krimz::Gizmo::Type::ROTATE)
+			{
+				Krimz::Selected::gizmo = Krimz::Gizmo::Type::NONE;
+			}
+			else
+			{
+				Krimz::Selected::gizmo = Krimz::Gizmo::Type::ROTATE;
 			}
 		}
 	};

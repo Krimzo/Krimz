@@ -38,7 +38,7 @@ freely, subject to the following restrictions:
 /**
 @brief Read 16 bit integer in network byte order and convert to native byte order
 **/
-static int16_t sNetToNative16(const unsigned char *value)
+static int16_t sNetToNative16(const unsigned char* value)
 {
 #ifdef USYNERGY_LITTLE_ENDIAN
 	return value[1] | (value[0] << 8);
@@ -52,7 +52,7 @@ static int16_t sNetToNative16(const unsigned char *value)
 /**
 @brief Read 32 bit integer in network byte order and convert to native byte order
 **/
-static int32_t sNetToNative32(const unsigned char *value)
+static int32_t sNetToNative32(const unsigned char* value)
 {
 #ifdef USYNERGY_LITTLE_ENDIAN
 	return value[3] | (value[2] << 8) | (value[1] << 16) | (value[0] << 24);
@@ -66,7 +66,7 @@ static int32_t sNetToNative32(const unsigned char *value)
 /**
 @brief Trace text to client
 **/
-static void sTrace(uSynergyContext *context, const char* text)
+static void sTrace(uSynergyContext* context, const char* text)
 {
 	// Don't trace if we don't have a trace function
 	if (context->m_traceFunc != 0L)
@@ -78,7 +78,7 @@ static void sTrace(uSynergyContext *context, const char* text)
 /**
 @brief Add string to reply packet
 **/
-static void sAddString(uSynergyContext *context, const char *string)
+static void sAddString(uSynergyContext* context, const char* string)
 {
 	size_t len = strlen(string);
 	memcpy(context->m_replyCur, string, len);
@@ -90,7 +90,7 @@ static void sAddString(uSynergyContext *context, const char *string)
 /**
 @brief Add uint8 to reply packet
 **/
-static void sAddUInt8(uSynergyContext *context, uint8_t value)
+static void sAddUInt8(uSynergyContext* context, uint8_t value)
 {
 	*context->m_replyCur++ = value;
 }
@@ -100,11 +100,11 @@ static void sAddUInt8(uSynergyContext *context, uint8_t value)
 /**
 @brief Add uint16 to reply packet
 **/
-static void sAddUInt16(uSynergyContext *context, uint16_t value)
+static void sAddUInt16(uSynergyContext* context, uint16_t value)
 {
-	uint8_t *reply = context->m_replyCur;
-	*reply++ = (uint8_t)(value >> 8);
-	*reply++ = (uint8_t)value;
+	uint8_t* reply = context->m_replyCur;
+	*reply++ = (uint8_t) (value >> 8);
+	*reply++ = (uint8_t) value;
 	context->m_replyCur = reply;
 }
 
@@ -113,13 +113,13 @@ static void sAddUInt16(uSynergyContext *context, uint16_t value)
 /**
 @brief Add uint32 to reply packet
 **/
-static void sAddUInt32(uSynergyContext *context, uint32_t value)
+static void sAddUInt32(uSynergyContext* context, uint32_t value)
 {
-	uint8_t *reply = context->m_replyCur;
-	*reply++ = (uint8_t)(value >> 24);
-	*reply++ = (uint8_t)(value >> 16);
-	*reply++ = (uint8_t)(value >> 8);
-	*reply++ = (uint8_t)value;
+	uint8_t* reply = context->m_replyCur;
+	*reply++ = (uint8_t) (value >> 24);
+	*reply++ = (uint8_t) (value >> 16);
+	*reply++ = (uint8_t) (value >> 8);
+	*reply++ = (uint8_t) value;
 	context->m_replyCur = reply;
 }
 
@@ -128,23 +128,23 @@ static void sAddUInt32(uSynergyContext *context, uint32_t value)
 /**
 @brief Send reply packet
 **/
-static uSynergyBool sSendReply(uSynergyContext *context)
+static uSynergyBool sSendReply(uSynergyContext* context)
 {
 	// Set header size
-	uint8_t		*reply_buf	= context->m_replyBuffer;
-	uint32_t	reply_len	= (uint32_t)(context->m_replyCur - reply_buf);				/* Total size of reply */
-	uint32_t	body_len	= reply_len - 4;											/* Size of body */
+	uint8_t* reply_buf = context->m_replyBuffer;
+	uint32_t	reply_len = (uint32_t) (context->m_replyCur - reply_buf);				/* Total size of reply */
+	uint32_t	body_len = reply_len - 4;											/* Size of body */
 	uSynergyBool ret;
-	reply_buf[0] = (uint8_t)(body_len >> 24);
-	reply_buf[1] = (uint8_t)(body_len >> 16);
-	reply_buf[2] = (uint8_t)(body_len >> 8);
-	reply_buf[3] = (uint8_t)body_len;
+	reply_buf[0] = (uint8_t) (body_len >> 24);
+	reply_buf[1] = (uint8_t) (body_len >> 16);
+	reply_buf[2] = (uint8_t) (body_len >> 8);
+	reply_buf[3] = (uint8_t) body_len;
 
 	// Send reply
 	ret = context->m_sendFunc(context->m_cookie, context->m_replyBuffer, reply_len);
 
 	// Reset reply buffer write pointer
-	context->m_replyCur = context->m_replyBuffer+4;
+	context->m_replyCur = context->m_replyBuffer + 4;
 	return ret;
 }
 
@@ -153,7 +153,7 @@ static uSynergyBool sSendReply(uSynergyContext *context)
 /**
 @brief Call mouse callback after a mouse event
 **/
-static void sSendMouseCallback(uSynergyContext *context)
+static void sSendMouseCallback(uSynergyContext* context)
 {
 	// Skip if no callback is installed
 	if (context->m_mouseCallback == 0L)
@@ -169,7 +169,7 @@ static void sSendMouseCallback(uSynergyContext *context)
 /**
 @brief Send keyboard callback when a key has been pressed or released
 **/
-static void sSendKeyboardCallback(uSynergyContext *context, uint16_t key, uint16_t modifiers, uSynergyBool down, uSynergyBool repeat)
+static void sSendKeyboardCallback(uSynergyContext* context, uint16_t key, uint16_t modifiers, uSynergyBool down, uSynergyBool repeat)
 {
 	// Skip if no callback is installed
 	if (context->m_keyboardCallback == 0L)
@@ -184,9 +184,9 @@ static void sSendKeyboardCallback(uSynergyContext *context, uint16_t key, uint16
 /**
 @brief Send joystick callback
 **/
-static void sSendJoystickCallback(uSynergyContext *context, uint8_t joyNum)
+static void sSendJoystickCallback(uSynergyContext* context, uint8_t joyNum)
 {
-	int8_t *sticks;
+	int8_t* sticks;
 
 	// Skip if no callback is installed
 	if (context->m_joystickCallback == 0L)
@@ -203,10 +203,10 @@ static void sSendJoystickCallback(uSynergyContext *context, uint8_t joyNum)
 @brief Parse a single client message, update state, send callbacks and send replies
 **/
 #define USYNERGY_IS_PACKET(pkt_id)	memcmp(message+4, pkt_id, 4)==0
-static void sProcessMessage(uSynergyContext *context, const uint8_t *message)
+static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 {
 	// We have a packet!
-	if (memcmp(message+4, "Synergy", 7)==0)
+	if (memcmp(message + 4, "Synergy", 7) == 0)
 	{
 		// Welcome message
 		//		kMsgHello			= "Synergy%2i%2i"
@@ -214,7 +214,7 @@ static void sProcessMessage(uSynergyContext *context, const uint8_t *message)
 		sAddString(context, "Synergy");
 		sAddUInt16(context, USYNERGY_PROTOCOL_MAJOR);
 		sAddUInt16(context, USYNERGY_PROTOCOL_MINOR);
-		sAddUInt32(context, (uint32_t)strlen(context->m_clientName));
+		sAddUInt32(context, (uint32_t) strlen(context->m_clientName));
 		sAddString(context, context->m_clientName);
 		if (!sSendReply(context))
 		{
@@ -226,7 +226,7 @@ static void sProcessMessage(uSynergyContext *context, const uint8_t *message)
 		else
 		{
 			// Let's assume we're connected
-			char buffer[256+1];
+			char buffer[256 + 1];
 			sprintf(buffer, "Connected as client \"%s\"", context->m_clientName);
 			sTrace(context, buffer);
 			context->m_hasReceivedHello = USYNERGY_TRUE;
@@ -289,34 +289,34 @@ static void sProcessMessage(uSynergyContext *context, const uint8_t *message)
 	{
 		// Mouse down
 		//		kMsgDMouseDown		= "DMDN%1i"
-		char btn = message[8]-1;
-		if (btn==2)
-			context->m_mouseButtonRight		= USYNERGY_TRUE;
-		else if (btn==1)
-			context->m_mouseButtonMiddle	= USYNERGY_TRUE;
+		char btn = message[8] - 1;
+		if (btn == 2)
+			context->m_mouseButtonRight = USYNERGY_TRUE;
+		else if (btn == 1)
+			context->m_mouseButtonMiddle = USYNERGY_TRUE;
 		else
-			context->m_mouseButtonLeft		= USYNERGY_TRUE;
+			context->m_mouseButtonLeft = USYNERGY_TRUE;
 		sSendMouseCallback(context);
 	}
 	else if (USYNERGY_IS_PACKET("DMUP"))
 	{
 		// Mouse up
 		//		kMsgDMouseUp		= "DMUP%1i"
-		char btn = message[8]-1;
-		if (btn==2)
-			context->m_mouseButtonRight		= USYNERGY_FALSE;
-		else if (btn==1)
-			context->m_mouseButtonMiddle	= USYNERGY_FALSE;
+		char btn = message[8] - 1;
+		if (btn == 2)
+			context->m_mouseButtonRight = USYNERGY_FALSE;
+		else if (btn == 1)
+			context->m_mouseButtonMiddle = USYNERGY_FALSE;
 		else
-			context->m_mouseButtonLeft		= USYNERGY_FALSE;
+			context->m_mouseButtonLeft = USYNERGY_FALSE;
 		sSendMouseCallback(context);
 	}
 	else if (USYNERGY_IS_PACKET("DMMV"))
 	{
 		// Mouse move. Reply with CNOP
 		//		kMsgDMouseMove		= "DMMV%2i%2i"
-		context->m_mouseX = sNetToNative16(message+8);
-		context->m_mouseY = sNetToNative16(message+10);
+		context->m_mouseX = sNetToNative16(message + 8);
+		context->m_mouseY = sNetToNative16(message + 10);
 		sSendMouseCallback(context);
 	}
 	else if (USYNERGY_IS_PACKET("DMWM"))
@@ -324,8 +324,8 @@ static void sProcessMessage(uSynergyContext *context, const uint8_t *message)
 		// Mouse wheel
 		//		kMsgDMouseWheel		= "DMWM%2i%2i"
 		//		kMsgDMouseWheel1_0	= "DMWM%2i"
-		context->m_mouseWheelX += sNetToNative16(message+8);
-		context->m_mouseWheelY += sNetToNative16(message+10);
+		context->m_mouseWheelX += sNetToNative16(message + 8);
+		context->m_mouseWheelY += sNetToNative16(message + 10);
 		sSendMouseCallback(context);
 	}
 	else if (USYNERGY_IS_PACKET("DKDN"))
@@ -334,8 +334,8 @@ static void sProcessMessage(uSynergyContext *context, const uint8_t *message)
 		//		kMsgDKeyDown		= "DKDN%2i%2i%2i"
 		//		kMsgDKeyDown1_0		= "DKDN%2i%2i"
 		//uint16_t id = sNetToNative16(message+8);
-		uint16_t mod = sNetToNative16(message+10);
-		uint16_t key = sNetToNative16(message+12);
+		uint16_t mod = sNetToNative16(message + 10);
+		uint16_t key = sNetToNative16(message + 12);
 		sSendKeyboardCallback(context, key, mod, USYNERGY_TRUE, USYNERGY_FALSE);
 	}
 	else if (USYNERGY_IS_PACKET("DKRP"))
@@ -343,9 +343,9 @@ static void sProcessMessage(uSynergyContext *context, const uint8_t *message)
 		// Key repeat
 		//		kMsgDKeyRepeat		= "DKRP%2i%2i%2i%2i"
 		//		kMsgDKeyRepeat1_0	= "DKRP%2i%2i%2i"
-		uint16_t mod = sNetToNative16(message+10);
+		uint16_t mod = sNetToNative16(message + 10);
 //		uint16_t count = sNetToNative16(message+12);
-		uint16_t key = sNetToNative16(message+14);
+		uint16_t key = sNetToNative16(message + 14);
 		sSendKeyboardCallback(context, key, mod, USYNERGY_TRUE, USYNERGY_TRUE);
 	}
 	else if (USYNERGY_IS_PACKET("DKUP"))
@@ -354,8 +354,8 @@ static void sProcessMessage(uSynergyContext *context, const uint8_t *message)
 		//		kMsgDKeyUp			= "DKUP%2i%2i%2i"
 		//		kMsgDKeyUp1_0		= "DKUP%2i%2i"
 		//uint16 id=Endian::sNetToNative(sbuf[4]);
-		uint16_t mod = sNetToNative16(message+10);
-		uint16_t key = sNetToNative16(message+12);
+		uint16_t mod = sNetToNative16(message + 10);
+		uint16_t key = sNetToNative16(message + 12);
 		sSendKeyboardCallback(context, key, mod, USYNERGY_FALSE, USYNERGY_FALSE);
 	}
 	else if (USYNERGY_IS_PACKET("DGBT"))
@@ -363,7 +363,7 @@ static void sProcessMessage(uSynergyContext *context, const uint8_t *message)
 		// Joystick buttons
 		//		kMsgDGameButtons	= "DGBT%1i%2i";
 		uint8_t	joy_num = message[8];
-		if (joy_num<USYNERGY_NUM_JOYSTICKS)
+		if (joy_num < USYNERGY_NUM_JOYSTICKS)
 		{
 			// Copy button state, then send callback
 			context->m_joystickButtons[joy_num] = (message[9] << 8) | message[10];
@@ -375,10 +375,10 @@ static void sProcessMessage(uSynergyContext *context, const uint8_t *message)
 		// Joystick sticks
 		//		kMsgDGameSticks		= "DGST%1i%1i%1i%1i%1i";
 		uint8_t	joy_num = message[8];
-		if (joy_num<USYNERGY_NUM_JOYSTICKS)
+		if (joy_num < USYNERGY_NUM_JOYSTICKS)
 		{
 			// Copy stick state, then send callback
-			memcpy(context->m_joystickSticks[joy_num], message+9, 4);
+			memcpy(context->m_joystickSticks[joy_num], message + 9, 4);
 			sSendJoystickCallback(context, joy_num);
 		}
 	}
@@ -411,16 +411,16 @@ static void sProcessMessage(uSynergyContext *context, const uint8_t *message)
 		//		1 uint32:	The format of the clipboard data
 		//		1 uint32:	The size n of the clipboard data
 		//		n uint8:	The clipboard data
-		const uint8_t *	parse_msg	= message+17;
+		const uint8_t* parse_msg = message + 17;
 		uint32_t		num_formats = sNetToNative32(parse_msg);
 		parse_msg += 4;
 		for (; num_formats; num_formats--)
 		{
 			// Parse clipboard format header
-			uint32_t format	= sNetToNative32(parse_msg);
-			uint32_t size	= sNetToNative32(parse_msg+4);
+			uint32_t format = sNetToNative32(parse_msg);
+			uint32_t size = sNetToNative32(parse_msg + 4);
 			parse_msg += 8;
-			
+
 			// Call callback
 			if (context->m_clipboardCallback)
 				context->m_clipboardCallback(context->m_cookie, format, parse_msg, size);
@@ -459,13 +459,13 @@ static void sProcessMessage(uSynergyContext *context, const uint8_t *message)
 /**
 @brief Mark context as being disconnected
 **/
-static void sSetDisconnected(uSynergyContext *context)
+static void sSetDisconnected(uSynergyContext* context)
 {
-	context->m_connected		= USYNERGY_FALSE;
+	context->m_connected = USYNERGY_FALSE;
 	context->m_hasReceivedHello = USYNERGY_FALSE;
-	context->m_isCaptured		= USYNERGY_FALSE;
-	context->m_replyCur			= context->m_replyBuffer + 4;
-	context->m_sequenceNumber	= 0;
+	context->m_isCaptured = USYNERGY_FALSE;
+	context->m_replyCur = context->m_replyBuffer + 4;
+	context->m_sequenceNumber = 0;
 }
 
 
@@ -473,7 +473,7 @@ static void sSetDisconnected(uSynergyContext *context)
 /**
 @brief Update a connected context
 **/
-static void sUpdateContext(uSynergyContext *context)
+static void sUpdateContext(uSynergyContext* context)
 {
 	/* Receive data (blocking) */
 	int receive_size = USYNERGY_RECEIVE_BUFFER_SIZE - context->m_receiveOfs;
@@ -516,15 +516,15 @@ static void sUpdateContext(uSynergyContext *context)
 	{
 		/* Grab packet length and bail out if the packet goes beyond the end of the buffer */
 		packlen = sNetToNative32(context->m_receiveBuffer);
-		if (packlen+4 > context->m_receiveOfs)
+		if (packlen + 4 > context->m_receiveOfs)
 			break;
 
 		/* Process message */
 		sProcessMessage(context, context->m_receiveBuffer);
 
 		/* Move packet to front of buffer */
-		memmove(context->m_receiveBuffer, context->m_receiveBuffer+packlen+4, context->m_receiveOfs-packlen-4);
-		context->m_receiveOfs -= packlen+4;
+		memmove(context->m_receiveBuffer, context->m_receiveBuffer + packlen + 4, context->m_receiveOfs - packlen - 4);
+		context->m_receiveOfs -= packlen + 4;
 	}
 
 	/* Throw away over-sized packets */
@@ -534,7 +534,7 @@ static void sUpdateContext(uSynergyContext *context)
 		char buffer[128];
 		sprintf(buffer, "Oversized packet: '%c%c%c%c' (length %d)", context->m_receiveBuffer[4], context->m_receiveBuffer[5], context->m_receiveBuffer[6], context->m_receiveBuffer[7], packlen);
 		sTrace(context, buffer);
-		num_received = context->m_receiveOfs-4; // 4 bytes for the size field
+		num_received = context->m_receiveOfs - 4; // 4 bytes for the size field
 		while (num_received != packlen)
 		{
 			int buffer_left = packlen - num_received;
@@ -567,7 +567,7 @@ static void sUpdateContext(uSynergyContext *context)
 /**
 @brief Initialize uSynergy context
 **/
-void uSynergyInit(uSynergyContext *context)
+void uSynergyInit(uSynergyContext* context)
 {
 	/* Zero memory */
 	memset(context, 0, sizeof(uSynergyContext));
@@ -580,7 +580,7 @@ void uSynergyInit(uSynergyContext *context)
 /**
 @brief Update uSynergy
 **/
-void uSynergyUpdate(uSynergyContext *context)
+void uSynergyUpdate(uSynergyContext* context)
 {
 	if (context->m_connected)
 	{
@@ -600,21 +600,21 @@ void uSynergyUpdate(uSynergyContext *context)
 /**
 @brief Send clipboard data
 **/
-void uSynergySendClipboard(uSynergyContext *context, const char *text)
+void uSynergySendClipboard(uSynergyContext* context, const char* text)
 {
 	// Calculate maximum size that will fit in a reply packet
-	uint32_t overhead_size =	4 +					/* Message size */
-								4 +					/* Message ID */
-								1 +					/* Clipboard index */
-								4 +					/* Sequence number */
-								4 +					/* Rest of message size (because it's a Synergy string from here on) */
-								4 +					/* Number of clipboard formats */
-								4 +					/* Clipboard format */
-								4;					/* Clipboard data length */
+	uint32_t overhead_size = 4 +					/* Message size */
+		4 +					/* Message ID */
+		1 +					/* Clipboard index */
+		4 +					/* Sequence number */
+		4 +					/* Rest of message size (because it's a Synergy string from here on) */
+		4 +					/* Number of clipboard formats */
+		4 +					/* Clipboard format */
+		4;					/* Clipboard data length */
 	uint32_t max_length = USYNERGY_REPLY_BUFFER_SIZE - overhead_size;
-	
+
 	// Clip text to max length
-	uint32_t text_length = (uint32_t)strlen(text);
+	uint32_t text_length = (uint32_t) strlen(text);
 	if (text_length > max_length)
 	{
 		char buffer[128];
@@ -627,7 +627,7 @@ void uSynergySendClipboard(uSynergyContext *context, const char *text)
 	sAddString(context, "DCLP");
 	sAddUInt8(context, 0);							/* Clipboard index */
 	sAddUInt32(context, context->m_sequenceNumber);
-	sAddUInt32(context, 4+4+4+text_length);			/* Rest of message size: numFormats, format, length, data */
+	sAddUInt32(context, 4 + 4 + 4 + text_length);			/* Rest of message size: numFormats, format, length, data */
 	sAddUInt32(context, 1);							/* Number of formats (only text for now) */
 	sAddUInt32(context, USYNERGY_CLIPBOARD_FORMAT_TEXT);
 	sAddUInt32(context, text_length);

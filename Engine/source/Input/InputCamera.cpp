@@ -4,75 +4,98 @@
 #include "GUI/GUI.h"
 
 
-void MovementSetup() {
-	Engine::window.keys.w.down = [&]() {
-		if (!ImGui::GetIO().WantCaptureKeyboard) {
-			Engine::Selected::camera->moveForward(Engine::Time::delta);
+void MovementSetup()
+{
+	Krimz::window.keys.w.down = [&]()
+	{
+		if (!ImGui::GetIO().WantCaptureKeyboard)
+		{
+			Krimz::Selected::camera->moveForward(Krimz::Time::delta);
 		}
 	};
-	Engine::window.keys.s.down = [&]() {
-		if (!ImGui::GetIO().WantCaptureKeyboard) {
-			Engine::Selected::camera->moveBack(Engine::Time::delta);
+	Krimz::window.keys.s.down = [&]()
+	{
+		if (!ImGui::GetIO().WantCaptureKeyboard)
+		{
+			Krimz::Selected::camera->moveBack(Krimz::Time::delta);
 		}
 	};
-	Engine::window.keys.d.down = [&]() {
-		if (!ImGui::GetIO().WantCaptureKeyboard) {
-			Engine::Selected::camera->moveRight(Engine::Time::delta);
+	Krimz::window.keys.d.down = [&]()
+	{
+		if (!ImGui::GetIO().WantCaptureKeyboard)
+		{
+			Krimz::Selected::camera->moveRight(Krimz::Time::delta);
 		}
 	};
-	Engine::window.keys.a.down = [&]() {
-		if (!ImGui::GetIO().WantCaptureKeyboard) {
-			Engine::Selected::camera->moveLeft(Engine::Time::delta);
+	Krimz::window.keys.a.down = [&]()
+	{
+		if (!ImGui::GetIO().WantCaptureKeyboard)
+		{
+			Krimz::Selected::camera->moveLeft(Krimz::Time::delta);
 		}
 	};
-	Engine::window.keys.e.down = [&]() {
-		if (!ImGui::GetIO().WantCaptureKeyboard) {
-			Engine::Selected::camera->moveUp(Engine::Time::delta);
+	Krimz::window.keys.e.down = [&]()
+	{
+		if (!ImGui::GetIO().WantCaptureKeyboard)
+		{
+			Krimz::Selected::camera->moveUp(Krimz::Time::delta);
 		}
 	};
-	Engine::window.keys.q.down = [&]() {
-		if (!ImGui::GetIO().WantCaptureKeyboard) {
-			Engine::Selected::camera->moveDown(Engine::Time::delta);
+	Krimz::window.keys.q.down = [&]()
+	{
+		if (!ImGui::GetIO().WantCaptureKeyboard)
+		{
+			Krimz::Selected::camera->moveDown(Krimz::Time::delta);
 		}
 	};
-	Engine::window.keys.shift.press = [&]() {
-		Engine::Selected::camera->speed = 5.0f;
+	Krimz::window.keys.shift.press = [&]()
+	{
+		Krimz::Selected::camera->speed = 5.0f;
 	};
-	Engine::window.keys.shift.release = [&]() {
-		Engine::Selected::camera->speed = 2.0f;
+	Krimz::window.keys.shift.release = [&]()
+	{
+		Krimz::Selected::camera->speed = 2.0f;
 	};
 }
 
 bool firstClick = true;
 bool camMoving = false;
-void RotationSetup() {
-	Engine::window.mouse.rmb.press = [&]() {
-		if (Engine::GUI::viewportFocus) {
-			Engine::window.mouse.hide();
+void RotationSetup()
+{
+	Krimz::window.mouse.rmb.press = [&]()
+	{
+		if (Krimz::GUI::viewportFocus)
+		{
+			Krimz::window.mouse.hide();
 			camMoving = true;
 		}
 	};
-	Engine::window.mouse.rmb.down = [&]() {
-		if (camMoving) {
-			const kl::int2 frameCenter = Engine::window.center();
+	Krimz::window.mouse.rmb.down = [&]()
+	{
+		if (camMoving)
+		{
+			const kl::int2 frameCenter = Krimz::window.center();
 
-			if (firstClick) {
-				Engine::window.mouse.position = frameCenter;
+			if (firstClick)
+			{
+				Krimz::window.mouse.position = frameCenter;
 				firstClick = false;
 			}
 
-			Engine::Selected::camera->rotate(Engine::window.mouse.position, frameCenter);
-			Engine::window.mouse.move(frameCenter);
+			Krimz::Selected::camera->rotate(Krimz::window.mouse.position, frameCenter);
+			Krimz::window.mouse.move(frameCenter);
 		}
 	};
-	Engine::window.mouse.rmb.release = [&]() {
-		Engine::window.mouse.show();
+	Krimz::window.mouse.rmb.release = [&]()
+	{
+		Krimz::window.mouse.show();
 		firstClick = true;
 		camMoving = false;
 	};
 }
 
-void Engine::Input::Camera() {
+void Krimz::Input::Camera()
+{
 	MovementSetup();
 	RotationSetup();
 }

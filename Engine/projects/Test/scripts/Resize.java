@@ -24,13 +24,13 @@ public class Resize extends Entity implements Script {
 		lastScroll = Mouse.scroll;
 		multi -= scrollDif * 0.1f;
 
-		// size "display"
+		// Scale entity "display"
 		if (name.equals("Display")) {
 			scale.y = multi;
 			return;
 		}
 
-		// Change
+		// Scale
 		if (Keys.u) {
 			scale.x = savedScale.x * multi;
 		}

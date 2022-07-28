@@ -9,47 +9,53 @@
 #include "GUI/GUI.h"
 
 
-void Engine::Stage::Update() {
-	Engine::Time::delta = float(Engine::Time::timer.interval());
-	Engine::Time::elapsed = float(Engine::Time::timer.elapsed());
+void Krimz::Stage::Update()
+{
+	Krimz::Time::delta = float(Krimz::Time::timer.interval());
+	Krimz::Time::elapsed = float(Krimz::Time::timer.elapsed());
 
-	if (Engine::gameRunning) {
-		Engine::Physics::Update();
+	if (Krimz::gameRunning)
+	{
+		Krimz::Physics::Update();
 
-		Engine::Scripting::UpdateTime();
-		Engine::Scripting::UpdateInput();
-		Engine::Scripting::CallUpdates();
-		Engine::Scripting::HandleMousePos();
-		Engine::Scripting::HandleLogs();
+		Krimz::Scripting::UpdateTime();
+		Krimz::Scripting::UpdateInput();
+		Krimz::Scripting::CallUpdates();
+		Krimz::Scripting::HandleMousePos();
+		Krimz::Scripting::HandleLogs();
 	}
 
-	const kl::color& clearColor = Engine::Selected::camera ? Engine::Selected::camera->color : kl::colors::gray;
-	Engine::gpu->clear(clearColor);
-	Engine::gpu->clear(Engine::Render::targetView, clearColor);
+	const kl::color& clearColor = Krimz::Selected::camera ? Krimz::Selected::camera->color : kl::colors::gray;
+	Krimz::gpu->clear(clearColor);
+	Krimz::gpu->clear(Krimz::Render::targetView, clearColor);
 
-	if (Engine::Selected::camera) {
-		Engine::Render::Shadows();
-		Engine::Render::FixViewport();
+	if (Krimz::Selected::camera)
+	{
+		Krimz::Render::Shadows();
+		Krimz::Render::FixViewport();
 
-		if (Engine::Selected::camera->skybox) {
-			Engine::Render::Skybox();
+		if (Krimz::Selected::camera->skybox)
+		{
+			Krimz::Render::Skybox();
 		}
 
-		Engine::Render::Entities();
+		Krimz::Render::Entities();
 
-		if (Engine::Selected::entity) {
-			Engine::Render::Outline();
-			Engine::Render::Collider();
-			Engine::Render::Gizmo();
+		if (Krimz::Selected::entity)
+		{
+			Krimz::Render::Outline();
+			Krimz::Render::Collider();
+			Krimz::Render::Gizmo();
 		}
 
-		Engine::Picking::ReadObjectIndex();
+		Krimz::Picking::ReadObjectIndex();
 	}
-	else {
-		Engine::Picking::mouseIndex = -1;
+	else
+	{
+		Krimz::Picking::mouseIndex = -1;
 	}
 
-	Engine::Render::GUI();
+	Krimz::Render::GUI();
 
-	Engine::gpu->swap(Engine::Render::vSync);
+	Krimz::gpu->swap(Krimz::Render::vSync);
 }

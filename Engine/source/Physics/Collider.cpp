@@ -1,181 +1,96 @@
 #include "Physics/Collider.h"
-
 #include "Physics/Physics.h"
 
 
-Engine::Collider::Collider() {}
-Engine::Collider::Collider(const Engine::Collider& obj) {
-	m_Dynamic = obj.m_Dynamic;
-	scale = obj.scale;
-	rotation = obj.rotation;
-	position = obj.position;
-	shape = obj.shape;
-}
-void Engine::Collider::operator=(const Collider& obj) {
-	m_Dynamic = obj.m_Dynamic;
-	scale = obj.scale;
-	rotation = obj.rotation;
-	position = obj.position;
-	shape = obj.shape;
-}
-Engine::Collider::~Collider() {
-	if (Engine::Physics::physics) {
-		delShape();
-		delActor();
-		delMaterial();
-	}
+PxVec3 Krimz::Collider::ConvertVector(const kl::float3& vector)
+{
+	return *(PxVec3*) &vector;
 }
 
-physx::PxTransform Engine::Collider::getTransform(const kl::float3& entPos, const kl::float3 entRot) const {
-	physx::PxTransform tempTra;
-	const kl::float3 sumPos = entPos + position;
-	const kl::float4 sumRot = kl::to::quaternion(entRot + rotation);
-	tempTra.p = *(physx::PxVec3*)&sumPos;
-	tempTra.q = *(physx::PxQuat*)&sumRot;
-	return tempTra;
+kl::float3 Krimz::Collider::ConvertVector(const PxVec3& vector)
+{
+	return *(kl::float3*) &vector;
 }
 
-void Engine::Collider::delActor() {
-	if (actor) {
-		actor->release();
-		actor = nullptr;
-	}
-}
-void Engine::Collider::newActor(bool dynamic, const kl::float3& entPos, const kl::float3 entRot) {
-	delActor();
-	if (dynamic) {
-		actor = Engine::Physics::physics->createRigidDynamic(getTransform(entPos, entRot));
-	}
-	else {
-		actor = Engine::Physics::physics->createRigidStatic(getTransform(entPos, entRot));
-	}
-	this->m_Dynamic = dynamic;
+Krimz::Collider::Collider(PxPhysics* physics, const physx::PxGeometry& geometry)
+{
+	m_Material = physics->createMaterial(0.0f, 0.0f, 0.0f);
+	m_Shape = physics->createShape(geometry, *m_Material);
 }
 
-void Engine::Collider::setFriction(float val) {
-	if (material) {
-		material->setStaticFriction(val);
-		material->setDynamicFriction(val);
-	}
-	else {
-		material = Engine::Physics::physics->createMaterial(val, val, 0.5f);
-	}
-}
-void Engine::Collider::delMaterial() {
-	if (material) {
-		material->release();
-		material = nullptr;
-	}
+Krimz::Collider::Collider(PxPhysics* physics, const kl::float3& scale)
+	: Collider(physics, PxBoxGeometry(ConvertVector(scale)))
+{
 }
 
-void Engine::Collider::setGravity(bool enabled) {
-	if (actor) {
-		actor->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, !enabled);
-	}
-}
-void Engine::Collider::setMass(float val) {
-	if (actor && m_Dynamic) {
-		((physx::PxRigidDynamic*)actor)->setMass(val);
-	}
-}
-void Engine::Collider::setWorldRotation(const kl::float3& entRot) {
-	if (actor) {
-		const kl::float4 sumRot = kl::to::quaternion(entRot + rotation);
-		physx::PxTransform oldTransform = actor->getGlobalPose();
-		oldTransform.q = *(physx::PxQuat*)&sumRot;
-		actor->setGlobalPose(oldTransform);
-	}
-}
-void Engine::Collider::setWorldPosition(const kl::float3& entPos) {
-	if (actor) {
-		const kl::float3 sumPos = entPos + position;
-		physx::PxTransform oldTransform = actor->getGlobalPose();
-		oldTransform.p = *(physx::PxVec3*)&sumPos;
-		actor->setGlobalPose(oldTransform);
-	}
-}
-void Engine::Collider::setVelocity(const kl::float3& vel) {
-	if (actor && m_Dynamic) {
-		((physx::PxRigidDynamic*)actor)->setLinearVelocity(*(physx::PxVec3*)&vel);
-	}
-}
-void Engine::Collider::setAngular(const kl::float3& ang) {
-	if (actor && m_Dynamic) {
-		const kl::float3 radAngu = kl::to::radians<kl::float3>(ang);
-		((physx::PxRigidDynamic*)actor)->setAngularVelocity(*(physx::PxVec3*)&radAngu);
-	}
+Krimz::Collider::Collider(PxPhysics* physics, float radius)
+	: Collider(physics, PxSphereGeometry(radius))
+{
 }
 
-void Engine::Collider::delShape() {
-	if (shapeP) {
-		if (actor && actor->getNbShapes()) {
-			actor->detachShape(*shapeP);
-		}
-		shapeP->release();
-		shapeP = nullptr;
-	}
-}
-void Engine::Collider::newShape(const physx::PxGeometry& geo) {
-	delShape();
-	shapeP = Engine::Physics::physics->createShape(geo, *material);
-	if (actor) {
-		actor->attachShape(*shapeP);
-	}
-}
-void Engine::Collider::newShape(const kl::float3& sca) {
-	newShape(physx::PxBoxGeometry(*(physx::PxVec3*)&sca));
-}
-void Engine::Collider::newShape(float radius) {
-	newShape(physx::PxSphereGeometry(radius));
-}
-void Engine::Collider::newShape(const kl::float2& heiRad) {
-	newShape(physx::PxCapsuleGeometry(heiRad.x, heiRad.y));
-}
-void Engine::Collider::newShape(const kl::reference<Engine::Mesh>& mesh, const kl::float3& sca) {
-	newShape(physx::PxTriangleMeshGeometry(mesh->cooked, *(physx::PxVec3*)&sca));
+Krimz::Collider::Collider(PxPhysics* physics, float height, float radius)
+	: Collider(physics, PxCapsuleGeometry(height, radius))
+{
 }
 
-kl::float3 Engine::Collider::getWorldRotation() const {
-	if (actor) {
-		physx::PxTransform transform = actor->getGlobalPose();
-		return kl::to::euler(*(kl::float4*)&transform.q);
-	}
-	return {};
-}
-kl::float3 Engine::Collider::getWorldPosition() const {
-	if (actor) {
-		physx::PxTransform transform = actor->getGlobalPose();
-		return *(kl::float3*)&transform.p;
-	}
-	return {};
+Krimz::Collider::Collider(PxPhysics* physics, kl::ref<Mesh> mesh, const kl::float3& scale)
+	: Collider(physics, PxTriangleMeshGeometry(mesh->cooked, ConvertVector(scale)))
+{
 }
 
-kl::float3 Engine::Collider::getVelocity() const {
-	if (actor && m_Dynamic) {
-		const physx::PxVec3 linVel = ((physx::PxRigidDynamic*)actor)->getLinearVelocity();
-		return *(kl::float3*)&linVel;
-	}
-	return {};
-}
-kl::float3 Engine::Collider::getAngular() const {
-	if (actor && m_Dynamic) {
-		const physx::PxVec3 radAngu = ((physx::PxRigidDynamic*)actor)->getAngularVelocity();
-		return kl::to::degrees<kl::float3>(*(kl::float3*)&radAngu);
-	}
-	return {};
+Krimz::Collider::~Collider()
+{
+	m_Shape->release();
+	m_Material->release();
 }
 
-std::string Engine::Collider::getName(Collider::Shape shape) {
-	switch (shape) {
-	case Engine::Collider::Shape::Box:
+float Krimz::Collider::staticFriction() const
+{
+	return m_Material->getStaticFriction();
+}
+
+void Krimz::Collider::staticFriction(float friction)
+{
+	m_Material->setStaticFriction(friction);
+}
+
+float Krimz::Collider::dynamicFriction() const
+{
+	return m_Material->getDynamicFriction();
+}
+
+void Krimz::Collider::dynamicFriction(float friction)
+{
+	m_Material->setDynamicFriction(friction);
+}
+
+float Krimz::Collider::restitution() const
+{
+	return m_Material->getRestitution();
+}
+
+void Krimz::Collider::restitution(float restitution)
+{
+	m_Material->setRestitution(restitution);
+}
+
+PxShape& Krimz::Collider::shape() const
+{
+	return *m_Shape;
+}
+
+std::string Krimz::Collider::type() const
+{
+	switch (m_Shape->getGeometryType())
+	{
+	case PxGeometryType::eBOX:
 		return "Box";
-	case Engine::Collider::Shape::Sphere:
+	case PxGeometryType::eSPHERE:
 		return "Sphere";
-	case Engine::Collider::Shape::Capsule:
+	case PxGeometryType::eCAPSULE:
 		return "Capsule";
-	case Engine::Collider::Shape::Mesh:
+	case PxGeometryType::eTRIANGLEMESH:
 		return "Mesh";
-	default:
-		return "None";
 	}
+	return "Unknown";
 }

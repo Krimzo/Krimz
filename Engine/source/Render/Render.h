@@ -9,12 +9,11 @@
 #include "Render/Include/RenderColliders.h"
 
 
-namespace Engine {
-	inline kl::window window;
-	inline kl::reference<kl::gpu> gpu = nullptr;
+namespace Krimz
+{
+	namespace Render
+	{
 
-	namespace Render {
-		inline bool vSync = true;
 		inline kl::uint2 targetSize = 100;
 		inline kl::dx::view::target targetView = nullptr;
 		inline kl::dx::view::shader shaderView = nullptr;
