@@ -72,7 +72,7 @@
     <ClInclude Include="source\Physics\PhysicsComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\GUI\Section\Section.h">
+    <ClInclude Include="source\GUI\GUISection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Material\MaterialComponent.h">
@@ -97,12 +97,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Scripter\Script.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Scripter\JavaHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Scripter\Scripting.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Light\Ambient.h">
@@ -173,12 +167,6 @@
     <ClCompile Include="source\Scripter\Script.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Scripter\JavaHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Scripter\Scripting.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\Transform\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -195,6 +183,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\Logger\Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\GUISection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

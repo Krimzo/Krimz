@@ -30,7 +30,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\GUI\Section\Section.h" />
+    <ClInclude Include="source\GUI\GUISection.h" />
     <ClInclude Include="source\Light\Ambient.h" />
     <ClInclude Include="source\Material\MaterialComponent.h" />
     <ClInclude Include="source\Transform\Transform.h" />
@@ -59,13 +59,12 @@
     <ClInclude Include="source\Physics\Physics.h" />
     <ClInclude Include="source\Logger\Logger.h" />
     <ClInclude Include="source\Scripter\Script.h" />
-    <ClInclude Include="source\Scripter\JavaHandler.h" />
-    <ClInclude Include="source\Scripter\Scripting.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Editor\Editor.cpp" />
     <ClCompile Include="source\Entity\Entity.cpp" />
     <ClCompile Include="source\Game\Game.cpp" />
+    <ClCompile Include="source\GUI\GUISection.cpp" />
     <ClCompile Include="source\Light\Ambient.cpp" />
     <ClCompile Include="source\Logger\Logger.cpp" />
     <ClCompile Include="source\Physics\Physical.cpp" />
@@ -88,8 +87,6 @@
     <ClCompile Include="source\Physics\Physics.cpp" />
     <ClCompile Include="source\Material\Texture.cpp" />
     <ClCompile Include="source\Scripter\Script.cpp" />
-    <ClCompile Include="source\Scripter\JavaHandler.cpp" />
-    <ClCompile Include="source\Scripter\Scripting.cpp" />
     <ClCompile Include="source\Transform\Transform.cpp" />
     <ClCompile Include="source\Transform\TransformComponent.cpp" />
   </ItemGroup>
@@ -123,7 +120,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -216,14 +213,14 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;PX_PHYSX_STATIC_LIB;NDEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;WIN32;PX_PHYSX_STATIC_LIB;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <Optimization>Disabled</Optimization>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>$(ProjectDir)source\;$(SolutionDir)KLibrary\source\;$(SolutionDir)ImGui\;$(SolutionDir)ImGui\backends\;$(SolutionDir)ImPlot\;$(SolutionDir)JavaDK\include\;$(SolutionDir)JavaDK\include\win32\;$(SolutionDir)PhysX\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerOutput>NoListing</AssemblerOutput>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -240,7 +237,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;PX_PHYSX_STATIC_LIB;NDEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;WIN32;PX_PHYSX_STATIC_LIB;</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>

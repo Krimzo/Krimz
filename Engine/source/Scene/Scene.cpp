@@ -5,6 +5,10 @@ Krimz::Scene::Scene()
 {
 }
 
+Krimz::Scene::~Scene()
+{
+}
+
 bool Krimz::Scene::toFile(const std::string& filePath) const
 {
 

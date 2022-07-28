@@ -1,6 +1,7 @@
 #pragma once
 
 #include "KrimzLib.h"
+#include "Entity/Entity.h"
 #include "Skybox/Skybox.h"
 #include "Light/Ambient.h"
 

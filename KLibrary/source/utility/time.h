@@ -46,8 +46,8 @@ namespace kl
 
 	class timer
 	{
-	private:
 		int64 m_IntervalStart;
+		int64 m_IntervalEnd;
 		int64 m_ElapsedStart;
 
 	public:

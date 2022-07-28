@@ -31,13 +31,16 @@ Krimz::Transform Krimz::Physical::ConvertTransform(const PxTransform& transform)
 
 Krimz::Physical::Physical(PxPhysics* physics, bool dynamic)
 {
+	PxTransform transform = {};
+	transform.p = Collider::ConvertVector(kl::float3());
+	transform.q = ConvertQuat(kl::float3());
 	if (dynamic)
 	{
-		m_Actor = physics->createRigidDynamic({});
+		m_Actor = physics->createRigidDynamic(transform);
 	}
 	else
 	{
-		m_Actor = physics->createRigidStatic({});
+		m_Actor = physics->createRigidStatic(transform);
 	}
 }
 

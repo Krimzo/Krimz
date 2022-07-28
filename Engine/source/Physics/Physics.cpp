@@ -1,21 +1,29 @@
 #include "Physics/Physics.h"
 
-#pragma comment(lib, "PhysX_static_64.lib")
-#pragma comment(lib, "PhysXCharacterKinematic_static_64.lib")
-#pragma comment(lib, "PhysXCommon_static_64.lib")
-#pragma comment(lib, "PhysXCooking_static_64.lib")
-#pragma comment(lib, "PhysXExtensions_static_64.lib")
-#pragma comment(lib, "PhysXFoundation_static_64.lib")
-#pragma comment(lib, "PhysXPvdSDK_static_64.lib")
-#pragma comment(lib, "PhysXVehicle_static_64.lib")
+#ifdef _DEBUG
+#pragma comment(lib, "debug/PhysX_static_64.lib")
+#pragma comment(lib, "debug/PhysXCharacterKinematic_static_64.lib")
+#pragma comment(lib, "debug/PhysXCommon_static_64.lib")
+#pragma comment(lib, "debug/PhysXCooking_static_64.lib")
+#pragma comment(lib, "debug/PhysXExtensions_static_64.lib")
+#pragma comment(lib, "debug/PhysXFoundation_static_64.lib")
+#pragma comment(lib, "debug/PhysXPvdSDK_static_64.lib")
+#pragma comment(lib, "debug/PhysXVehicle_static_64.lib")
+#else
+#pragma comment(lib, "release/PhysX_static_64.lib")
+#pragma comment(lib, "release/PhysXCharacterKinematic_static_64.lib")
+#pragma comment(lib, "release/PhysXCommon_static_64.lib")
+#pragma comment(lib, "release/PhysXCooking_static_64.lib")
+#pragma comment(lib, "release/PhysXExtensions_static_64.lib")
+#pragma comment(lib, "release/PhysXFoundation_static_64.lib")
+#pragma comment(lib, "release/PhysXPvdSDK_static_64.lib")
+#pragma comment(lib, "release/PhysXVehicle_static_64.lib")
+#endif
 
 
 Krimz::Physics::Physics()
 {
-	PxDefaultErrorCallback m_ErrorCallback;
-	PxDefaultAllocator m_AllocatorCallback;
-
-	m_Foundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_AllocatorCallback, m_ErrorCallback);
+	m_Foundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_Allocator, m_Error);
 	kl::console::error(!m_Foundation, "Failed to create physics foundation");
 
 	m_Physics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_Foundation, PxTolerancesScale());
@@ -25,12 +33,12 @@ Krimz::Physics::Physics()
 	kl::console::error(!m_Cooking, "Failed to create physics cooking");
 
 	m_Dispatcher = PxDefaultCpuDispatcherCreate(2);
-
 	PxSceneDesc sceneDesc(m_Physics->getTolerancesScale());
 	sceneDesc.gravity.y = -9.81f;
 	sceneDesc.cpuDispatcher = m_Dispatcher;
 	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
 	m_Scene = m_Physics->createScene(sceneDesc);
+	kl::console::error(!m_Scene, "Failed to create physics scene");
 }
 
 Krimz::Physics::~Physics()
@@ -45,6 +53,11 @@ Krimz::Physics::~Physics()
 PxPhysics* Krimz::Physics::physics()
 {
 	return m_Physics;
+}
+
+void Krimz::Physics::bind(kl::ref<Scene> scene)
+{
+	/* WIP */
 }
 
 void Krimz::Physics::add(kl::ref<Physical> physical)

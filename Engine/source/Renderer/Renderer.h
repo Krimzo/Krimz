@@ -9,7 +9,7 @@ namespace Krimz
 {
 	class Renderer
 	{
-		kl::float4 m_ClearColor = kl::colors::black;
+		kl::float4 m_ClearColor = kl::colors::gray;
 		bool m_VSync = true;
 
 		kl::ref<kl::gpu> m_GPU;

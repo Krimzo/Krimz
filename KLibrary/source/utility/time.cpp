@@ -71,18 +71,21 @@ std::ostream& operator<<(std::ostream& stream, const kl::time::date& date)
 // Timer
 kl::timer::timer()
 {
-	newInterval();
-	newElapsed();
+	int64 now = kl::time::get();
+	m_IntervalStart = now;
+	m_IntervalEnd = now;
+	m_ElapsedStart = now;
 }
 
 void kl::timer::newInterval()
 {
-	m_IntervalStart = kl::time::get();
+	m_IntervalStart = m_IntervalEnd;
+	m_IntervalEnd = kl::time::get();
 }
 
 double kl::timer::interval()
 {
-	return kl::time::calculate(m_IntervalStart, kl::time::get());
+	return kl::time::calculate(m_IntervalStart, m_IntervalEnd);
 }
 
 void kl::timer::newElapsed()

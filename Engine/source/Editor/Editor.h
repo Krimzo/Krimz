@@ -18,7 +18,6 @@ namespace Krimz
 		GUIRenderer m_GUIRenderer = {};
 
 		kl::ref<Scene> m_Scene;
-		kl::ref<Game> m_Game;
 
 		void start();
 		void update();
@@ -30,6 +29,6 @@ namespace Krimz
 		void operator=(const Editor&) = delete;
 		~Editor();
 
-		void bind(kl::ref<Game> game);
+		void bind(kl::ref<Scene> scene);
 	};
 }

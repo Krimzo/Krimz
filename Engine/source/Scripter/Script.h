@@ -1,32 +1,30 @@
 #pragma once
 
-#include <iostream>
-#include <string>
-#include <jni.h>
+#include "Scripter/Scripter.h"
 
 
 namespace Krimz
 {
 	class Script
 	{
+		std::string m_Path = {};
+		jobject m_Instance = nullptr;
+
+		jmethodID m_StartMethod = nullptr;
+		jmethodID m_UpdateMethod = nullptr;
+
 	public:
-		std::string path;
-		jobject inst;
-
-		jmethodID startMethod = nullptr;
-		jmethodID updateMethod = nullptr;
-
 		Script(const std::string& filePath);
 		Script(const Krimz::Script&) = delete;
 		void operator=(const Krimz::Script&) = delete;
 		~Script();
 
-		void reload();
+		//void reload();
 
-		void setEntityData(void* ent);
-		void getEntityData(void* ent);
+		//void setEntityData(void* ent);
+		//void getEntityData(void* ent);
 
-		void callStart(void* ent);
-		void callUpdate(void* ent);
+		//void start(void* ent);
+		//void update(void* ent);
 	};
 }

@@ -9,6 +9,8 @@ namespace Krimz
 	class ScriptComponent : public GUIRenderable
 	{
 	public:
+		kl::ref<Script> script;
+
 		ScriptComponent();
 
 		void gui_render() override;

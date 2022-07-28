@@ -28,6 +28,6 @@ namespace Krimz
 		void operator=(const Game&) = delete;
 		~Game();
 
-		virtual void bind(kl::ref<Scene> scene);
+		void bind(kl::ref<Scene> scene);
 	};
 }

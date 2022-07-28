@@ -20,6 +20,12 @@ void Krimz::Game::start()
 
 	m_Renderer.initalize(m_Window);
 
+	bind(kl::make<Scene>());
+
+#ifndef _DEBUG
+	kl::console::hide();
+#endif
+
 	m_Timer.newInterval();
 	m_Timer.newElapsed();
 }
@@ -28,7 +34,7 @@ void Krimz::Game::update()
 {
 	m_Timer.newInterval();
 
-	//m_Physics.update(m_Timer.interval());
+	m_Physics.update(m_Timer.interval());
 
 	m_Renderer.clear();
 
@@ -45,4 +51,6 @@ void Krimz::Game::end()
 void Krimz::Game::bind(kl::ref<Scene> scene)
 {
 	m_Scene = scene;
+	m_Renderer.bind(scene);
+	m_Physics.bind(scene);
 }
