@@ -21,8 +21,7 @@
 #endif
 
 
-Krimz::Physics::Physics()
-{
+Krimz::Physics::Physics() {
 	m_Foundation = PxCreateFoundation(PX_PHYSICS_VERSION, m_Allocator, m_Error);
 	kl::console::error(!m_Foundation, "Failed to create physics foundation");
 
@@ -41,8 +40,7 @@ Krimz::Physics::Physics()
 	kl::console::error(!m_Scene, "Failed to create physics scene");
 }
 
-Krimz::Physics::~Physics()
-{
+Krimz::Physics::~Physics() {
 	m_Scene->release();
 	m_Dispatcher->release();
 	m_Cooking->release();
@@ -50,28 +48,23 @@ Krimz::Physics::~Physics()
 	m_Foundation->release();
 }
 
-PxPhysics* Krimz::Physics::physics()
-{
+PxPhysics* Krimz::Physics::physics() {
 	return m_Physics;
 }
 
-void Krimz::Physics::bind(kl::ref<Scene> scene)
-{
+void Krimz::Physics::bind(kl::ref<Scene> scene) {
 	/* WIP */
 }
 
-void Krimz::Physics::add(kl::ref<Physical> physical)
-{
+void Krimz::Physics::add(kl::ref<Physical> physical) {
 	m_Scene->addActor(physical->actor());
 }
 
-void Krimz::Physics::remove(kl::ref<Physical> physical)
-{
+void Krimz::Physics::remove(kl::ref<Physical> physical) {
 	m_Scene->removeActor(physical->actor());
 }
 
-void Krimz::Physics::update(float deltaTime)
-{
+void Krimz::Physics::update(float deltaTime) {
 	m_Scene->simulate(deltaTime);
 	m_Scene->fetchResults(true);
 }

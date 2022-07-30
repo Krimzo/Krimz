@@ -1,8 +1,7 @@
 #include "GUI/GUI.h"
 
 
-void Krimz::GUI::SceneRender()
-{
+void Krimz::GUI::SceneRender() {
 	Scene::Cameras();
 	Scene::Entites();
 	Scene::Meshes();

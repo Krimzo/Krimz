@@ -4,10 +4,8 @@
 #include "Named/Named.h"
 
 
-namespace Krimz
-{
-	class Texture : public Named
-	{
+namespace Krimz {
+	class Texture : public Named {
 		kl::ref<kl::gpu> m_GPU;
 
 	public:

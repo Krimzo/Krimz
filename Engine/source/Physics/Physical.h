@@ -6,10 +6,8 @@
 #include "Physics/Collider.h"
 
 
-namespace Krimz
-{
-	class Physical
-	{
+namespace Krimz {
+	class Physical {
 		PxRigidActor* m_Actor = nullptr;
 
 	public:

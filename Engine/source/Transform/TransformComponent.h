@@ -4,10 +4,8 @@
 #include "GUI/GUIRenderable.h"
 
 
-namespace Krimz
-{
-	class TransformComponent : public Transform, public GUIRenderable
-	{
+namespace Krimz {
+	class TransformComponent : public Transform, public GUIRenderable {
 	public:
 		TransformComponent();
 

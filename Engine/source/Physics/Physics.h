@@ -5,10 +5,8 @@
 #include "Scene/Scene.h"
 
 
-namespace Krimz
-{
-	class Physics
-	{
+namespace Krimz {
+	class Physics {
 		PxDefaultAllocator m_Allocator = {};
 		PxDefaultErrorCallback m_Error = {};
 		PxFoundation* m_Foundation = nullptr;

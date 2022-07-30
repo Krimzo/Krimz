@@ -47,8 +47,7 @@
 
 // Initialization data, for ImGui_ImplVulkan_Init()
 // [Please zero-clear before use!]
-struct ImGui_ImplVulkan_InitInfo
-{
+struct ImGui_ImplVulkan_InitInfo {
 	VkInstance                      Instance;
 	VkPhysicalDevice                PhysicalDevice;
 	VkDevice                        Device;
@@ -110,8 +109,7 @@ IMGUI_IMPL_API int                  ImGui_ImplVulkanH_GetMinImageCountFromPresen
 // Helper structure to hold the data needed by one rendering frame
 // (Used by example's main.cpp. Used by multi-viewport features. Probably NOT used by your own engine/app.)
 // [Please zero-clear before use!]
-struct ImGui_ImplVulkanH_Frame
-{
+struct ImGui_ImplVulkanH_Frame {
 	VkCommandPool       CommandPool;
 	VkCommandBuffer     CommandBuffer;
 	VkFence             Fence;
@@ -120,16 +118,14 @@ struct ImGui_ImplVulkanH_Frame
 	VkFramebuffer       Framebuffer;
 };
 
-struct ImGui_ImplVulkanH_FrameSemaphores
-{
+struct ImGui_ImplVulkanH_FrameSemaphores {
 	VkSemaphore         ImageAcquiredSemaphore;
 	VkSemaphore         RenderCompleteSemaphore;
 };
 
 // Helper structure to hold the data needed by one rendering context into one OS window
 // (Used by example's main.cpp. Used by multi-viewport features. Probably NOT used by your own engine/app.)
-struct ImGui_ImplVulkanH_Window
-{
+struct ImGui_ImplVulkanH_Window {
 	int                 Width;
 	int                 Height;
 	VkSwapchainKHR      Swapchain;
@@ -146,8 +142,7 @@ struct ImGui_ImplVulkanH_Window
 	ImGui_ImplVulkanH_Frame* Frames;
 	ImGui_ImplVulkanH_FrameSemaphores* FrameSemaphores;
 
-	ImGui_ImplVulkanH_Window()
-	{
+	ImGui_ImplVulkanH_Window() {
 		memset((void*) this, 0, sizeof(*this));
 		PresentMode = VK_PRESENT_MODE_MAX_ENUM_KHR;
 		ClearEnable = true;

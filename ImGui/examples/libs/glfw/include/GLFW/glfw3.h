@@ -1126,8 +1126,7 @@ extern "C" {
 	 *
 	 *  @ingroup monitor
 	 */
-	typedef struct GLFWvidmode
-	{
+	typedef struct GLFWvidmode {
 		/*! The width, in screen coordinates, of the video mode.
 		 */
 		int width;
@@ -1159,8 +1158,7 @@ extern "C" {
 	 *
 	 *  @ingroup monitor
 	 */
-	typedef struct GLFWgammaramp
-	{
+	typedef struct GLFWgammaramp {
 		/*! An array of value describing the response of the red channel.
 		 */
 		unsigned short* red;
@@ -1182,8 +1180,7 @@ extern "C" {
 	 *  @since Added in version 2.1.
 	 *  @glfw3 Removed format and bytes-per-pixel members.
 	 */
-	typedef struct GLFWimage
-	{
+	typedef struct GLFWimage {
 		/*! The width, in pixels, of this image.
 		 */
 		int width;

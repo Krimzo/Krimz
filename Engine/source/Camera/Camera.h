@@ -6,10 +6,8 @@
 #include "Light/Ambient.h"
 
 
-namespace Krimz
-{
-	class Camera : public kl::camera, public Entity
-	{
+namespace Krimz {
+	class Camera : public kl::camera, public Entity {
 	public:
 		Light::Ambient ambient = {};
 		kl::color color = { 20, 20, 20 };

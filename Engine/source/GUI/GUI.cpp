@@ -1,22 +1,19 @@
 #include "GUI/GUI.h"
 
 
-void Krimz::GUI::Init()
-{
+void Krimz::GUI::Init() {
 	ImGui::CreateContext();
 	ImPlot::CreateContext();
 	ImGui::StyleColorsDark();
 	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
 
-void Krimz::GUI::Uninit()
-{
+void Krimz::GUI::Uninit() {
 	ImPlot::DestroyContext();
 	ImGui::DestroyContext();
 }
 
-void Krimz::GUI::LoadKrimzTheme()
-{
+void Krimz::GUI::LoadKrimzTheme() {
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	style.WindowPadding = ImVec2(15.0f, 15.0f);

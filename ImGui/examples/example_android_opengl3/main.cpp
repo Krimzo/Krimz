@@ -23,8 +23,7 @@ static int ShowSoftKeyboardInput();
 static int PollUnicodeChars();
 static int GetAssetData(const char* filename, void** out_data);
 
-void init(struct android_app* app)
-{
+void init(struct android_app* app) {
 	if (g_Initialized)
 		return;
 
@@ -122,8 +121,7 @@ void init(struct android_app* app)
 	g_Initialized = true;
 }
 
-void tick()
-{
+void tick() {
 	ImGuiIO& io = ImGui::GetIO();
 	if (g_EglDisplay == EGL_NO_DISPLAY)
 		return;
@@ -176,8 +174,7 @@ void tick()
 	}
 
 	// 3. Show another simple window.
-	if (show_another_window)
-	{
+	if (show_another_window) {
 		ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
 		ImGui::Text("Hello from another window!");
 		if (ImGui::Button("Close Me"))
@@ -194,8 +191,7 @@ void tick()
 	eglSwapBuffers(g_EglDisplay, g_EglSurface);
 }
 
-void shutdown()
-{
+void shutdown() {
 	if (!g_Initialized)
 		return;
 
@@ -204,8 +200,7 @@ void shutdown()
 	ImGui_ImplAndroid_Shutdown();
 	ImGui::DestroyContext();
 
-	if (g_EglDisplay != EGL_NO_DISPLAY)
-	{
+	if (g_EglDisplay != EGL_NO_DISPLAY) {
 		eglMakeCurrent(g_EglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
 
 		if (g_EglContext != EGL_NO_CONTEXT)
@@ -225,50 +220,43 @@ void shutdown()
 	g_Initialized = false;
 }
 
-static void handleAppCmd(struct android_app* app, int32_t appCmd)
-{
-	switch (appCmd)
-	{
-	case APP_CMD_SAVE_STATE:
-	break;
-	case APP_CMD_INIT_WINDOW:
-	init(app);
-	break;
-	case APP_CMD_TERM_WINDOW:
-	shutdown();
-	break;
-	case APP_CMD_GAINED_FOCUS:
-	break;
-	case APP_CMD_LOST_FOCUS:
-	break;
+static void handleAppCmd(struct android_app* app, int32_t appCmd) {
+	switch (appCmd) {
+		case APP_CMD_SAVE_STATE:
+			break;
+		case APP_CMD_INIT_WINDOW:
+			init(app);
+			break;
+		case APP_CMD_TERM_WINDOW:
+			shutdown();
+			break;
+		case APP_CMD_GAINED_FOCUS:
+			break;
+		case APP_CMD_LOST_FOCUS:
+			break;
 	}
 }
 
-static int32_t handleInputEvent(struct android_app* app, AInputEvent* inputEvent)
-{
+static int32_t handleInputEvent(struct android_app* app, AInputEvent* inputEvent) {
 	return ImGui_ImplAndroid_HandleInputEvent(inputEvent);
 }
 
-void android_main(struct android_app* app)
-{
+void android_main(struct android_app* app) {
 	app->onAppCmd = handleAppCmd;
 	app->onInputEvent = handleInputEvent;
 
-	while (true)
-	{
+	while (true) {
 		int out_events;
 		struct android_poll_source* out_data;
 
 		// Poll all events. If the app is not visible, this loop blocks until g_Initialized == true.
-		while (ALooper_pollAll(g_Initialized ? 0 : -1, NULL, &out_events, (void**) &out_data) >= 0)
-		{
+		while (ALooper_pollAll(g_Initialized ? 0 : -1, NULL, &out_events, (void**) &out_data) >= 0) {
 			// Process one event
 			if (out_data != NULL)
 				out_data->process(app, out_data);
 
 			// Exit the app by returning from within the infinite loop
-			if (app->destroyRequested != 0)
-			{
+			if (app->destroyRequested != 0) {
 				// shutdown() should have been called already while processing the
 				// app command APP_CMD_TERM_WINDOW. But we play save here
 				if (!g_Initialized)
@@ -285,8 +273,7 @@ void android_main(struct android_app* app)
 
 // Unfortunately, there is no way to show the on-screen input from native code.
 // Therefore, we call ShowSoftKeyboardInput() of the main activity implemented in MainActivity.kt via JNI.
-static int ShowSoftKeyboardInput()
-{
+static int ShowSoftKeyboardInput() {
 	JavaVM* java_vm = g_App->activity->vm;
 	JNIEnv* java_env = NULL;
 
@@ -318,8 +305,7 @@ static int ShowSoftKeyboardInput()
 // Unfortunately, the native KeyEvent implementation has no getUnicodeChar() function.
 // Therefore, we implement the processing of KeyEvents in MainActivity.kt and poll
 // the resulting Unicode characters here via JNI and send them to Dear ImGui.
-static int PollUnicodeChars()
-{
+static int PollUnicodeChars() {
 	JavaVM* java_vm = g_App->activity->vm;
 	JNIEnv* java_env = NULL;
 
@@ -353,12 +339,10 @@ static int PollUnicodeChars()
 }
 
 // Helper to retrieve data placed into the assets/ directory (android/app/src/main/assets)
-static int GetAssetData(const char* filename, void** outData)
-{
+static int GetAssetData(const char* filename, void** outData) {
 	int num_bytes = 0;
 	AAsset* asset_descriptor = AAssetManager_open(g_App->activity->assetManager, filename, AASSET_MODE_BUFFER);
-	if (asset_descriptor)
-	{
+	if (asset_descriptor) {
 		num_bytes = AAsset_getLength(asset_descriptor);
 		*outData = IM_ALLOC(num_bytes);
 		int64_t num_bytes_read = AAsset_read(asset_descriptor, *outData, num_bytes);

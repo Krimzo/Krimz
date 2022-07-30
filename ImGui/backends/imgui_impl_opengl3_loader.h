@@ -436,11 +436,9 @@ extern "C" {
 	GL3W_API GL3WglProc imgl3wGetProcAddress(const char* proc);
 
 	/* gl3w internal state */
-	union GL3WProcs
-	{
+	union GL3WProcs {
 		GL3WglProc ptr[54];
-		struct
-		{
+		struct {
 			PFNGLACTIVETEXTUREPROC           ActiveTexture;
 			PFNGLATTACHSHADERPROC            AttachShader;
 			PFNGLBINDBUFFERPROC              BindBuffer;
@@ -581,8 +579,7 @@ extern "C" {
 	typedef PROC(__stdcall* GL3WglGetProcAddr)(LPCSTR);
 	static GL3WglGetProcAddr wgl_get_proc_address;
 
-	static int open_libgl(void)
-	{
+	static int open_libgl(void) {
 		libgl = LoadLibraryA("opengl32.dll");
 		if (!libgl)
 			return GL3W_ERROR_LIBRARY_OPEN;
@@ -590,12 +587,10 @@ extern "C" {
 		return GL3W_OK;
 	}
 
-	static void close_libgl(void)
-	{
+	static void close_libgl(void) {
 		FreeLibrary(libgl);
 	}
-	static GL3WglProc get_proc(const char* proc)
-	{
+	static GL3WglProc get_proc(const char* proc) {
 		GL3WglProc res;
 		res = (GL3WglProc) wgl_get_proc_address(proc);
 		if (!res)
@@ -606,21 +601,18 @@ extern "C" {
 #include <dlfcn.h>
 
 	static void* libgl;
-	static int open_libgl(void)
-	{
+	static int open_libgl(void) {
 		libgl = dlopen("/System/Library/Frameworks/OpenGL.framework/OpenGL", RTLD_LAZY | RTLD_LOCAL);
 		if (!libgl)
 			return GL3W_ERROR_LIBRARY_OPEN;
 		return GL3W_OK;
 	}
 
-	static void close_libgl(void)
-	{
+	static void close_libgl(void) {
 		dlclose(libgl);
 	}
 
-	static GL3WglProc get_proc(const char* proc)
-	{
+	static GL3WglProc get_proc(const char* proc) {
 		GL3WglProc res;
 		*(void**) (&res) = dlsym(libgl, proc);
 		return res;
@@ -631,8 +623,7 @@ extern "C" {
 	static void* libgl;
 	static GL3WglProc(*glx_get_proc_address)(const GLubyte*);
 
-	static int open_libgl(void)
-	{
+	static int open_libgl(void) {
 		libgl = dlopen("libGL.so.1", RTLD_LAZY | RTLD_LOCAL);
 		if (!libgl)
 			return GL3W_ERROR_LIBRARY_OPEN;
@@ -640,13 +631,11 @@ extern "C" {
 		return GL3W_OK;
 	}
 
-	static void close_libgl(void)
-	{
+	static void close_libgl(void) {
 		dlclose(libgl);
 	}
 
-	static GL3WglProc get_proc(const char* proc)
-	{
+	static GL3WglProc get_proc(const char* proc) {
 		GL3WglProc res;
 		res = glx_get_proc_address((const GLubyte*) proc);
 		if (!res)
@@ -655,13 +644,11 @@ extern "C" {
 	}
 #endif
 
-	static struct
-	{
+	static struct {
 		int major, minor;
 	} version;
 
-	static int parse_version(void)
-	{
+	static int parse_version(void) {
 		if (!glGetIntegerv)
 			return GL3W_ERROR_INIT;
 		glGetIntegerv(GL_MAJOR_VERSION, &version.major);
@@ -673,8 +660,7 @@ extern "C" {
 
 	static void load_procs(GL3WGetProcAddressProc proc);
 
-	int imgl3wInit(void)
-	{
+	int imgl3wInit(void) {
 		int res = open_libgl();
 		if (res)
 			return res;
@@ -682,14 +668,12 @@ extern "C" {
 		return imgl3wInit2(get_proc);
 	}
 
-	int imgl3wInit2(GL3WGetProcAddressProc proc)
-	{
+	int imgl3wInit2(GL3WGetProcAddressProc proc) {
 		load_procs(proc);
 		return parse_version();
 	}
 
-	int imgl3wIsSupported(int major, int minor)
-	{
+	int imgl3wIsSupported(int major, int minor) {
 		if (major < 3)
 			return 0;
 		if (version.major == major)
@@ -697,8 +681,7 @@ extern "C" {
 		return version.major >= major;
 	}
 
-	GL3WglProc imgl3wGetProcAddress(const char* proc)
-	{
+	GL3WglProc imgl3wGetProcAddress(const char* proc) {
 		return get_proc(proc);
 	}
 
@@ -761,8 +744,7 @@ extern "C" {
 
 	GL3W_API union GL3WProcs imgl3wProcs;
 
-	static void load_procs(GL3WGetProcAddressProc proc)
-	{
+	static void load_procs(GL3WGetProcAddressProc proc) {
 		size_t i;
 		for (i = 0; i < ARRAY_SIZE(proc_names); i++)
 			imgl3wProcs.ptr[i] = proc(proc_names[i]);

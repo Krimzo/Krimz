@@ -9,10 +9,8 @@
 #include "Render/Include/RenderColliders.h"
 
 
-namespace Krimz
-{
-	namespace Render
-	{
+namespace Krimz {
+	namespace Render {
 
 		//inline kl::uint2 targetSize = { 100, 100 };
 		//inline kl::dx::view::target targetView = nullptr;

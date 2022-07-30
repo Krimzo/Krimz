@@ -5,10 +5,8 @@
 #include "GUI/GUIRenderable.h"
 
 
-namespace Krimz
-{
-	class MeshComponent : public Renderable, public GUIRenderable
-	{
+namespace Krimz {
+	class MeshComponent : public Renderable, public GUIRenderable {
 	public:
 		kl::ref<Mesh> mesh;
 

@@ -1,12 +1,10 @@
 #include "Scripter/ScriptComponent.h"
 
 
-Krimz::ScriptComponent::ScriptComponent()
-{
+Krimz::ScriptComponent::ScriptComponent() {
 
 }
 
-void Krimz::ScriptComponent::gui_render()
-{
+void Krimz::ScriptComponent::gui_render() {
 
 }

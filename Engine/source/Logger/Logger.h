@@ -3,10 +3,8 @@
 #include "KrimzLib.h"
 
 
-namespace Krimz
-{
-	class Logger
-	{
+namespace Krimz {
+	class Logger {
 		std::stringstream m_Stream = {};
 		uint64 m_Counter = 0;
 
@@ -17,8 +15,7 @@ namespace Krimz
 		~Logger();
 
 		template<typename T>
-		void log(const T& data)
-		{
+		void log(const T& data) {
 			kl::print(m_Stream, ++m_Counter, ". [", kl::time::date(), "] -> ", data);
 		}
 

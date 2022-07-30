@@ -3,8 +3,7 @@
 #include "Types/Camera.h"
 
 
-void Krimz::Render::Skybox()
-{
+void Krimz::Render::Skybox() {
 	Krimz::gpu->bindTargets({ Krimz::Render::targetView });
 	Krimz::gpu->bind(Krimz::Rasters::skybox);
 	Krimz::gpu->bind(Krimz::DepthStencil::disabled);

@@ -1,12 +1,10 @@
 #include "Scripter/Script.h"
 
 
-Krimz::Script::Script(const std::string& filePath) : m_Path(filePath)
-{
+Krimz::Script::Script(const std::string& filePath) : m_Path(filePath) {
 
 }
-Krimz::Script::~Script()
-{
+Krimz::Script::~Script() {
 
 }
 

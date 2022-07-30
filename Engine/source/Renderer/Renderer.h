@@ -5,10 +5,8 @@
 #include "Scene/Scene.h"
 
 
-namespace Krimz
-{
-	class Renderer
-	{
+namespace Krimz {
+	class Renderer {
 		kl::float4 m_ClearColor = kl::colors::gray;
 		bool m_VSync = true;
 

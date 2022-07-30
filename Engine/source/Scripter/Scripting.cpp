@@ -4,35 +4,28 @@
 #include "Logging/Logging.h"
 
 
-void Krimz::Scripting::UpdateTime()
-{
+void Krimz::Scripting::UpdateTime() {
 	JavaHandler::env->SetStaticFloatField(JavaHandler::timeClass, JavaHandler::deltaTField, Time::delta);
 	JavaHandler::env->SetStaticFloatField(JavaHandler::timeClass, JavaHandler::elapsedTField, Time::elapsed);
 }
 
-void Krimz::Scripting::CallStarts()
-{
-	for (auto& ent : Krimz::entities)
-	{
+void Krimz::Scripting::CallStarts() {
+	for (auto& ent : Krimz::entities) {
 		ent->callStarts();
 	}
 }
-void Krimz::Scripting::CallUpdates()
-{
-	for (auto& ent : Krimz::entities)
-	{
+void Krimz::Scripting::CallUpdates() {
+	for (auto& ent : Krimz::entities) {
 		ent->callUpdates();
 	}
 }
 
-void Krimz::Scripting::HandleLogs()
-{
+void Krimz::Scripting::HandleLogs() {
 	jobjectArray logBuff = jobjectArray(Krimz::JavaHandler::env->CallStaticObjectMethod(
 		Krimz::JavaHandler::loggerClass, Krimz::JavaHandler::loggerFlushMethod));
 
 	const int logBuffSize = Krimz::JavaHandler::env->GetArrayLength(logBuff);
-	for (int i = 0; i < logBuffSize; i++)
-	{
+	for (int i = 0; i < logBuffSize; i++) {
 		jstring logMess = jstring(Krimz::JavaHandler::env->GetObjectArrayElement(logBuff, i));
 		Krimz::log(Krimz::JavaHandler::env->GetStringUTFChars(logMess, nullptr));
 		Krimz::JavaHandler::env->DeleteLocalRef(logMess);
@@ -41,24 +34,21 @@ void Krimz::Scripting::HandleLogs()
 	Krimz::JavaHandler::env->DeleteLocalRef(logBuff);
 }
 
-void SetScriptInt2(jobject field, const kl::int2& dat)
-{
+void SetScriptInt2(jobject field, const kl::int2& dat) {
 	static jclass objCls = Krimz::JavaHandler::env->GetObjectClass(field);
 	static jfieldID xField = Krimz::JavaHandler::GetField(objCls, "x", "I");
 	static jfieldID yField = Krimz::JavaHandler::GetField(objCls, "y", "I");
 	Krimz::JavaHandler::env->SetIntField(field, xField, dat.x);
 	Krimz::JavaHandler::env->SetIntField(field, yField, dat.y);
 }
-void GetScriptInt2(jobject field, kl::int2& dat)
-{
+void GetScriptInt2(jobject field, kl::int2& dat) {
 	static jclass objCls = Krimz::JavaHandler::env->GetObjectClass(field);
 	static jfieldID xField = Krimz::JavaHandler::GetField(objCls, "x", "I");
 	static jfieldID yField = Krimz::JavaHandler::GetField(objCls, "y", "I");
 	dat.x = Krimz::JavaHandler::env->GetIntField(field, xField);
 	dat.y = Krimz::JavaHandler::env->GetIntField(field, yField);
 }
-void Krimz::Scripting::UpdateInput()
-{
+void Krimz::Scripting::UpdateInput() {
 	JavaHandler::env->SetStaticBooleanField(JavaHandler::mouseClass, JavaHandler::lmbField, Krimz::window.mouse.lmb);
 	JavaHandler::env->SetStaticBooleanField(JavaHandler::mouseClass, JavaHandler::mmbField, Krimz::window.mouse.mmb);
 	JavaHandler::env->SetStaticBooleanField(JavaHandler::mouseClass, JavaHandler::rmbField, Krimz::window.mouse.rmb);
@@ -132,12 +122,10 @@ void Krimz::Scripting::UpdateInput()
 	JavaHandler::env->SetStaticBooleanField(JavaHandler::keysClass, JavaHandler::f11Field, Krimz::window.keys.f11);
 	JavaHandler::env->SetStaticBooleanField(JavaHandler::keysClass, JavaHandler::f12Field, Krimz::window.keys.f12);
 }
-void Krimz::Scripting::HandleMousePos()
-{
+void Krimz::Scripting::HandleMousePos() {
 	kl::int2 tempPos;
 	GetScriptInt2(JavaHandler::env->GetStaticObjectField(JavaHandler::mouseClass, JavaHandler::moPosField), tempPos);
-	if (tempPos != Krimz::window.mouse.position)
-	{
+	if (tempPos != Krimz::window.mouse.position) {
 		Krimz::window.mouse.move(tempPos);
 	}
 }

@@ -2,8 +2,7 @@
 #include "GUI/GUI.h"
 
 
-void Krimz::Render::GUI()
-{
+void Krimz::Render::GUI() {
 	Krimz::gpu->bindInternal();
 
 	ImGui_ImplDX11_NewFrame();

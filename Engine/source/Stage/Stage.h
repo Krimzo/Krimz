@@ -3,11 +3,9 @@
 #include "KrimzLib.h"
 
 
-namespace Krimz
-{
+namespace Krimz {
 	inline bool gameRunning = false;
-	namespace Stage
-	{
+	namespace Stage {
 		void Start();
 		void Update();
 		void Resize(const kl::uint2& siz);

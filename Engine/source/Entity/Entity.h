@@ -8,10 +8,8 @@
 #include "Scripter/ScriptComponent.h"
 
 
-namespace Krimz
-{
-	class Entity : public Named, public Renderable, public GUIRenderable
-	{
+namespace Krimz {
+	class Entity : public Named, public Renderable, public GUIRenderable {
 	public:
 		kl::ref<TransformComponent> transform;
 		kl::ref<MeshComponent> mesh;

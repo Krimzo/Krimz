@@ -1,21 +1,24 @@
 #include "Editor/Editor.h"
 
 
-Krimz::Editor::Editor(const kl::uint2 windowSize)
-{
+Krimz::Editor::Editor(const kl::uint2 windowSize) {
 	m_Window.start = std::bind(&Editor::start, this);
 	m_Window.update = std::bind(&Editor::update, this);
 	m_Window.end = std::bind(&Editor::end, this);
-	m_Window.run(windowSize, "Krimz Editor", true, true);
+	m_Window.run(windowSize,
+#ifdef _DEBUG
+		"Krimz Editor [Debug]",
+#else
+		"Krimz Editor",
+#endif
+		true, true);
 }
 
-Krimz::Editor::~Editor()
-{
+Krimz::Editor::~Editor() {
 
 }
 
-void Krimz::Editor::start()
-{
+void Krimz::Editor::start() {
 	m_Window.icon("resource/textures/icons/k.ico");
 	m_Window.maximize();
 
@@ -26,7 +29,9 @@ void Krimz::Editor::start()
 
 	bind(kl::make<Scene>());
 
-#ifdef NDEBUG
+#ifdef _DEBUG
+	kl::console::title("Krimz Editor Console [Debug]");
+#else
 	kl::console::hide();
 #endif
 
@@ -34,8 +39,7 @@ void Krimz::Editor::start()
 	m_Timer.newElapsed();
 }
 
-void Krimz::Editor::update()
-{
+void Krimz::Editor::update() {
 	m_Timer.newInterval();
 
 	m_Physics.update(m_Timer.interval());
@@ -49,13 +53,11 @@ void Krimz::Editor::update()
 	m_Renderer.swap();
 }
 
-void Krimz::Editor::end()
-{
+void Krimz::Editor::end() {
 
 }
 
-void Krimz::Editor::bind(kl::ref<Scene> scene)
-{
+void Krimz::Editor::bind(kl::ref<Scene> scene) {
 	m_Scene = scene;
 	m_Renderer.bind(scene);
 	m_GUIRenderer.bind(scene);

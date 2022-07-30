@@ -3,12 +3,9 @@
 #include "KrimzLib.h"
 
 
-namespace Krimz
-{
-	namespace Gizmo
-	{
-		enum class Type
-		{
+namespace Krimz {
+	namespace Gizmo {
+		enum class Type {
 			NONE = 0,
 			SCALE,
 			MOVE,
@@ -23,8 +20,7 @@ namespace Krimz
 			kl::color(055, 120, 205)
 		};
 	}
-	namespace Selected
-	{
+	namespace Selected {
 		inline Gizmo::Type gizmo = Gizmo::Type::NONE;
 	}
 }

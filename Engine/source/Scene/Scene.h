@@ -3,10 +3,8 @@
 #include "Entity/Entity.h"
 
 
-namespace Krimz
-{
-	class Scene : public std::vector<kl::ref<Entity>>
-	{
+namespace Krimz {
+	class Scene : public std::vector<kl::ref<Entity>> {
 	public:
 		Scene();
 		Scene(const Scene&) = delete;

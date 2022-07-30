@@ -32,8 +32,7 @@ static bool show_demo_window = true;
 static bool show_another_window = false;
 static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-void my_display_code()
-{
+void my_display_code() {
 	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
@@ -62,8 +61,7 @@ void my_display_code()
 	}
 
 	// 3. Show another simple window.
-	if (show_another_window)
-	{
+	if (show_another_window) {
 		ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
 		ImGui::Text("Hello from another window!");
 		if (ImGui::Button("Close Me"))
@@ -72,8 +70,7 @@ void my_display_code()
 	}
 }
 
-void glut_display_func()
-{
+void glut_display_func() {
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplGLUT_NewFrame();
@@ -98,8 +95,7 @@ void glut_display_func()
 // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
 // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
 	// Create GLUT window
 	glutInit(&argc, argv);
 #ifdef __FREEGLUT_EXT_H__

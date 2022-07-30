@@ -1,12 +1,10 @@
 #include "Transform/TransformComponent.h"
 
 
-Krimz::TransformComponent::TransformComponent()
-{
+Krimz::TransformComponent::TransformComponent() {
 
 }
 
-void Krimz::TransformComponent::gui_render()
-{
+void Krimz::TransformComponent::gui_render() {
 
 }

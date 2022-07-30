@@ -27,8 +27,8 @@ IMGUI_IMPL_API bool ImGui_ImplMetal_Init(id<MTLDevice> device);
 IMGUI_IMPL_API void ImGui_ImplMetal_Shutdown();
 IMGUI_IMPL_API void ImGui_ImplMetal_NewFrame(MTLRenderPassDescriptor* renderPassDescriptor);
 IMGUI_IMPL_API void ImGui_ImplMetal_RenderDrawData(ImDrawData* draw_data,
-                                                   id<MTLCommandBuffer> commandBuffer,
-                                                   id<MTLRenderCommandEncoder> commandEncoder);
+	id<MTLCommandBuffer> commandBuffer,
+	id<MTLRenderCommandEncoder> commandEncoder);
 
 // Called by Init/NewFrame/Shutdown
 IMGUI_IMPL_API bool ImGui_ImplMetal_CreateFontsTexture(id<MTLDevice> device);
@@ -55,8 +55,8 @@ IMGUI_IMPL_API bool ImGui_ImplMetal_Init(MTL::Device* device);
 IMGUI_IMPL_API void ImGui_ImplMetal_Shutdown();
 IMGUI_IMPL_API void ImGui_ImplMetal_NewFrame(MTL::RenderPassDescriptor* renderPassDescriptor);
 IMGUI_IMPL_API void ImGui_ImplMetal_RenderDrawData(ImDrawData* draw_data,
-                                                   MTL::CommandBuffer* commandBuffer,
-                                                   MTL::RenderCommandEncoder* commandEncoder);
+	MTL::CommandBuffer* commandBuffer,
+	MTL::RenderCommandEncoder* commandEncoder);
 
 // Called by Init/NewFrame/Shutdown
 IMGUI_IMPL_API bool ImGui_ImplMetal_CreateFontsTexture(MTL::Device* device);

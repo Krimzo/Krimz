@@ -1,12 +1,10 @@
 #include "Physics/PhysicsComponent.h"
 
 
-Krimz::PhysicsComponent::PhysicsComponent()
-{
+Krimz::PhysicsComponent::PhysicsComponent() {
 
 }
 
-void Krimz::PhysicsComponent::gui_render()
-{
+void Krimz::PhysicsComponent::gui_render() {
 
 }

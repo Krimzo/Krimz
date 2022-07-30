@@ -24,13 +24,11 @@ void CreateRenderTarget();
 void CleanupRenderTarget();
 
 // Main code
-int main(int, char**)
-{
+int main(int, char**) {
 	// Setup SDL
 	// (Some versions of SDL before <2.0.10 appears to have performance/stalling issues on a minority of Windows systems,
 	// depending on whether SDL_INIT_GAMECONTROLLER is enabled or disabled.. updating to latest version of SDL is recommended!)
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
-	{
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
 		printf("Error: %s\n", SDL_GetError());
 		return -1;
 	}
@@ -44,8 +42,7 @@ int main(int, char**)
 	HWND hwnd = (HWND) wmInfo.info.win.window;
 
 	// Initialize Direct3D
-	if (!CreateDeviceD3D(hwnd))
-	{
+	if (!CreateDeviceD3D(hwnd)) {
 		CleanupDeviceD3D();
 		return 1;
 	}
@@ -67,8 +64,7 @@ int main(int, char**)
 
 	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
 	ImGuiStyle& style = ImGui::GetStyle();
-	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-	{
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
 		style.WindowRounding = 0.0f;
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
@@ -99,23 +95,20 @@ int main(int, char**)
 
 	// Main loop
 	bool done = false;
-	while (!done)
-	{
+	while (!done) {
 		// Poll and handle events (inputs, window resize, etc.)
 		// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
 		// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
 		// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
 		// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 		SDL_Event event;
-		while (SDL_PollEvent(&event))
-		{
+		while (SDL_PollEvent(&event)) {
 			ImGui_ImplSDL2_ProcessEvent(&event);
 			if (event.type == SDL_QUIT)
 				done = true;
 			if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
 				done = true;
-			if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED && event.window.windowID == SDL_GetWindowID(window))
-			{
+			if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_RESIZED && event.window.windowID == SDL_GetWindowID(window)) {
 				// Release all outstanding references to the swap chain's buffers before resizing.
 				CleanupRenderTarget();
 				g_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
@@ -156,8 +149,7 @@ int main(int, char**)
 		}
 
 		// 3. Show another simple window.
-		if (show_another_window)
-		{
+		if (show_another_window) {
 			ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
 			ImGui::Text("Hello from another window!");
 			if (ImGui::Button("Close Me"))
@@ -173,8 +165,7 @@ int main(int, char**)
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 		// Update and Render additional Platform Windows
-		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-		{
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault();
 		}
@@ -197,8 +188,7 @@ int main(int, char**)
 
 // Helper functions
 
-bool CreateDeviceD3D(HWND hWnd)
-{
+bool CreateDeviceD3D(HWND hWnd) {
 	// Setup swap chain
 	DXGI_SWAP_CHAIN_DESC sd;
 	ZeroMemory(&sd, sizeof(sd));
@@ -227,35 +217,28 @@ bool CreateDeviceD3D(HWND hWnd)
 	return true;
 }
 
-void CleanupDeviceD3D()
-{
+void CleanupDeviceD3D() {
 	CleanupRenderTarget();
-	if (g_pSwapChain)
-	{
+	if (g_pSwapChain) {
 		g_pSwapChain->Release(); g_pSwapChain = NULL;
 	}
-	if (g_pd3dDeviceContext)
-	{
+	if (g_pd3dDeviceContext) {
 		g_pd3dDeviceContext->Release(); g_pd3dDeviceContext = NULL;
 	}
-	if (g_pd3dDevice)
-	{
+	if (g_pd3dDevice) {
 		g_pd3dDevice->Release(); g_pd3dDevice = NULL;
 	}
 }
 
-void CreateRenderTarget()
-{
+void CreateRenderTarget() {
 	ID3D11Texture2D* pBackBuffer;
 	g_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
 	g_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_mainRenderTargetView);
 	pBackBuffer->Release();
 }
 
-void CleanupRenderTarget()
-{
-	if (g_mainRenderTargetView)
-	{
+void CleanupRenderTarget() {
+	if (g_mainRenderTargetView) {
 		g_mainRenderTargetView->Release(); g_mainRenderTargetView = NULL;
 	}
 }

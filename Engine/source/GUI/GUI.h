@@ -8,10 +8,8 @@
 #include "KrimzLib.h"
 
 
-namespace Krimz
-{
-	namespace GUI
-	{
+namespace Krimz {
+	namespace GUI {
 		inline kl::dx::view::shader folderIcon = nullptr;
 		inline kl::dx::view::shader folderEIcon = nullptr;
 		inline kl::dx::view::shader fileIcon = nullptr;
@@ -40,8 +38,7 @@ namespace Krimz
 		void ExplorerRender();
 		void PropertiesRender();
 
-		namespace Scene
-		{
+		namespace Scene {
 			void Cameras();
 			void Entites();
 			void Meshes();

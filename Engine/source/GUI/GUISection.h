@@ -3,10 +3,8 @@
 #include "GUI/GUIRenderable.h"
 
 
-namespace Krimz
-{
-	class GUISection : public GUIRenderable
-	{
+namespace Krimz {
+	class GUISection : public GUIRenderable {
 	public:
 		GUISection();
 		GUISection(const GUISection&) = delete;

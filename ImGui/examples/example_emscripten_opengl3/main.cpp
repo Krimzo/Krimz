@@ -23,11 +23,9 @@ SDL_GLContext   g_GLContext = NULL;
 // For clarity, our main loop code is declared at the end.
 static void main_loop(void*);
 
-int main(int, char**)
-{
+int main(int, char**) {
 	// Setup SDL
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
-	{
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
 		printf("Error: %s\n", SDL_GetError());
 		return -1;
 	}
@@ -51,8 +49,7 @@ int main(int, char**)
 	SDL_WindowFlags window_flags = (SDL_WindowFlags) (SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
 	g_Window = SDL_CreateWindow("Dear ImGui Emscripten example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
 	g_GLContext = SDL_GL_CreateContext(g_Window);
-	if (!g_GLContext)
-	{
+	if (!g_GLContext) {
 		fprintf(stderr, "Failed to initialize WebGL context!\n");
 		return 1;
 	}
@@ -100,8 +97,7 @@ int main(int, char**)
 	emscripten_set_main_loop_arg(main_loop, NULL, 0, true);
 }
 
-static void main_loop(void* arg)
-{
+static void main_loop(void* arg) {
 	ImGuiIO& io = ImGui::GetIO();
 	IM_UNUSED(arg); // We can pass this argument as the second parameter of emscripten_set_main_loop_arg(), but we don't use that.
 
@@ -116,8 +112,7 @@ static void main_loop(void* arg)
 	// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
 	// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
+	while (SDL_PollEvent(&event)) {
 		ImGui_ImplSDL2_ProcessEvent(&event);
 		// Capture events here, based on io.WantCaptureMouse and io.WantCaptureKeyboard
 	}
@@ -155,8 +150,7 @@ static void main_loop(void* arg)
 	}
 
 	// 3. Show another simple window.
-	if (show_another_window)
-	{
+	if (show_another_window) {
 		ImGui::Begin("Another Window", &show_another_window);         // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
 		ImGui::Text("Hello from another window!");
 		if (ImGui::Button("Close Me"))

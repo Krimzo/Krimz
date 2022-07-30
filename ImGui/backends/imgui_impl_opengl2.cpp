@@ -59,20 +59,17 @@
 #include <GL/gl.h>
 #endif
 
-struct ImGui_ImplOpenGL2_Data
-{
+struct ImGui_ImplOpenGL2_Data {
 	GLuint       FontTexture;
 
-	ImGui_ImplOpenGL2_Data()
-	{
+	ImGui_ImplOpenGL2_Data() {
 		memset((void*) this, 0, sizeof(*this));
 	}
 };
 
 // Backend data stored in io.BackendRendererUserData to allow support for multiple Dear ImGui contexts
 // It is STRONGLY preferred that you use docking branch with multi-viewports (== single Dear ImGui context + multiple windows) instead of multiple Dear ImGui contexts.
-static ImGui_ImplOpenGL2_Data* ImGui_ImplOpenGL2_GetBackendData()
-{
+static ImGui_ImplOpenGL2_Data* ImGui_ImplOpenGL2_GetBackendData() {
 	return ImGui::GetCurrentContext() ? (ImGui_ImplOpenGL2_Data*) ImGui::GetIO().BackendRendererUserData : NULL;
 }
 
@@ -81,8 +78,7 @@ static void ImGui_ImplOpenGL2_InitPlatformInterface();
 static void ImGui_ImplOpenGL2_ShutdownPlatformInterface();
 
 // Functions
-bool    ImGui_ImplOpenGL2_Init()
-{
+bool    ImGui_ImplOpenGL2_Init() {
 	ImGuiIO& io = ImGui::GetIO();
 	IM_ASSERT(io.BackendRendererUserData == NULL && "Already initialized a renderer backend!");
 
@@ -98,8 +94,7 @@ bool    ImGui_ImplOpenGL2_Init()
 	return true;
 }
 
-void    ImGui_ImplOpenGL2_Shutdown()
-{
+void    ImGui_ImplOpenGL2_Shutdown() {
 	ImGui_ImplOpenGL2_Data* bd = ImGui_ImplOpenGL2_GetBackendData();
 	IM_ASSERT(bd != NULL && "No renderer backend to shutdown, or already shutdown?");
 	ImGuiIO& io = ImGui::GetIO();
@@ -111,8 +106,7 @@ void    ImGui_ImplOpenGL2_Shutdown()
 	IM_DELETE(bd);
 }
 
-void    ImGui_ImplOpenGL2_NewFrame()
-{
+void    ImGui_ImplOpenGL2_NewFrame() {
 	ImGui_ImplOpenGL2_Data* bd = ImGui_ImplOpenGL2_GetBackendData();
 	IM_ASSERT(bd != NULL && "Did you call ImGui_ImplOpenGL2_Init()?");
 
@@ -120,8 +114,7 @@ void    ImGui_ImplOpenGL2_NewFrame()
 		ImGui_ImplOpenGL2_CreateDeviceObjects();
 }
 
-static void ImGui_ImplOpenGL2_SetupRenderState(ImDrawData* draw_data, int fb_width, int fb_height)
-{
+static void ImGui_ImplOpenGL2_SetupRenderState(ImDrawData* draw_data, int fb_width, int fb_height) {
 	// Setup render state: alpha-blending enabled, no face culling, no depth testing, scissor enabled, vertex/texcoord/color pointers, polygon fill.
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -167,8 +160,7 @@ static void ImGui_ImplOpenGL2_SetupRenderState(ImDrawData* draw_data, int fb_wid
 // OpenGL2 Render function.
 // Note that this implementation is little overcomplicated because we are saving/setting up/restoring every OpenGL state explicitly.
 // This is in order to be able to run within an OpenGL engine that doesn't do so.
-void ImGui_ImplOpenGL2_RenderDrawData(ImDrawData* draw_data)
-{
+void ImGui_ImplOpenGL2_RenderDrawData(ImDrawData* draw_data) {
 	// Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
 	int fb_width = (int) (draw_data->DisplaySize.x * draw_data->FramebufferScale.x);
 	int fb_height = (int) (draw_data->DisplaySize.y * draw_data->FramebufferScale.y);
@@ -192,8 +184,7 @@ void ImGui_ImplOpenGL2_RenderDrawData(ImDrawData* draw_data)
 	ImVec2 clip_scale = draw_data->FramebufferScale; // (1,1) unless using retina display which are often (2,2)
 
 	// Render command lists
-	for (int n = 0; n < draw_data->CmdListsCount; n++)
-	{
+	for (int n = 0; n < draw_data->CmdListsCount; n++) {
 		const ImDrawList* cmd_list = draw_data->CmdLists[n];
 		const ImDrawVert* vtx_buffer = cmd_list->VtxBuffer.Data;
 		const ImDrawIdx* idx_buffer = cmd_list->IdxBuffer.Data;
@@ -201,11 +192,9 @@ void ImGui_ImplOpenGL2_RenderDrawData(ImDrawData* draw_data)
 		glTexCoordPointer(2, GL_FLOAT, sizeof(ImDrawVert), (const GLvoid*) ((const char*) vtx_buffer + IM_OFFSETOF(ImDrawVert, uv)));
 		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(ImDrawVert), (const GLvoid*) ((const char*) vtx_buffer + IM_OFFSETOF(ImDrawVert, col)));
 
-		for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
-		{
+		for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++) {
 			const ImDrawCmd* pcmd = &cmd_list->CmdBuffer[cmd_i];
-			if (pcmd->UserCallback)
-			{
+			if (pcmd->UserCallback) {
 				// User callback, registered via ImDrawList::AddCallback()
 				// (ImDrawCallback_ResetRenderState is a special callback value used by the user to request the renderer to reset render state.)
 				if (pcmd->UserCallback == ImDrawCallback_ResetRenderState)
@@ -213,8 +202,7 @@ void ImGui_ImplOpenGL2_RenderDrawData(ImDrawData* draw_data)
 				else
 					pcmd->UserCallback(cmd_list, pcmd);
 			}
-			else
-			{
+			else {
 				// Project scissor/clipping rectangles into framebuffer space
 				ImVec2 clip_min((pcmd->ClipRect.x - clip_off.x) * clip_scale.x, (pcmd->ClipRect.y - clip_off.y) * clip_scale.y);
 				ImVec2 clip_max((pcmd->ClipRect.z - clip_off.x) * clip_scale.x, (pcmd->ClipRect.w - clip_off.y) * clip_scale.y);
@@ -248,8 +236,7 @@ void ImGui_ImplOpenGL2_RenderDrawData(ImDrawData* draw_data)
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, last_tex_env_mode);
 }
 
-bool ImGui_ImplOpenGL2_CreateFontsTexture()
-{
+bool ImGui_ImplOpenGL2_CreateFontsTexture() {
 	// Build texture atlas
 	ImGuiIO& io = ImGui::GetIO();
 	ImGui_ImplOpenGL2_Data* bd = ImGui_ImplOpenGL2_GetBackendData();
@@ -276,25 +263,21 @@ bool ImGui_ImplOpenGL2_CreateFontsTexture()
 	return true;
 }
 
-void ImGui_ImplOpenGL2_DestroyFontsTexture()
-{
+void ImGui_ImplOpenGL2_DestroyFontsTexture() {
 	ImGuiIO& io = ImGui::GetIO();
 	ImGui_ImplOpenGL2_Data* bd = ImGui_ImplOpenGL2_GetBackendData();
-	if (bd->FontTexture)
-	{
+	if (bd->FontTexture) {
 		glDeleteTextures(1, &bd->FontTexture);
 		io.Fonts->SetTexID(0);
 		bd->FontTexture = 0;
 	}
 }
 
-bool    ImGui_ImplOpenGL2_CreateDeviceObjects()
-{
+bool    ImGui_ImplOpenGL2_CreateDeviceObjects() {
 	return ImGui_ImplOpenGL2_CreateFontsTexture();
 }
 
-void    ImGui_ImplOpenGL2_DestroyDeviceObjects()
-{
+void    ImGui_ImplOpenGL2_DestroyDeviceObjects() {
 	ImGui_ImplOpenGL2_DestroyFontsTexture();
 }
 
@@ -304,10 +287,8 @@ void    ImGui_ImplOpenGL2_DestroyDeviceObjects()
 // If you are new to dear imgui or creating a new binding for dear imgui, it is recommended that you completely ignore this section first..
 //--------------------------------------------------------------------------------------------------------
 
-static void ImGui_ImplOpenGL2_RenderWindow(ImGuiViewport* viewport, void*)
-{
-	if (!(viewport->Flags & ImGuiViewportFlags_NoRendererClear))
-	{
+static void ImGui_ImplOpenGL2_RenderWindow(ImGuiViewport* viewport, void*) {
+	if (!(viewport->Flags & ImGuiViewportFlags_NoRendererClear)) {
 		ImVec4 clear_color = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
 		glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -315,13 +296,11 @@ static void ImGui_ImplOpenGL2_RenderWindow(ImGuiViewport* viewport, void*)
 	ImGui_ImplOpenGL2_RenderDrawData(viewport->DrawData);
 }
 
-static void ImGui_ImplOpenGL2_InitPlatformInterface()
-{
+static void ImGui_ImplOpenGL2_InitPlatformInterface() {
 	ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
 	platform_io.Renderer_RenderWindow = ImGui_ImplOpenGL2_RenderWindow;
 }
 
-static void ImGui_ImplOpenGL2_ShutdownPlatformInterface()
-{
+static void ImGui_ImplOpenGL2_ShutdownPlatformInterface() {
 	ImGui::DestroyPlatformWindows();
 }

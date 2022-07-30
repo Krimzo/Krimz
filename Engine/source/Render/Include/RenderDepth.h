@@ -3,8 +3,7 @@
 #include "KrimzLib.h"
 
 
-namespace Krimz::DepthStencil
-{
+namespace Krimz::DepthStencil {
 	inline kl::dx::state::depth disabled = nullptr;
 	inline kl::dx::state::depth depth = nullptr;
 	inline kl::dx::state::depth write = nullptr;

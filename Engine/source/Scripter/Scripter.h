@@ -5,10 +5,8 @@
 #include "jni.h"
 
 
-namespace Krimz
-{
-	class Scripter
-	{
+namespace Krimz {
+	class Scripter {
 	public:
 		static const JavaVM* JVM;
 		static const JNIEnv* ENV;

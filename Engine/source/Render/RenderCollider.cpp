@@ -3,10 +3,8 @@
 #include "Types/Camera.h"
 
 
-void Krimz::Render::Collider()
-{
-	if (!Krimz::Colliders::shouldRender)
-	{
+void Krimz::Render::Collider() {
+	if (!Krimz::Colliders::shouldRender) {
 		return;
 	}
 
@@ -22,38 +20,37 @@ void Krimz::Render::Collider()
 	const kl::float4 colliderColor = Krimz::Colliders::color;
 	Krimz::gpu->autoPixelCBuffer(colliderColor);
 
-	switch (Krimz::Selected::entity->collider.shape)
-	{
-	case Krimz::Collider::Shape::Box:
-	{
-		wvp *= kl::mat4::scaling(Krimz::Selected::entity->scale * Krimz::Selected::entity->collider.scale);
-		Krimz::gpu->autoVertexCBuffer(wvp);
-		Krimz::gpu->draw(Krimz::Meshes::Default::cube->buffer);
-	}
-	break;
+	switch (Krimz::Selected::entity->collider.shape) {
+		case Krimz::Collider::Shape::Box:
+		{
+			wvp *= kl::mat4::scaling(Krimz::Selected::entity->scale * Krimz::Selected::entity->collider.scale);
+			Krimz::gpu->autoVertexCBuffer(wvp);
+			Krimz::gpu->draw(Krimz::Meshes::Default::cube->buffer);
+		}
+		break;
 
-	case Krimz::Collider::Shape::Sphere:
-	{
-		wvp *= kl::mat4::scaling(Krimz::Selected::entity->collider.scale);
-		Krimz::gpu->autoVertexCBuffer(wvp);
-		Krimz::gpu->draw(Krimz::Meshes::Default::sphere->buffer);
-	}
-	break;
+		case Krimz::Collider::Shape::Sphere:
+		{
+			wvp *= kl::mat4::scaling(Krimz::Selected::entity->collider.scale);
+			Krimz::gpu->autoVertexCBuffer(wvp);
+			Krimz::gpu->draw(Krimz::Meshes::Default::sphere->buffer);
+		}
+		break;
 
-	case Krimz::Collider::Shape::Capsule:
-	{
-		wvp *= kl::mat4::scaling(Krimz::Selected::entity->collider.scale);
-		Krimz::gpu->autoVertexCBuffer(wvp);
-		Krimz::gpu->draw(Krimz::Meshes::Default::capsule->buffer);
-	}
-	break;
+		case Krimz::Collider::Shape::Capsule:
+		{
+			wvp *= kl::mat4::scaling(Krimz::Selected::entity->collider.scale);
+			Krimz::gpu->autoVertexCBuffer(wvp);
+			Krimz::gpu->draw(Krimz::Meshes::Default::capsule->buffer);
+		}
+		break;
 
-	case Krimz::Collider::Shape::Mesh:
-	{
-		wvp *= kl::mat4::scaling(Krimz::Selected::entity->scale * Krimz::Selected::entity->collider.scale);
-		Krimz::gpu->autoVertexCBuffer(wvp);
-		Krimz::gpu->draw(Krimz::Selected::entity->mesh->buffer);
-	}
-	break;
+		case Krimz::Collider::Shape::Mesh:
+		{
+			wvp *= kl::mat4::scaling(Krimz::Selected::entity->scale * Krimz::Selected::entity->collider.scale);
+			Krimz::gpu->autoVertexCBuffer(wvp);
+			Krimz::gpu->draw(Krimz::Selected::entity->mesh->buffer);
+		}
+		break;
 	}
 }

@@ -4,10 +4,8 @@
 #include "GUI/GUIRenderable.h"
 
 
-namespace Krimz
-{
-	class PhysicsComponent : public GUIRenderable
-	{
+namespace Krimz {
+	class PhysicsComponent : public GUIRenderable {
 	public:
 		kl::ref<Physical> physical;
 

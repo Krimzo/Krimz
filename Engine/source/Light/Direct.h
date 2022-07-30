@@ -4,10 +4,8 @@
 #include "Entity/Entity.h"
 
 
-namespace Krimz::Light
-{
-	class Direct : public Entity
-	{
+namespace Krimz::Light {
+	class Direct : public Entity {
 		kl::ref<kl::gpu> m_GPU;
 		kl::uint2 m_TextureSize = {};
 		kl::dx::view::depth m_DepthViews[4] = {};

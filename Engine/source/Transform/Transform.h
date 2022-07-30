@@ -3,10 +3,8 @@
 #include "KrimzLib.h"
 
 
-namespace Krimz
-{
-	struct Transform
-	{
+namespace Krimz {
+	struct Transform {
 		kl::float3 scale = {};
 		kl::float3 rotation = {};
 		kl::float3 position = {};

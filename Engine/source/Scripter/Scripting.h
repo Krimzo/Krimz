@@ -3,10 +3,8 @@
 #include "Scripting/JavaHandler.h"
 
 
-namespace Krimz
-{
-	namespace Scripting
-	{
+namespace Krimz {
+	namespace Scripting {
 		void UpdateTime();
 
 		void CallStarts();

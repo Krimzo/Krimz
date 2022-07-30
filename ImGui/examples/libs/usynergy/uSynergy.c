@@ -38,8 +38,7 @@ freely, subject to the following restrictions:
 /**
 @brief Read 16 bit integer in network byte order and convert to native byte order
 **/
-static int16_t sNetToNative16(const unsigned char* value)
-{
+static int16_t sNetToNative16(const unsigned char* value) {
 #ifdef USYNERGY_LITTLE_ENDIAN
 	return value[1] | (value[0] << 8);
 #else
@@ -52,8 +51,7 @@ static int16_t sNetToNative16(const unsigned char* value)
 /**
 @brief Read 32 bit integer in network byte order and convert to native byte order
 **/
-static int32_t sNetToNative32(const unsigned char* value)
-{
+static int32_t sNetToNative32(const unsigned char* value) {
 #ifdef USYNERGY_LITTLE_ENDIAN
 	return value[3] | (value[2] << 8) | (value[1] << 16) | (value[0] << 24);
 #else
@@ -66,8 +64,7 @@ static int32_t sNetToNative32(const unsigned char* value)
 /**
 @brief Trace text to client
 **/
-static void sTrace(uSynergyContext* context, const char* text)
-{
+static void sTrace(uSynergyContext* context, const char* text) {
 	// Don't trace if we don't have a trace function
 	if (context->m_traceFunc != 0L)
 		context->m_traceFunc(context->m_cookie, text);
@@ -78,8 +75,7 @@ static void sTrace(uSynergyContext* context, const char* text)
 /**
 @brief Add string to reply packet
 **/
-static void sAddString(uSynergyContext* context, const char* string)
-{
+static void sAddString(uSynergyContext* context, const char* string) {
 	size_t len = strlen(string);
 	memcpy(context->m_replyCur, string, len);
 	context->m_replyCur += len;
@@ -90,8 +86,7 @@ static void sAddString(uSynergyContext* context, const char* string)
 /**
 @brief Add uint8 to reply packet
 **/
-static void sAddUInt8(uSynergyContext* context, uint8_t value)
-{
+static void sAddUInt8(uSynergyContext* context, uint8_t value) {
 	*context->m_replyCur++ = value;
 }
 
@@ -100,8 +95,7 @@ static void sAddUInt8(uSynergyContext* context, uint8_t value)
 /**
 @brief Add uint16 to reply packet
 **/
-static void sAddUInt16(uSynergyContext* context, uint16_t value)
-{
+static void sAddUInt16(uSynergyContext* context, uint16_t value) {
 	uint8_t* reply = context->m_replyCur;
 	*reply++ = (uint8_t) (value >> 8);
 	*reply++ = (uint8_t) value;
@@ -113,8 +107,7 @@ static void sAddUInt16(uSynergyContext* context, uint16_t value)
 /**
 @brief Add uint32 to reply packet
 **/
-static void sAddUInt32(uSynergyContext* context, uint32_t value)
-{
+static void sAddUInt32(uSynergyContext* context, uint32_t value) {
 	uint8_t* reply = context->m_replyCur;
 	*reply++ = (uint8_t) (value >> 24);
 	*reply++ = (uint8_t) (value >> 16);
@@ -128,8 +121,7 @@ static void sAddUInt32(uSynergyContext* context, uint32_t value)
 /**
 @brief Send reply packet
 **/
-static uSynergyBool sSendReply(uSynergyContext* context)
-{
+static uSynergyBool sSendReply(uSynergyContext* context) {
 	// Set header size
 	uint8_t* reply_buf = context->m_replyBuffer;
 	uint32_t	reply_len = (uint32_t) (context->m_replyCur - reply_buf);				/* Total size of reply */
@@ -153,8 +145,7 @@ static uSynergyBool sSendReply(uSynergyContext* context)
 /**
 @brief Call mouse callback after a mouse event
 **/
-static void sSendMouseCallback(uSynergyContext* context)
-{
+static void sSendMouseCallback(uSynergyContext* context) {
 	// Skip if no callback is installed
 	if (context->m_mouseCallback == 0L)
 		return;
@@ -169,8 +160,7 @@ static void sSendMouseCallback(uSynergyContext* context)
 /**
 @brief Send keyboard callback when a key has been pressed or released
 **/
-static void sSendKeyboardCallback(uSynergyContext* context, uint16_t key, uint16_t modifiers, uSynergyBool down, uSynergyBool repeat)
-{
+static void sSendKeyboardCallback(uSynergyContext* context, uint16_t key, uint16_t modifiers, uSynergyBool down, uSynergyBool repeat) {
 	// Skip if no callback is installed
 	if (context->m_keyboardCallback == 0L)
 		return;
@@ -184,8 +174,7 @@ static void sSendKeyboardCallback(uSynergyContext* context, uint16_t key, uint16
 /**
 @brief Send joystick callback
 **/
-static void sSendJoystickCallback(uSynergyContext* context, uint8_t joyNum)
-{
+static void sSendJoystickCallback(uSynergyContext* context, uint8_t joyNum) {
 	int8_t* sticks;
 
 	// Skip if no callback is installed
@@ -203,11 +192,9 @@ static void sSendJoystickCallback(uSynergyContext* context, uint8_t joyNum)
 @brief Parse a single client message, update state, send callbacks and send replies
 **/
 #define USYNERGY_IS_PACKET(pkt_id)	memcmp(message+4, pkt_id, 4)==0
-static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
-{
+static void sProcessMessage(uSynergyContext* context, const uint8_t* message) {
 	// We have a packet!
-	if (memcmp(message + 4, "Synergy", 7) == 0)
-	{
+	if (memcmp(message + 4, "Synergy", 7) == 0) {
 		// Welcome message
 		//		kMsgHello			= "Synergy%2i%2i"
 		//		kMsgHelloBack		= "Synergy%2i%2i%s"
@@ -216,15 +203,13 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 		sAddUInt16(context, USYNERGY_PROTOCOL_MINOR);
 		sAddUInt32(context, (uint32_t) strlen(context->m_clientName));
 		sAddString(context, context->m_clientName);
-		if (!sSendReply(context))
-		{
+		if (!sSendReply(context)) {
 			// Send reply failed, let's try to reconnect
 			sTrace(context, "SendReply failed, trying to reconnect in a second");
 			context->m_connected = USYNERGY_FALSE;
 			context->m_sleepFunc(context->m_cookie, 1000);
 		}
-		else
-		{
+		else {
 			// Let's assume we're connected
 			char buffer[256 + 1];
 			sprintf(buffer, "Connected as client \"%s\"", context->m_clientName);
@@ -233,8 +218,7 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 		}
 		return;
 	}
-	else if (USYNERGY_IS_PACKET("QINF"))
-	{
+	else if (USYNERGY_IS_PACKET("QINF")) {
 		// Screen info. Reply with DINF
 		//		kMsgQInfo			= "QINF"
 		//		kMsgDInfo			= "DINF%2i%2i%2i%2i%2i%2i%2i"
@@ -250,20 +234,17 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 		sSendReply(context);
 		return;
 	}
-	else if (USYNERGY_IS_PACKET("CIAK"))
-	{
+	else if (USYNERGY_IS_PACKET("CIAK")) {
 		// Do nothing?
 		//		kMsgCInfoAck		= "CIAK"
 		return;
 	}
-	else if (USYNERGY_IS_PACKET("CROP"))
-	{
+	else if (USYNERGY_IS_PACKET("CROP")) {
 		// Do nothing?
 		//		kMsgCResetOptions	= "CROP"
 		return;
 	}
-	else if (USYNERGY_IS_PACKET("CINN"))
-	{
+	else if (USYNERGY_IS_PACKET("CINN")) {
 		// Screen enter. Reply with CNOP
 		//		kMsgCEnter 			= "CINN%2i%2i%4i%2i"
 
@@ -275,8 +256,7 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 		if (context->m_screenActiveCallback != 0L)
 			context->m_screenActiveCallback(context->m_cookie, USYNERGY_TRUE);
 	}
-	else if (USYNERGY_IS_PACKET("COUT"))
-	{
+	else if (USYNERGY_IS_PACKET("COUT")) {
 		// Screen leave
 		//		kMsgCLeave 			= "COUT"
 		context->m_isCaptured = USYNERGY_FALSE;
@@ -285,8 +265,7 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 		if (context->m_screenActiveCallback != 0L)
 			context->m_screenActiveCallback(context->m_cookie, USYNERGY_FALSE);
 	}
-	else if (USYNERGY_IS_PACKET("DMDN"))
-	{
+	else if (USYNERGY_IS_PACKET("DMDN")) {
 		// Mouse down
 		//		kMsgDMouseDown		= "DMDN%1i"
 		char btn = message[8] - 1;
@@ -298,8 +277,7 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 			context->m_mouseButtonLeft = USYNERGY_TRUE;
 		sSendMouseCallback(context);
 	}
-	else if (USYNERGY_IS_PACKET("DMUP"))
-	{
+	else if (USYNERGY_IS_PACKET("DMUP")) {
 		// Mouse up
 		//		kMsgDMouseUp		= "DMUP%1i"
 		char btn = message[8] - 1;
@@ -311,16 +289,14 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 			context->m_mouseButtonLeft = USYNERGY_FALSE;
 		sSendMouseCallback(context);
 	}
-	else if (USYNERGY_IS_PACKET("DMMV"))
-	{
+	else if (USYNERGY_IS_PACKET("DMMV")) {
 		// Mouse move. Reply with CNOP
 		//		kMsgDMouseMove		= "DMMV%2i%2i"
 		context->m_mouseX = sNetToNative16(message + 8);
 		context->m_mouseY = sNetToNative16(message + 10);
 		sSendMouseCallback(context);
 	}
-	else if (USYNERGY_IS_PACKET("DMWM"))
-	{
+	else if (USYNERGY_IS_PACKET("DMWM")) {
 		// Mouse wheel
 		//		kMsgDMouseWheel		= "DMWM%2i%2i"
 		//		kMsgDMouseWheel1_0	= "DMWM%2i"
@@ -328,8 +304,7 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 		context->m_mouseWheelY += sNetToNative16(message + 10);
 		sSendMouseCallback(context);
 	}
-	else if (USYNERGY_IS_PACKET("DKDN"))
-	{
+	else if (USYNERGY_IS_PACKET("DKDN")) {
 		// Key down
 		//		kMsgDKeyDown		= "DKDN%2i%2i%2i"
 		//		kMsgDKeyDown1_0		= "DKDN%2i%2i"
@@ -338,8 +313,7 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 		uint16_t key = sNetToNative16(message + 12);
 		sSendKeyboardCallback(context, key, mod, USYNERGY_TRUE, USYNERGY_FALSE);
 	}
-	else if (USYNERGY_IS_PACKET("DKRP"))
-	{
+	else if (USYNERGY_IS_PACKET("DKRP")) {
 		// Key repeat
 		//		kMsgDKeyRepeat		= "DKRP%2i%2i%2i%2i"
 		//		kMsgDKeyRepeat1_0	= "DKRP%2i%2i%2i"
@@ -348,8 +322,7 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 		uint16_t key = sNetToNative16(message + 14);
 		sSendKeyboardCallback(context, key, mod, USYNERGY_TRUE, USYNERGY_TRUE);
 	}
-	else if (USYNERGY_IS_PACKET("DKUP"))
-	{
+	else if (USYNERGY_IS_PACKET("DKUP")) {
 		// Key up
 		//		kMsgDKeyUp			= "DKUP%2i%2i%2i"
 		//		kMsgDKeyUp1_0		= "DKUP%2i%2i"
@@ -358,45 +331,38 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 		uint16_t key = sNetToNative16(message + 12);
 		sSendKeyboardCallback(context, key, mod, USYNERGY_FALSE, USYNERGY_FALSE);
 	}
-	else if (USYNERGY_IS_PACKET("DGBT"))
-	{
+	else if (USYNERGY_IS_PACKET("DGBT")) {
 		// Joystick buttons
 		//		kMsgDGameButtons	= "DGBT%1i%2i";
 		uint8_t	joy_num = message[8];
-		if (joy_num < USYNERGY_NUM_JOYSTICKS)
-		{
+		if (joy_num < USYNERGY_NUM_JOYSTICKS) {
 			// Copy button state, then send callback
 			context->m_joystickButtons[joy_num] = (message[9] << 8) | message[10];
 			sSendJoystickCallback(context, joy_num);
 		}
 	}
-	else if (USYNERGY_IS_PACKET("DGST"))
-	{
+	else if (USYNERGY_IS_PACKET("DGST")) {
 		// Joystick sticks
 		//		kMsgDGameSticks		= "DGST%1i%1i%1i%1i%1i";
 		uint8_t	joy_num = message[8];
-		if (joy_num < USYNERGY_NUM_JOYSTICKS)
-		{
+		if (joy_num < USYNERGY_NUM_JOYSTICKS) {
 			// Copy stick state, then send callback
 			memcpy(context->m_joystickSticks[joy_num], message + 9, 4);
 			sSendJoystickCallback(context, joy_num);
 		}
 	}
-	else if (USYNERGY_IS_PACKET("DSOP"))
-	{
+	else if (USYNERGY_IS_PACKET("DSOP")) {
 		// Set options
 		//		kMsgDSetOptions		= "DSOP%4I"
 	}
-	else if (USYNERGY_IS_PACKET("CALV"))
-	{
+	else if (USYNERGY_IS_PACKET("CALV")) {
 		// Keepalive, reply with CALV and then CNOP
 		//		kMsgCKeepAlive		= "CALV"
 		sAddString(context, "CALV");
 		sSendReply(context);
 		// now reply with CNOP
 	}
-	else if (USYNERGY_IS_PACKET("DCLP"))
-	{
+	else if (USYNERGY_IS_PACKET("DCLP")) {
 		// Clipboard message
 		//		kMsgDClipboard		= "DCLP%1i%4i%s"
 		//
@@ -414,8 +380,7 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 		const uint8_t* parse_msg = message + 17;
 		uint32_t		num_formats = sNetToNative32(parse_msg);
 		parse_msg += 4;
-		for (; num_formats; num_formats--)
-		{
+		for (; num_formats; num_formats--) {
 			// Parse clipboard format header
 			uint32_t format = sNetToNative32(parse_msg);
 			uint32_t size = sNetToNative32(parse_msg + 4);
@@ -428,8 +393,7 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 			parse_msg += size;
 		}
 	}
-	else
-	{
+	else {
 		// Unknown packet, could be any of these
 		//		kMsgCNoop 			= "CNOP"
 		//		kMsgCClose 			= "CBYE"
@@ -459,8 +423,7 @@ static void sProcessMessage(uSynergyContext* context, const uint8_t* message)
 /**
 @brief Mark context as being disconnected
 **/
-static void sSetDisconnected(uSynergyContext* context)
-{
+static void sSetDisconnected(uSynergyContext* context) {
 	context->m_connected = USYNERGY_FALSE;
 	context->m_hasReceivedHello = USYNERGY_FALSE;
 	context->m_isCaptured = USYNERGY_FALSE;
@@ -473,14 +436,12 @@ static void sSetDisconnected(uSynergyContext* context)
 /**
 @brief Update a connected context
 **/
-static void sUpdateContext(uSynergyContext* context)
-{
+static void sUpdateContext(uSynergyContext* context) {
 	/* Receive data (blocking) */
 	int receive_size = USYNERGY_RECEIVE_BUFFER_SIZE - context->m_receiveOfs;
 	int num_received = 0;
 	int packlen = 0;
-	if (context->m_receiveFunc(context->m_cookie, context->m_receiveBuffer + context->m_receiveOfs, receive_size, &num_received) == USYNERGY_FALSE)
-	{
+	if (context->m_receiveFunc(context->m_cookie, context->m_receiveBuffer + context->m_receiveOfs, receive_size, &num_received) == USYNERGY_FALSE) {
 		/* Receive failed, let's try to reconnect */
 		char buffer[128];
 		sprintf(buffer, "Receive failed (%d bytes asked, %d bytes received), trying to reconnect in a second", receive_size, num_received);
@@ -498,11 +459,9 @@ static void sUpdateContext(uSynergyContext* context)
 		context->m_sleepFunc(context->m_cookie, 500);
 
 	/* Check for timeouts */
-	if (context->m_hasReceivedHello)
-	{
+	if (context->m_hasReceivedHello) {
 		uint32_t cur_time = context->m_getTimeFunc();
-		if (num_received == 0)
-		{
+		if (num_received == 0) {
 			/* Timeout after 2 secs of inactivity (we received no CALV) */
 			if ((cur_time - context->m_lastMessageTime) > USYNERGY_IDLE_TIMEOUT)
 				sSetDisconnected(context);
@@ -512,8 +471,7 @@ static void sUpdateContext(uSynergyContext* context)
 	}
 
 	/* Eat packets */
-	for (;;)
-	{
+	for (;;) {
 		/* Grab packet length and bail out if the packet goes beyond the end of the buffer */
 		packlen = sNetToNative32(context->m_receiveBuffer);
 		if (packlen + 4 > context->m_receiveOfs)
@@ -528,28 +486,24 @@ static void sUpdateContext(uSynergyContext* context)
 	}
 
 	/* Throw away over-sized packets */
-	if (packlen > USYNERGY_RECEIVE_BUFFER_SIZE)
-	{
+	if (packlen > USYNERGY_RECEIVE_BUFFER_SIZE) {
 		/* Oversized packet, ditch tail end */
 		char buffer[128];
 		sprintf(buffer, "Oversized packet: '%c%c%c%c' (length %d)", context->m_receiveBuffer[4], context->m_receiveBuffer[5], context->m_receiveBuffer[6], context->m_receiveBuffer[7], packlen);
 		sTrace(context, buffer);
 		num_received = context->m_receiveOfs - 4; // 4 bytes for the size field
-		while (num_received != packlen)
-		{
+		while (num_received != packlen) {
 			int buffer_left = packlen - num_received;
 			int to_receive = buffer_left < USYNERGY_RECEIVE_BUFFER_SIZE ? buffer_left : USYNERGY_RECEIVE_BUFFER_SIZE;
 			int ditch_received = 0;
-			if (context->m_receiveFunc(context->m_cookie, context->m_receiveBuffer, to_receive, &ditch_received) == USYNERGY_FALSE)
-			{
+			if (context->m_receiveFunc(context->m_cookie, context->m_receiveBuffer, to_receive, &ditch_received) == USYNERGY_FALSE) {
 				/* Receive failed, let's try to reconnect */
 				sTrace(context, "Receive failed, trying to reconnect in a second");
 				sSetDisconnected(context);
 				context->m_sleepFunc(context->m_cookie, 1000);
 				break;
 			}
-			else
-			{
+			else {
 				num_received += ditch_received;
 			}
 		}
@@ -567,8 +521,7 @@ static void sUpdateContext(uSynergyContext* context)
 /**
 @brief Initialize uSynergy context
 **/
-void uSynergyInit(uSynergyContext* context)
-{
+void uSynergyInit(uSynergyContext* context) {
 	/* Zero memory */
 	memset(context, 0, sizeof(uSynergyContext));
 
@@ -580,15 +533,12 @@ void uSynergyInit(uSynergyContext* context)
 /**
 @brief Update uSynergy
 **/
-void uSynergyUpdate(uSynergyContext* context)
-{
-	if (context->m_connected)
-	{
+void uSynergyUpdate(uSynergyContext* context) {
+	if (context->m_connected) {
 		/* Update context, receive data, call callbacks */
 		sUpdateContext(context);
 	}
-	else
-	{
+	else {
 		/* Try to connect */
 		if (context->m_connectFunc(context->m_cookie))
 			context->m_connected = USYNERGY_TRUE;
@@ -600,8 +550,7 @@ void uSynergyUpdate(uSynergyContext* context)
 /**
 @brief Send clipboard data
 **/
-void uSynergySendClipboard(uSynergyContext* context, const char* text)
-{
+void uSynergySendClipboard(uSynergyContext* context, const char* text) {
 	// Calculate maximum size that will fit in a reply packet
 	uint32_t overhead_size = 4 +					/* Message size */
 		4 +					/* Message ID */
@@ -615,8 +564,7 @@ void uSynergySendClipboard(uSynergyContext* context, const char* text)
 
 	// Clip text to max length
 	uint32_t text_length = (uint32_t) strlen(text);
-	if (text_length > max_length)
-	{
+	if (text_length > max_length) {
 		char buffer[128];
 		sprintf(buffer, "Clipboard buffer too small, clipboard truncated at %d characters", max_length);
 		sTrace(context, buffer);

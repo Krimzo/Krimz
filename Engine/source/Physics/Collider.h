@@ -7,10 +7,8 @@
 using namespace physx;
 
 
-namespace Krimz
-{
-	class Collider
-	{
+namespace Krimz {
+	class Collider {
 	private:
 		PxShape* m_Shape = nullptr;
 		PxMaterial* m_Material = nullptr;

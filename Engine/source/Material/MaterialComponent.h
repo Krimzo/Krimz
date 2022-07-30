@@ -5,10 +5,8 @@
 #include "GUI/GUIRenderable.h"
 
 
-namespace Krimz
-{
-	class MaterialComponent : public Renderable, public GUIRenderable
-	{
+namespace Krimz {
+	class MaterialComponent : public Renderable, public GUIRenderable {
 	public:
 		kl::ref<Material> material;
 

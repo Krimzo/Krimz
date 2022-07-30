@@ -10,10 +10,8 @@
 #include "Scripting/Script.h"
 
 
-namespace Krimz
-{
-	namespace JavaHandler
-	{
+namespace Krimz {
+	namespace JavaHandler {
 		inline JavaVM* jvm = nullptr;
 		inline JNIEnv* env = nullptr;
 

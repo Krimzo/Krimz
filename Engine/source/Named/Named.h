@@ -3,13 +3,10 @@
 #include "KrimzLib.h"
 
 
-namespace Krimz
-{
-	class Named
-	{
+namespace Krimz {
+	class Named {
 	public:
-		enum class Type
-		{
+		enum class Type {
 			Entity = 0,
 			Mesh,
 			Texture,

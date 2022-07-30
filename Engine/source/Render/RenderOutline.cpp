@@ -3,8 +3,7 @@
 #include "Types/Camera.h"
 
 
-void Krimz::Render::Outline()
-{
+void Krimz::Render::Outline() {
 	Krimz::gpu->bindTargets({ Krimz::Outline::targetView });
 	Krimz::gpu->clear(Krimz::Outline::targetView, kl::float4(-1.0f));
 	Krimz::gpu->bind(Krimz::Selected::raster);

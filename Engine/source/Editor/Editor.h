@@ -6,10 +6,8 @@
 #include "GUI/GUIRenderer.h"
 
 
-namespace Krimz
-{
-	class Editor
-	{
+namespace Krimz {
+	class Editor {
 		kl::window m_Window = {};
 		kl::timer m_Timer = {};
 		Logger m_Logger = {};

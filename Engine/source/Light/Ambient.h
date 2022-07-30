@@ -3,10 +3,8 @@
 #include "KrimzLib.h"
 
 
-namespace Krimz::Light
-{
-	class Ambient
-	{
+namespace Krimz::Light {
+	class Ambient {
 		kl::float4 m_Color;
 
 	public:

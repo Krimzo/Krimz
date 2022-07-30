@@ -10,8 +10,7 @@
 #include "GUI/GUI.h"
 
 
-void Krimz::Stage::Start()
-{
+void Krimz::Stage::Start() {
 	Krimz::Default::camera = kl::make<Krimz::Camera>();
 	Krimz::Selected::camera = Krimz::Default::camera;
 

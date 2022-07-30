@@ -1,21 +1,15 @@
 #include "Scene/Scene.h"
 
 
-Krimz::Scene::Scene()
-{
-}
+Krimz::Scene::Scene() {}
 
-Krimz::Scene::~Scene()
-{
-}
+Krimz::Scene::~Scene() {}
 
-bool Krimz::Scene::toFile(const std::string& filePath) const
-{
+bool Krimz::Scene::toFile(const std::string& filePath) const {
 
 	return false;
 }
-bool Krimz::Scene::fromFile(const std::string& filePath)
-{
+bool Krimz::Scene::fromFile(const std::string& filePath) {
 
 	return false;
 }

@@ -33,10 +33,8 @@ stb_uint stb_compress(stb_uchar* out, stb_uchar* in, stb_uint len);
 
 static bool binary_to_compressed_c(const char* filename, const char* symbol, bool use_base85_encoding, bool use_compression, bool use_static);
 
-int main(int argc, char** argv)
-{
-	if (argc < 3)
-	{
+int main(int argc, char** argv) {
+	if (argc < 3) {
 		printf("Syntax: %s [-base85] [-nocompress] [-nostatic] <inputfile> <symbolname>\n", argv[0]);
 		return 0;
 	}
@@ -45,22 +43,17 @@ int main(int argc, char** argv)
 	bool use_base85_encoding = false;
 	bool use_compression = true;
 	bool use_static = true;
-	while (argn < (argc - 2) && argv[argn][0] == '-')
-	{
-		if (strcmp(argv[argn], "-base85") == 0)
-		{
+	while (argn < (argc - 2) && argv[argn][0] == '-') {
+		if (strcmp(argv[argn], "-base85") == 0) {
 			use_base85_encoding = true; argn++;
 		}
-		else if (strcmp(argv[argn], "-nocompress") == 0)
-		{
+		else if (strcmp(argv[argn], "-nocompress") == 0) {
 			use_compression = false; argn++;
 		}
-		else if (strcmp(argv[argn], "-nostatic") == 0)
-		{
+		else if (strcmp(argv[argn], "-nostatic") == 0) {
 			use_static = false; argn++;
 		}
-		else
-		{
+		else {
 			fprintf(stderr, "Unknown argument: '%s'\n", argv[argn]);
 			return 1;
 		}
@@ -72,25 +65,21 @@ int main(int argc, char** argv)
 	return ret ? 0 : 1;
 }
 
-char Encode85Byte(unsigned int x)
-{
+char Encode85Byte(unsigned int x) {
 	x = (x % 85) + 35;
 	return (x >= '\\') ? x + 1 : x;
 }
 
-bool binary_to_compressed_c(const char* filename, const char* symbol, bool use_base85_encoding, bool use_compression, bool use_static)
-{
+bool binary_to_compressed_c(const char* filename, const char* symbol, bool use_base85_encoding, bool use_compression, bool use_static) {
 	// Read file
 	FILE* f = fopen(filename, "rb");
 	if (!f) return false;
 	int data_sz;
-	if (fseek(f, 0, SEEK_END) || (data_sz = (int) ftell(f)) == -1 || fseek(f, 0, SEEK_SET))
-	{
+	if (fseek(f, 0, SEEK_END) || (data_sz = (int) ftell(f)) == -1 || fseek(f, 0, SEEK_SET)) {
 		fclose(f); return false;
 	}
 	char* data = new char[data_sz + 4];
-	if (fread(data, 1, data_sz, f) != (size_t) data_sz)
-	{
+	if (fread(data, 1, data_sz, f) != (size_t) data_sz) {
 		fclose(f); delete[] data; return false;
 	}
 	memset((void*) (((char*) data) + data_sz), 0, 4);
@@ -109,16 +98,13 @@ bool binary_to_compressed_c(const char* filename, const char* symbol, bool use_b
 	fprintf(out, "// Exported using binary_to_compressed_c.cpp\n");
 	const char* static_str = use_static ? "static " : "";
 	const char* compressed_str = use_compression ? "compressed_" : "";
-	if (use_base85_encoding)
-	{
+	if (use_base85_encoding) {
 		fprintf(out, "%sconst char %s_%sdata_base85[%d+1] =\n    \"", static_str, symbol, compressed_str, (int) ((compressed_sz + 3) / 4) * 5);
 		char prev_c = 0;
-		for (int src_i = 0; src_i < compressed_sz; src_i += 4)
-		{
+		for (int src_i = 0; src_i < compressed_sz; src_i += 4) {
 			// This is made a little more complicated by the fact that ??X sequences are interpreted as trigraphs by old C/C++ compilers. So we need to escape pairs of ??.
 			unsigned int d = *(unsigned int*) (compressed + src_i);
-			for (unsigned int n5 = 0; n5 < 5; n5++, d /= 85)
-			{
+			for (unsigned int n5 = 0; n5 < 5; n5++, d /= 85) {
 				char c = Encode85Byte(d);
 				fprintf(out, (c == '?' && prev_c == '?') ? "\\%c" : "%c", c);
 				prev_c = c;
@@ -128,13 +114,11 @@ bool binary_to_compressed_c(const char* filename, const char* symbol, bool use_b
 		}
 		fprintf(out, "\";\n\n");
 	}
-	else
-	{
+	else {
 		fprintf(out, "%sconst unsigned int %s_%ssize = %d;\n", static_str, symbol, compressed_str, (int) compressed_sz);
 		fprintf(out, "%sconst unsigned int %s_%sdata[%d/4] =\n{", static_str, symbol, compressed_str, (int) ((compressed_sz + 3) / 4) * 4);
 		int column = 0;
-		for (int i = 0; i < compressed_sz; i += 4)
-		{
+		for (int i = 0; i < compressed_sz; i += 4) {
 			unsigned int d = *(unsigned int*) (compressed + i);
 			if ((column++ % 12) == 0)
 				fprintf(out, "\n    0x%08x, ", d);
@@ -155,17 +139,14 @@ bool binary_to_compressed_c(const char* filename, const char* symbol, bool use_b
 
 ////////////////////           compressor         ///////////////////////
 
-static stb_uint stb_adler32(stb_uint adler32, stb_uchar* buffer, stb_uint buflen)
-{
+static stb_uint stb_adler32(stb_uint adler32, stb_uchar* buffer, stb_uint buflen) {
 	const unsigned long ADLER_MOD = 65521;
 	unsigned long s1 = adler32 & 0xffff, s2 = adler32 >> 16;
 	unsigned long blocklen, i;
 
 	blocklen = buflen % 5552;
-	while (buflen)
-	{
-		for (i = 0; i + 7 < blocklen; i += 8)
-		{
+	while (buflen) {
+		for (i = 0; i + 7 < blocklen; i += 8) {
 			s1 += buffer[0], s2 += s1;
 			s1 += buffer[1], s2 += s1;
 			s1 += buffer[2], s2 += s1;
@@ -188,8 +169,7 @@ static stb_uint stb_adler32(stb_uint adler32, stb_uchar* buffer, stb_uint buflen
 	return (s2 << 16) + s1;
 }
 
-static unsigned int stb_matchlen(stb_uchar* m1, stb_uchar* m2, stb_uint maxlen)
-{
+static unsigned int stb_matchlen(stb_uchar* m1, stb_uchar* m2, stb_uint maxlen) {
 	stb_uint i;
 	for (i = 0; i < maxlen; ++i)
 		if (m1[i] != m2[i]) return i;
@@ -202,8 +182,7 @@ static stb_uchar* stb__out;
 static FILE* stb__outfile;
 static stb_uint   stb__outbytes;
 
-static void stb__write(unsigned char v)
-{
+static void stb__write(unsigned char v) {
 	fputc(v, stb__outfile);
 	++stb__outbytes;
 }
@@ -211,23 +190,18 @@ static void stb__write(unsigned char v)
 //#define stb_out(v)    (stb__out ? *stb__out++ = (stb_uchar) (v) : stb__write((stb_uchar) (v)))
 #define stb_out(v)    do { if (stb__out) *stb__out++ = (stb_uchar) (v); else stb__write((stb_uchar) (v)); } while (0)
 
-static void stb_out2(stb_uint v)
-{
+static void stb_out2(stb_uint v) {
 	stb_out(v >> 8); stb_out(v);
 }
-static void stb_out3(stb_uint v)
-{
+static void stb_out3(stb_uint v) {
 	stb_out(v >> 16); stb_out(v >> 8); stb_out(v);
 }
-static void stb_out4(stb_uint v)
-{
+static void stb_out4(stb_uint v) {
 	stb_out(v >> 24); stb_out(v >> 16); stb_out(v >> 8); stb_out(v);
 }
 
-static void outliterals(stb_uchar* in, int numlit)
-{
-	while (numlit > 65536)
-	{
+static void outliterals(stb_uchar* in, int numlit) {
+	while (numlit > 65536) {
 		outliterals(in, 65536);
 		in += 65536;
 		numlit -= 65536;
@@ -238,8 +212,7 @@ static void outliterals(stb_uchar* in, int numlit)
 	else if (numlit <= 2048)    stb_out2(0x000800 + numlit - 1);
 	else /*  numlit <= 65536) */ stb_out3(0x070000 + numlit - 1);
 
-	if (stb__out)
-	{
+	if (stb__out) {
 		memcpy(stb__out, in, numlit);
 		stb__out += numlit;
 	}
@@ -249,8 +222,7 @@ static void outliterals(stb_uchar* in, int numlit)
 
 static int stb__window = 0x40000; // 256K
 
-static int stb_not_crap(int best, int dist)
-{
+static int stb_not_crap(int best, int dist) {
 	return   ((best > 2 && dist <= 0x00100)
 		|| (best > 5 && dist <= 0x04000)
 		|| (best > 7 && dist <= 0x80000));
@@ -272,8 +244,7 @@ static int stb_compress_chunk(stb_uchar* history,
 	int length,
 	int* pending_literals,
 	stb_uchar** chash,
-	stb_uint mask)
-{
+	stb_uint mask) {
 	(void) history;
 	int window = stb__window;
 	stb_uint match_max;
@@ -285,8 +256,7 @@ static int stb_compress_chunk(stb_uchar* history,
 	// stop short of the end so we don't scan off the end doing
 	// the hashing; this means we won't compress the last few bytes
 	// unless they were part of something longer
-	while (q < start + length && q + 12 < end)
-	{
+	while (q < start + length && q + 12 < end) {
 		int m;
 		stb_uint h1, h2, h3, h4, h;
 		stb_uchar* t;
@@ -326,53 +296,44 @@ static int stb_compress_chunk(stb_uchar* history,
 			assert(dist > 0);
 
 		// see if our best match qualifies
-		if (best < 3)
-		{ // fast path literals
+		if (best < 3) { // fast path literals
 			++q;
 		}
-		else if (best > 2 && best <= 0x80 && dist <= 0x100)
-		{
+		else if (best > 2 && best <= 0x80 && dist <= 0x100) {
 			outliterals(lit_start, q - lit_start); lit_start = (q += best);
 			stb_out(0x80 + best - 1);
 			stb_out(dist - 1);
 		}
-		else if (best > 5 && best <= 0x100 && dist <= 0x4000)
-		{
+		else if (best > 5 && best <= 0x100 && dist <= 0x4000) {
 			outliterals(lit_start, q - lit_start); lit_start = (q += best);
 			stb_out2(0x4000 + dist - 1);
 			stb_out(best - 1);
 		}
-		else if (best > 7 && best <= 0x100 && dist <= 0x80000)
-		{
+		else if (best > 7 && best <= 0x100 && dist <= 0x80000) {
 			outliterals(lit_start, q - lit_start); lit_start = (q += best);
 			stb_out3(0x180000 + dist - 1);
 			stb_out(best - 1);
 		}
-		else if (best > 8 && best <= 0x10000 && dist <= 0x80000)
-		{
+		else if (best > 8 && best <= 0x10000 && dist <= 0x80000) {
 			outliterals(lit_start, q - lit_start); lit_start = (q += best);
 			stb_out3(0x100000 + dist - 1);
 			stb_out2(best - 1);
 		}
-		else if (best > 9 && dist <= 0x1000000)
-		{
+		else if (best > 9 && dist <= 0x1000000) {
 			if (best > 65536) best = 65536;
 			outliterals(lit_start, q - lit_start); lit_start = (q += best);
-			if (best <= 0x100)
-			{
+			if (best <= 0x100) {
 				stb_out(0x06);
 				stb_out3(dist - 1);
 				stb_out(best - 1);
 			}
-			else
-			{
+			else {
 				stb_out(0x04);
 				stb_out3(dist - 1);
 				stb_out2(best - 1);
 			}
 		}
-		else
-		{  // fallback literals if no match was a balanced tradeoff
+		else {  // fallback literals if no match was a balanced tradeoff
 			++q;
 		}
 	}
@@ -388,8 +349,7 @@ static int stb_compress_chunk(stb_uchar* history,
 	return q - start;
 }
 
-static int stb_compress_inner(stb_uchar* input, stb_uint length)
-{
+static int stb_compress_inner(stb_uchar* input, stb_uint length) {
 	int literals = 0;
 	stb_uint len, i;
 
@@ -423,8 +383,7 @@ static int stb_compress_inner(stb_uchar* input, stb_uint length)
 	return 1; // success
 }
 
-stb_uint stb_compress(stb_uchar* out, stb_uchar* input, stb_uint length)
-{
+stb_uint stb_compress(stb_uchar* out, stb_uchar* input, stb_uint length) {
 	stb__out = out;
 	stb__outfile = NULL;
 

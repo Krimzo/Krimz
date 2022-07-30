@@ -6,10 +6,8 @@
 #include "Scene/Scene.h"
 
 
-namespace Krimz
-{
-	class Game
-	{
+namespace Krimz {
+	class Game {
 	protected:
 		kl::window m_Window = {};
 		kl::timer m_Timer = {};

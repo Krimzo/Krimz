@@ -4,10 +4,8 @@
 #include "GUI/GUI.h"
 
 
-void Krimz::Render::FixViewport()
-{
-	if (Krimz::Render::targetSize != Krimz::GUI::viewportSize)
-	{
+void Krimz::Render::FixViewport() {
+	if (Krimz::Render::targetSize != Krimz::GUI::viewportSize) {
 		Krimz::Render::targetSize = Krimz::GUI::viewportSize;
 
 		Krimz::gpu->destroy(Krimz::Render::targetView);

@@ -3,11 +3,9 @@
 #include "GUI/GUI.h"
 
 
-void Krimz::Picking::ReadObjectIndex()
-{
+void Krimz::Picking::ReadObjectIndex() {
 	const kl::uint2 indexPos = Krimz::window.mouse.position - Krimz::GUI::viewportPosition;
-	if (indexPos.x >= 0 && indexPos.x < Krimz::GUI::viewportSize.x && indexPos.y >= 0 && indexPos.y < Krimz::GUI::viewportSize.y)
-	{
+	if (indexPos.x >= 0 && indexPos.x < Krimz::GUI::viewportSize.x && indexPos.y >= 0 && indexPos.y < Krimz::GUI::viewportSize.y) {
 		D3D11_BOX srcBox = {};
 		srcBox.left = indexPos.x;
 		srcBox.right = srcBox.left + 1;
@@ -26,8 +24,7 @@ void Krimz::Picking::ReadObjectIndex()
 		Krimz::gpu->con()->Unmap(Krimz::Picking::textureStaging, NULL);
 		Krimz::Picking::mouseIndex = int(index);
 	}
-	else
-	{
+	else {
 		Krimz::Picking::mouseIndex = -1;
 	}
 }

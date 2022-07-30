@@ -3,10 +3,8 @@
 #include "Scripter/Scripter.h"
 
 
-namespace Krimz
-{
-	class Script
-	{
+namespace Krimz {
+	class Script {
 		std::string m_Path = {};
 		jobject m_Instance = nullptr;
 

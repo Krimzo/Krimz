@@ -10,10 +10,8 @@
 #include "GUI/GUIRenderable.h"
 
 
-namespace Krimz
-{
-	class GUIRenderer
-	{
+namespace Krimz {
+	class GUIRenderer {
 		kl::ref<Scene> m_Scene;
 
 	public:

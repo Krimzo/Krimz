@@ -1,8 +1,7 @@
 #include "GUI/GUIRenderer.h"
 
 
-Krimz::GUIRenderer::GUIRenderer()
-{
+Krimz::GUIRenderer::GUIRenderer() {
 	ImGui::CreateContext();
 	ImPlot::CreateContext();
 	ImGui::StyleColorsDark();
@@ -10,25 +9,21 @@ Krimz::GUIRenderer::GUIRenderer()
 	loadKrimzTheme();
 }
 
-Krimz::GUIRenderer::~GUIRenderer()
-{
+Krimz::GUIRenderer::~GUIRenderer() {
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImPlot::DestroyContext();
 	ImGui::DestroyContext();
 }
 
-void Krimz::GUIRenderer::initialize(kl::window& window)
-{
+void Krimz::GUIRenderer::initialize(kl::window& window) {
 	ImGui_ImplWin32_Init(window);
 }
-void Krimz::GUIRenderer::initialize(kl::gpu& gpu)
-{
+void Krimz::GUIRenderer::initialize(kl::gpu& gpu) {
 	ImGui_ImplDX11_Init(gpu.dev(), gpu.con());
 }
 
-void Krimz::GUIRenderer::loadKrimzTheme()
-{
+void Krimz::GUIRenderer::loadKrimzTheme() {
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	style.WindowPadding = ImVec2(15.0f, 15.0f);
@@ -113,17 +108,13 @@ void Krimz::GUIRenderer::loadKrimzTheme()
 	io.Fonts->AddFontFromFileTTF("resource/fonts/Balsamiq.ttf", 15);
 }
 
-void Krimz::GUIRenderer::bind(kl::ref<Scene> scene)
-{
+void Krimz::GUIRenderer::bind(kl::ref<Scene> scene) {
 	m_Scene = scene;
 }
 
-void Krimz::GUIRenderer::render()
-{
-	if (m_Scene)
-	{
-		for (auto& entity : *m_Scene)
-		{
+void Krimz::GUIRenderer::render() {
+	if (m_Scene) {
+		for (auto& entity : *m_Scene) {
 			entity->gui_render();
 		}
 	}

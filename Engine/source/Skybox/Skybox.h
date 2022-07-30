@@ -4,10 +4,8 @@
 #include "Entity/Entity.h"
 
 
-namespace Krimz
-{
-	class Skybox : public Entity
-	{
+namespace Krimz {
+	class Skybox : public Entity {
 		kl::ref<kl::gpu> m_GPU;
 		kl::shaders m_Shaders;
 		kl::dx::view::shader m_ShaderView = nullptr;

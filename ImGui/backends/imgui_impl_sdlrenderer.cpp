@@ -39,26 +39,22 @@
 #endif
 
 // SDL_Renderer data
-struct ImGui_ImplSDLRenderer_Data
-{
+struct ImGui_ImplSDLRenderer_Data {
 	SDL_Renderer* SDLRenderer;
 	SDL_Texture* FontTexture;
-	ImGui_ImplSDLRenderer_Data()
-	{
+	ImGui_ImplSDLRenderer_Data() {
 		memset((void*) this, 0, sizeof(*this));
 	}
 };
 
 // Backend data stored in io.BackendRendererUserData to allow support for multiple Dear ImGui contexts
 // It is STRONGLY preferred that you use docking branch with multi-viewports (== single Dear ImGui context + multiple windows) instead of multiple Dear ImGui contexts.
-static ImGui_ImplSDLRenderer_Data* ImGui_ImplSDLRenderer_GetBackendData()
-{
+static ImGui_ImplSDLRenderer_Data* ImGui_ImplSDLRenderer_GetBackendData() {
 	return ImGui::GetCurrentContext() ? (ImGui_ImplSDLRenderer_Data*) ImGui::GetIO().BackendRendererUserData : NULL;
 }
 
 // Functions
-bool ImGui_ImplSDLRenderer_Init(SDL_Renderer* renderer)
-{
+bool ImGui_ImplSDLRenderer_Init(SDL_Renderer* renderer) {
 	ImGuiIO& io = ImGui::GetIO();
 	IM_ASSERT(io.BackendRendererUserData == NULL && "Already initialized a renderer backend!");
 	IM_ASSERT(renderer != NULL && "SDL_Renderer not initialized!");
@@ -74,8 +70,7 @@ bool ImGui_ImplSDLRenderer_Init(SDL_Renderer* renderer)
 	return true;
 }
 
-void ImGui_ImplSDLRenderer_Shutdown()
-{
+void ImGui_ImplSDLRenderer_Shutdown() {
 	ImGui_ImplSDLRenderer_Data* bd = ImGui_ImplSDLRenderer_GetBackendData();
 	IM_ASSERT(bd != NULL && "No renderer backend to shutdown, or already shutdown?");
 	ImGuiIO& io = ImGui::GetIO();
@@ -87,8 +82,7 @@ void ImGui_ImplSDLRenderer_Shutdown()
 	IM_DELETE(bd);
 }
 
-static void ImGui_ImplSDLRenderer_SetupRenderState()
-{
+static void ImGui_ImplSDLRenderer_SetupRenderState() {
 	ImGui_ImplSDLRenderer_Data* bd = ImGui_ImplSDLRenderer_GetBackendData();
 
 	// Clear out any viewports and cliprect set by the user
@@ -97,8 +91,7 @@ static void ImGui_ImplSDLRenderer_SetupRenderState()
 	SDL_RenderSetClipRect(bd->SDLRenderer, NULL);
 }
 
-void ImGui_ImplSDLRenderer_NewFrame()
-{
+void ImGui_ImplSDLRenderer_NewFrame() {
 	ImGui_ImplSDLRenderer_Data* bd = ImGui_ImplSDLRenderer_GetBackendData();
 	IM_ASSERT(bd != NULL && "Did you call ImGui_ImplSDLRenderer_Init()?");
 
@@ -106,8 +99,7 @@ void ImGui_ImplSDLRenderer_NewFrame()
 		ImGui_ImplSDLRenderer_CreateDeviceObjects();
 }
 
-void ImGui_ImplSDLRenderer_RenderDrawData(ImDrawData* draw_data)
-{
+void ImGui_ImplSDLRenderer_RenderDrawData(ImDrawData* draw_data) {
 	ImGui_ImplSDLRenderer_Data* bd = ImGui_ImplSDLRenderer_GetBackendData();
 
 	// If there's a scale factor set by the user, use that instead
@@ -127,8 +119,7 @@ void ImGui_ImplSDLRenderer_RenderDrawData(ImDrawData* draw_data)
 		return;
 
 	// Backup SDL_Renderer state that will be modified to restore it afterwards
-	struct BackupSDLRendererState
-	{
+	struct BackupSDLRendererState {
 		SDL_Rect    Viewport;
 		bool        ClipEnabled;
 		SDL_Rect    ClipRect;
@@ -144,17 +135,14 @@ void ImGui_ImplSDLRenderer_RenderDrawData(ImDrawData* draw_data)
 
 	// Render command lists
 	ImGui_ImplSDLRenderer_SetupRenderState();
-	for (int n = 0; n < draw_data->CmdListsCount; n++)
-	{
+	for (int n = 0; n < draw_data->CmdListsCount; n++) {
 		const ImDrawList* cmd_list = draw_data->CmdLists[n];
 		const ImDrawVert* vtx_buffer = cmd_list->VtxBuffer.Data;
 		const ImDrawIdx* idx_buffer = cmd_list->IdxBuffer.Data;
 
-		for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
-		{
+		for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++) {
 			const ImDrawCmd* pcmd = &cmd_list->CmdBuffer[cmd_i];
-			if (pcmd->UserCallback)
-			{
+			if (pcmd->UserCallback) {
 				// User callback, registered via ImDrawList::AddCallback()
 				// (ImDrawCallback_ResetRenderState is a special callback value used by the user to request the renderer to reset render state.)
 				if (pcmd->UserCallback == ImDrawCallback_ResetRenderState)
@@ -162,25 +150,20 @@ void ImGui_ImplSDLRenderer_RenderDrawData(ImDrawData* draw_data)
 				else
 					pcmd->UserCallback(cmd_list, pcmd);
 			}
-			else
-			{
+			else {
 				// Project scissor/clipping rectangles into framebuffer space
 				ImVec2 clip_min((pcmd->ClipRect.x - clip_off.x) * clip_scale.x, (pcmd->ClipRect.y - clip_off.y) * clip_scale.y);
 				ImVec2 clip_max((pcmd->ClipRect.z - clip_off.x) * clip_scale.x, (pcmd->ClipRect.w - clip_off.y) * clip_scale.y);
-				if (clip_min.x < 0.0f)
-				{
+				if (clip_min.x < 0.0f) {
 					clip_min.x = 0.0f;
 				}
-				if (clip_min.y < 0.0f)
-				{
+				if (clip_min.y < 0.0f) {
 					clip_min.y = 0.0f;
 				}
-				if (clip_max.x > fb_width)
-				{
+				if (clip_max.x > fb_width) {
 					clip_max.x = (float) fb_width;
 				}
-				if (clip_max.y > fb_height)
-				{
+				if (clip_max.y > fb_height) {
 					clip_max.y = (float) fb_height;
 				}
 				if (clip_max.x <= clip_min.x || clip_max.y <= clip_min.y)
@@ -215,8 +198,7 @@ void ImGui_ImplSDLRenderer_RenderDrawData(ImDrawData* draw_data)
 }
 
 // Called by Init/NewFrame/Shutdown
-bool ImGui_ImplSDLRenderer_CreateFontsTexture()
-{
+bool ImGui_ImplSDLRenderer_CreateFontsTexture() {
 	ImGuiIO& io = ImGui::GetIO();
 	ImGui_ImplSDLRenderer_Data* bd = ImGui_ImplSDLRenderer_GetBackendData();
 
@@ -227,8 +209,7 @@ bool ImGui_ImplSDLRenderer_CreateFontsTexture()
 
 	// Upload texture to graphics system
 	bd->FontTexture = SDL_CreateTexture(bd->SDLRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STATIC, width, height);
-	if (bd->FontTexture == NULL)
-	{
+	if (bd->FontTexture == NULL) {
 		SDL_Log("error creating texture");
 		return false;
 	}
@@ -241,24 +222,20 @@ bool ImGui_ImplSDLRenderer_CreateFontsTexture()
 	return true;
 }
 
-void ImGui_ImplSDLRenderer_DestroyFontsTexture()
-{
+void ImGui_ImplSDLRenderer_DestroyFontsTexture() {
 	ImGuiIO& io = ImGui::GetIO();
 	ImGui_ImplSDLRenderer_Data* bd = ImGui_ImplSDLRenderer_GetBackendData();
-	if (bd->FontTexture)
-	{
+	if (bd->FontTexture) {
 		io.Fonts->SetTexID(0);
 		SDL_DestroyTexture(bd->FontTexture);
 		bd->FontTexture = NULL;
 	}
 }
 
-bool ImGui_ImplSDLRenderer_CreateDeviceObjects()
-{
+bool ImGui_ImplSDLRenderer_CreateDeviceObjects() {
 	return ImGui_ImplSDLRenderer_CreateFontsTexture();
 }
 
-void ImGui_ImplSDLRenderer_DestroyDeviceObjects()
-{
+void ImGui_ImplSDLRenderer_DestroyDeviceObjects() {
 	ImGui_ImplSDLRenderer_DestroyFontsTexture();
 }

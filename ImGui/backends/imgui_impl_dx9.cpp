@@ -39,8 +39,7 @@
 #include <d3d9.h>
 
 // DirectX data
-struct ImGui_ImplDX9_Data
-{
+struct ImGui_ImplDX9_Data {
 	LPDIRECT3DDEVICE9           pd3dDevice;
 	LPDIRECT3DVERTEXBUFFER9     pVB;
 	LPDIRECT3DINDEXBUFFER9      pIB;
@@ -48,14 +47,12 @@ struct ImGui_ImplDX9_Data
 	int                         VertexBufferSize;
 	int                         IndexBufferSize;
 
-	ImGui_ImplDX9_Data()
-	{
+	ImGui_ImplDX9_Data() {
 		memset((void*) this, 0, sizeof(*this)); VertexBufferSize = 5000; IndexBufferSize = 10000;
 	}
 };
 
-struct CUSTOMVERTEX
-{
+struct CUSTOMVERTEX {
 	float    pos[3];
 	D3DCOLOR col;
 	float    uv[2];
@@ -70,8 +67,7 @@ struct CUSTOMVERTEX
 
 // Backend data stored in io.BackendRendererUserData to allow support for multiple Dear ImGui contexts
 // It is STRONGLY preferred that you use docking branch with multi-viewports (== single Dear ImGui context + multiple windows) instead of multiple Dear ImGui contexts.
-static ImGui_ImplDX9_Data* ImGui_ImplDX9_GetBackendData()
-{
+static ImGui_ImplDX9_Data* ImGui_ImplDX9_GetBackendData() {
 	return ImGui::GetCurrentContext() ? (ImGui_ImplDX9_Data*) ImGui::GetIO().BackendRendererUserData : NULL;
 }
 
@@ -82,8 +78,7 @@ static void ImGui_ImplDX9_CreateDeviceObjectsForPlatformWindows();
 static void ImGui_ImplDX9_InvalidateDeviceObjectsForPlatformWindows();
 
 // Functions
-static void ImGui_ImplDX9_SetupRenderState(ImDrawData* draw_data)
-{
+static void ImGui_ImplDX9_SetupRenderState(ImDrawData* draw_data) {
 	ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
 
 	// Setup viewport
@@ -152,28 +147,23 @@ static void ImGui_ImplDX9_SetupRenderState(ImDrawData* draw_data)
 }
 
 // Render function.
-void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data)
-{
+void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data) {
 	// Avoid rendering when minimized
 	if (draw_data->DisplaySize.x <= 0.0f || draw_data->DisplaySize.y <= 0.0f)
 		return;
 
 	// Create and grow buffers if needed
 	ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
-	if (!bd->pVB || bd->VertexBufferSize < draw_data->TotalVtxCount)
-	{
-		if (bd->pVB)
-		{
+	if (!bd->pVB || bd->VertexBufferSize < draw_data->TotalVtxCount) {
+		if (bd->pVB) {
 			bd->pVB->Release(); bd->pVB = NULL;
 		}
 		bd->VertexBufferSize = draw_data->TotalVtxCount + 5000;
 		if (bd->pd3dDevice->CreateVertexBuffer(bd->VertexBufferSize * sizeof(CUSTOMVERTEX), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, D3DFVF_CUSTOMVERTEX, D3DPOOL_DEFAULT, &bd->pVB, NULL) < 0)
 			return;
 	}
-	if (!bd->pIB || bd->IndexBufferSize < draw_data->TotalIdxCount)
-	{
-		if (bd->pIB)
-		{
+	if (!bd->pIB || bd->IndexBufferSize < draw_data->TotalIdxCount) {
+		if (bd->pIB) {
 			bd->pIB->Release(); bd->pIB = NULL;
 		}
 		bd->IndexBufferSize = draw_data->TotalIdxCount + 10000;
@@ -185,8 +175,7 @@ void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data)
 	IDirect3DStateBlock9* d3d9_state_block = NULL;
 	if (bd->pd3dDevice->CreateStateBlock(D3DSBT_ALL, &d3d9_state_block) < 0)
 		return;
-	if (d3d9_state_block->Capture() < 0)
-	{
+	if (d3d9_state_block->Capture() < 0) {
 		d3d9_state_block->Release();
 		return;
 	}
@@ -200,13 +189,11 @@ void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data)
 	// Allocate buffers
 	CUSTOMVERTEX* vtx_dst;
 	ImDrawIdx* idx_dst;
-	if (bd->pVB->Lock(0, (UINT) (draw_data->TotalVtxCount * sizeof(CUSTOMVERTEX)), (void**) &vtx_dst, D3DLOCK_DISCARD) < 0)
-	{
+	if (bd->pVB->Lock(0, (UINT) (draw_data->TotalVtxCount * sizeof(CUSTOMVERTEX)), (void**) &vtx_dst, D3DLOCK_DISCARD) < 0) {
 		d3d9_state_block->Release();
 		return;
 	}
-	if (bd->pIB->Lock(0, (UINT) (draw_data->TotalIdxCount * sizeof(ImDrawIdx)), (void**) &idx_dst, D3DLOCK_DISCARD) < 0)
-	{
+	if (bd->pIB->Lock(0, (UINT) (draw_data->TotalIdxCount * sizeof(ImDrawIdx)), (void**) &idx_dst, D3DLOCK_DISCARD) < 0) {
 		bd->pVB->Unlock();
 		d3d9_state_block->Release();
 		return;
@@ -216,12 +203,10 @@ void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data)
 	// FIXME-OPT: This is a minor waste of resource, the ideal is to use imconfig.h and
 	//  1) to avoid repacking colors:   #define IMGUI_USE_BGRA_PACKED_COLOR
 	//  2) to avoid repacking vertices: #define IMGUI_OVERRIDE_DRAWVERT_STRUCT_LAYOUT struct ImDrawVert { ImVec2 pos; float z; ImU32 col; ImVec2 uv; }
-	for (int n = 0; n < draw_data->CmdListsCount; n++)
-	{
+	for (int n = 0; n < draw_data->CmdListsCount; n++) {
 		const ImDrawList* cmd_list = draw_data->CmdLists[n];
 		const ImDrawVert* vtx_src = cmd_list->VtxBuffer.Data;
-		for (int i = 0; i < cmd_list->VtxBuffer.Size; i++)
-		{
+		for (int i = 0; i < cmd_list->VtxBuffer.Size; i++) {
 			vtx_dst->pos[0] = vtx_src->pos.x;
 			vtx_dst->pos[1] = vtx_src->pos.y;
 			vtx_dst->pos[2] = 0.0f;
@@ -248,14 +233,11 @@ void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data)
 	int global_vtx_offset = 0;
 	int global_idx_offset = 0;
 	ImVec2 clip_off = draw_data->DisplayPos;
-	for (int n = 0; n < draw_data->CmdListsCount; n++)
-	{
+	for (int n = 0; n < draw_data->CmdListsCount; n++) {
 		const ImDrawList* cmd_list = draw_data->CmdLists[n];
-		for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++)
-		{
+		for (int cmd_i = 0; cmd_i < cmd_list->CmdBuffer.Size; cmd_i++) {
 			const ImDrawCmd* pcmd = &cmd_list->CmdBuffer[cmd_i];
-			if (pcmd->UserCallback != NULL)
-			{
+			if (pcmd->UserCallback != NULL) {
 				// User callback, registered via ImDrawList::AddCallback()
 				// (ImDrawCallback_ResetRenderState is a special callback value used by the user to request the renderer to reset render state.)
 				if (pcmd->UserCallback == ImDrawCallback_ResetRenderState)
@@ -263,8 +245,7 @@ void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data)
 				else
 					pcmd->UserCallback(cmd_list, pcmd);
 			}
-			else
-			{
+			else {
 				// Project scissor/clipping rectangles into framebuffer space
 				ImVec2 clip_min(pcmd->ClipRect.x - clip_off.x, pcmd->ClipRect.y - clip_off.y);
 				ImVec2 clip_max(pcmd->ClipRect.z - clip_off.x, pcmd->ClipRect.w - clip_off.y);
@@ -298,8 +279,7 @@ void ImGui_ImplDX9_RenderDrawData(ImDrawData* draw_data)
 	d3d9_state_block->Release();
 }
 
-bool ImGui_ImplDX9_Init(IDirect3DDevice9* device)
-{
+bool ImGui_ImplDX9_Init(IDirect3DDevice9* device) {
 	ImGuiIO& io = ImGui::GetIO();
 	IM_ASSERT(io.BackendRendererUserData == NULL && "Already initialized a renderer backend!");
 
@@ -319,16 +299,14 @@ bool ImGui_ImplDX9_Init(IDirect3DDevice9* device)
 	return true;
 }
 
-void ImGui_ImplDX9_Shutdown()
-{
+void ImGui_ImplDX9_Shutdown() {
 	ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
 	IM_ASSERT(bd != NULL && "No renderer backend to shutdown, or already shutdown?");
 	ImGuiIO& io = ImGui::GetIO();
 
 	ImGui_ImplDX9_ShutdownPlatformInterface();
 	ImGui_ImplDX9_InvalidateDeviceObjects();
-	if (bd->pd3dDevice)
-	{
+	if (bd->pd3dDevice) {
 		bd->pd3dDevice->Release();
 	}
 	io.BackendRendererName = NULL;
@@ -336,8 +314,7 @@ void ImGui_ImplDX9_Shutdown()
 	IM_DELETE(bd);
 }
 
-static bool ImGui_ImplDX9_CreateFontsTexture()
-{
+static bool ImGui_ImplDX9_CreateFontsTexture() {
 	// Build texture atlas
 	ImGuiIO& io = ImGui::GetIO();
 	ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
@@ -347,8 +324,7 @@ static bool ImGui_ImplDX9_CreateFontsTexture()
 
 	// Convert RGBA32 to BGRA32 (because RGBA32 is not well supported by DX9 devices)
 #ifndef IMGUI_USE_BGRA_PACKED_COLOR
-	if (io.Fonts->TexPixelsUseColors)
-	{
+	if (io.Fonts->TexPixelsUseColors) {
 		ImU32* dst_start = (ImU32*) ImGui::MemAlloc((size_t) width * height * bytes_per_pixel);
 		for (ImU32* src = (ImU32*) pixels, *dst = dst_start, *dst_end = dst_start + (size_t) width * height; dst < dst_end; src++, dst++)
 			*dst = IMGUI_COL_TO_DX9_ARGB(*src);
@@ -378,8 +354,7 @@ static bool ImGui_ImplDX9_CreateFontsTexture()
 	return true;
 }
 
-bool ImGui_ImplDX9_CreateDeviceObjects()
-{
+bool ImGui_ImplDX9_CreateDeviceObjects() {
 	ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
 	if (!bd || !bd->pd3dDevice)
 		return false;
@@ -389,28 +364,23 @@ bool ImGui_ImplDX9_CreateDeviceObjects()
 	return true;
 }
 
-void ImGui_ImplDX9_InvalidateDeviceObjects()
-{
+void ImGui_ImplDX9_InvalidateDeviceObjects() {
 	ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
 	if (!bd || !bd->pd3dDevice)
 		return;
-	if (bd->pVB)
-	{
+	if (bd->pVB) {
 		bd->pVB->Release(); bd->pVB = NULL;
 	}
-	if (bd->pIB)
-	{
+	if (bd->pIB) {
 		bd->pIB->Release(); bd->pIB = NULL;
 	}
-	if (bd->FontTexture)
-	{
+	if (bd->FontTexture) {
 		bd->FontTexture->Release(); bd->FontTexture = NULL; ImGui::GetIO().Fonts->SetTexID(NULL);
 	} // We copied bd->pFontTextureView to io.Fonts->TexID so let's clear that as well.
 	ImGui_ImplDX9_InvalidateDeviceObjectsForPlatformWindows();
 }
 
-void ImGui_ImplDX9_NewFrame()
-{
+void ImGui_ImplDX9_NewFrame() {
 	ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
 	IM_ASSERT(bd != NULL && "Did you call ImGui_ImplDX9_Init()?");
 
@@ -425,23 +395,19 @@ void ImGui_ImplDX9_NewFrame()
 //--------------------------------------------------------------------------------------------------------
 
 // Helper structure we store in the void* RenderUserData field of each ImGuiViewport to easily retrieve our backend data.
-struct ImGui_ImplDX9_ViewportData
-{
+struct ImGui_ImplDX9_ViewportData {
 	IDirect3DSwapChain9* SwapChain;
 	D3DPRESENT_PARAMETERS   d3dpp;
 
-	ImGui_ImplDX9_ViewportData()
-	{
+	ImGui_ImplDX9_ViewportData() {
 		SwapChain = NULL; ZeroMemory(&d3dpp, sizeof(D3DPRESENT_PARAMETERS));
 	}
-	~ImGui_ImplDX9_ViewportData()
-	{
+	~ImGui_ImplDX9_ViewportData() {
 		IM_ASSERT(SwapChain == NULL);
 	}
 };
 
-static void ImGui_ImplDX9_CreateWindow(ImGuiViewport* viewport)
-{
+static void ImGui_ImplDX9_CreateWindow(ImGuiViewport* viewport) {
 	ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
 	ImGui_ImplDX9_ViewportData* vd = IM_NEW(ImGui_ImplDX9_ViewportData)();
 	viewport->RendererUserData = vd;
@@ -467,11 +433,9 @@ static void ImGui_ImplDX9_CreateWindow(ImGuiViewport* viewport)
 	IM_ASSERT(vd->SwapChain != NULL);
 }
 
-static void ImGui_ImplDX9_DestroyWindow(ImGuiViewport* viewport)
-{
+static void ImGui_ImplDX9_DestroyWindow(ImGuiViewport* viewport) {
 	// The main viewport (owned by the application) will always have RendererUserData == NULL since we didn't create the data for it.
-	if (ImGui_ImplDX9_ViewportData* vd = (ImGui_ImplDX9_ViewportData*) viewport->RendererUserData)
-	{
+	if (ImGui_ImplDX9_ViewportData* vd = (ImGui_ImplDX9_ViewportData*) viewport->RendererUserData) {
 		if (vd->SwapChain)
 			vd->SwapChain->Release();
 		vd->SwapChain = NULL;
@@ -481,12 +445,10 @@ static void ImGui_ImplDX9_DestroyWindow(ImGuiViewport* viewport)
 	viewport->RendererUserData = NULL;
 }
 
-static void ImGui_ImplDX9_SetWindowSize(ImGuiViewport* viewport, ImVec2 size)
-{
+static void ImGui_ImplDX9_SetWindowSize(ImGuiViewport* viewport, ImVec2 size) {
 	ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
 	ImGui_ImplDX9_ViewportData* vd = (ImGui_ImplDX9_ViewportData*) viewport->RendererUserData;
-	if (vd->SwapChain)
-	{
+	if (vd->SwapChain) {
 		vd->SwapChain->Release();
 		vd->SwapChain = NULL;
 		vd->d3dpp.BackBufferWidth = (UINT) size.x;
@@ -496,8 +458,7 @@ static void ImGui_ImplDX9_SetWindowSize(ImGuiViewport* viewport, ImVec2 size)
 	}
 }
 
-static void ImGui_ImplDX9_RenderWindow(ImGuiViewport* viewport, void*)
-{
+static void ImGui_ImplDX9_RenderWindow(ImGuiViewport* viewport, void*) {
 	ImGui_ImplDX9_Data* bd = ImGui_ImplDX9_GetBackendData();
 	ImGui_ImplDX9_ViewportData* vd = (ImGui_ImplDX9_ViewportData*) viewport->RendererUserData;
 	ImVec4 clear_color = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
@@ -511,8 +472,7 @@ static void ImGui_ImplDX9_RenderWindow(ImGuiViewport* viewport, void*)
 	bd->pd3dDevice->SetRenderTarget(0, render_target);
 	bd->pd3dDevice->SetDepthStencilSurface(NULL);
 
-	if (!(viewport->Flags & ImGuiViewportFlags_NoRendererClear))
-	{
+	if (!(viewport->Flags & ImGuiViewportFlags_NoRendererClear)) {
 		D3DCOLOR clear_col_dx = D3DCOLOR_RGBA((int) (clear_color.x * 255.0f), (int) (clear_color.y * 255.0f), (int) (clear_color.z * 255.0f), (int) (clear_color.w * 255.0f));
 		bd->pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, clear_col_dx, 1.0f, 0);
 	}
@@ -527,16 +487,14 @@ static void ImGui_ImplDX9_RenderWindow(ImGuiViewport* viewport, void*)
 	if (last_depth_stencil) last_depth_stencil->Release();
 }
 
-static void ImGui_ImplDX9_SwapBuffers(ImGuiViewport* viewport, void*)
-{
+static void ImGui_ImplDX9_SwapBuffers(ImGuiViewport* viewport, void*) {
 	ImGui_ImplDX9_ViewportData* vd = (ImGui_ImplDX9_ViewportData*) viewport->RendererUserData;
 	HRESULT hr = vd->SwapChain->Present(NULL, NULL, vd->d3dpp.hDeviceWindow, NULL, 0);
 	// Let main application handle D3DERR_DEVICELOST by resetting the device.
 	IM_ASSERT(hr == D3D_OK || hr == D3DERR_DEVICELOST);
 }
 
-static void ImGui_ImplDX9_InitPlatformInterface()
-{
+static void ImGui_ImplDX9_InitPlatformInterface() {
 	ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
 	platform_io.Renderer_CreateWindow = ImGui_ImplDX9_CreateWindow;
 	platform_io.Renderer_DestroyWindow = ImGui_ImplDX9_DestroyWindow;
@@ -545,21 +503,18 @@ static void ImGui_ImplDX9_InitPlatformInterface()
 	platform_io.Renderer_SwapBuffers = ImGui_ImplDX9_SwapBuffers;
 }
 
-static void ImGui_ImplDX9_ShutdownPlatformInterface()
-{
+static void ImGui_ImplDX9_ShutdownPlatformInterface() {
 	ImGui::DestroyPlatformWindows();
 }
 
-static void ImGui_ImplDX9_CreateDeviceObjectsForPlatformWindows()
-{
+static void ImGui_ImplDX9_CreateDeviceObjectsForPlatformWindows() {
 	ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
 	for (int i = 1; i < platform_io.Viewports.Size; i++)
 		if (!platform_io.Viewports[i]->RendererUserData)
 			ImGui_ImplDX9_CreateWindow(platform_io.Viewports[i]);
 }
 
-static void ImGui_ImplDX9_InvalidateDeviceObjectsForPlatformWindows()
-{
+static void ImGui_ImplDX9_InvalidateDeviceObjectsForPlatformWindows() {
 	ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
 	for (int i = 1; i < platform_io.Viewports.Size; i++)
 		if (platform_io.Viewports[i]->RendererUserData)

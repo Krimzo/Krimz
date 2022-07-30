@@ -180,8 +180,7 @@ extern IMGUI_API ImGuiContext* GImGui;  // Current implicit context pointer
 // [SECTION] STB libraries includes
 //-------------------------------------------------------------------------
 
-namespace ImStb
-{
+namespace ImStb {
 
 #undef STB_TEXTEDIT_STRING
 #undef STB_TEXTEDIT_CHARTYPE
@@ -310,16 +309,14 @@ namespace ImStb
 IMGUI_API ImGuiID       ImHashData(const void* data, size_t data_size, ImU32 seed = 0);
 IMGUI_API ImGuiID       ImHashStr(const char* data, size_t data_size = 0, ImU32 seed = 0);
 #ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
-static inline ImGuiID   ImHash(const void* data, int size, ImU32 seed = 0)
-{
+static inline ImGuiID   ImHash(const void* data, int size, ImU32 seed = 0) {
 	return size ? ImHashData(data, (size_t) size, seed) : ImHashStr((const char*) data, 0, seed);
 } // [moved to ImHashStr/ImHashData in 1.68]
 #endif
 
 // Helpers: Sorting
 #ifndef ImQsort
-static inline void      ImQsort(void* base, size_t count, size_t size_of_element, int(IMGUI_CDECL* compare_func)(void const*, void const*))
-{
+static inline void      ImQsort(void* base, size_t count, size_t size_of_element, int(IMGUI_CDECL* compare_func)(void const*, void const*)) {
 	if (count > 1) qsort(base, count, size_of_element, compare_func);
 }
 #endif
@@ -328,16 +325,13 @@ static inline void      ImQsort(void* base, size_t count, size_t size_of_element
 IMGUI_API ImU32         ImAlphaBlendColors(ImU32 col_a, ImU32 col_b);
 
 // Helpers: Bit manipulation
-static inline bool      ImIsPowerOfTwo(int v)
-{
+static inline bool      ImIsPowerOfTwo(int v) {
 	return v != 0 && (v & (v - 1)) == 0;
 }
-static inline bool      ImIsPowerOfTwo(ImU64 v)
-{
+static inline bool      ImIsPowerOfTwo(ImU64 v) {
 	return v != 0 && (v & (v - 1)) == 0;
 }
-static inline int       ImUpperPowerOfTwo(int v)
-{
+static inline int       ImUpperPowerOfTwo(int v) {
 	v--; v |= v >> 1; v |= v >> 2; v |= v >> 4; v |= v >> 8; v |= v >> 16; v++; return v;
 }
 
@@ -360,12 +354,10 @@ IMGUI_API const char* ImParseFormatFindStart(const char* format);
 IMGUI_API const char* ImParseFormatFindEnd(const char* format);
 IMGUI_API const char* ImParseFormatTrimDecorations(const char* format, char* buf, size_t buf_size);
 IMGUI_API int           ImParseFormatPrecision(const char* format, int default_value);
-static inline bool      ImCharIsBlankA(char c)
-{
+static inline bool      ImCharIsBlankA(char c) {
 	return c == ' ' || c == '\t';
 }
-static inline bool      ImCharIsBlankW(unsigned int c)
-{
+static inline bool      ImCharIsBlankW(unsigned int c) {
 	return c == ' ' || c == '\t' || c == 0x3000;
 }
 
@@ -383,64 +375,49 @@ IMGUI_API int           ImTextCountUtf8BytesFromStr(const ImWchar* in_text, cons
 // We unfortunately don't have a unary- operator for ImVec2 because this would needs to be defined inside the class itself.
 #ifdef IMGUI_DEFINE_MATH_OPERATORS
 IM_MSVC_RUNTIME_CHECKS_OFF
-static inline ImVec2 operator*(const ImVec2& lhs, const float rhs)
-{
+static inline ImVec2 operator*(const ImVec2& lhs, const float rhs) {
 	return ImVec2(lhs.x * rhs, lhs.y * rhs);
 }
-static inline ImVec2 operator/(const ImVec2& lhs, const float rhs)
-{
+static inline ImVec2 operator/(const ImVec2& lhs, const float rhs) {
 	return ImVec2(lhs.x / rhs, lhs.y / rhs);
 }
-static inline ImVec2 operator+(const ImVec2& lhs, const ImVec2& rhs)
-{
+static inline ImVec2 operator+(const ImVec2& lhs, const ImVec2& rhs) {
 	return ImVec2(lhs.x + rhs.x, lhs.y + rhs.y);
 }
-static inline ImVec2 operator-(const ImVec2& lhs, const ImVec2& rhs)
-{
+static inline ImVec2 operator-(const ImVec2& lhs, const ImVec2& rhs) {
 	return ImVec2(lhs.x - rhs.x, lhs.y - rhs.y);
 }
-static inline ImVec2 operator*(const ImVec2& lhs, const ImVec2& rhs)
-{
+static inline ImVec2 operator*(const ImVec2& lhs, const ImVec2& rhs) {
 	return ImVec2(lhs.x * rhs.x, lhs.y * rhs.y);
 }
-static inline ImVec2 operator/(const ImVec2& lhs, const ImVec2& rhs)
-{
+static inline ImVec2 operator/(const ImVec2& lhs, const ImVec2& rhs) {
 	return ImVec2(lhs.x / rhs.x, lhs.y / rhs.y);
 }
-static inline ImVec2& operator*=(ImVec2& lhs, const float rhs)
-{
+static inline ImVec2& operator*=(ImVec2& lhs, const float rhs) {
 	lhs.x *= rhs; lhs.y *= rhs; return lhs;
 }
-static inline ImVec2& operator/=(ImVec2& lhs, const float rhs)
-{
+static inline ImVec2& operator/=(ImVec2& lhs, const float rhs) {
 	lhs.x /= rhs; lhs.y /= rhs; return lhs;
 }
-static inline ImVec2& operator+=(ImVec2& lhs, const ImVec2& rhs)
-{
+static inline ImVec2& operator+=(ImVec2& lhs, const ImVec2& rhs) {
 	lhs.x += rhs.x; lhs.y += rhs.y; return lhs;
 }
-static inline ImVec2& operator-=(ImVec2& lhs, const ImVec2& rhs)
-{
+static inline ImVec2& operator-=(ImVec2& lhs, const ImVec2& rhs) {
 	lhs.x -= rhs.x; lhs.y -= rhs.y; return lhs;
 }
-static inline ImVec2& operator*=(ImVec2& lhs, const ImVec2& rhs)
-{
+static inline ImVec2& operator*=(ImVec2& lhs, const ImVec2& rhs) {
 	lhs.x *= rhs.x; lhs.y *= rhs.y; return lhs;
 }
-static inline ImVec2& operator/=(ImVec2& lhs, const ImVec2& rhs)
-{
+static inline ImVec2& operator/=(ImVec2& lhs, const ImVec2& rhs) {
 	lhs.x /= rhs.x; lhs.y /= rhs.y; return lhs;
 }
-static inline ImVec4 operator+(const ImVec4& lhs, const ImVec4& rhs)
-{
+static inline ImVec4 operator+(const ImVec4& lhs, const ImVec4& rhs) {
 	return ImVec4(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z, lhs.w + rhs.w);
 }
-static inline ImVec4 operator-(const ImVec4& lhs, const ImVec4& rhs)
-{
+static inline ImVec4 operator-(const ImVec4& lhs, const ImVec4& rhs) {
 	return ImVec4(lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z, lhs.w - rhs.w);
 }
-static inline ImVec4 operator*(const ImVec4& lhs, const ImVec4& rhs)
-{
+static inline ImVec4 operator*(const ImVec4& lhs, const ImVec4& rhs) {
 	return ImVec4(lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z, lhs.w * rhs.w);
 }
 IM_MSVC_RUNTIME_CHECKS_RESTORE
@@ -450,24 +427,19 @@ IM_MSVC_RUNTIME_CHECKS_RESTORE
 #ifdef IMGUI_DISABLE_FILE_FUNCTIONS
 #define IMGUI_DISABLE_DEFAULT_FILE_FUNCTIONS
 typedef void* ImFileHandle;
-static inline ImFileHandle  ImFileOpen(const char*, const char*)
-{
+static inline ImFileHandle  ImFileOpen(const char*, const char*) {
 	return NULL;
 }
-static inline bool          ImFileClose(ImFileHandle)
-{
+static inline bool          ImFileClose(ImFileHandle) {
 	return false;
 }
-static inline ImU64         ImFileGetSize(ImFileHandle)
-{
+static inline ImU64         ImFileGetSize(ImFileHandle) {
 	return (ImU64) -1;
 }
-static inline ImU64         ImFileRead(void*, ImU64, ImU64, ImFileHandle)
-{
+static inline ImU64         ImFileRead(void*, ImU64, ImU64, ImFileHandle) {
 	return 0;
 }
-static inline ImU64         ImFileWrite(const void*, ImU64, ImU64, ImFileHandle)
-{
+static inline ImU64         ImFileWrite(const void*, ImU64, ImU64, ImFileHandle) {
 	return 0;
 }
 #endif
@@ -497,167 +469,128 @@ IM_MSVC_RUNTIME_CHECKS_OFF
 #define ImAtof(STR)         atof(STR)
 //#define ImFloorStd(X)     floorf(X)           // We use our own, see ImFloor() and ImFloorSigned()
 #define ImCeil(X)           ceilf(X)
-static inline float  ImPow(float x, float y)
-{
+static inline float  ImPow(float x, float y) {
 	return powf(x, y);
 }          // DragBehaviorT/SliderBehaviorT uses ImPow with either float/double and need the precision
-static inline double ImPow(double x, double y)
-{
+static inline double ImPow(double x, double y) {
 	return pow(x, y);
 }
-static inline float  ImLog(float x)
-{
+static inline float  ImLog(float x) {
 	return logf(x);
 }             // DragBehaviorT/SliderBehaviorT uses ImLog with either float/double and need the precision
-static inline double ImLog(double x)
-{
+static inline double ImLog(double x) {
 	return log(x);
 }
-static inline int    ImAbs(int x)
-{
+static inline int    ImAbs(int x) {
 	return x < 0 ? -x : x;
 }
-static inline float  ImAbs(float x)
-{
+static inline float  ImAbs(float x) {
 	return fabsf(x);
 }
-static inline double ImAbs(double x)
-{
+static inline double ImAbs(double x) {
 	return fabs(x);
 }
-static inline float  ImSign(float x)
-{
+static inline float  ImSign(float x) {
 	return (x < 0.0f) ? -1.0f : (x > 0.0f) ? 1.0f : 0.0f;
 } // Sign operator - returns -1, 0 or 1 based on sign of argument
-static inline double ImSign(double x)
-{
+static inline double ImSign(double x) {
 	return (x < 0.0) ? -1.0 : (x > 0.0) ? 1.0 : 0.0;
 }
 #ifdef IMGUI_ENABLE_SSE
-static inline float  ImRsqrt(float x)
-{
+static inline float  ImRsqrt(float x) {
 	return _mm_cvtss_f32(_mm_rsqrt_ss(_mm_set_ss(x)));
 }
 #else
-static inline float  ImRsqrt(float x)
-{
+static inline float  ImRsqrt(float x) {
 	return 1.0f / sqrtf(x);
 }
 #endif
-static inline double ImRsqrt(double x)
-{
+static inline double ImRsqrt(double x) {
 	return 1.0 / sqrt(x);
 }
 #endif
 // - ImMin/ImMax/ImClamp/ImLerp/ImSwap are used by widgets which support variety of types: signed/unsigned int/long long float/double
 // (Exceptionally using templates here but we could also redefine them for those types)
-template<typename T> static inline T ImMin(T lhs, T rhs)
-{
+template<typename T> static inline T ImMin(T lhs, T rhs) {
 	return lhs < rhs ? lhs : rhs;
 }
-template<typename T> static inline T ImMax(T lhs, T rhs)
-{
+template<typename T> static inline T ImMax(T lhs, T rhs) {
 	return lhs >= rhs ? lhs : rhs;
 }
-template<typename T> static inline T ImClamp(T v, T mn, T mx)
-{
+template<typename T> static inline T ImClamp(T v, T mn, T mx) {
 	return (v < mn) ? mn : (v > mx) ? mx : v;
 }
-template<typename T> static inline T ImLerp(T a, T b, float t)
-{
+template<typename T> static inline T ImLerp(T a, T b, float t) {
 	return (T) (a + (b - a) * t);
 }
-template<typename T> static inline void ImSwap(T& a, T& b)
-{
+template<typename T> static inline void ImSwap(T& a, T& b) {
 	T tmp = a; a = b; b = tmp;
 }
-template<typename T> static inline T ImAddClampOverflow(T a, T b, T mn, T mx)
-{
+template<typename T> static inline T ImAddClampOverflow(T a, T b, T mn, T mx) {
 	if (b < 0 && (a < mn - b)) return mn; if (b > 0 && (a > mx - b)) return mx; return a + b;
 }
-template<typename T> static inline T ImSubClampOverflow(T a, T b, T mn, T mx)
-{
+template<typename T> static inline T ImSubClampOverflow(T a, T b, T mn, T mx) {
 	if (b > 0 && (a < mn + b)) return mn; if (b < 0 && (a > mx + b)) return mx; return a - b;
 }
 // - Misc maths helpers
-static inline ImVec2 ImMin(const ImVec2& lhs, const ImVec2& rhs)
-{
+static inline ImVec2 ImMin(const ImVec2& lhs, const ImVec2& rhs) {
 	return ImVec2(lhs.x < rhs.x ? lhs.x : rhs.x, lhs.y < rhs.y ? lhs.y : rhs.y);
 }
-static inline ImVec2 ImMax(const ImVec2& lhs, const ImVec2& rhs)
-{
+static inline ImVec2 ImMax(const ImVec2& lhs, const ImVec2& rhs) {
 	return ImVec2(lhs.x >= rhs.x ? lhs.x : rhs.x, lhs.y >= rhs.y ? lhs.y : rhs.y);
 }
-static inline ImVec2 ImClamp(const ImVec2& v, const ImVec2& mn, ImVec2 mx)
-{
+static inline ImVec2 ImClamp(const ImVec2& v, const ImVec2& mn, ImVec2 mx) {
 	return ImVec2((v.x < mn.x) ? mn.x : (v.x > mx.x) ? mx.x : v.x, (v.y < mn.y) ? mn.y : (v.y > mx.y) ? mx.y : v.y);
 }
-static inline ImVec2 ImLerp(const ImVec2& a, const ImVec2& b, float t)
-{
+static inline ImVec2 ImLerp(const ImVec2& a, const ImVec2& b, float t) {
 	return ImVec2(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t);
 }
-static inline ImVec2 ImLerp(const ImVec2& a, const ImVec2& b, const ImVec2& t)
-{
+static inline ImVec2 ImLerp(const ImVec2& a, const ImVec2& b, const ImVec2& t) {
 	return ImVec2(a.x + (b.x - a.x) * t.x, a.y + (b.y - a.y) * t.y);
 }
-static inline ImVec4 ImLerp(const ImVec4& a, const ImVec4& b, float t)
-{
+static inline ImVec4 ImLerp(const ImVec4& a, const ImVec4& b, float t) {
 	return ImVec4(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t, a.z + (b.z - a.z) * t, a.w + (b.w - a.w) * t);
 }
-static inline float  ImSaturate(float f)
-{
+static inline float  ImSaturate(float f) {
 	return (f < 0.0f) ? 0.0f : (f > 1.0f) ? 1.0f : f;
 }
-static inline float  ImLengthSqr(const ImVec2& lhs)
-{
+static inline float  ImLengthSqr(const ImVec2& lhs) {
 	return (lhs.x * lhs.x) + (lhs.y * lhs.y);
 }
-static inline float  ImLengthSqr(const ImVec4& lhs)
-{
+static inline float  ImLengthSqr(const ImVec4& lhs) {
 	return (lhs.x * lhs.x) + (lhs.y * lhs.y) + (lhs.z * lhs.z) + (lhs.w * lhs.w);
 }
-static inline float  ImInvLength(const ImVec2& lhs, float fail_value)
-{
+static inline float  ImInvLength(const ImVec2& lhs, float fail_value) {
 	float d = (lhs.x * lhs.x) + (lhs.y * lhs.y); if (d > 0.0f) return ImRsqrt(d); return fail_value;
 }
-static inline float  ImFloor(float f)
-{
+static inline float  ImFloor(float f) {
 	return (float) (int) (f);
 }
-static inline float  ImFloorSigned(float f)
-{
+static inline float  ImFloorSigned(float f) {
 	return (float) ((f >= 0 || (float) (int) f == f) ? (int) f : (int) f - 1);
 } // Decent replacement for floorf()
-static inline ImVec2 ImFloor(const ImVec2& v)
-{
+static inline ImVec2 ImFloor(const ImVec2& v) {
 	return ImVec2((float) (int) (v.x), (float) (int) (v.y));
 }
-static inline ImVec2 ImFloorSigned(const ImVec2& v)
-{
+static inline ImVec2 ImFloorSigned(const ImVec2& v) {
 	return ImVec2(ImFloorSigned(v.x), ImFloorSigned(v.y));
 }
-static inline int    ImModPositive(int a, int b)
-{
+static inline int    ImModPositive(int a, int b) {
 	return (a + b) % b;
 }
-static inline float  ImDot(const ImVec2& a, const ImVec2& b)
-{
+static inline float  ImDot(const ImVec2& a, const ImVec2& b) {
 	return a.x * b.x + a.y * b.y;
 }
-static inline ImVec2 ImRotate(const ImVec2& v, float cos_a, float sin_a)
-{
+static inline ImVec2 ImRotate(const ImVec2& v, float cos_a, float sin_a) {
 	return ImVec2(v.x * cos_a - v.y * sin_a, v.x * sin_a + v.y * cos_a);
 }
-static inline float  ImLinearSweep(float current, float target, float speed)
-{
+static inline float  ImLinearSweep(float current, float target, float speed) {
 	if (current < target) return ImMin(current + speed, target); if (current > target) return ImMax(current - speed, target); return current;
 }
-static inline ImVec2 ImMul(const ImVec2& lhs, const ImVec2& rhs)
-{
+static inline ImVec2 ImMul(const ImVec2& lhs, const ImVec2& rhs) {
 	return ImVec2(lhs.x * rhs.x, lhs.y * rhs.y);
 }
-static inline bool   ImIsFloatAboveGuaranteedIntegerPrecision(float f)
-{
+static inline bool   ImIsFloatAboveGuaranteedIntegerPrecision(float f) {
 	return f <= -16777216 || f >= 16777216;
 }
 IM_MSVC_RUNTIME_CHECKS_RESTORE
@@ -671,8 +604,7 @@ IMGUI_API ImVec2     ImLineClosestPoint(const ImVec2& a, const ImVec2& b, const 
 IMGUI_API bool       ImTriangleContainsPoint(const ImVec2& a, const ImVec2& b, const ImVec2& c, const ImVec2& p);
 IMGUI_API ImVec2     ImTriangleClosestPoint(const ImVec2& a, const ImVec2& b, const ImVec2& c, const ImVec2& p);
 IMGUI_API void       ImTriangleBarycentricCoords(const ImVec2& a, const ImVec2& b, const ImVec2& c, const ImVec2& p, float& out_u, float& out_v, float& out_w);
-inline float         ImTriangleArea(const ImVec2& a, const ImVec2& b, const ImVec2& c)
-{
+inline float         ImTriangleArea(const ImVec2& a, const ImVec2& b, const ImVec2& c) {
 	return ImFabs((a.x * (b.y - c.y)) + (b.x * (c.y - a.y)) + (c.x * (a.y - b.y))) * 0.5f;
 }
 IMGUI_API ImGuiDir   ImGetDirQuadrantFromDelta(float dx, float dy);
@@ -680,169 +612,120 @@ IMGUI_API ImGuiDir   ImGetDirQuadrantFromDelta(float dx, float dy);
 // Helper: ImVec1 (1D vector)
 // (this odd construct is used to facilitate the transition between 1D and 2D, and the maintenance of some branches/patches)
 IM_MSVC_RUNTIME_CHECKS_OFF
-struct ImVec1
-{
+struct ImVec1 {
 	float   x;
-	constexpr ImVec1() : x(0.0f)
-	{
-	}
-	constexpr ImVec1(float _x) : x(_x)
-	{
-	}
+	constexpr ImVec1() : x(0.0f) {}
+	constexpr ImVec1(float _x) : x(_x) {}
 };
 
 // Helper: ImVec2ih (2D vector, half-size integer, for long-term packed storage)
-struct ImVec2ih
-{
+struct ImVec2ih {
 	short   x, y;
-	constexpr ImVec2ih() : x(0), y(0)
-	{
-	}
-	constexpr ImVec2ih(short _x, short _y) : x(_x), y(_y)
-	{
-	}
-	constexpr explicit ImVec2ih(const ImVec2& rhs) : x((short) rhs.x), y((short) rhs.y)
-	{
-	}
+	constexpr ImVec2ih() : x(0), y(0) {}
+	constexpr ImVec2ih(short _x, short _y) : x(_x), y(_y) {}
+	constexpr explicit ImVec2ih(const ImVec2& rhs) : x((short) rhs.x), y((short) rhs.y) {}
 };
 
 // Helper: ImRect (2D axis aligned bounding-box)
 // NB: we can't rely on ImVec2 math operators being available here!
-struct IMGUI_API ImRect
-{
+struct IMGUI_API ImRect {
 	ImVec2      Min;    // Upper-left
 	ImVec2      Max;    // Lower-right
 
-	constexpr ImRect() : Min(0.0f, 0.0f), Max(0.0f, 0.0f)
-	{
-	}
-	constexpr ImRect(const ImVec2& min, const ImVec2& max) : Min(min), Max(max)
-	{
-	}
-	constexpr ImRect(const ImVec4& v) : Min(v.x, v.y), Max(v.z, v.w)
-	{
-	}
-	constexpr ImRect(float x1, float y1, float x2, float y2) : Min(x1, y1), Max(x2, y2)
-	{
-	}
+	constexpr ImRect() : Min(0.0f, 0.0f), Max(0.0f, 0.0f) {}
+	constexpr ImRect(const ImVec2& min, const ImVec2& max) : Min(min), Max(max) {}
+	constexpr ImRect(const ImVec4& v) : Min(v.x, v.y), Max(v.z, v.w) {}
+	constexpr ImRect(float x1, float y1, float x2, float y2) : Min(x1, y1), Max(x2, y2) {}
 
-	ImVec2      GetCenter() const
-	{
+	ImVec2      GetCenter() const {
 		return ImVec2((Min.x + Max.x) * 0.5f, (Min.y + Max.y) * 0.5f);
 	}
-	ImVec2      GetSize() const
-	{
+	ImVec2      GetSize() const {
 		return ImVec2(Max.x - Min.x, Max.y - Min.y);
 	}
-	float       GetWidth() const
-	{
+	float       GetWidth() const {
 		return Max.x - Min.x;
 	}
-	float       GetHeight() const
-	{
+	float       GetHeight() const {
 		return Max.y - Min.y;
 	}
-	float       GetArea() const
-	{
+	float       GetArea() const {
 		return (Max.x - Min.x) * (Max.y - Min.y);
 	}
-	ImVec2      GetTL() const
-	{
+	ImVec2      GetTL() const {
 		return Min;
 	}                   // Top-left
-	ImVec2      GetTR() const
-	{
+	ImVec2      GetTR() const {
 		return ImVec2(Max.x, Min.y);
 	}  // Top-right
-	ImVec2      GetBL() const
-	{
+	ImVec2      GetBL() const {
 		return ImVec2(Min.x, Max.y);
 	}  // Bottom-left
-	ImVec2      GetBR() const
-	{
+	ImVec2      GetBR() const {
 		return Max;
 	}                   // Bottom-right
-	bool        Contains(const ImVec2& p) const
-	{
+	bool        Contains(const ImVec2& p) const {
 		return p.x >= Min.x && p.y >= Min.y && p.x < Max.x&& p.y < Max.y;
 	}
-	bool        Contains(const ImRect& r) const
-	{
+	bool        Contains(const ImRect& r) const {
 		return r.Min.x >= Min.x && r.Min.y >= Min.y && r.Max.x <= Max.x && r.Max.y <= Max.y;
 	}
-	bool        Overlaps(const ImRect& r) const
-	{
+	bool        Overlaps(const ImRect& r) const {
 		return r.Min.y <  Max.y&& r.Max.y >  Min.y && r.Min.x <  Max.x&& r.Max.x >  Min.x;
 	}
-	void        Add(const ImVec2& p)
-	{
+	void        Add(const ImVec2& p) {
 		if (Min.x > p.x)     Min.x = p.x;     if (Min.y > p.y)     Min.y = p.y;     if (Max.x < p.x)     Max.x = p.x;     if (Max.y < p.y)     Max.y = p.y;
 	}
-	void        Add(const ImRect& r)
-	{
+	void        Add(const ImRect& r) {
 		if (Min.x > r.Min.x) Min.x = r.Min.x; if (Min.y > r.Min.y) Min.y = r.Min.y; if (Max.x < r.Max.x) Max.x = r.Max.x; if (Max.y < r.Max.y) Max.y = r.Max.y;
 	}
-	void        Expand(const float amount)
-	{
+	void        Expand(const float amount) {
 		Min.x -= amount;   Min.y -= amount;   Max.x += amount;   Max.y += amount;
 	}
-	void        Expand(const ImVec2& amount)
-	{
+	void        Expand(const ImVec2& amount) {
 		Min.x -= amount.x; Min.y -= amount.y; Max.x += amount.x; Max.y += amount.y;
 	}
-	void        Translate(const ImVec2& d)
-	{
+	void        Translate(const ImVec2& d) {
 		Min.x += d.x; Min.y += d.y; Max.x += d.x; Max.y += d.y;
 	}
-	void        TranslateX(float dx)
-	{
+	void        TranslateX(float dx) {
 		Min.x += dx; Max.x += dx;
 	}
-	void        TranslateY(float dy)
-	{
+	void        TranslateY(float dy) {
 		Min.y += dy; Max.y += dy;
 	}
-	void        ClipWith(const ImRect& r)
-	{
+	void        ClipWith(const ImRect& r) {
 		Min = ImMax(Min, r.Min); Max = ImMin(Max, r.Max);
 	}                   // Simple version, may lead to an inverted rectangle, which is fine for Contains/Overlaps test but not for display.
-	void        ClipWithFull(const ImRect& r)
-	{
+	void        ClipWithFull(const ImRect& r) {
 		Min = ImClamp(Min, r.Min, r.Max); Max = ImClamp(Max, r.Min, r.Max);
 	} // Full version, ensure both points are fully clipped.
-	void        Floor()
-	{
+	void        Floor() {
 		Min.x = IM_FLOOR(Min.x); Min.y = IM_FLOOR(Min.y); Max.x = IM_FLOOR(Max.x); Max.y = IM_FLOOR(Max.y);
 	}
-	bool        IsInverted() const
-	{
+	bool        IsInverted() const {
 		return Min.x > Max.x || Min.y > Max.y;
 	}
-	ImVec4      ToVec4() const
-	{
+	ImVec4      ToVec4() const {
 		return ImVec4(Min.x, Min.y, Max.x, Max.y);
 	}
 };
 IM_MSVC_RUNTIME_CHECKS_RESTORE
 
 // Helper: ImBitArray
-inline bool     ImBitArrayTestBit(const ImU32* arr, int n)
-{
+inline bool     ImBitArrayTestBit(const ImU32* arr, int n) {
 	ImU32 mask = (ImU32) 1 << (n & 31); return (arr[n >> 5] & mask) != 0;
 }
-inline void     ImBitArrayClearBit(ImU32* arr, int n)
-{
+inline void     ImBitArrayClearBit(ImU32* arr, int n) {
 	ImU32 mask = (ImU32) 1 << (n & 31); arr[n >> 5] &= ~mask;
 }
-inline void     ImBitArraySetBit(ImU32* arr, int n)
-{
+inline void     ImBitArraySetBit(ImU32* arr, int n) {
 	ImU32 mask = (ImU32) 1 << (n & 31); arr[n >> 5] |= mask;
 }
 inline void     ImBitArraySetBitRange(ImU32* arr, int n, int n2) // Works on range [n..n2)
 {
 	n2--;
-	while (n <= n2)
-	{
+	while (n <= n2) {
 		int a_mod = (n & 31);
 		int b_mod = (n2 > (n | 31) ? 31 : (n2 & 31)) + 1;
 		ImU32 mask = (ImU32) (((ImU64) 1 << b_mod) - 1) & ~(ImU32) (((ImU64) 1 << a_mod) - 1);
@@ -854,66 +737,51 @@ inline void     ImBitArraySetBitRange(ImU32* arr, int n, int n2) // Works on ran
 // Helper: ImBitArray class (wrapper over ImBitArray functions)
 // Store 1-bit per value.
 template<int BITCOUNT, int OFFSET = 0>
-struct ImBitArray
-{
+struct ImBitArray {
 	ImU32           Storage[(BITCOUNT + 31) >> 5];
-	ImBitArray()
-	{
+	ImBitArray() {
 		ClearAllBits();
 	}
-	void            ClearAllBits()
-	{
+	void            ClearAllBits() {
 		memset(Storage, 0, sizeof(Storage));
 	}
-	void            SetAllBits()
-	{
+	void            SetAllBits() {
 		memset(Storage, 255, sizeof(Storage));
 	}
-	bool            TestBit(int n) const
-	{
+	bool            TestBit(int n) const {
 		n += OFFSET; IM_ASSERT(n >= 0 && n < BITCOUNT); return ImBitArrayTestBit(Storage, n);
 	}
-	void            SetBit(int n)
-	{
+	void            SetBit(int n) {
 		n += OFFSET; IM_ASSERT(n >= 0 && n < BITCOUNT); ImBitArraySetBit(Storage, n);
 	}
-	void            ClearBit(int n)
-	{
+	void            ClearBit(int n) {
 		n += OFFSET; IM_ASSERT(n >= 0 && n < BITCOUNT); ImBitArrayClearBit(Storage, n);
 	}
-	void            SetBitRange(int n, int n2)
-	{
+	void            SetBitRange(int n, int n2) {
 		n += OFFSET; n2 += OFFSET; IM_ASSERT(n >= 0 && n < BITCOUNT&& n2 > n && n2 <= BITCOUNT); ImBitArraySetBitRange(Storage, n, n2);
 	} // Works on range [n..n2)
-	bool            operator[](int n) const
-	{
+	bool            operator[](int n) const {
 		n += OFFSET; IM_ASSERT(n >= 0 && n < BITCOUNT); return ImBitArrayTestBit(Storage, n);
 	}
 };
 
 // Helper: ImBitVector
 // Store 1-bit per value.
-struct IMGUI_API ImBitVector
-{
+struct IMGUI_API ImBitVector {
 	ImVector<ImU32> Storage;
-	void            Create(int sz)
-	{
+	void            Create(int sz) {
 		Storage.resize((sz + 31) >> 5); memset(Storage.Data, 0, (size_t) Storage.Size * sizeof(Storage.Data[0]));
 	}
-	void            Clear()
-	{
+	void            Clear() {
 		Storage.clear();
 	}
-	bool            TestBit(int n) const
-	{
+	bool            TestBit(int n) const {
 		IM_ASSERT(n < (Storage.Size << 5)); return ImBitArrayTestBit(Storage.Data, n);
 	}
-	void            SetBit(int n)
-	{
+	void            SetBit(int n) {
 		IM_ASSERT(n < (Storage.Size << 5)); ImBitArraySetBit(Storage.Data, n);
 	}
-	void            ClearBit(int n)
-	{
+	void            ClearBit(int n) {
 		IM_ASSERT(n < (Storage.Size << 5)); ImBitArrayClearBit(Storage.Data, n);
 	}
 };
@@ -921,70 +789,55 @@ struct IMGUI_API ImBitVector
 // Helper: ImSpan<>
 // Pointing to a span of data we don't own.
 template<typename T>
-struct ImSpan
-{
+struct ImSpan {
 	T* Data;
 	T* DataEnd;
 
 	// Constructors, destructor
-	inline ImSpan()
-	{
+	inline ImSpan() {
 		Data = DataEnd = NULL;
 	}
-	inline ImSpan(T* data, int size)
-	{
+	inline ImSpan(T* data, int size) {
 		Data = data; DataEnd = data + size;
 	}
-	inline ImSpan(T* data, T* data_end)
-	{
+	inline ImSpan(T* data, T* data_end) {
 		Data = data; DataEnd = data_end;
 	}
 
-	inline void         set(T* data, int size)
-	{
+	inline void         set(T* data, int size) {
 		Data = data; DataEnd = data + size;
 	}
-	inline void         set(T* data, T* data_end)
-	{
+	inline void         set(T* data, T* data_end) {
 		Data = data; DataEnd = data_end;
 	}
-	inline int          size() const
-	{
+	inline int          size() const {
 		return (int) (ptrdiff_t) (DataEnd - Data);
 	}
-	inline int          size_in_bytes() const
-	{
+	inline int          size_in_bytes() const {
 		return (int) (ptrdiff_t) (DataEnd - Data) * (int) sizeof(T);
 	}
-	inline T& operator[](int i)
-	{
+	inline T& operator[](int i) {
 		T* p = Data + i; IM_ASSERT(p >= Data && p < DataEnd); return *p;
 	}
-	inline const T& operator[](int i) const
-	{
+	inline const T& operator[](int i) const {
 		const T* p = Data + i; IM_ASSERT(p >= Data && p < DataEnd); return *p;
 	}
 
-	inline T* begin()
-	{
+	inline T* begin() {
 		return Data;
 	}
-	inline const T* begin() const
-	{
+	inline const T* begin() const {
 		return Data;
 	}
-	inline T* end()
-	{
+	inline T* end() {
 		return DataEnd;
 	}
-	inline const T* end() const
-	{
+	inline const T* end() const {
 		return DataEnd;
 	}
 
 // Utilities
-	inline int  index_from_ptr(const T* it) const
-	{
+	inline int  index_from_ptr(const T* it) const {
 		IM_ASSERT(it >= Data && it < DataEnd); const ptrdiff_t off = it - Data; return (int) off;
 	}
 };
@@ -993,41 +846,33 @@ struct ImSpan
 // Facilitate storing multiple chunks into a single large block (the "arena")
 // - Usage: call Reserve() N times, allocate GetArenaSizeInBytes() worth, pass it to SetArenaBasePtr(), call GetSpan() N times to retrieve the aligned ranges.
 template<int CHUNKS>
-struct ImSpanAllocator
-{
+struct ImSpanAllocator {
 	char* BasePtr;
 	int     CurrOff;
 	int     CurrIdx;
 	int     Offsets[CHUNKS];
 	int     Sizes[CHUNKS];
 
-	ImSpanAllocator()
-	{
+	ImSpanAllocator() {
 		memset(this, 0, sizeof(*this));
 	}
-	inline void  Reserve(int n, size_t sz, int a = 4)
-	{
+	inline void  Reserve(int n, size_t sz, int a = 4) {
 		IM_ASSERT(n == CurrIdx && n < CHUNKS); CurrOff = IM_MEMALIGN(CurrOff, a); Offsets[n] = CurrOff; Sizes[n] = (int) sz; CurrIdx++; CurrOff += (int) sz;
 	}
-	inline int   GetArenaSizeInBytes()
-	{
+	inline int   GetArenaSizeInBytes() {
 		return CurrOff;
 	}
-	inline void  SetArenaBasePtr(void* base_ptr)
-	{
+	inline void  SetArenaBasePtr(void* base_ptr) {
 		BasePtr = (char*) base_ptr;
 	}
-	inline void* GetSpanPtrBegin(int n)
-	{
+	inline void* GetSpanPtrBegin(int n) {
 		IM_ASSERT(n >= 0 && n < CHUNKS&& CurrIdx == CHUNKS); return (void*) (BasePtr + Offsets[n]);
 	}
-	inline void* GetSpanPtrEnd(int n)
-	{
+	inline void* GetSpanPtrEnd(int n) {
 		IM_ASSERT(n >= 0 && n < CHUNKS&& CurrIdx == CHUNKS); return (void*) (BasePtr + Offsets[n] + Sizes[n]);
 	}
 	template<typename T>
-	inline void  GetSpan(int n, ImSpan<T>* span)
-	{
+	inline void  GetSpan(int n, ImSpan<T>* span) {
 		span->set((T*) GetSpanPtrBegin(n), (T*) GetSpanPtrEnd(n));
 	}
 };
@@ -1037,93 +882,72 @@ struct ImSpanAllocator
 // Honor constructor/destructor. Add/remove invalidate all pointers. Indexes have the same lifetime as the associated object.
 typedef int ImPoolIdx;
 template<typename T>
-struct ImPool
-{
+struct ImPool {
 	ImVector<T>     Buf;        // Contiguous data
 	ImGuiStorage    Map;        // ID->Index
 	ImPoolIdx       FreeIdx;    // Next free idx to use
 	ImPoolIdx       AliveCount; // Number of active/alive items (for display purpose)
 
-	ImPool()
-	{
+	ImPool() {
 		FreeIdx = AliveCount = 0;
 	}
-	~ImPool()
-	{
+	~ImPool() {
 		Clear();
 	}
-	T* GetByKey(ImGuiID key)
-	{
+	T* GetByKey(ImGuiID key) {
 		int idx = Map.GetInt(key, -1); return (idx != -1) ? &Buf[idx] : NULL;
 	}
-	T* GetByIndex(ImPoolIdx n)
-	{
+	T* GetByIndex(ImPoolIdx n) {
 		return &Buf[n];
 	}
-	ImPoolIdx   GetIndex(const T* p) const
-	{
+	ImPoolIdx   GetIndex(const T* p) const {
 		IM_ASSERT(p >= Buf.Data && p < Buf.Data + Buf.Size); return (ImPoolIdx) (p - Buf.Data);
 	}
-	T* GetOrAddByKey(ImGuiID key)
-	{
+	T* GetOrAddByKey(ImGuiID key) {
 		int* p_idx = Map.GetIntRef(key, -1); if (*p_idx != -1) return &Buf[*p_idx]; *p_idx = FreeIdx; return Add();
 	}
-	bool        Contains(const T* p) const
-	{
+	bool        Contains(const T* p) const {
 		return (p >= Buf.Data && p < Buf.Data + Buf.Size);
 	}
-	void        Clear()
-	{
-		for (int n = 0; n < Map.Data.Size; n++)
-		{
+	void        Clear() {
+		for (int n = 0; n < Map.Data.Size; n++) {
 			int idx = Map.Data[n].val_i; if (idx != -1) Buf[idx].~T();
 		} Map.Clear(); Buf.clear(); FreeIdx = AliveCount = 0;
 	}
-	T* Add()
-	{
-		int idx = FreeIdx; if (idx == Buf.Size)
-		{
+	T* Add() {
+		int idx = FreeIdx; if (idx == Buf.Size) {
 			Buf.resize(Buf.Size + 1); FreeIdx++;
 		}
-		else
-		{
+		else {
 			FreeIdx = *(int*) &Buf[idx];
 		} IM_PLACEMENT_NEW(&Buf[idx]) T(); AliveCount++; return &Buf[idx];
 	}
-	void        Remove(ImGuiID key, const T* p)
-	{
+	void        Remove(ImGuiID key, const T* p) {
 		Remove(key, GetIndex(p));
 	}
-	void        Remove(ImGuiID key, ImPoolIdx idx)
-	{
+	void        Remove(ImGuiID key, ImPoolIdx idx) {
 		Buf[idx].~T(); *(int*) &Buf[idx] = FreeIdx; FreeIdx = idx; Map.SetInt(key, -1); AliveCount--;
 	}
-	void        Reserve(int capacity)
-	{
+	void        Reserve(int capacity) {
 		Buf.reserve(capacity); Map.Data.reserve(capacity);
 	}
 
 // To iterate a ImPool: for (int n = 0; n < pool.GetMapSize(); n++) if (T* t = pool.TryGetMapData(n)) { ... }
 // Can be avoided if you know .Remove() has never been called on the pool, or AliveCount == GetMapSize()
-	int         GetAliveCount() const
-	{
+	int         GetAliveCount() const {
 		return AliveCount;
 	}      // Number of active/alive items in the pool (for display purpose)
-	int         GetBufSize() const
-	{
+	int         GetBufSize() const {
 		return Buf.Size;
 	}
-	int         GetMapSize() const
-	{
+	int         GetMapSize() const {
 		return Map.Data.Size;
 	}   // It is the map we need iterate to find valid items, since we don't have "alive" storage anywhere
-	T* TryGetMapData(ImPoolIdx n)
-	{
+	T* TryGetMapData(ImPoolIdx n) {
 		int idx = Map.Data[n].val_i; if (idx == -1) return NULL; return GetByIndex(idx);
 	}
 #ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
-	int         GetSize()
-	{
+	int         GetSize() {
 		return GetMapSize();
 	} // For ImPlot: should use GetMapSize() from (IMGUI_VERSION_NUM >= 18304)
 #endif
@@ -1135,52 +959,40 @@ struct ImPool
 // We store the chunk size first, and align the final size on 4 bytes boundaries.
 // The tedious/zealous amount of casting is to avoid -Wcast-align warnings.
 template<typename T>
-struct ImChunkStream
-{
+struct ImChunkStream {
 	ImVector<char>  Buf;
 
-	void    clear()
-	{
+	void    clear() {
 		Buf.clear();
 	}
-	bool    empty() const
-	{
+	bool    empty() const {
 		return Buf.Size == 0;
 	}
-	int     size() const
-	{
+	int     size() const {
 		return Buf.Size;
 	}
-	T* alloc_chunk(size_t sz)
-	{
+	T* alloc_chunk(size_t sz) {
 		size_t HDR_SZ = 4; sz = IM_MEMALIGN(HDR_SZ + sz, 4u); int off = Buf.Size; Buf.resize(off + (int) sz); ((int*) (void*) (Buf.Data + off))[0] = (int) sz; return (T*) (void*) (Buf.Data + off + (int) HDR_SZ);
 	}
-	T* begin()
-	{
+	T* begin() {
 		size_t HDR_SZ = 4; if (!Buf.Data) return NULL; return (T*) (void*) (Buf.Data + HDR_SZ);
 	}
-	T* next_chunk(T* p)
-	{
+	T* next_chunk(T* p) {
 		size_t HDR_SZ = 4; IM_ASSERT(p >= begin() && p < end()); p = (T*) (void*) ((char*) (void*) p + chunk_size(p)); if (p == (T*) (void*) ((char*) end() + HDR_SZ)) return (T*) 0; IM_ASSERT(p < end()); return p;
 	}
-	int     chunk_size(const T* p)
-	{
+	int     chunk_size(const T* p) {
 		return ((const int*) p)[-1];
 	}
-	T* end()
-	{
+	T* end() {
 		return (T*) (void*) (Buf.Data + Buf.Size);
 	}
-	int     offset_from_ptr(const T* p)
-	{
+	int     offset_from_ptr(const T* p) {
 		IM_ASSERT(p >= begin() && p < end()); const ptrdiff_t off = (const char*) p - Buf.Data; return (int) off;
 	}
-	T* ptr_from_offset(int off)
-	{
+	T* ptr_from_offset(int off) {
 		IM_ASSERT(off >= 4 && off < Buf.Size); return (T*) (void*) (Buf.Data + off);
 	}
-	void    swap(ImChunkStream<T>& rhs)
-	{
+	void    swap(ImChunkStream<T>& rhs) {
 		rhs.Buf.swap(Buf);
 	}
 
@@ -1218,8 +1030,7 @@ struct ImChunkStream
 
 // Data shared between all ImDrawList instances
 // You may want to create your own instance of this if you want to use ImDrawList completely without ImGui. In that case, watch out for future changes to this structure.
-struct IMGUI_API ImDrawListSharedData
-{
+struct IMGUI_API ImDrawListSharedData {
 	ImVec2          TexUvWhitePixel;            // UV of white pixel in the atlas
 	ImFont* Font;                       // Current/default font (optional, for simplified AddText overload)
 	float           FontSize;                   // Current/default font size (optional, for simplified AddText overload)
@@ -1238,20 +1049,16 @@ struct IMGUI_API ImDrawListSharedData
 	void SetCircleTessellationMaxError(float max_error);
 };
 
-struct ImDrawDataBuilder
-{
+struct ImDrawDataBuilder {
 	ImVector<ImDrawList*>   Layers[2];           // Global layers for: regular, tooltip
 
-	void Clear()
-	{
+	void Clear() {
 		for (int n = 0; n < IM_ARRAYSIZE(Layers); n++) Layers[n].resize(0);
 	}
-	void ClearFreeMemory()
-	{
+	void ClearFreeMemory() {
 		for (int n = 0; n < IM_ARRAYSIZE(Layers); n++) Layers[n].clear();
 	}
-	int  GetDrawListCount() const
-	{
+	int  GetDrawListCount() const {
 		int count = 0; for (int n = 0; n < IM_ARRAYSIZE(Layers); n++) count += Layers[n].Size; return count;
 	}
 	IMGUI_API void FlattenIntoSingleLayer();
@@ -1263,8 +1070,7 @@ struct ImDrawDataBuilder
 
 // Transient per-window flags, reset at the beginning of the frame. For child window, inherited from parent on first Begin().
 // This is going to be exposed in imgui.h when stabilized enough.
-enum ImGuiItemFlags_
-{
+enum ImGuiItemFlags_ {
 	ImGuiItemFlags_None = 0,
 	ImGuiItemFlags_NoTabStop = 1 << 0,  // false     // Disable keyboard tabbing (FIXME: should merge with _NoNav)
 	ImGuiItemFlags_ButtonRepeat = 1 << 1,  // false     // Button() will return true multiple times based on io.KeyRepeatDelay and io.KeyRepeatRate settings.
@@ -1278,8 +1084,7 @@ enum ImGuiItemFlags_
 };
 
 // Storage for LastItem data
-enum ImGuiItemStatusFlags_
-{
+enum ImGuiItemStatusFlags_ {
 	ImGuiItemStatusFlags_None = 0,
 	ImGuiItemStatusFlags_HoveredRect = 1 << 0,   // Mouse position is within item rectangle (does NOT mean that the window is in correct z-order and can be hovered!, this is only one part of the most-common IsItemHovered test)
 	ImGuiItemStatusFlags_HasDisplayRect = 1 << 1,   // g.LastItemData.DisplayRect is valid
@@ -1301,8 +1106,7 @@ enum ImGuiItemStatusFlags_
 };
 
 // Extend ImGuiInputTextFlags_
-enum ImGuiInputTextFlagsPrivate_
-{
+enum ImGuiInputTextFlagsPrivate_ {
 // [Internal]
 	ImGuiInputTextFlags_Multiline = 1 << 26,  // For internal use by InputTextMultiline()
 	ImGuiInputTextFlags_NoMarkEdited = 1 << 27,  // For internal use by functions using InputText() before reformatting data
@@ -1310,8 +1114,7 @@ enum ImGuiInputTextFlagsPrivate_
 };
 
 // Extend ImGuiButtonFlags_
-enum ImGuiButtonFlagsPrivate_
-{
+enum ImGuiButtonFlagsPrivate_ {
 	ImGuiButtonFlags_PressedOnClick = 1 << 4,   // return true on click (mouse down event)
 	ImGuiButtonFlags_PressedOnClickRelease = 1 << 5,   // [Default] return true on click + release on same item <-- this is what the majority of Button are using
 	ImGuiButtonFlags_PressedOnClickReleaseAnywhere = 1 << 6, // return true on click + release even if the release event is not done while hovering the item
@@ -1333,21 +1136,18 @@ enum ImGuiButtonFlagsPrivate_
 };
 
 // Extend ImGuiComboFlags_
-enum ImGuiComboFlagsPrivate_
-{
+enum ImGuiComboFlagsPrivate_ {
 	ImGuiComboFlags_CustomPreview = 1 << 20   // enable BeginComboPreview()
 };
 
 // Extend ImGuiSliderFlags_
-enum ImGuiSliderFlagsPrivate_
-{
+enum ImGuiSliderFlagsPrivate_ {
 	ImGuiSliderFlags_Vertical = 1 << 20,  // Should this slider be orientated vertically?
 	ImGuiSliderFlags_ReadOnly = 1 << 21
 };
 
 // Extend ImGuiSelectableFlags_
-enum ImGuiSelectableFlagsPrivate_
-{
+enum ImGuiSelectableFlagsPrivate_ {
 // NB: need to be in sync with last value of ImGuiSelectableFlags_
 	ImGuiSelectableFlags_NoHoldingActiveID = 1 << 20,
 	ImGuiSelectableFlags_SelectOnNav = 1 << 21,  // (WIP) Auto-select when moved into. This is not exposed in public API as to handle multi-select and modifiers we will need user to explicitly control focus scope. May be replaced with a BeginSelection() API.
@@ -1360,41 +1160,35 @@ enum ImGuiSelectableFlagsPrivate_
 };
 
 // Extend ImGuiTreeNodeFlags_
-enum ImGuiTreeNodeFlagsPrivate_
-{
+enum ImGuiTreeNodeFlagsPrivate_ {
 	ImGuiTreeNodeFlags_ClipLabelForTrailingButton = 1 << 20
 };
 
-enum ImGuiSeparatorFlags_
-{
+enum ImGuiSeparatorFlags_ {
 	ImGuiSeparatorFlags_None = 0,
 	ImGuiSeparatorFlags_Horizontal = 1 << 0,   // Axis default to current layout type, so generally Horizontal unless e.g. in a menu bar
 	ImGuiSeparatorFlags_Vertical = 1 << 1,
 	ImGuiSeparatorFlags_SpanAllColumns = 1 << 2
 };
 
-enum ImGuiTextFlags_
-{
+enum ImGuiTextFlags_ {
 	ImGuiTextFlags_None = 0,
 	ImGuiTextFlags_NoWidthForLargeClippedText = 1 << 0
 };
 
-enum ImGuiTooltipFlags_
-{
+enum ImGuiTooltipFlags_ {
 	ImGuiTooltipFlags_None = 0,
 	ImGuiTooltipFlags_OverridePreviousTooltip = 1 << 0      // Override will clear/ignore previously submitted tooltip (defaults to append)
 };
 
 // FIXME: this is in development, not exposed/functional as a generic feature yet.
 // Horizontal/Vertical enums are fixed to 0/1 so they may be used to index ImVec2
-enum ImGuiLayoutType_
-{
+enum ImGuiLayoutType_ {
 	ImGuiLayoutType_Horizontal = 0,
 	ImGuiLayoutType_Vertical = 1
 };
 
-enum ImGuiLogType
-{
+enum ImGuiLogType {
 	ImGuiLogType_None = 0,
 	ImGuiLogType_TTY,
 	ImGuiLogType_File,
@@ -1403,34 +1197,29 @@ enum ImGuiLogType
 };
 
 // X/Y enums are fixed to 0/1 so they may be used to index ImVec2
-enum ImGuiAxis
-{
+enum ImGuiAxis {
 	ImGuiAxis_None = -1,
 	ImGuiAxis_X = 0,
 	ImGuiAxis_Y = 1
 };
 
-enum ImGuiPlotType
-{
+enum ImGuiPlotType {
 	ImGuiPlotType_Lines,
 	ImGuiPlotType_Histogram
 };
 
-enum ImGuiPopupPositionPolicy
-{
+enum ImGuiPopupPositionPolicy {
 	ImGuiPopupPositionPolicy_Default,
 	ImGuiPopupPositionPolicy_ComboBox,
 	ImGuiPopupPositionPolicy_Tooltip
 };
 
-struct ImGuiDataTypeTempStorage
-{
+struct ImGuiDataTypeTempStorage {
 	ImU8        Data[8];        // Can fit any data up to ImGuiDataType_COUNT
 };
 
 // Type information associated to one ImGuiDataType. Retrieve with DataTypeGetInfo().
-struct ImGuiDataTypeInfo
-{
+struct ImGuiDataTypeInfo {
 	size_t      Size;           // Size in bytes
 	const char* Name;           // Short descriptive name for the type, for debugging
 	const char* PrintFmt;       // Default printf format for the type
@@ -1438,45 +1227,37 @@ struct ImGuiDataTypeInfo
 };
 
 // Extend ImGuiDataType_
-enum ImGuiDataTypePrivate_
-{
+enum ImGuiDataTypePrivate_ {
 	ImGuiDataType_String = ImGuiDataType_COUNT + 1,
 	ImGuiDataType_Pointer,
 	ImGuiDataType_ID
 };
 
 // Stacked color modifier, backup of modified data so we can restore it
-struct ImGuiColorMod
-{
+struct ImGuiColorMod {
 	ImGuiCol    Col;
 	ImVec4      BackupValue;
 };
 
 // Stacked style modifier, backup of modified data so we can restore it. Data type inferred from the variable.
-struct ImGuiStyleMod
-{
+struct ImGuiStyleMod {
 	ImGuiStyleVar   VarIdx;
-	union
-	{
+	union {
 		int BackupInt[2]; float BackupFloat[2];
 	};
-	ImGuiStyleMod(ImGuiStyleVar idx, int v)
-	{
+	ImGuiStyleMod(ImGuiStyleVar idx, int v) {
 		VarIdx = idx; BackupInt[0] = v;
 	}
-	ImGuiStyleMod(ImGuiStyleVar idx, float v)
-	{
+	ImGuiStyleMod(ImGuiStyleVar idx, float v) {
 		VarIdx = idx; BackupFloat[0] = v;
 	}
-	ImGuiStyleMod(ImGuiStyleVar idx, ImVec2 v)
-	{
+	ImGuiStyleMod(ImGuiStyleVar idx, ImVec2 v) {
 		VarIdx = idx; BackupFloat[0] = v.x; BackupFloat[1] = v.y;
 	}
 };
 
 // Storage data for BeginComboPreview()/EndComboPreview()
-struct IMGUI_API ImGuiComboPreviewData
-{
+struct IMGUI_API ImGuiComboPreviewData {
 	ImRect          PreviewRect;
 	ImVec2          BackupCursorPos;
 	ImVec2          BackupCursorMaxPos;
@@ -1484,15 +1265,13 @@ struct IMGUI_API ImGuiComboPreviewData
 	float           BackupPrevLineTextBaseOffset;
 	ImGuiLayoutType BackupLayout;
 
-	ImGuiComboPreviewData()
-	{
+	ImGuiComboPreviewData() {
 		memset(this, 0, sizeof(*this));
 	}
 };
 
 // Stacked storage data for BeginGroup()/EndGroup()
-struct IMGUI_API ImGuiGroupData
-{
+struct IMGUI_API ImGuiGroupData {
 	ImGuiID     WindowID;
 	ImVec2      BackupCursorPos;
 	ImVec2      BackupCursorMaxPos;
@@ -1507,8 +1286,7 @@ struct IMGUI_API ImGuiGroupData
 };
 
 // Simple column measurement, currently used for MenuItem() only.. This is very short-sighted/throw-away code and NOT a generic helper.
-struct IMGUI_API ImGuiMenuColumns
-{
+struct IMGUI_API ImGuiMenuColumns {
 	ImU32       TotalWidth;
 	ImU32       NextTotalWidth;
 	ImU16       Spacing;
@@ -1518,8 +1296,7 @@ struct IMGUI_API ImGuiMenuColumns
 	ImU16       OffsetMark;
 	ImU16       Widths[4];          // Width of:   Icon, Label, Shortcut, Mark  (accumulators for current frame)
 
-	ImGuiMenuColumns()
-	{
+	ImGuiMenuColumns() {
 		memset(this, 0, sizeof(*this));
 	}
 	void        Update(float spacing, bool window_reappearing);
@@ -1529,8 +1306,7 @@ struct IMGUI_API ImGuiMenuColumns
 
 // Internal state of the currently focused/edited text input box
 // For a given item ID, access with ImGui::GetInputTextState()
-struct IMGUI_API ImGuiInputTextState
-{
+struct IMGUI_API ImGuiInputTextState {
 	ImGuiID                 ID;                     // widget id owning the text state
 	int                     CurLenW, CurLenA;       // we need to maintain our buffer length in both UTF-8 and wchar format. UTF-8 length is valid even if TextA is not.
 	ImVector<ImWchar>       TextW;                  // edit buffer, we need to persist but can't guarantee the persistence of the user-provided buffer. so we copy into own buffer.
@@ -1546,66 +1322,52 @@ struct IMGUI_API ImGuiInputTextState
 	bool                    Edited;                 // edited this frame
 	ImGuiInputTextFlags     Flags;                  // copy of InputText() flags
 
-	ImGuiInputTextState()
-	{
+	ImGuiInputTextState() {
 		memset(this, 0, sizeof(*this));
 	}
-	void        ClearText()
-	{
+	void        ClearText() {
 		CurLenW = CurLenA = 0; TextW[0] = 0; TextA[0] = 0; CursorClamp();
 	}
-	void        ClearFreeMemory()
-	{
+	void        ClearFreeMemory() {
 		TextW.clear(); TextA.clear(); InitialTextA.clear();
 	}
-	int         GetUndoAvailCount() const
-	{
+	int         GetUndoAvailCount() const {
 		return Stb.undostate.undo_point;
 	}
-	int         GetRedoAvailCount() const
-	{
+	int         GetRedoAvailCount() const {
 		return STB_TEXTEDIT_UNDOSTATECOUNT - Stb.undostate.redo_point;
 	}
 	void        OnKeyPressed(int key);      // Cannot be inline because we call in code in stb_textedit.h implementation
 
 	// Cursor & Selection
-	void        CursorAnimReset()
-	{
+	void        CursorAnimReset() {
 		CursorAnim = -0.30f;
 	}                                   // After a user-input the cursor stays on for a while without blinking
-	void        CursorClamp()
-	{
+	void        CursorClamp() {
 		Stb.cursor = ImMin(Stb.cursor, CurLenW); Stb.select_start = ImMin(Stb.select_start, CurLenW); Stb.select_end = ImMin(Stb.select_end, CurLenW);
 	}
-	bool        HasSelection() const
-	{
+	bool        HasSelection() const {
 		return Stb.select_start != Stb.select_end;
 	}
-	void        ClearSelection()
-	{
+	void        ClearSelection() {
 		Stb.select_start = Stb.select_end = Stb.cursor;
 	}
-	int         GetCursorPos() const
-	{
+	int         GetCursorPos() const {
 		return Stb.cursor;
 	}
-	int         GetSelectionStart() const
-	{
+	int         GetSelectionStart() const {
 		return Stb.select_start;
 	}
-	int         GetSelectionEnd() const
-	{
+	int         GetSelectionEnd() const {
 		return Stb.select_end;
 	}
-	void        SelectAll()
-	{
+	void        SelectAll() {
 		Stb.select_start = 0; Stb.cursor = Stb.select_end = CurLenW; Stb.has_preferred_x = 0;
 	}
 };
 
 // Storage for current popup stack
-struct ImGuiPopupData
-{
+struct ImGuiPopupData {
 	ImGuiID             PopupId;        // Set on OpenPopup()
 	ImGuiWindow* Window;         // Resolved on BeginPopup() - may stay unresolved if user never calls OpenPopup()
 	ImGuiWindow* SourceWindow;   // Set on OpenPopup() copy of NavWindow at the time of opening the popup
@@ -1614,14 +1376,12 @@ struct ImGuiPopupData
 	ImVec2              OpenPopupPos;   // Set on OpenPopup(), preferred popup position (typically == OpenMousePos when using mouse)
 	ImVec2              OpenMousePos;   // Set on OpenPopup(), copy of mouse position at the time of opening popup
 
-	ImGuiPopupData()
-	{
+	ImGuiPopupData() {
 		memset(this, 0, sizeof(*this)); OpenFrameCount = -1;
 	}
 };
 
-enum ImGuiNextWindowDataFlags_
-{
+enum ImGuiNextWindowDataFlags_ {
 	ImGuiNextWindowDataFlags_None = 0,
 	ImGuiNextWindowDataFlags_HasPos = 1 << 0,
 	ImGuiNextWindowDataFlags_HasSize = 1 << 1,
@@ -1637,8 +1397,7 @@ enum ImGuiNextWindowDataFlags_
 };
 
 // Storage for SetNexWindow** functions
-struct ImGuiNextWindowData
-{
+struct ImGuiNextWindowData {
 	ImGuiNextWindowDataFlags    Flags;
 	ImGuiCond                   PosCond;
 	ImGuiCond                   SizeCond;
@@ -1660,44 +1419,37 @@ struct ImGuiNextWindowData
 	ImGuiWindowClass            WindowClass;
 	ImVec2                      MenuBarOffsetMinVal;    // (Always on) This is not exposed publicly, so we don't clear it and it doesn't have a corresponding flag (could we? for consistency?)
 
-	ImGuiNextWindowData()
-	{
+	ImGuiNextWindowData() {
 		memset(this, 0, sizeof(*this));
 	}
-	inline void ClearFlags()
-	{
+	inline void ClearFlags() {
 		Flags = ImGuiNextWindowDataFlags_None;
 	}
 };
 
-enum ImGuiNextItemDataFlags_
-{
+enum ImGuiNextItemDataFlags_ {
 	ImGuiNextItemDataFlags_None = 0,
 	ImGuiNextItemDataFlags_HasWidth = 1 << 0,
 	ImGuiNextItemDataFlags_HasOpen = 1 << 1
 };
 
-struct ImGuiNextItemData
-{
+struct ImGuiNextItemData {
 	ImGuiNextItemDataFlags      Flags;
 	float                       Width;          // Set by SetNextItemWidth()
 	ImGuiID                     FocusScopeId;   // Set by SetNextItemMultiSelectData() (!= 0 signify value has been set, so it's an alternate version of HasSelectionData, we don't use Flags for this because they are cleared too early. This is mostly used for debugging)
 	ImGuiCond                   OpenCond;
 	bool                        OpenVal;        // Set by SetNextItemOpen()
 
-	ImGuiNextItemData()
-	{
+	ImGuiNextItemData() {
 		memset(this, 0, sizeof(*this));
 	}
-	inline void ClearFlags()
-	{
+	inline void ClearFlags() {
 		Flags = ImGuiNextItemDataFlags_None;
 	} // Also cleared manually by ItemAdd()!
 };
 
 // Status storage for the last submitted item
-struct ImGuiLastItemData
-{
+struct ImGuiLastItemData {
 	ImGuiID                 ID;
 	ImGuiItemFlags          InFlags;            // See ImGuiItemFlags_
 	ImGuiItemStatusFlags    StatusFlags;        // See ImGuiItemStatusFlags_
@@ -1705,14 +1457,12 @@ struct ImGuiLastItemData
 	ImRect                  NavRect;            // Navigation scoring rectangle (not displayed)
 	ImRect                  DisplayRect;        // Display rectangle (only if ImGuiItemStatusFlags_HasDisplayRect is set)
 
-	ImGuiLastItemData()
-	{
+	ImGuiLastItemData() {
 		memset(this, 0, sizeof(*this));
 	}
 };
 
-struct IMGUI_API ImGuiStackSizes
-{
+struct IMGUI_API ImGuiStackSizes {
 	short   SizeOfIDStack;
 	short   SizeOfColorStack;
 	short   SizeOfStyleVarStack;
@@ -1723,8 +1473,7 @@ struct IMGUI_API ImGuiStackSizes
 	short   SizeOfBeginPopupStack;
 	short   SizeOfDisabledStack;
 
-	ImGuiStackSizes()
-	{
+	ImGuiStackSizes() {
 		memset(this, 0, sizeof(*this));
 	}
 	void SetToCurrentState();
@@ -1732,30 +1481,25 @@ struct IMGUI_API ImGuiStackSizes
 };
 
 // Data saved for each window pushed into the stack
-struct ImGuiWindowStackData
-{
+struct ImGuiWindowStackData {
 	ImGuiWindow* Window;
 	ImGuiLastItemData       ParentLastItemDataBackup;
 	ImGuiStackSizes         StackSizesOnBegin;      // Store size of various stacks for asserting
 };
 
-struct ImGuiShrinkWidthItem
-{
+struct ImGuiShrinkWidthItem {
 	int         Index;
 	float       Width;
 };
 
-struct ImGuiPtrOrIndex
-{
+struct ImGuiPtrOrIndex {
 	void* Ptr;            // Either field can be set, not both. e.g. Dock node tab bars are loose while BeginTabBar() ones are in a pool.
 	int         Index;          // Usually index in a main pool.
 
-	ImGuiPtrOrIndex(void* ptr)
-	{
+	ImGuiPtrOrIndex(void* ptr) {
 		Ptr = ptr; Index = -1;
 	}
-	ImGuiPtrOrIndex(int index)
-	{
+	ImGuiPtrOrIndex(int index) {
 		Ptr = NULL; Index = index;
 	}
 };
@@ -1766,16 +1510,14 @@ struct ImGuiPtrOrIndex
 
 typedef ImBitArray<ImGuiKey_NamedKey_COUNT, -ImGuiKey_NamedKey_BEGIN>    ImBitArrayForNamedKeys;
 
-enum ImGuiKeyPrivate_
-{
+enum ImGuiKeyPrivate_ {
 	ImGuiKey_LegacyNativeKey_BEGIN = 0,
 	ImGuiKey_LegacyNativeKey_END = 512,
 	ImGuiKey_Gamepad_BEGIN = ImGuiKey_GamepadStart,
 	ImGuiKey_Gamepad_END = ImGuiKey_GamepadRStickRight + 1
 };
 
-enum ImGuiInputEventType
-{
+enum ImGuiInputEventType {
 	ImGuiInputEventType_None = 0,
 	ImGuiInputEventType_MousePos,
 	ImGuiInputEventType_MouseWheel,
@@ -1787,8 +1529,7 @@ enum ImGuiInputEventType
 	ImGuiInputEventType_COUNT
 };
 
-enum ImGuiInputSource
-{
+enum ImGuiInputSource {
 	ImGuiInputSource_None = 0,
 	ImGuiInputSource_Mouse,
 	ImGuiInputSource_Keyboard,
@@ -1800,41 +1541,32 @@ enum ImGuiInputSource
 
 // FIXME: Structures in the union below need to be declared as anonymous unions appears to be an extension?
 // Using ImVec2() would fail on Clang 'union member 'MousePos' has a non-trivial default constructor'
-struct ImGuiInputEventMousePos
-{
+struct ImGuiInputEventMousePos {
 	float PosX, PosY;
 };
-struct ImGuiInputEventMouseWheel
-{
+struct ImGuiInputEventMouseWheel {
 	float WheelX, WheelY;
 };
-struct ImGuiInputEventMouseButton
-{
+struct ImGuiInputEventMouseButton {
 	int Button; bool Down;
 };
-struct ImGuiInputEventMouseViewport
-{
+struct ImGuiInputEventMouseViewport {
 	ImGuiID HoveredViewportID;
 };
-struct ImGuiInputEventKey
-{
+struct ImGuiInputEventKey {
 	ImGuiKey Key; bool Down; float AnalogValue;
 };
-struct ImGuiInputEventText
-{
+struct ImGuiInputEventText {
 	unsigned int Char;
 };
-struct ImGuiInputEventAppFocused
-{
+struct ImGuiInputEventAppFocused {
 	bool Focused;
 };
 
-struct ImGuiInputEvent
-{
+struct ImGuiInputEvent {
 	ImGuiInputEventType             Type;
 	ImGuiInputSource                Source;
-	union
-	{
+	union {
 		ImGuiInputEventMousePos     MousePos;       // if Type == ImGuiInputEventType_MousePos
 		ImGuiInputEventMouseWheel   MouseWheel;     // if Type == ImGuiInputEventType_MouseWheel
 		ImGuiInputEventMouseButton  MouseButton;    // if Type == ImGuiInputEventType_MouseButton
@@ -1845,15 +1577,13 @@ struct ImGuiInputEvent
 	};
 	bool                            AddedByTestEngine;
 
-	ImGuiInputEvent()
-	{
+	ImGuiInputEvent() {
 		memset(this, 0, sizeof(*this));
 	}
 };
 
 // FIXME-NAV: Clarify/expose various repeat delay/rate
-enum ImGuiInputReadMode
-{
+enum ImGuiInputReadMode {
 	ImGuiInputReadMode_Down,
 	ImGuiInputReadMode_Pressed,
 	ImGuiInputReadMode_Released,
@@ -1866,39 +1596,33 @@ enum ImGuiInputReadMode
 // [SECTION] Clipper support
 //-----------------------------------------------------------------------------
 
-struct ImGuiListClipperRange
-{
+struct ImGuiListClipperRange {
 	int     Min;
 	int     Max;
 	bool    PosToIndexConvert;      // Begin/End are absolute position (will be converted to indices later)
 	ImS8    PosToIndexOffsetMin;    // Add to Min after converting to indices
 	ImS8    PosToIndexOffsetMax;    // Add to Min after converting to indices
 
-	static ImGuiListClipperRange    FromIndices(int min, int max)
-	{
+	static ImGuiListClipperRange    FromIndices(int min, int max) {
 		ImGuiListClipperRange r = { min, max, false, 0, 0 }; return r;
 	}
-	static ImGuiListClipperRange    FromPositions(float y1, float y2, int off_min, int off_max)
-	{
+	static ImGuiListClipperRange    FromPositions(float y1, float y2, int off_min, int off_max) {
 		ImGuiListClipperRange r = { (int) y1, (int) y2, true, (ImS8) off_min, (ImS8) off_max }; return r;
 	}
 };
 
 // Temporary clipper data, buffers shared/reused between instances
-struct ImGuiListClipperData
-{
+struct ImGuiListClipperData {
 	ImGuiListClipper* ListClipper;
 	float                           LossynessOffset;
 	int                             StepNo;
 	int                             ItemsFrozen;
 	ImVector<ImGuiListClipperRange> Ranges;
 
-	ImGuiListClipperData()
-	{
+	ImGuiListClipperData() {
 		memset(this, 0, sizeof(*this));
 	}
-	void                            Reset(ImGuiListClipper* clipper)
-	{
+	void                            Reset(ImGuiListClipper* clipper) {
 		ListClipper = clipper; StepNo = ItemsFrozen = 0; Ranges.resize(0);
 	}
 };
@@ -1907,8 +1631,7 @@ struct ImGuiListClipperData
 // [SECTION] Navigation support
 //-----------------------------------------------------------------------------
 
-enum ImGuiActivateFlags_
-{
+enum ImGuiActivateFlags_ {
 	ImGuiActivateFlags_None = 0,
 	ImGuiActivateFlags_PreferInput = 1 << 0,       // Favor activation that requires keyboard text input (e.g. for Slider/Drag). Default if keyboard is available.
 	ImGuiActivateFlags_PreferTweak = 1 << 1,       // Favor activation for tweaking with arrows or gamepad (e.g. for Slider/Drag). Default if keyboard is not available.
@@ -1916,8 +1639,7 @@ enum ImGuiActivateFlags_
 };
 
 // Early work-in-progress API for ScrollToItem()
-enum ImGuiScrollFlags_
-{
+enum ImGuiScrollFlags_ {
 	ImGuiScrollFlags_None = 0,
 	ImGuiScrollFlags_KeepVisibleEdgeX = 1 << 0,       // If item is not visible: scroll as little as possible on X axis to bring item back into view [default for X axis]
 	ImGuiScrollFlags_KeepVisibleEdgeY = 1 << 1,       // If item is not visible: scroll as little as possible on Y axis to bring item back into view [default for Y axis for windows that are already visible]
@@ -1930,8 +1652,7 @@ enum ImGuiScrollFlags_
 	ImGuiScrollFlags_MaskY_ = ImGuiScrollFlags_KeepVisibleEdgeY | ImGuiScrollFlags_KeepVisibleCenterY | ImGuiScrollFlags_AlwaysCenterY
 };
 
-enum ImGuiNavHighlightFlags_
-{
+enum ImGuiNavHighlightFlags_ {
 	ImGuiNavHighlightFlags_None = 0,
 	ImGuiNavHighlightFlags_TypeDefault = 1 << 0,
 	ImGuiNavHighlightFlags_TypeThin = 1 << 1,
@@ -1939,8 +1660,7 @@ enum ImGuiNavHighlightFlags_
 	ImGuiNavHighlightFlags_NoRounding = 1 << 3
 };
 
-enum ImGuiNavDirSourceFlags_
-{
+enum ImGuiNavDirSourceFlags_ {
 	ImGuiNavDirSourceFlags_None = 0,
 	ImGuiNavDirSourceFlags_RawKeyboard = 1 << 0,   // Raw keyboard (not pulled from nav), faciliate use of some functions before we can unify nav and keys
 	ImGuiNavDirSourceFlags_Keyboard = 1 << 1,
@@ -1948,8 +1668,7 @@ enum ImGuiNavDirSourceFlags_
 	ImGuiNavDirSourceFlags_PadLStick = 1 << 3
 };
 
-enum ImGuiNavMoveFlags_
-{
+enum ImGuiNavMoveFlags_ {
 	ImGuiNavMoveFlags_None = 0,
 	ImGuiNavMoveFlags_LoopX = 1 << 0,   // On failed request, restart from opposite side
 	ImGuiNavMoveFlags_LoopY = 1 << 1,
@@ -1966,15 +1685,13 @@ enum ImGuiNavMoveFlags_
 	ImGuiNavMoveFlags_DontSetNavHighlight = 1 << 12   // Do not alter the visible state of keyboard vs mouse nav highlight
 };
 
-enum ImGuiNavLayer
-{
+enum ImGuiNavLayer {
 	ImGuiNavLayer_Main = 0,    // Main scrolling layer
 	ImGuiNavLayer_Menu = 1,    // Menu layer (access with Alt/ImGuiNavInput_Menu)
 	ImGuiNavLayer_COUNT
 };
 
-struct ImGuiNavItemData
-{
+struct ImGuiNavItemData {
 	ImGuiWindow* Window;         // Init,Move    // Best candidate window (result->ItemWindow->RootWindowForNav == request->Window)
 	ImGuiID             ID;             // Init,Move    // Best candidate item ID
 	ImGuiID             FocusScopeId;   // Init,Move    // Best candidate focus scope ID
@@ -1984,12 +1701,10 @@ struct ImGuiNavItemData
 	float               DistCenter;     //      Move    // Best candidate center distance to current NavId
 	float               DistAxial;      //      Move    // Best candidate axial distance to current NavId
 
-	ImGuiNavItemData()
-	{
+	ImGuiNavItemData() {
 		Clear();
 	}
-	void Clear()
-	{
+	void Clear() {
 		Window = NULL; ID = FocusScopeId = 0; InFlags = 0; DistBox = DistCenter = DistAxial = FLT_MAX;
 	}
 };
@@ -1999,8 +1714,7 @@ struct ImGuiNavItemData
 //-----------------------------------------------------------------------------
 
 // Flags for internal's BeginColumns(). Prefix using BeginTable() nowadays!
-enum ImGuiOldColumnFlags_
-{
+enum ImGuiOldColumnFlags_ {
 	ImGuiOldColumnFlags_None = 0,
 	ImGuiOldColumnFlags_NoBorder = 1 << 0,   // Disable column dividers
 	ImGuiOldColumnFlags_NoResize = 1 << 1,   // Disable resizing columns when clicking on the dividers
@@ -2019,21 +1733,18 @@ enum ImGuiOldColumnFlags_
 #endif
 };
 
-struct ImGuiOldColumnData
-{
+struct ImGuiOldColumnData {
 	float               OffsetNorm;         // Column start offset, normalized 0.0 (far left) -> 1.0 (far right)
 	float               OffsetNormBeforeResize;
 	ImGuiOldColumnFlags Flags;              // Not exposed
 	ImRect              ClipRect;
 
-	ImGuiOldColumnData()
-	{
+	ImGuiOldColumnData() {
 		memset(this, 0, sizeof(*this));
 	}
 };
 
-struct ImGuiOldColumns
-{
+struct ImGuiOldColumns {
 	ImGuiID             ID;
 	ImGuiOldColumnFlags Flags;
 	bool                IsFirstFrame;
@@ -2050,8 +1761,7 @@ struct ImGuiOldColumns
 	ImVector<ImGuiOldColumnData> Columns;
 	ImDrawListSplitter  Splitter;
 
-	ImGuiOldColumns()
-	{
+	ImGuiOldColumns() {
 		memset(this, 0, sizeof(*this));
 	}
 };
@@ -2071,8 +1781,7 @@ struct ImGuiOldColumns
 #ifdef IMGUI_HAS_DOCK
 
 // Extend ImGuiDockNodeFlags_
-enum ImGuiDockNodeFlagsPrivate_
-{
+enum ImGuiDockNodeFlagsPrivate_ {
 // [Internal]
 	ImGuiDockNodeFlags_DockSpace = 1 << 10,  // Local, Saved  // A dockspace is a node that occupy space within an existing user window. Otherwise the node is floating and create its own window.
 	ImGuiDockNodeFlags_CentralNode = 1 << 11,  // Local, Saved  // The central node has 2 main properties: stay visible when empty, only use "remaining" spaces from its neighbor.
@@ -2096,15 +1805,13 @@ enum ImGuiDockNodeFlagsPrivate_
 };
 
 // Store the source authority (dock node vs window) of a field
-enum ImGuiDataAuthority_
-{
+enum ImGuiDataAuthority_ {
 	ImGuiDataAuthority_Auto,
 	ImGuiDataAuthority_DockNode,
 	ImGuiDataAuthority_Window
 };
 
-enum ImGuiDockNodeState
-{
+enum ImGuiDockNodeState {
 	ImGuiDockNodeState_Unknown,
 	ImGuiDockNodeState_HostWindowHiddenBecauseSingleWindow,
 	ImGuiDockNodeState_HostWindowHiddenBecauseWindowsAreResizing,
@@ -2112,8 +1819,7 @@ enum ImGuiDockNodeState
 };
 
 // sizeof() 156~192
-struct IMGUI_API ImGuiDockNode
-{
+struct IMGUI_API ImGuiDockNode {
 	ImGuiID                 ID;
 	ImGuiDockNodeFlags      SharedFlags;                // (Write) Flags shared by all nodes of a same dockspace hierarchy (inherited from the root node)
 	ImGuiDockNodeFlags      LocalFlags;                 // (Write) Flags specific to this node
@@ -2159,53 +1865,41 @@ struct IMGUI_API ImGuiDockNode
 
 	ImGuiDockNode(ImGuiID id);
 	~ImGuiDockNode();
-	bool                    IsRootNode() const
-	{
+	bool                    IsRootNode() const {
 		return ParentNode == NULL;
 	}
-	bool                    IsDockSpace() const
-	{
+	bool                    IsDockSpace() const {
 		return (MergedFlags & ImGuiDockNodeFlags_DockSpace) != 0;
 	}
-	bool                    IsFloatingNode() const
-	{
+	bool                    IsFloatingNode() const {
 		return ParentNode == NULL && (MergedFlags & ImGuiDockNodeFlags_DockSpace) == 0;
 	}
-	bool                    IsCentralNode() const
-	{
+	bool                    IsCentralNode() const {
 		return (MergedFlags & ImGuiDockNodeFlags_CentralNode) != 0;
 	}
-	bool                    IsHiddenTabBar() const
-	{
+	bool                    IsHiddenTabBar() const {
 		return (MergedFlags & ImGuiDockNodeFlags_HiddenTabBar) != 0;
 	} // Hidden tab bar can be shown back by clicking the small triangle
-	bool                    IsNoTabBar() const
-	{
+	bool                    IsNoTabBar() const {
 		return (MergedFlags & ImGuiDockNodeFlags_NoTabBar) != 0;
 	}     // Never show a tab bar
-	bool                    IsSplitNode() const
-	{
+	bool                    IsSplitNode() const {
 		return ChildNodes[0] != NULL;
 	}
-	bool                    IsLeafNode() const
-	{
+	bool                    IsLeafNode() const {
 		return ChildNodes[0] == NULL;
 	}
-	bool                    IsEmpty() const
-	{
+	bool                    IsEmpty() const {
 		return ChildNodes[0] == NULL && Windows.Size == 0;
 	}
-	ImRect                  Rect() const
-	{
+	ImRect                  Rect() const {
 		return ImRect(Pos.x, Pos.y, Pos.x + Size.x, Pos.y + Size.y);
 	}
 
-	void                    SetLocalFlags(ImGuiDockNodeFlags flags)
-	{
+	void                    SetLocalFlags(ImGuiDockNodeFlags flags) {
 		LocalFlags = flags; UpdateMergedFlags();
 	}
-	void                    UpdateMergedFlags()
-	{
+	void                    UpdateMergedFlags() {
 		MergedFlags = SharedFlags | LocalFlags | LocalFlagsInWindows;
 	}
 };
@@ -2214,8 +1908,7 @@ struct IMGUI_API ImGuiDockNode
 // We currently store the packed colors in a simple array window->DockStyle.Colors[].
 // A better solution may involve appending into a log of colors in ImGuiContext + store offsets into those arrays in ImGuiWindow,
 // but it would be more complex as we'd need to double-buffer both as e.g. drop target may refer to window from last frame.
-enum ImGuiWindowDockStyleCol
-{
+enum ImGuiWindowDockStyleCol {
 	ImGuiWindowDockStyleCol_Text,
 	ImGuiWindowDockStyleCol_Tab,
 	ImGuiWindowDockStyleCol_TabHovered,
@@ -2225,19 +1918,16 @@ enum ImGuiWindowDockStyleCol
 	ImGuiWindowDockStyleCol_COUNT
 };
 
-struct ImGuiWindowDockStyle
-{
+struct ImGuiWindowDockStyle {
 	ImU32 Colors[ImGuiWindowDockStyleCol_COUNT];
 };
 
-struct ImGuiDockContext
-{
+struct ImGuiDockContext {
 	ImGuiStorage                    Nodes;          // Map ID -> ImGuiDockNode*: Active nodes
 	ImVector<ImGuiDockRequest>      Requests;
 	ImVector<ImGuiDockNodeSettings> NodesSettings;
 	bool                            WantFullRebuild;
-	ImGuiDockContext()
-	{
+	ImGuiDockContext() {
 		memset(this, 0, sizeof(*this));
 	}
 };
@@ -2250,8 +1940,7 @@ struct ImGuiDockContext
 
 // ImGuiViewport Private/Internals fields (cardinal sin: we are using inheritance!)
 // Every instance of ImGuiViewport is in fact a ImGuiViewportP.
-struct ImGuiViewportP : public ImGuiViewport
-{
+struct ImGuiViewportP : public ImGuiViewport {
 	int                 Idx;
 	int                 LastFrameActive;        // Last frame number this viewport was activated by a window
 	int                 LastFrontMostStampCount;// Last stamp number from when a window hosted by this viewport was made front-most (by comparing this value between two viewport we have an implicit viewport z-order
@@ -2274,44 +1963,35 @@ struct ImGuiViewportP : public ImGuiViewport
 	ImVec2              BuildWorkOffsetMin;     // Work Area: Offset being built during current frame. Generally >= 0.0f.
 	ImVec2              BuildWorkOffsetMax;     // Work Area: Offset being built during current frame. Generally <= 0.0f.
 
-	ImGuiViewportP()
-	{
+	ImGuiViewportP() {
 		Idx = -1; LastFrameActive = DrawListsLastFrame[0] = DrawListsLastFrame[1] = LastFrontMostStampCount = -1; LastNameHash = 0; Alpha = LastAlpha = 1.0f; PlatformMonitor = -1; PlatformWindowCreated = false; Window = NULL; DrawLists[0] = DrawLists[1] = NULL; LastPlatformPos = LastPlatformSize = LastRendererSize = ImVec2(FLT_MAX, FLT_MAX);
 	}
-	~ImGuiViewportP()
-	{
+	~ImGuiViewportP() {
 		if (DrawLists[0]) IM_DELETE(DrawLists[0]); if (DrawLists[1]) IM_DELETE(DrawLists[1]);
 	}
-	void    ClearRequestFlags()
-	{
+	void    ClearRequestFlags() {
 		PlatformRequestClose = PlatformRequestMove = PlatformRequestResize = false;
 	}
 
 // Calculate work rect pos/size given a set of offset (we have 1 pair of offset for rect locked from last frame data, and 1 pair for currently building rect)
-	ImVec2  CalcWorkRectPos(const ImVec2& off_min) const
-	{
+	ImVec2  CalcWorkRectPos(const ImVec2& off_min) const {
 		return ImVec2(Pos.x + off_min.x, Pos.y + off_min.y);
 	}
-	ImVec2  CalcWorkRectSize(const ImVec2& off_min, const ImVec2& off_max) const
-	{
+	ImVec2  CalcWorkRectSize(const ImVec2& off_min, const ImVec2& off_max) const {
 		return ImVec2(ImMax(0.0f, Size.x - off_min.x + off_max.x), ImMax(0.0f, Size.y - off_min.y + off_max.y));
 	}
-	void    UpdateWorkRect()
-	{
+	void    UpdateWorkRect() {
 		WorkPos = CalcWorkRectPos(WorkOffsetMin); WorkSize = CalcWorkRectSize(WorkOffsetMin, WorkOffsetMax);
 	} // Update public fields
 
 // Helpers to retrieve ImRect (we don't need to store BuildWorkRect as every access tend to change it, hence the code asymmetry)
-	ImRect  GetMainRect() const
-	{
+	ImRect  GetMainRect() const {
 		return ImRect(Pos.x, Pos.y, Pos.x + Size.x, Pos.y + Size.y);
 	}
-	ImRect  GetWorkRect() const
-	{
+	ImRect  GetWorkRect() const {
 		return ImRect(WorkPos.x, WorkPos.y, WorkPos.x + WorkSize.x, WorkPos.y + WorkSize.y);
 	}
-	ImRect  GetBuildWorkRect() const
-	{
+	ImRect  GetBuildWorkRect() const {
 		ImVec2 pos = CalcWorkRectPos(BuildWorkOffsetMin); ImVec2 size = CalcWorkRectSize(BuildWorkOffsetMin, BuildWorkOffsetMax); return ImRect(pos.x, pos.y, pos.x + size.x, pos.y + size.y);
 	}
 };
@@ -2323,8 +2003,7 @@ struct ImGuiViewportP : public ImGuiViewport
 // Windows data saved in imgui.ini file
 // Because we never destroy or rename ImGuiWindowSettings, we can store the names in a separate buffer easily.
 // (this is designed to be stored in a ImChunkStream buffer, with the variable-length Name following our structure)
-struct ImGuiWindowSettings
-{
+struct ImGuiWindowSettings {
 	ImGuiID     ID;
 	ImVec2ih    Pos;            // NB: Settings position are stored RELATIVE to the viewport! Whereas runtime ones are absolute positions.
 	ImVec2ih    Size;
@@ -2336,18 +2015,15 @@ struct ImGuiWindowSettings
 	bool        Collapsed;
 	bool        WantApply;      // Set when loaded from .ini data (to enable merging/loading .ini data into an already running context)
 
-	ImGuiWindowSettings()
-	{
+	ImGuiWindowSettings() {
 		memset(this, 0, sizeof(*this)); DockOrder = -1;
 	}
-	char* GetName()
-	{
+	char* GetName() {
 		return (char*) (this + 1);
 	}
 };
 
-struct ImGuiSettingsHandler
-{
+struct ImGuiSettingsHandler {
 	const char* TypeName;       // Short description stored in .ini file. Disallowed characters: '[' ']'
 	ImGuiID     TypeHash;       // == ImHashStr(TypeName)
 	void        (*ClearAllFn)(ImGuiContext* ctx, ImGuiSettingsHandler* handler);                                // Clear all settings data
@@ -2358,8 +2034,7 @@ struct ImGuiSettingsHandler
 	void        (*WriteAllFn)(ImGuiContext* ctx, ImGuiSettingsHandler* handler, ImGuiTextBuffer* out_buf);      // Write: Output every entries into 'out_buf'
 	void* UserData;
 
-	ImGuiSettingsHandler()
-	{
+	ImGuiSettingsHandler() {
 		memset(this, 0, sizeof(*this));
 	}
 };
@@ -2368,8 +2043,7 @@ struct ImGuiSettingsHandler
 // [SECTION] Metrics, Debug Tools
 //-----------------------------------------------------------------------------
 
-struct ImGuiMetricsConfig
-{
+struct ImGuiMetricsConfig {
 	bool        ShowStackTool;
 	bool        ShowWindowsRects;
 	bool        ShowWindowsBeginOrder;
@@ -2380,8 +2054,7 @@ struct ImGuiMetricsConfig
 	int         ShowWindowsRectsType;
 	int         ShowTablesRectsType;
 
-	ImGuiMetricsConfig()
-	{
+	ImGuiMetricsConfig() {
 		ShowStackTool = false;
 		ShowWindowsRects = false;
 		ShowWindowsBeginOrder = false;
@@ -2394,23 +2067,20 @@ struct ImGuiMetricsConfig
 	}
 };
 
-struct ImGuiStackLevelInfo
-{
+struct ImGuiStackLevelInfo {
 	ImGuiID                 ID;
 	ImS8                    QueryFrameCount;            // >= 1: Query in progress
 	bool                    QuerySuccess;               // Obtained result from DebugHookIdInfo()
 	ImGuiDataType           DataType : 8;
 	char                    Desc[57];                   // Arbitrarily sized buffer to hold a result (FIXME: could replace Results[] with a chunk stream?) FIXME: Now that we added CTRL+C this should be fixed.
 
-	ImGuiStackLevelInfo()
-	{
+	ImGuiStackLevelInfo() {
 		memset(this, 0, sizeof(*this));
 	}
 };
 
 // State for Stack tool queries
-struct ImGuiStackTool
-{
+struct ImGuiStackTool {
 	int                     LastActiveFrame;
 	int                     StackLevel;                 // -1: query stack and resize Results, >= 0: individual stack level
 	ImGuiID                 QueryId;                    // ID to query details for
@@ -2418,8 +2088,7 @@ struct ImGuiStackTool
 	bool                    CopyToClipboardOnCtrlC;
 	float                   CopyToClipboardLastTime;
 
-	ImGuiStackTool()
-	{
+	ImGuiStackTool() {
 		memset(this, 0, sizeof(*this)); CopyToClipboardLastTime = -FLT_MAX;
 	}
 };
@@ -2429,21 +2098,18 @@ struct ImGuiStackTool
 //-----------------------------------------------------------------------------
 
 typedef void (*ImGuiContextHookCallback)(ImGuiContext* ctx, ImGuiContextHook* hook);
-enum ImGuiContextHookType
-{
+enum ImGuiContextHookType {
 	ImGuiContextHookType_NewFramePre, ImGuiContextHookType_NewFramePost, ImGuiContextHookType_EndFramePre, ImGuiContextHookType_EndFramePost, ImGuiContextHookType_RenderPre, ImGuiContextHookType_RenderPost, ImGuiContextHookType_Shutdown, ImGuiContextHookType_PendingRemoval_
 };
 
-struct ImGuiContextHook
-{
+struct ImGuiContextHook {
 	ImGuiID                     HookId;     // A unique ID assigned by AddContextHook()
 	ImGuiContextHookType        Type;
 	ImGuiID                     Owner;
 	ImGuiContextHookCallback    Callback;
 	void* UserData;
 
-	ImGuiContextHook()
-	{
+	ImGuiContextHook() {
 		memset(this, 0, sizeof(*this));
 	}
 };
@@ -2452,8 +2118,7 @@ struct ImGuiContextHook
 // [SECTION] ImGuiContext (main imgui context)
 //-----------------------------------------------------------------------------
 
-struct ImGuiContext
-{
+struct ImGuiContext {
 	bool                    Initialized;
 	bool                    FontAtlasOwnedByContext;            // IO.Fonts-> is owned by the ImGuiContext and will be destructed along with it.
 	ImGuiIO                 IO;
@@ -2725,8 +2390,7 @@ struct ImGuiContext
 	int                     WantTextInputNextFrame;
 	char                    TempBuffer[1024 * 3 + 1];           // Temporary text buffer
 
-	ImGuiContext(ImFontAtlas* shared_font_atlas)
-	{
+	ImGuiContext(ImFontAtlas* shared_font_atlas) {
 		Initialized = false;
 		ConfigFlagsCurrFrame = ConfigFlagsLastFrame = ImGuiConfigFlags_None;
 		FontAtlasOwnedByContext = shared_font_atlas ? false : true;
@@ -2891,8 +2555,7 @@ struct ImGuiContext
 // Transient per-window data, reset at the beginning of the frame. This used to be called ImGuiDrawContext, hence the DC variable name in ImGuiWindow.
 // (That's theory, in practice the delimitation between ImGuiWindow and ImGuiWindowTempData is quite tenuous and could be reconsidered..)
 // (This doesn't need a constructor because we zero-clear it as part of ImGuiWindow and all frame-temporary data are setup on Begin)
-struct IMGUI_API ImGuiWindowTempData
-{
+struct IMGUI_API ImGuiWindowTempData {
 // Layout
 	ImVec2                  CursorPos;              // Current emitting position, in absolute coordinates.
 	ImVec2                  CursorPosPrevLine;
@@ -2938,8 +2601,7 @@ struct IMGUI_API ImGuiWindowTempData
 };
 
 // Storage for one window
-struct IMGUI_API ImGuiWindow
-{
+struct IMGUI_API ImGuiWindow {
 	char* Name;                               // Window name, owned by the window.
 	ImGuiID                 ID;                                 // == ImHashStr(Name)
 	ImGuiWindowFlags        Flags, FlagsPreviousFrame;          // See enum ImGuiWindowFlags_
@@ -3070,28 +2732,22 @@ public:
 	ImGuiID     GetIDFromRectangle(const ImRect& r_abs);
 
 	// We don't use g.FontSize because the window may be != g.CurrentWidow.
-	ImRect      Rect() const
-	{
+	ImRect      Rect() const {
 		return ImRect(Pos.x, Pos.y, Pos.x + Size.x, Pos.y + Size.y);
 	}
-	float       CalcFontSize() const
-	{
+	float       CalcFontSize() const {
 		ImGuiContext& g = *GImGui; float scale = g.FontBaseSize * FontWindowScale * FontDpiScale; if (ParentWindow) scale *= ParentWindow->FontWindowScale; return scale;
 	}
-	float       TitleBarHeight() const
-	{
+	float       TitleBarHeight() const {
 		ImGuiContext& g = *GImGui; return (Flags & ImGuiWindowFlags_NoTitleBar) ? 0.0f : CalcFontSize() + g.Style.FramePadding.y * 2.0f;
 	}
-	ImRect      TitleBarRect() const
-	{
+	ImRect      TitleBarRect() const {
 		return ImRect(Pos, ImVec2(Pos.x + SizeFull.x, Pos.y + TitleBarHeight()));
 	}
-	float       MenuBarHeight() const
-	{
+	float       MenuBarHeight() const {
 		ImGuiContext& g = *GImGui; return (Flags & ImGuiWindowFlags_MenuBar) ? DC.MenuBarOffset.y + CalcFontSize() + g.Style.FramePadding.y * 2.0f : 0.0f;
 	}
-	ImRect      MenuBarRect() const
-	{
+	ImRect      MenuBarRect() const {
 		float y1 = Pos.y + TitleBarHeight(); return ImRect(Pos.x, y1, Pos.x + SizeFull.x, y1 + MenuBarHeight());
 	}
 };
@@ -3101,16 +2757,14 @@ public:
 //-----------------------------------------------------------------------------
 
 // Extend ImGuiTabBarFlags_
-enum ImGuiTabBarFlagsPrivate_
-{
+enum ImGuiTabBarFlagsPrivate_ {
 	ImGuiTabBarFlags_DockNode = 1 << 20,  // Part of a dock node [we don't use this in the master branch but it facilitate branch syncing to keep this around]
 	ImGuiTabBarFlags_IsFocused = 1 << 21,
 	ImGuiTabBarFlags_SaveSettings = 1 << 22   // FIXME: Settings are handled by the docking system, this only request the tab bar to mark settings dirty when reordering tabs
 };
 
 // Extend ImGuiTabItemFlags_
-enum ImGuiTabItemFlagsPrivate_
-{
+enum ImGuiTabItemFlagsPrivate_ {
 	ImGuiTabItemFlags_SectionMask_ = ImGuiTabItemFlags_Leading | ImGuiTabItemFlags_Trailing,
 	ImGuiTabItemFlags_NoCloseButton = 1 << 20,  // Track whether p_open was set or not (we'll need this info on the next frame to recompute ContentWidth during layout)
 	ImGuiTabItemFlags_Button = 1 << 21,  // Used by TabItemButton, change the tab item behavior to mimic a button
@@ -3119,8 +2773,7 @@ enum ImGuiTabItemFlagsPrivate_
 };
 
 // Storage for one active tab item (sizeof() 48 bytes)
-struct ImGuiTabItem
-{
+struct ImGuiTabItem {
 	ImGuiID             ID;
 	ImGuiTabItemFlags   Flags;
 	ImGuiWindow* Window;                 // When TabItem is part of a DockNode's TabBar, we hold on to a window.
@@ -3134,15 +2787,13 @@ struct ImGuiTabItem
 	ImS16               IndexDuringLayout;      // Index only used during TabBarLayout()
 	bool                WantClose;              // Marked as closed by SetTabItemClosed()
 
-	ImGuiTabItem()
-	{
+	ImGuiTabItem() {
 		memset(this, 0, sizeof(*this)); LastFrameVisible = LastFrameSelected = -1; NameOffset = -1; BeginOrder = IndexDuringLayout = -1;
 	}
 };
 
 // Storage for a tab bar (sizeof() 152 bytes)
-struct IMGUI_API ImGuiTabBar
-{
+struct IMGUI_API ImGuiTabBar {
 	ImVector<ImGuiTabItem> Tabs;
 	ImGuiTabBarFlags    Flags;
 	ImGuiID             ID;                     // Zero for tab-bars used by docking
@@ -3176,12 +2827,10 @@ struct IMGUI_API ImGuiTabBar
 	ImGuiTextBuffer     TabsNames;              // For non-docking tab bar we re-append names in a contiguous buffer.
 
 	ImGuiTabBar();
-	int                 GetTabOrder(const ImGuiTabItem* tab) const
-	{
+	int                 GetTabOrder(const ImGuiTabItem* tab) const {
 		return Tabs.index_from_ptr(tab);
 	}
-	const char* GetTabName(const ImGuiTabItem* tab) const
-	{
+	const char* GetTabName(const ImGuiTabItem* tab) const {
 		if (tab->Window)
 			return tab->Window->Name;
 		IM_ASSERT(tab->NameOffset != -1 && tab->NameOffset < TabsNames.Buf.Size);
@@ -3205,8 +2854,7 @@ typedef ImU8 ImGuiTableDrawChannelIdx;
 // We use the terminology "Enabled" to refer to a column that is not Hidden by user/api.
 // We use the terminology "Clipped" to refer to a column that is out of sight because of scrolling/clipping.
 // This is in contrast with some user-facing api such as IsItemVisible() / IsRectVisible() which use "Visible" to mean "not clipped".
-struct ImGuiTableColumn
-{
+struct ImGuiTableColumn {
 	ImGuiTableColumnFlags   Flags;                          // Flags after some patching (not directly same as provided by user). See ImGuiTableColumnFlags_
 	float                   WidthGiven;                     // Final/actual width visible == (MaxX - MinX), locked in TableUpdateLayout(). May be > WidthRequest to honor minimum width, may be < WidthRequest to honor shrinking columns down in tight space.
 	float                   MinX;                           // Absolute positions
@@ -3249,8 +2897,7 @@ struct ImGuiTableColumn
 	ImU8                    SortDirectionsAvailMask : 4;    // Mask of available sort directions (1-bit each)
 	ImU8                    SortDirectionsAvailList;        // Ordered of available sort directions (2-bits each)
 
-	ImGuiTableColumn()
-	{
+	ImGuiTableColumn() {
 		memset(this, 0, sizeof(*this));
 		StretchWeight = WidthRequest = -1.0f;
 		NameOffset = -1;
@@ -3264,27 +2911,23 @@ struct ImGuiTableColumn
 
 // Transient cell data stored per row.
 // sizeof() ~ 6
-struct ImGuiTableCellData
-{
+struct ImGuiTableCellData {
 	ImU32                       BgColor;    // Actual color
 	ImGuiTableColumnIdx         Column;     // Column number
 };
 
 // Per-instance data that needs preserving across frames (seemingly most others do not need to be preserved aside from debug needs, does that needs they could be moved to ImGuiTableTempData ?)
-struct ImGuiTableInstanceData
-{
+struct ImGuiTableInstanceData {
 	float                       LastOuterHeight;            // Outer height from last frame // FIXME: multi-instance issue (#3955)
 	float                       LastFirstRowHeight;         // Height of first row from last frame // FIXME: possible multi-instance issue?
 
-	ImGuiTableInstanceData()
-	{
+	ImGuiTableInstanceData() {
 		LastOuterHeight = LastFirstRowHeight = 0.0f;
 	}
 };
 
 // FIXME-TABLE: more transient data could be stored in a per-stacked table structure: DrawSplitter, SortSpecs, incoming RowData
-struct IMGUI_API ImGuiTable
-{
+struct IMGUI_API ImGuiTable {
 	ImGuiID                     ID;
 	ImGuiTableFlags             Flags;
 	void* RawData;                    // Single allocation to hold Columns[], DisplayOrderToIndex[] and RowCellData[]
@@ -3389,12 +3032,10 @@ struct IMGUI_API ImGuiTable
 	bool                        MemoryCompacted;
 	bool                        HostSkipItems;              // Backup of InnerWindow->SkipItem at the end of BeginTable(), because we will overwrite InnerWindow->SkipItem on a per-column basis
 
-	ImGuiTable()
-	{
+	ImGuiTable() {
 		memset(this, 0, sizeof(*this)); LastFrameActive = -1;
 	}
-	~ImGuiTable()
-	{
+	~ImGuiTable() {
 		IM_FREE(RawData);
 	}
 };
@@ -3402,8 +3043,7 @@ struct IMGUI_API ImGuiTable
 // Transient data that are only needed between BeginTable() and EndTable(), those buffers are shared (1 per level of stacked table).
 // - Accessing those requires chasing an extra pointer so for very frequently used data we leave them in the main table structure.
 // - We also leave out of this structure data that tend to be particularly useful for debugging/metrics.
-struct IMGUI_API ImGuiTableTempData
-{
+struct IMGUI_API ImGuiTableTempData {
 	int                         TableIndex;                 // Index in g.Tables.Buf[] pool
 	float                       LastTimeActive;             // Last timestamp this structure was used
 
@@ -3419,15 +3059,13 @@ struct IMGUI_API ImGuiTableTempData
 	float                       HostBackupItemWidth;        // Backup of OuterWindow->DC.ItemWidth at the end of BeginTable()
 	int                         HostBackupItemWidthStackSize;//Backup of OuterWindow->DC.ItemWidthStack.Size at the end of BeginTable()
 
-	ImGuiTableTempData()
-	{
+	ImGuiTableTempData() {
 		memset(this, 0, sizeof(*this)); LastTimeActive = -1.0f;
 	}
 };
 
 // sizeof() ~ 12
-struct ImGuiTableColumnSettings
-{
+struct ImGuiTableColumnSettings {
 	float                   WidthOrWeight;
 	ImGuiID                 UserID;
 	ImGuiTableColumnIdx     Index;
@@ -3437,8 +3075,7 @@ struct ImGuiTableColumnSettings
 	ImU8                    IsEnabled : 1; // "Visible" in ini file
 	ImU8                    IsStretch : 1;
 
-	ImGuiTableColumnSettings()
-	{
+	ImGuiTableColumnSettings() {
 		WidthOrWeight = 0.0f;
 		UserID = 0;
 		Index = -1;
@@ -3450,8 +3087,7 @@ struct ImGuiTableColumnSettings
 };
 
 // This is designed to be stored in a single ImChunkStream (1 header followed by N ImGuiTableColumnSettings, etc.)
-struct ImGuiTableSettings
-{
+struct ImGuiTableSettings {
 	ImGuiID                     ID;                     // Set to 0 to invalidate/delete the setting
 	ImGuiTableFlags             SaveFlags;              // Indicate data we want to save using the Resizable/Reorderable/Sortable/Hideable flags (could be using its own flags..)
 	float                       RefScale;               // Reference scale to be able to rescale columns on font/dpi changes.
@@ -3459,12 +3095,10 @@ struct ImGuiTableSettings
 	ImGuiTableColumnIdx         ColumnsCountMax;        // Maximum number of columns this settings instance can store, we can recycle a settings instance with lower number of columns but not higher
 	bool                        WantApply;              // Set when loaded from .ini data (to enable merging/loading .ini data into an already running context)
 
-	ImGuiTableSettings()
-	{
+	ImGuiTableSettings() {
 		memset(this, 0, sizeof(*this));
 	}
-	ImGuiTableColumnSettings* GetColumnSettings()
-	{
+	ImGuiTableColumnSettings* GetColumnSettings() {
 		return (ImGuiTableColumnSettings*) (this + 1);
 	}
 };
@@ -3474,19 +3108,16 @@ struct ImGuiTableSettings
 // No guarantee of forward compatibility here!
 //-----------------------------------------------------------------------------
 
-namespace ImGui
-{
+namespace ImGui {
 // Windows
 // We should always have a CurrentWindow in the stack (there is an implicit "Debug" window)
 // If this ever crash because g.CurrentWindow is NULL it means that either
 // - ImGui::NewFrame() has never been called, which is illegal.
 // - You are calling ImGui functions after ImGui::EndFrame()/ImGui::Render() and before the next ImGui::NewFrame(), which is also illegal.
-	inline    ImGuiWindow* GetCurrentWindowRead()
-	{
+	inline    ImGuiWindow* GetCurrentWindowRead() {
 		ImGuiContext& g = *GImGui; return g.CurrentWindow;
 	}
-	inline    ImGuiWindow* GetCurrentWindow()
-	{
+	inline    ImGuiWindow* GetCurrentWindow() {
 		ImGuiContext& g = *GImGui; g.CurrentWindow->WriteAccessed = true; return g.CurrentWindow;
 	}
 	IMGUI_API ImGuiWindow* FindWindowByID(ImGuiID id);
@@ -3501,12 +3132,10 @@ namespace ImGui
 	IMGUI_API void          SetWindowSize(ImGuiWindow* window, const ImVec2& size, ImGuiCond cond = 0);
 	IMGUI_API void          SetWindowCollapsed(ImGuiWindow* window, bool collapsed, ImGuiCond cond = 0);
 	IMGUI_API void          SetWindowHitTestHole(ImGuiWindow* window, const ImVec2& pos, const ImVec2& size);
-	inline ImRect           WindowRectAbsToRel(ImGuiWindow* window, const ImRect& r)
-	{
+	inline ImRect           WindowRectAbsToRel(ImGuiWindow* window, const ImRect& r) {
 		ImVec2 off = window->DC.CursorStartPos; return ImRect(r.Min.x - off.x, r.Min.y - off.y, r.Max.x - off.x, r.Max.y - off.y);
 	}
-	inline ImRect           WindowRectRelToAbs(ImGuiWindow* window, const ImRect& r)
-	{
+	inline ImRect           WindowRectRelToAbs(ImGuiWindow* window, const ImRect& r) {
 		ImVec2 off = window->DC.CursorStartPos; return ImRect(r.Min.x + off.x, r.Min.y + off.y, r.Max.x + off.x, r.Max.y + off.y);
 	}
 
@@ -3522,12 +3151,10 @@ namespace ImGui
 
 	// Fonts, drawing
 	IMGUI_API void          SetCurrentFont(ImFont* font);
-	inline ImFont* GetDefaultFont()
-	{
+	inline ImFont* GetDefaultFont() {
 		ImGuiContext& g = *GImGui; return g.IO.FontDefault ? g.IO.FontDefault : g.IO.Fonts->Fonts[0];
 	}
-	inline ImDrawList* GetForegroundDrawList(ImGuiWindow* window)
-	{
+	inline ImDrawList* GetForegroundDrawList(ImGuiWindow* window) {
 		return GetForegroundDrawList(window->Viewport);
 	}
 
@@ -3579,31 +3206,25 @@ namespace ImGui
 	IMGUI_API void          ScrollToRect(ImGuiWindow* window, const ImRect& rect, ImGuiScrollFlags flags = 0);
 	IMGUI_API ImVec2        ScrollToRectEx(ImGuiWindow* window, const ImRect& rect, ImGuiScrollFlags flags = 0);
 	//#ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
-	inline void             ScrollToBringRectIntoView(ImGuiWindow* window, const ImRect& rect)
-	{
+	inline void             ScrollToBringRectIntoView(ImGuiWindow* window, const ImRect& rect) {
 		ScrollToRect(window, rect, ImGuiScrollFlags_KeepVisibleEdgeY);
 	}
 //#endif
 
 	// Basic Accessors
-	inline ImGuiID          GetItemID()
-	{
+	inline ImGuiID          GetItemID() {
 		ImGuiContext& g = *GImGui; return g.LastItemData.ID;
 	}   // Get ID of last item (~~ often same ImGui::GetID(label) beforehand)
-	inline ImGuiItemStatusFlags GetItemStatusFlags()
-	{
+	inline ImGuiItemStatusFlags GetItemStatusFlags() {
 		ImGuiContext& g = *GImGui; return g.LastItemData.StatusFlags;
 	}
-	inline ImGuiItemFlags   GetItemFlags()
-	{
+	inline ImGuiItemFlags   GetItemFlags() {
 		ImGuiContext& g = *GImGui; return g.LastItemData.InFlags;
 	}
-	inline ImGuiID          GetActiveID()
-	{
+	inline ImGuiID          GetActiveID() {
 		ImGuiContext& g = *GImGui; return g.ActiveId;
 	}
-	inline ImGuiID          GetFocusID()
-	{
+	inline ImGuiID          GetFocusID() {
 		ImGuiContext& g = *GImGui; return g.NavId;
 	}
 	IMGUI_API void          SetActiveID(ImGuiID id, ImGuiWindow* window);
@@ -3641,12 +3262,10 @@ namespace ImGui
 	//  (Old) IMGUI_VERSION_NUM >= 18209: using 'ItemAdd(..., ImGuiItemAddFlags_Focusable)'  and 'bool tab_focused = (GetItemStatusFlags() & ImGuiItemStatusFlags_Focused) != 0'
 	//  (New) IMGUI_VERSION_NUM >= 18413: using 'ItemAdd(..., ImGuiItemFlags_Inputable)'     and 'bool tab_focused = (GetItemStatusFlags() & ImGuiItemStatusFlags_FocusedTabbing) != 0 || g.NavActivateInputId == id' (WIP)
 	// Widget code are simplified as there's no need to call FocusableItemUnregister() while managing the transition from regular widget to TempInputText()
-	inline bool FocusableItemRegister(ImGuiWindow* window, ImGuiID id)
-	{
+	inline bool FocusableItemRegister(ImGuiWindow* window, ImGuiID id) {
 		IM_ASSERT(0); IM_UNUSED(window); IM_UNUSED(id); return false;
 	} // -> pass ImGuiItemAddFlags_Inputable flag to ItemAdd()
-	inline void FocusableItemUnregister(ImGuiWindow* window)
-	{
+	inline void FocusableItemUnregister(ImGuiWindow* window) {
 		IM_ASSERT(0); IM_UNUSED(window);
 	}                              // -> unnecessary: TempInputText() uses ImGuiInputTextFlags_MergedItem
 #endif
@@ -3704,61 +3323,49 @@ namespace ImGui
 	// patterns generally need to react (e.g. clear selection) when landing on an item of the set.
 	IMGUI_API void          PushFocusScope(ImGuiID id);
 	IMGUI_API void          PopFocusScope();
-	inline ImGuiID          GetFocusedFocusScope()
-	{
+	inline ImGuiID          GetFocusedFocusScope() {
 		ImGuiContext& g = *GImGui; return g.NavFocusScopeId;
 	}                            // Focus scope which is actually active
-	inline ImGuiID          GetFocusScope()
-	{
+	inline ImGuiID          GetFocusScope() {
 		ImGuiContext& g = *GImGui; return g.CurrentWindow->DC.NavFocusScopeIdCurrent;
 	}   // Focus scope we are outputting into, set by PushFocusScope()
 
 // Inputs
 // FIXME: Eventually we should aim to move e.g. IsActiveIdUsingKey() into IsKeyXXX functions.
-	inline bool             IsNamedKey(ImGuiKey key)
-	{
+	inline bool             IsNamedKey(ImGuiKey key) {
 		return key >= ImGuiKey_NamedKey_BEGIN && key < ImGuiKey_NamedKey_END;
 	}
-	inline bool             IsLegacyKey(ImGuiKey key)
-	{
+	inline bool             IsLegacyKey(ImGuiKey key) {
 		return key >= ImGuiKey_LegacyNativeKey_BEGIN && key < ImGuiKey_LegacyNativeKey_END;
 	}
-	inline bool             IsGamepadKey(ImGuiKey key)
-	{
+	inline bool             IsGamepadKey(ImGuiKey key) {
 		return key >= ImGuiKey_Gamepad_BEGIN && key < ImGuiKey_Gamepad_END;
 	}
 	IMGUI_API ImGuiKeyData* GetKeyData(ImGuiKey key);
 	IMGUI_API void          SetItemUsingMouseWheel();
 	IMGUI_API void          SetActiveIdUsingNavAndKeys();
-	inline bool             IsActiveIdUsingNavDir(ImGuiDir dir)
-	{
+	inline bool             IsActiveIdUsingNavDir(ImGuiDir dir) {
 		ImGuiContext& g = *GImGui; return (g.ActiveIdUsingNavDirMask & (1 << dir)) != 0;
 	}
-	inline bool             IsActiveIdUsingNavInput(ImGuiNavInput input)
-	{
+	inline bool             IsActiveIdUsingNavInput(ImGuiNavInput input) {
 		ImGuiContext& g = *GImGui; return (g.ActiveIdUsingNavInputMask & (1 << input)) != 0;
 	}
-	inline bool             IsActiveIdUsingKey(ImGuiKey key)
-	{
+	inline bool             IsActiveIdUsingKey(ImGuiKey key) {
 		ImGuiContext& g = *GImGui; return g.ActiveIdUsingKeyInputMask[key];
 	}
-	inline void             SetActiveIdUsingKey(ImGuiKey key)
-	{
+	inline void             SetActiveIdUsingKey(ImGuiKey key) {
 		ImGuiContext& g = *GImGui; g.ActiveIdUsingKeyInputMask.SetBit(key);
 	}
 	IMGUI_API bool          IsMouseDragPastThreshold(ImGuiMouseButton button, float lock_threshold = -1.0f);
-	inline bool             IsNavInputDown(ImGuiNavInput n)
-	{
+	inline bool             IsNavInputDown(ImGuiNavInput n) {
 		ImGuiContext& g = *GImGui; return g.IO.NavInputs[n] > 0.0f;
 	}
-	inline bool             IsNavInputTest(ImGuiNavInput n, ImGuiInputReadMode rm)
-	{
+	inline bool             IsNavInputTest(ImGuiNavInput n, ImGuiInputReadMode rm) {
 		return (GetNavInputAmount(n, rm) > 0.0f);
 	}
 	IMGUI_API ImGuiKeyModFlags GetMergedKeyModFlags();
 #ifndef IMGUI_DISABLE_OBSOLETE_KEYIO
-	inline bool             IsKeyPressedMap(ImGuiKey key, bool repeat = true)
-	{
+	inline bool             IsKeyPressedMap(ImGuiKey key, bool repeat = true) {
 		IM_ASSERT(IsNamedKey(key)); return IsKeyPressed(key, repeat);
 	}
 #endif
@@ -3779,30 +3386,23 @@ namespace ImGui
 	IMGUI_API bool          DockContextCalcDropPosForDocking(ImGuiWindow* target, ImGuiDockNode* target_node, ImGuiWindow* payload, ImGuiDir split_dir, bool split_outer, ImVec2* out_pos);
 	IMGUI_API bool          DockNodeBeginAmendTabBar(ImGuiDockNode* node);
 	IMGUI_API void          DockNodeEndAmendTabBar();
-	inline ImGuiDockNode* DockNodeGetRootNode(ImGuiDockNode* node)
-	{
+	inline ImGuiDockNode* DockNodeGetRootNode(ImGuiDockNode* node) {
 		while (node->ParentNode) node = node->ParentNode; return node;
 	}
-	inline bool             DockNodeIsInHierarchyOf(ImGuiDockNode* node, ImGuiDockNode* parent)
-	{
-		while (node)
-		{
+	inline bool             DockNodeIsInHierarchyOf(ImGuiDockNode* node, ImGuiDockNode* parent) {
+		while (node) {
 			if (node == parent) return true; node = node->ParentNode;
 		} return false;
 	}
-	inline int              DockNodeGetDepth(const ImGuiDockNode* node)
-	{
-		int depth = 0; while (node->ParentNode)
-		{
+	inline int              DockNodeGetDepth(const ImGuiDockNode* node) {
+		int depth = 0; while (node->ParentNode) {
 			node = node->ParentNode; depth++;
 		} return depth;
 	}
-	inline ImGuiID          DockNodeGetWindowMenuButtonId(const ImGuiDockNode* node)
-	{
+	inline ImGuiID          DockNodeGetWindowMenuButtonId(const ImGuiDockNode* node) {
 		return ImHashStr("#COLLAPSE", 0, node->ID);
 	}
-	inline ImGuiDockNode* GetWindowDockNode()
-	{
+	inline ImGuiDockNode* GetWindowDockNode() {
 		ImGuiContext& g = *GImGui; return g.CurrentWindow->DockNode;
 	}
 	IMGUI_API bool          GetWindowAlwaysWantOwnTabBar(ImGuiWindow* window);
@@ -3822,8 +3422,7 @@ namespace ImGui
 	// - Call DockBuilderFinish() after you are done.
 	IMGUI_API void          DockBuilderDockWindow(const char* window_name, ImGuiID node_id);
 	IMGUI_API ImGuiDockNode* DockBuilderGetNode(ImGuiID node_id);
-	inline ImGuiDockNode* DockBuilderGetCentralNode(ImGuiID node_id)
-	{
+	inline ImGuiDockNode* DockBuilderGetCentralNode(ImGuiID node_id) {
 		ImGuiDockNode* node = DockBuilderGetNode(node_id); if (!node) return NULL; return DockNodeGetRootNode(node)->CentralNode;
 	}
 	IMGUI_API ImGuiID       DockBuilderAddNode(ImGuiID node_id = 0, ImGuiDockNodeFlags flags = 0);
@@ -3865,8 +3464,7 @@ namespace ImGui
 	IMGUI_API void          TablePopBackgroundChannel();
 
 	// Tables: Internals
-	inline    ImGuiTable* GetCurrentTable()
-	{
+	inline    ImGuiTable* GetCurrentTable() {
 		ImGuiContext& g = *GImGui; return g.CurrentTable;
 	}
 	IMGUI_API ImGuiTable* TableFindByID(ImGuiID id);
@@ -3880,8 +3478,7 @@ namespace ImGui
 	IMGUI_API void          TableDrawBorders(ImGuiTable* table);
 	IMGUI_API void          TableDrawContextMenu(ImGuiTable* table);
 	IMGUI_API void          TableMergeDrawChannels(ImGuiTable* table);
-	inline ImGuiTableInstanceData* TableGetInstanceData(ImGuiTable* table, int instance_no)
-	{
+	inline ImGuiTableInstanceData* TableGetInstanceData(ImGuiTable* table, int instance_no) {
 		if (instance_no == 0) return &table->InstanceDataFirst; return &table->InstanceDataExtra[instance_no - 1];
 	}
 	IMGUI_API void          TableSortSpecsSanitize(ImGuiTable* table);
@@ -3955,12 +3552,10 @@ namespace ImGui
 
 #ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
 	// [1.71: 2019/06/07: Updating prototypes of some of the internal functions. Leaving those for reference for a short while]
-	inline void RenderArrow(ImVec2 pos, ImGuiDir dir, float scale = 1.0f)
-	{
+	inline void RenderArrow(ImVec2 pos, ImGuiDir dir, float scale = 1.0f) {
 		ImGuiWindow* window = GetCurrentWindow(); RenderArrow(window->DrawList, pos, GetColorU32(ImGuiCol_Text), dir, scale);
 	}
-	inline void RenderBullet(ImVec2 pos)
-	{
+	inline void RenderBullet(ImVec2 pos) {
 		ImGuiWindow* window = GetCurrentWindow(); RenderBullet(window->DrawList, pos, GetColorU32(ImGuiCol_Text));
 	}
 #endif
@@ -4013,12 +3608,10 @@ namespace ImGui
 	IMGUI_API bool          InputTextEx(const char* label, const char* hint, char* buf, int buf_size, const ImVec2& size_arg, ImGuiInputTextFlags flags, ImGuiInputTextCallback callback = NULL, void* user_data = NULL);
 	IMGUI_API bool          TempInputText(const ImRect& bb, ImGuiID id, const char* label, char* buf, int buf_size, ImGuiInputTextFlags flags);
 	IMGUI_API bool          TempInputScalar(const ImRect& bb, ImGuiID id, const char* label, ImGuiDataType data_type, void* p_data, const char* format, const void* p_clamp_min = NULL, const void* p_clamp_max = NULL);
-	inline bool             TempInputIsActive(ImGuiID id)
-	{
+	inline bool             TempInputIsActive(ImGuiID id) {
 		ImGuiContext& g = *GImGui; return (g.ActiveId == id && g.TempInputId == id);
 	}
-	inline ImGuiInputTextState* GetInputTextState(ImGuiID id)
-	{
+	inline ImGuiInputTextState* GetInputTextState(ImGuiID id) {
 		ImGuiContext& g = *GImGui; return (g.InputTextState.ID == id) ? &g.InputTextState : NULL;
 	} // Get input text state if active
 
@@ -4042,12 +3635,10 @@ namespace ImGui
 	// Debug Tools
 	IMGUI_API void          ErrorCheckEndFrameRecover(ImGuiErrorLogCallback log_callback, void* user_data = NULL);
 	IMGUI_API void          ErrorCheckEndWindowRecover(ImGuiErrorLogCallback log_callback, void* user_data = NULL);
-	inline void             DebugDrawItemRect(ImU32 col = IM_COL32(255, 0, 0, 255))
-	{
+	inline void             DebugDrawItemRect(ImU32 col = IM_COL32(255, 0, 0, 255)) {
 		ImGuiContext& g = *GImGui; ImGuiWindow* window = g.CurrentWindow; GetForegroundDrawList(window)->AddRect(g.LastItemData.Rect.Min, g.LastItemData.Rect.Max, col);
 	}
-	inline void             DebugStartItemPicker()
-	{
+	inline void             DebugStartItemPicker() {
 		ImGuiContext& g = *GImGui; g.DebugItemPickerActive = true;
 	}
 
@@ -4077,8 +3668,7 @@ namespace ImGui
 //-----------------------------------------------------------------------------
 
 // This structure is likely to evolve as we add support for incremental atlas updates
-struct ImFontBuilderIO
-{
+struct ImFontBuilderIO {
 	bool    (*FontBuilder_Build)(ImFontAtlas* atlas);
 };
 

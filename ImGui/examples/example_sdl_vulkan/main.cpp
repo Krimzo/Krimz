@@ -37,8 +37,7 @@ static ImGui_ImplVulkanH_Window g_MainWindowData;
 static uint32_t                 g_MinImageCount = 2;
 static bool                     g_SwapChainRebuild = false;
 
-static void check_vk_result(VkResult err)
-{
+static void check_vk_result(VkResult err) {
 	if (err == 0)
 		return;
 	fprintf(stderr, "[vulkan] Error: VkResult = %d\n", err);
@@ -47,16 +46,14 @@ static void check_vk_result(VkResult err)
 }
 
 #ifdef IMGUI_VULKAN_DEBUG_REPORT
-static VKAPI_ATTR VkBool32 VKAPI_CALL debug_report(VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT objectType, uint64_t object, size_t location, int32_t messageCode, const char* pLayerPrefix, const char* pMessage, void* pUserData)
-{
+static VKAPI_ATTR VkBool32 VKAPI_CALL debug_report(VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT objectType, uint64_t object, size_t location, int32_t messageCode, const char* pLayerPrefix, const char* pMessage, void* pUserData) {
 	(void) flags; (void) object; (void) location; (void) messageCode; (void) pUserData; (void) pLayerPrefix; // Unused arguments
 	fprintf(stderr, "[vulkan] Debug report from ObjectType: %i\nMessage: %s\n\n", objectType, pMessage);
 	return VK_FALSE;
 }
 #endif // IMGUI_VULKAN_DEBUG_REPORT
 
-static void SetupVulkan(const char** extensions, uint32_t extensions_count)
-{
+static void SetupVulkan(const char** extensions, uint32_t extensions_count) {
 	VkResult err;
 
 	// Create Vulkan Instance
@@ -118,12 +115,10 @@ static void SetupVulkan(const char** extensions, uint32_t extensions_count)
 		// most common cases (multi-gpu/integrated+dedicated graphics). Handling more complicated setups (multiple
 		// dedicated GPUs) is out of scope of this sample.
 		int use_gpu = 0;
-		for (int i = 0; i < (int) gpu_count; i++)
-		{
+		for (int i = 0; i < (int) gpu_count; i++) {
 			VkPhysicalDeviceProperties properties;
 			vkGetPhysicalDeviceProperties(gpus[i], &properties);
-			if (properties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
-			{
+			if (properties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU) {
 				use_gpu = i;
 				break;
 			}
@@ -140,8 +135,7 @@ static void SetupVulkan(const char** extensions, uint32_t extensions_count)
 		VkQueueFamilyProperties* queues = (VkQueueFamilyProperties*) malloc(sizeof(VkQueueFamilyProperties) * count);
 		vkGetPhysicalDeviceQueueFamilyProperties(g_PhysicalDevice, &count, queues);
 		for (uint32_t i = 0; i < count; i++)
-			if (queues[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)
-			{
+			if (queues[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) {
 				g_QueueFamily = i;
 				break;
 			}
@@ -199,15 +193,13 @@ static void SetupVulkan(const char** extensions, uint32_t extensions_count)
 
 // All the ImGui_ImplVulkanH_XXX structures/functions are optional helpers used by the demo.
 // Your real engine/app may not use them.
-static void SetupVulkanWindow(ImGui_ImplVulkanH_Window* wd, VkSurfaceKHR surface, int width, int height)
-{
+static void SetupVulkanWindow(ImGui_ImplVulkanH_Window* wd, VkSurfaceKHR surface, int width, int height) {
 	wd->Surface = surface;
 
 	// Check for WSI support
 	VkBool32 res;
 	vkGetPhysicalDeviceSurfaceSupportKHR(g_PhysicalDevice, g_QueueFamily, wd->Surface, &res);
-	if (res != VK_TRUE)
-	{
+	if (res != VK_TRUE) {
 		fprintf(stderr, "Error no WSI support on physical device 0\n");
 		exit(-1);
 	}
@@ -231,8 +223,7 @@ static void SetupVulkanWindow(ImGui_ImplVulkanH_Window* wd, VkSurfaceKHR surface
 	ImGui_ImplVulkanH_CreateOrResizeWindow(g_Instance, g_PhysicalDevice, g_Device, wd, g_QueueFamily, g_Allocator, width, height, g_MinImageCount);
 }
 
-static void CleanupVulkan()
-{
+static void CleanupVulkan() {
 	vkDestroyDescriptorPool(g_Device, g_DescriptorPool, g_Allocator);
 
 #ifdef IMGUI_VULKAN_DEBUG_REPORT
@@ -245,20 +236,17 @@ static void CleanupVulkan()
 	vkDestroyInstance(g_Instance, g_Allocator);
 }
 
-static void CleanupVulkanWindow()
-{
+static void CleanupVulkanWindow() {
 	ImGui_ImplVulkanH_DestroyWindow(g_Instance, g_Device, &g_MainWindowData, g_Allocator);
 }
 
-static void FrameRender(ImGui_ImplVulkanH_Window* wd, ImDrawData* draw_data)
-{
+static void FrameRender(ImGui_ImplVulkanH_Window* wd, ImDrawData* draw_data) {
 	VkResult err;
 
 	VkSemaphore image_acquired_semaphore = wd->FrameSemaphores[wd->SemaphoreIndex].ImageAcquiredSemaphore;
 	VkSemaphore render_complete_semaphore = wd->FrameSemaphores[wd->SemaphoreIndex].RenderCompleteSemaphore;
 	err = vkAcquireNextImageKHR(g_Device, wd->Swapchain, UINT64_MAX, image_acquired_semaphore, VK_NULL_HANDLE, &wd->FrameIndex);
-	if (err == VK_ERROR_OUT_OF_DATE_KHR || err == VK_SUBOPTIMAL_KHR)
-	{
+	if (err == VK_ERROR_OUT_OF_DATE_KHR || err == VK_SUBOPTIMAL_KHR) {
 		g_SwapChainRebuild = true;
 		return;
 	}
@@ -317,8 +305,7 @@ static void FrameRender(ImGui_ImplVulkanH_Window* wd, ImDrawData* draw_data)
 	}
 }
 
-static void FramePresent(ImGui_ImplVulkanH_Window* wd)
-{
+static void FramePresent(ImGui_ImplVulkanH_Window* wd) {
 	if (g_SwapChainRebuild)
 		return;
 	VkSemaphore render_complete_semaphore = wd->FrameSemaphores[wd->SemaphoreIndex].RenderCompleteSemaphore;
@@ -330,8 +317,7 @@ static void FramePresent(ImGui_ImplVulkanH_Window* wd)
 	info.pSwapchains = &wd->Swapchain;
 	info.pImageIndices = &wd->FrameIndex;
 	VkResult err = vkQueuePresentKHR(g_Queue, &info);
-	if (err == VK_ERROR_OUT_OF_DATE_KHR || err == VK_SUBOPTIMAL_KHR)
-	{
+	if (err == VK_ERROR_OUT_OF_DATE_KHR || err == VK_SUBOPTIMAL_KHR) {
 		g_SwapChainRebuild = true;
 		return;
 	}
@@ -339,11 +325,9 @@ static void FramePresent(ImGui_ImplVulkanH_Window* wd)
 	wd->SemaphoreIndex = (wd->SemaphoreIndex + 1) % wd->ImageCount; // Now we can use the next set of semaphores
 }
 
-int main(int, char**)
-{
+int main(int, char**) {
 	// Setup SDL
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
-	{
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0) {
 		printf("Error: %s\n", SDL_GetError());
 		return -1;
 	}
@@ -363,8 +347,7 @@ int main(int, char**)
 	// Create Window Surface
 	VkSurfaceKHR surface;
 	VkResult err;
-	if (SDL_Vulkan_CreateSurface(window, g_Instance, &surface) == 0)
-	{
+	if (SDL_Vulkan_CreateSurface(window, g_Instance, &surface) == 0) {
 		printf("Failed to create Vulkan surface.\n");
 		return 1;
 	}
@@ -392,8 +375,7 @@ int main(int, char**)
 
 	// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
 	ImGuiStyle& style = ImGui::GetStyle();
-	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-	{
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
 		style.WindowRounding = 0.0f;
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	}
@@ -468,16 +450,14 @@ int main(int, char**)
 
 	// Main loop
 	bool done = false;
-	while (!done)
-	{
+	while (!done) {
 		// Poll and handle events (inputs, window resize, etc.)
 		// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
 		// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
 		// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
 		// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 		SDL_Event event;
-		while (SDL_PollEvent(&event))
-		{
+		while (SDL_PollEvent(&event)) {
 			ImGui_ImplSDL2_ProcessEvent(&event);
 			if (event.type == SDL_QUIT)
 				done = true;
@@ -486,12 +466,10 @@ int main(int, char**)
 		}
 
 		// Resize swap chain?
-		if (g_SwapChainRebuild)
-		{
+		if (g_SwapChainRebuild) {
 			int width, height;
 			SDL_GetWindowSize(window, &width, &height);
-			if (width > 0 && height > 0)
-			{
+			if (width > 0 && height > 0) {
 				ImGui_ImplVulkan_SetMinImageCount(g_MinImageCount);
 				ImGui_ImplVulkanH_CreateOrResizeWindow(g_Instance, g_PhysicalDevice, g_Device, &g_MainWindowData, g_QueueFamily, g_Allocator, width, height, g_MinImageCount);
 				g_MainWindowData.FrameIndex = 0;
@@ -532,8 +510,7 @@ int main(int, char**)
 		}
 
 		// 3. Show another simple window.
-		if (show_another_window)
-		{
+		if (show_another_window) {
 			ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
 			ImGui::Text("Hello from another window!");
 			if (ImGui::Button("Close Me"))
@@ -553,8 +530,7 @@ int main(int, char**)
 			FrameRender(wd, main_draw_data);
 
 		// Update and Render additional Platform Windows
-		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-		{
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault();
 		}

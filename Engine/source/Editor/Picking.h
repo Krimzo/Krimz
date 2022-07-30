@@ -3,10 +3,8 @@
 #include "Types/Entity.h"
 
 
-namespace Krimz
-{
-	namespace Picking
-	{
+namespace Krimz {
+	namespace Picking {
 		inline int heldIndex = -1;
 		inline int mouseIndex = -1;
 		inline int selectedIndex = -1;

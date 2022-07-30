@@ -1,21 +1,18 @@
 #include "Game/Game.h"
 
 
-Krimz::Game::Game(const kl::uint2& windowSize, const std::string& gameName)
-{
+Krimz::Game::Game(const kl::uint2& windowSize, const std::string& gameName) {
 	m_Window.start = std::bind(&Game::start, this);
 	m_Window.update = std::bind(&Game::update, this);
 	m_Window.end = std::bind(&Game::end, this);
 	m_Window.run(windowSize, gameName, true, true);
 }
 
-Krimz::Game::~Game()
-{
+Krimz::Game::~Game() {
 
 }
 
-void Krimz::Game::start()
-{
+void Krimz::Game::start() {
 	m_Window.maximize();
 
 	m_Renderer.initalize(m_Window);
@@ -30,8 +27,7 @@ void Krimz::Game::start()
 	m_Timer.newElapsed();
 }
 
-void Krimz::Game::update()
-{
+void Krimz::Game::update() {
 	m_Timer.newInterval();
 
 	m_Physics.update(m_Timer.interval());
@@ -43,13 +39,11 @@ void Krimz::Game::update()
 	m_Renderer.swap();
 }
 
-void Krimz::Game::end()
-{
+void Krimz::Game::end() {
 
 }
 
-void Krimz::Game::bind(kl::ref<Scene> scene)
-{
+void Krimz::Game::bind(kl::ref<Scene> scene) {
 	m_Scene = scene;
 	m_Renderer.bind(scene);
 	m_Physics.bind(scene);

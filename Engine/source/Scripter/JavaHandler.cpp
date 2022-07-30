@@ -5,8 +5,7 @@
 #pragma comment(lib, "jvm.lib")
 
 
-void Krimz::JavaHandler::Init()
-{
+void Krimz::JavaHandler::Init() {
 	kl::console::error(!LoadLibraryA("../JavaDK/bin/server/jvm.dll"), "Failed to load jvm.dll");
 
 	JavaVMInitArgs vmArgs = {};
@@ -170,8 +169,7 @@ void Krimz::JavaHandler::Init()
 
 	env->CallStaticVoidMethod(sysClass, sysGCMethod);
 }
-void Krimz::JavaHandler::Uninit()
-{
+void Krimz::JavaHandler::Uninit() {
 	refs.clear();
 	classes.clear();
 	jvm->DestroyJavaVM();
@@ -179,15 +177,12 @@ void Krimz::JavaHandler::Uninit()
 	env = nullptr;
 }
 
-void Krimz::JavaHandler::ResetLoader()
-{
-	for (auto& ref : refs)
-	{
+void Krimz::JavaHandler::ResetLoader() {
+	for (auto& ref : refs) {
 		env->DeleteLocalRef(ref);
 	}
 	refs.clear();
-	for (auto& cls : classes)
-	{
+	for (auto& cls : classes) {
 		env->DeleteLocalRef(cls.second);
 	}
 	classes.clear();
@@ -200,37 +195,30 @@ void Krimz::JavaHandler::ResetLoader()
 	kl::console::error(!loader, "Failed to create class loader");
 }
 
-jclass Krimz::JavaHandler::LoadEternalClass(const std::string& name)
-{
+jclass Krimz::JavaHandler::LoadEternalClass(const std::string& name) {
 	jclass loaded = env->FindClass(name.c_str());
 	kl::console::error(!loaded, "Could not load eternal class \"" + name + "\"!");
 	return loaded;
 }
 
-jclass Krimz::JavaHandler::LoadClass(const std::string& filePath)
-{
+jclass Krimz::JavaHandler::LoadClass(const std::string& filePath) {
 	CompileFile(filePath);
 	const std::string classPath = std::filesystem::path(filePath).replace_extension("class").string();
 	const std::string clsBytes = kl::file::readString(classPath);
 
 	const std::string parentPath = std::filesystem::path(filePath).parent_path().string();
-	for (const auto& file : std::filesystem::recursive_directory_iterator(parentPath))
-	{
-		if (file.path().extension().string() == ".class")
-		{
+	for (const auto& file : std::filesystem::recursive_directory_iterator(parentPath)) {
+		if (file.path().extension().string() == ".class") {
 			std::filesystem::remove(file);
 		}
 	}
-	if (!clsBytes.size())
-	{
+	if (!clsBytes.size()) {
 		return nullptr;
 	}
 
 	jclass clsDef = env->DefineClass(nullptr, loader, (jbyte*) &clsBytes[0], jsize(clsBytes.size()));
-	if (!clsDef)
-	{
-		if (classes.contains(filePath))
-		{
+	if (!clsDef) {
+		if (classes.contains(filePath)) {
 			return classes[filePath];
 		}
 
@@ -242,84 +230,67 @@ jclass Krimz::JavaHandler::LoadClass(const std::string& filePath)
 	return clsDef;
 }
 
-jmethodID Krimz::JavaHandler::GetMethod(jclass cls, const std::string& name, const std::string& sig, bool isStatic)
-{
+jmethodID Krimz::JavaHandler::GetMethod(jclass cls, const std::string& name, const std::string& sig, bool isStatic) {
 	jmethodID methodID = isStatic ? env->GetStaticMethodID(cls, name.c_str(), sig.c_str()) : env->GetMethodID(cls, name.c_str(), sig.c_str());
-	if (!methodID)
-	{
+	if (!methodID) {
 		Krimz::log("Could not get method \"" + name + "\"!");
 	}
 	return methodID;
 }
 
-jfieldID Krimz::JavaHandler::GetField(jclass cls, const std::string& name, const std::string& sig, bool isStatic)
-{
+jfieldID Krimz::JavaHandler::GetField(jclass cls, const std::string& name, const std::string& sig, bool isStatic) {
 	jfieldID fieldID = isStatic ? env->GetStaticFieldID(cls, name.c_str(), sig.c_str()) : env->GetFieldID(cls, name.c_str(), sig.c_str());
-	if (!fieldID)
-	{
+	if (!fieldID) {
 		Krimz::log("Could not get field \"" + name + "\"!");
 	}
 	return fieldID;
 }
 
-jobject Krimz::JavaHandler::NewInst(jclass cls, jmethodID constr)
-{
+jobject Krimz::JavaHandler::NewInst(jclass cls, jmethodID constr) {
 	jobject obj = env->NewObject(cls, constr);
-	if (!obj)
-	{
+	if (!obj) {
 		Krimz::log("Could not create a new class instance!");
 	}
-	else
-	{
+	else {
 		refs.insert(obj);
 	}
 	return obj;
 }
 
-void Krimz::JavaHandler::DelInst(jobject obj)
-{
-	if (refs.contains(obj))
-	{
-		if (env)
-		{
+void Krimz::JavaHandler::DelInst(jobject obj) {
+	if (refs.contains(obj)) {
+		if (env) {
 			env->DeleteLocalRef(obj);
 		}
 		refs.erase(obj);
 	}
 }
 
-void Krimz::JavaHandler::CompileFile(const std::string& filePath)
-{
+void Krimz::JavaHandler::CompileFile(const std::string& filePath) {
 	jstring args[3] = {
 		env->NewStringUTF("-cp"),
 		env->NewStringUTF((std::string(".;../JavApi/JavApi.jar;") + std::filesystem::path(filePath).parent_path().string() + ";").c_str()),
 		env->NewStringUTF(filePath.c_str())
 	};
 	jobjectArray argArray = env->NewObjectArray(3, stringClass, args[2]);
-	for (int i = 0; i < 3; i++)
-	{
+	for (int i = 0; i < 3; i++) {
 		env->SetObjectArrayElement(argArray, i, args[i]);
 	}
 
-	if (env->CallIntMethod(compiler, compileMethod, NULL, NULL, NULL, argArray))
-	{
+	if (env->CallIntMethod(compiler, compileMethod, NULL, NULL, NULL, argArray)) {
 		Krimz::log("An error occured compiling script \"" + filePath + "\"!");
 	}
 
 	env->DeleteLocalRef(argArray);
-	for (auto& arg : args)
-	{
+	for (auto& arg : args) {
 		env->DeleteLocalRef(arg);
 	}
 }
 
-void Krimz::JavaHandler::ReloadScripts()
-{
+void Krimz::JavaHandler::ReloadScripts() {
 	ResetLoader();
-	for (auto& ent : Krimz::entities)
-	{
-		for (auto& scr : ent->scripts)
-		{
+	for (auto& ent : Krimz::entities) {
+		for (auto& scr : ent->scripts) {
 			scr->reload();
 		}
 	}

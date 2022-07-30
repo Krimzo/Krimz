@@ -10,11 +10,9 @@
 static std::list<kl::ref<Krimz::Entity>> savedEntities;
 static std::vector<std::string> savedNames;
 
-void Krimz::GUI::ViewportRender()
-{
+void Krimz::GUI::ViewportRender() {
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-	if (ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_NoScrollbar))
-	{
+	if (ImGui::Begin("Viewport", nullptr, ImGuiWindowFlags_NoScrollbar)) {
 		ImGui::SetCursorPos(ImVec2(0.0f, 0.0f));
 		ImGui::Image(Krimz::Render::shaderView, ImVec2(float(Krimz::Render::targetSize.x), float(Krimz::Render::targetSize.y)));
 
@@ -22,12 +20,9 @@ void Krimz::GUI::ViewportRender()
 		bool hovers[3] = {};
 
 		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x * 0.5f - 22.0f, 10.0f));
-		if (!Krimz::gameRunning)
-		{
-			if (ImGui::Button("PLAY"))
-			{
-				for (auto& ent : Krimz::entities)
-				{
+		if (!Krimz::gameRunning) {
+			if (ImGui::Button("PLAY")) {
+				for (auto& ent : Krimz::entities) {
 					savedEntities.push_back(kl::make<Krimz::Entity>(*ent));
 					savedNames.push_back(ent->getName());
 				}
@@ -38,24 +33,19 @@ void Krimz::GUI::ViewportRender()
 				Krimz::gameRunning = true;
 			}
 		}
-		else
-		{
-			if (ImGui::Button("STOP"))
-			{
+		else {
+			if (ImGui::Button("STOP")) {
 				const std::string lastSelectedName = Krimz::Selected::entity ? Krimz::Selected::entity->getName() : "";
 				Krimz::Selected::entity = nullptr;
 				Krimz::Physics::DestroyScene();
 				Krimz::entities = savedEntities;
 				savedEntities.clear();
-				for (size_t i = 0; auto & ent : Krimz::entities)
-				{
+				for (size_t i = 0; auto & ent : Krimz::entities) {
 					ent->updateName(savedNames[i++]);
 				}
 				savedNames.clear();
-				for (auto& ent : Krimz::entities)
-				{
-					if (ent->getName() == lastSelectedName)
-					{
+				for (auto& ent : Krimz::entities) {
+					if (ent->getName() == lastSelectedName) {
 						Krimz::Selected::entity = ent;
 						break;
 					}
@@ -67,15 +57,13 @@ void Krimz::GUI::ViewportRender()
 
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x - 80.0f, 10.0f));
-		if (ImGui::ImageButton((Krimz::Selected::raster == Krimz::Rasters::solid) ? Krimz::GUI::solidRaIcon : Krimz::GUI::solidRaGIcon, ImVec2(20.0f, 20.0f)))
-		{
+		if (ImGui::ImageButton((Krimz::Selected::raster == Krimz::Rasters::solid) ? Krimz::GUI::solidRaIcon : Krimz::GUI::solidRaGIcon, ImVec2(20.0f, 20.0f))) {
 			Krimz::Selected::raster = Krimz::Rasters::solid;
 		}
 		hovers[1] = ImGui::IsItemHovered();
 
 		ImGui::SetCursorPos(ImVec2(ImGui::GetWindowSize().x - 42.0f, 10.0f));
-		if (ImGui::ImageButton((Krimz::Selected::raster == Krimz::Rasters::wire) ? Krimz::GUI::wireRaIcon : Krimz::GUI::wireRaGIcon, ImVec2(20.0f, 20.0f)))
-		{
+		if (ImGui::ImageButton((Krimz::Selected::raster == Krimz::Rasters::wire) ? Krimz::GUI::wireRaIcon : Krimz::GUI::wireRaGIcon, ImVec2(20.0f, 20.0f))) {
 			Krimz::Selected::raster = Krimz::Rasters::wire;
 		}
 		hovers[2] = ImGui::IsItemHovered();

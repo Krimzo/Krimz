@@ -79,8 +79,7 @@ extern "C" {
 The uSynergyCookie type is an opaque type that is used by uSynergy to communicate to the client. It is passed along to
 callback functions as context.
 **/
-	typedef struct
-	{
+	typedef struct {
 		int ignored;
 	} *uSynergyCookie;
 
@@ -89,8 +88,7 @@ callback functions as context.
 /**
 @brief Clipboard types
 **/
-	enum uSynergyClipboardFormat
-	{
+	enum uSynergyClipboardFormat {
 		USYNERGY_CLIPBOARD_FORMAT_TEXT = 0,			/* Text format, UTF-8, newline is LF */
 		USYNERGY_CLIPBOARD_FORMAT_BITMAP = 1,			/* Bitmap format, BMP 24/32bpp, BI_RGB */
 		USYNERGY_CLIPBOARD_FORMAT_HTML = 2,			/* HTML format, HTML fragment, UTF-8, newline is LF */
@@ -318,8 +316,7 @@ so the implementation of the function must close any old connections and clean u
 	/**
 	@brief uSynergy context
 	**/
-	typedef struct
-	{
+	typedef struct {
 		/* Mandatory configuration data, filled in by client */
 		uSynergyConnectFunc				m_connectFunc;									/* Connect function */
 		uSynergySendFunc				m_sendFunc;										/* Send data function */

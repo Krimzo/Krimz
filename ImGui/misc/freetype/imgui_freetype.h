@@ -16,8 +16,7 @@ struct ImFontBuilderIO;
 // - The Light hinting mode generates fuzzier glyphs but better matches Microsoft's rasterizer.
 // You can set those flags globaly in ImFontAtlas::FontBuilderFlags
 // You can set those flags on a per font basis in ImFontConfig::FontBuilderFlags
-enum ImGuiFreeTypeBuilderFlags
-{
+enum ImGuiFreeTypeBuilderFlags {
 	ImGuiFreeTypeBuilderFlags_NoHinting = 1 << 0,   // Disable hinting. This generally generates 'blurrier' bitmap glyphs when the glyph are rendered in any of the anti-aliased modes.
 	ImGuiFreeTypeBuilderFlags_NoAutoHint = 1 << 1,   // Disable auto-hinter.
 	ImGuiFreeTypeBuilderFlags_ForceAutoHint = 1 << 2,   // Indicates that the auto-hinter is preferred over the font's native hinter.
@@ -30,8 +29,7 @@ enum ImGuiFreeTypeBuilderFlags
 	ImGuiFreeTypeBuilderFlags_Bitmap = 1 << 9    // Enable FreeType bitmap glyphs
 };
 
-namespace ImGuiFreeType
-{
+namespace ImGuiFreeType {
 	// This is automatically assigned when using '#define IMGUI_ENABLE_FREETYPE'.
 	// If you need to dynamically select between multiple builders:
 	// - you can manually assign this builder with 'atlas->FontBuilderIO = ImGuiFreeType::GetBuilderForFreeType()'
@@ -45,8 +43,7 @@ namespace ImGuiFreeType
 	// Obsolete names (will be removed soon)
 	// Prefer using '#define IMGUI_ENABLE_FREETYPE'
 #ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
-	static inline bool BuildFontAtlas(ImFontAtlas* atlas, unsigned int flags = 0)
-	{
+	static inline bool BuildFontAtlas(ImFontAtlas* atlas, unsigned int flags = 0) {
 		atlas->FontBuilderIO = GetBuilderForFreeType(); atlas->FontBuilderFlags = flags; return atlas->Build();
 	}
 #endif

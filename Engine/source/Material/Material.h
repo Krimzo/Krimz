@@ -3,10 +3,8 @@
 #include "Material/Texture.h"
 
 
-namespace Krimz
-{
-	class Material
-	{
+namespace Krimz {
+	class Material {
 	public:
 		float roughness = 0.5f;
 		kl::ref<Texture> colorMap;

@@ -104,110 +104,87 @@ extern IMPLOT_API ImPlotContext* GImPlot; // Current implicit context pointer
 //-----------------------------------------------------------------------------
 
 // Computes the common (base-10) logarithm
-static inline float  ImLog10(float x)
-{
+static inline float  ImLog10(float x) {
 	return log10f(x);
 }
-static inline double ImLog10(double x)
-{
+static inline double ImLog10(double x) {
 	return log10(x);
 }
 // Returns true if a flag is set
 template <typename TSet, typename TFlag>
-static inline bool ImHasFlag(TSet set, TFlag flag)
-{
+static inline bool ImHasFlag(TSet set, TFlag flag) {
 	return (set & flag) == flag;
 }
 // Flips a flag in a flagset
 template <typename TSet, typename TFlag>
-static inline void ImFlipFlag(TSet& set, TFlag flag)
-{
+static inline void ImFlipFlag(TSet& set, TFlag flag) {
 	ImHasFlag(set, flag) ? set &= ~flag : set |= flag;
 }
 // Linearly remaps x from [x0 x1] to [y0 y1].
 template <typename T>
-static inline T ImRemap(T x, T x0, T x1, T y0, T y1)
-{
+static inline T ImRemap(T x, T x0, T x1, T y0, T y1) {
 	return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
 }
 // Linear rempas x from [x0 x1] to [0 1]
 template <typename T>
-static inline T ImRemap01(T x, T x0, T x1)
-{
+static inline T ImRemap01(T x, T x0, T x1) {
 	return (x - x0) / (x1 - x0);
 }
 // Returns always positive modulo (assumes r != 0)
-static inline int ImPosMod(int l, int r)
-{
+static inline int ImPosMod(int l, int r) {
 	return (l % r + r) % r;
 }
 // Returns true if val is NAN or INFINITY
-static inline bool ImNanOrInf(double val)
-{
+static inline bool ImNanOrInf(double val) {
 	return !(val >= -DBL_MAX && val <= DBL_MAX) || isnan(val);
 }
 // Turns NANs to 0s
-static inline double ImConstrainNan(double val)
-{
+static inline double ImConstrainNan(double val) {
 	return isnan(val) ? 0 : val;
 }
 // Turns infinity to floating point maximums
-static inline double ImConstrainInf(double val)
-{
+static inline double ImConstrainInf(double val) {
 	return val >= DBL_MAX ? DBL_MAX : val <= -DBL_MAX ? -DBL_MAX : val;
 }
 // Turns numbers less than or equal to 0 to 0.001 (sort of arbitrary, is there a better way?)
-static inline double ImConstrainLog(double val)
-{
+static inline double ImConstrainLog(double val) {
 	return val <= 0 ? 0.001f : val;
 }
 // Turns numbers less than 0 to zero
-static inline double ImConstrainTime(double val)
-{
+static inline double ImConstrainTime(double val) {
 	return val < IMPLOT_MIN_TIME ? IMPLOT_MIN_TIME : (val > IMPLOT_MAX_TIME ? IMPLOT_MAX_TIME : val);
 }
 // True if two numbers are approximately equal using units in the last place.
-static inline bool ImAlmostEqual(double v1, double v2, int ulp = 2)
-{
+static inline bool ImAlmostEqual(double v1, double v2, int ulp = 2) {
 	return ImAbs(v1 - v2) < DBL_EPSILON * ImAbs(v1 + v2) * ulp || ImAbs(v1 - v2) < DBL_MIN;
 }
 // Finds min value in an unsorted array
 template <typename T>
-static inline T ImMinArray(const T* values, int count)
-{
-	T m = values[0]; for (int i = 1; i < count; ++i)
-	{
-		if (values[i] < m)
-		{
+static inline T ImMinArray(const T* values, int count) {
+	T m = values[0]; for (int i = 1; i < count; ++i) {
+		if (values[i] < m) {
 			m = values[i];
 		}
 	} return m;
 }
 // Finds the max value in an unsorted array
 template <typename T>
-static inline T ImMaxArray(const T* values, int count)
-{
-	T m = values[0]; for (int i = 1; i < count; ++i)
-	{
-		if (values[i] > m)
-		{
+static inline T ImMaxArray(const T* values, int count) {
+	T m = values[0]; for (int i = 1; i < count; ++i) {
+		if (values[i] > m) {
 			m = values[i];
 		}
 	} return m;
 }
 // Finds the min and max value in an unsorted array
 template <typename T>
-static inline void ImMinMaxArray(const T* values, int count, T* min_out, T* max_out)
-{
+static inline void ImMinMaxArray(const T* values, int count, T* min_out, T* max_out) {
 	T Min = values[0]; T Max = values[0];
-	for (int i = 1; i < count; ++i)
-	{
-		if (values[i] < Min)
-		{
+	for (int i = 1; i < count; ++i) {
+		if (values[i] < Min) {
 			Min = values[i];
 		}
-		if (values[i] > Max)
-		{
+		if (values[i] > Max) {
 			Max = values[i];
 		}
 	}
@@ -215,8 +192,7 @@ static inline void ImMinMaxArray(const T* values, int count, T* min_out, T* max_
 }
 // Finds the sim of an array
 template <typename T>
-static inline T ImSum(const T* values, int count)
-{
+static inline T ImSum(const T* values, int count) {
 	T sum = 0;
 	for (int i = 0; i < count; ++i)
 		sum += values[i];
@@ -224,8 +200,7 @@ static inline T ImSum(const T* values, int count)
 }
 // Finds the mean of an array
 template <typename T>
-static inline double ImMean(const T* values, int count)
-{
+static inline double ImMean(const T* values, int count) {
 	double den = 1.0 / count;
 	double mu = 0;
 	for (int i = 0; i < count; ++i)
@@ -234,8 +209,7 @@ static inline double ImMean(const T* values, int count)
 }
 // Finds the sample standard deviation of an array
 template <typename T>
-static inline double ImStdDev(const T* values, int count)
-{
+static inline double ImStdDev(const T* values, int count) {
 	double den = 1.0 / (count - 1.0);
 	double mu = ImMean(values, count);
 	double x = 0;
@@ -244,8 +218,7 @@ static inline double ImStdDev(const T* values, int count)
 	return sqrt(x);
 }
 // Mix color a and b by factor s in [0 256]
-static inline ImU32 ImMixU32(ImU32 a, ImU32 b, ImU32 s)
-{
+static inline ImU32 ImMixU32(ImU32 a, ImU32 b, ImU32 s) {
 #ifdef IMPLOT_MIX64
 	const ImU32 af = 256 - s;
 	const ImU32 bf = s;
@@ -267,8 +240,7 @@ static inline ImU32 ImMixU32(ImU32 a, ImU32 b, ImU32 s)
 }
 
 // Lerp across an array of 32-bit collors given t in [0.0 1.0]
-static inline ImU32 ImLerpU32(const ImU32* colors, int size, float t)
-{
+static inline ImU32 ImLerpU32(const ImU32* colors, int size, float t) {
 	int i1 = (int) ((size - 1) * t);
 	int i2 = i1 + 1;
 	if (i2 == size || size == 1)
@@ -281,8 +253,7 @@ static inline ImU32 ImLerpU32(const ImU32* colors, int size, float t)
 }
 
 // Set alpha channel of 32-bit color from float in range [0.0 1.0]
-static inline ImU32 ImAlphaU32(ImU32 col, float alpha)
-{
+static inline ImU32 ImAlphaU32(ImU32 col, float alpha) {
 	return col & ~((ImU32) ((1.0f - alpha) * 255) << IM_COL32_A_SHIFT);
 }
 
@@ -296,16 +267,14 @@ typedef int ImPlotDateFmt;     // -> enum ImPlotDateFmt_
 typedef int ImPlotTimeFmt;     // -> enum ImPlotTimeFmt_
 
 // XY axes scaling combinations
-enum ImPlotScale_
-{
+enum ImPlotScale_ {
 	ImPlotScale_LinLin, // linear x, linear y
 	ImPlotScale_LogLin, // log x,    linear y
 	ImPlotScale_LinLog, // linear x, log y
 	ImPlotScale_LogLog  // log x,    log y
 };
 
-enum ImPlotTimeUnit_
-{
+enum ImPlotTimeUnit_ {
 	ImPlotTimeUnit_Us,  // microsecond
 	ImPlotTimeUnit_Ms,  // millisecond
 	ImPlotTimeUnit_S,   // second
@@ -317,8 +286,7 @@ enum ImPlotTimeUnit_
 	ImPlotTimeUnit_COUNT
 };
 
-enum ImPlotDateFmt_
-{              // default        [ ISO 8601     ]
+enum ImPlotDateFmt_ {              // default        [ ISO 8601     ]
 	ImPlotDateFmt_None = 0,
 	ImPlotDateFmt_DayMo,           // 10/3           [ --10-03      ]
 	ImPlotDateFmt_DayMoYr,         // 10/3/91        [ 1991-10-03   ]
@@ -327,8 +295,7 @@ enum ImPlotDateFmt_
 	ImPlotDateFmt_Yr               // 1991           [ 1991         ]
 };
 
-enum ImPlotTimeFmt_
-{              // default        [ 24 Hour Clock ]
+enum ImPlotTimeFmt_ {              // default        [ 24 Hour Clock ]
 	ImPlotTimeFmt_None = 0,
 	ImPlotTimeFmt_Us,              // .428 552       [ .428 552     ]
 	ImPlotTimeFmt_SUs,             // :29.428 552    [ :29.428 552  ]
@@ -345,10 +312,8 @@ enum ImPlotTimeFmt_
 //-----------------------------------------------------------------------------
 
 // Combined date/time format spec
-struct ImPlotDateTimeFmt
-{
-	ImPlotDateTimeFmt(ImPlotDateFmt date_fmt, ImPlotTimeFmt time_fmt, bool use_24_hr_clk = false, bool use_iso_8601 = false)
-	{
+struct ImPlotDateTimeFmt {
+	ImPlotDateTimeFmt(ImPlotDateFmt date_fmt, ImPlotTimeFmt time_fmt, bool use_24_hr_clk = false, bool use_iso_8601 = false) {
 		Date = date_fmt;
 		Time = time_fmt;
 		UseISO8601 = use_iso_8601;
@@ -361,64 +326,50 @@ struct ImPlotDateTimeFmt
 };
 
 // Two part timestamp struct.
-struct ImPlotTime
-{
+struct ImPlotTime {
 	time_t S;  // second part
 	int    Us; // microsecond part
-	ImPlotTime()
-	{
+	ImPlotTime() {
 		S = 0; Us = 0;
 	}
-	ImPlotTime(time_t s, int us = 0)
-	{
+	ImPlotTime(time_t s, int us = 0) {
 		S = s + us / 1000000; Us = us % 1000000;
 	}
-	void RollOver()
-	{
+	void RollOver() {
 		S = S + Us / 1000000;  Us = Us % 1000000;
 	}
-	double ToDouble() const
-	{
+	double ToDouble() const {
 		return (double) S + (double) Us / 1000000.0;
 	}
-	static ImPlotTime FromDouble(double t)
-	{
+	static ImPlotTime FromDouble(double t) {
 		return ImPlotTime((time_t) t, (int) (t * 1000000 - floor(t) * 1000000));
 	}
 };
 
-static inline ImPlotTime operator+(const ImPlotTime& lhs, const ImPlotTime& rhs)
-{
+static inline ImPlotTime operator+(const ImPlotTime& lhs, const ImPlotTime& rhs) {
 	return ImPlotTime(lhs.S + rhs.S, lhs.Us + rhs.Us);
 }
-static inline ImPlotTime operator-(const ImPlotTime& lhs, const ImPlotTime& rhs)
-{
+static inline ImPlotTime operator-(const ImPlotTime& lhs, const ImPlotTime& rhs) {
 	return ImPlotTime(lhs.S - rhs.S, lhs.Us - rhs.Us);
 }
-static inline bool operator==(const ImPlotTime& lhs, const ImPlotTime& rhs)
-{
+static inline bool operator==(const ImPlotTime& lhs, const ImPlotTime& rhs) {
 	return lhs.S == rhs.S && lhs.Us == rhs.Us;
 }
-static inline bool operator<(const ImPlotTime& lhs, const ImPlotTime& rhs)
-{
+static inline bool operator<(const ImPlotTime& lhs, const ImPlotTime& rhs) {
 	return lhs.S == rhs.S ? lhs.Us < rhs.Us : lhs.S < rhs.S;
 }
-static inline bool operator>(const ImPlotTime& lhs, const ImPlotTime& rhs)
-{
+static inline bool operator>(const ImPlotTime& lhs, const ImPlotTime& rhs) {
 	return rhs < lhs;
 }
-static inline bool operator<=(const ImPlotTime& lhs, const ImPlotTime& rhs)
-{
+static inline bool operator<=(const ImPlotTime& lhs, const ImPlotTime& rhs) {
 	return lhs < rhs || lhs == rhs;
 }
-static inline bool operator>=(const ImPlotTime& lhs, const ImPlotTime& rhs)
-{
+static inline bool operator>=(const ImPlotTime& lhs, const ImPlotTime& rhs) {
 	return lhs > rhs || lhs == rhs;
 }
 
 // Colormap data storage
-struct ImPlotColormapData
-{
+struct ImPlotColormapData {
 	ImVector<ImU32> Keys;
 	ImVector<int>   KeyCounts;
 	ImVector<int>   KeyOffsets;
@@ -431,13 +382,11 @@ struct ImPlotColormapData
 	ImGuiStorage    Map;
 	int             Count;
 
-	ImPlotColormapData()
-	{
+	ImPlotColormapData() {
 		Count = 0;
 	}
 
-	int Append(const char* name, const ImU32* keys, int count, bool qual)
-	{
+	int Append(const char* name, const ImU32* keys, int count, bool qual) {
 		if (GetIndex(name) != -1)
 			return -1;
 		KeyOffsets.push_back(Keys.size());
@@ -455,30 +404,25 @@ struct ImPlotColormapData
 		return idx;
 	}
 
-	void _AppendTable(ImPlotColormap cmap)
-	{
+	void _AppendTable(ImPlotColormap cmap) {
 		int key_count = GetKeyCount(cmap);
 		const ImU32* keys = GetKeys(cmap);
 		int off = Tables.size();
 		TableOffsets.push_back(off);
-		if (IsQual(cmap))
-		{
+		if (IsQual(cmap)) {
 			Tables.reserve(key_count);
 			for (int i = 0; i < key_count; ++i)
 				Tables.push_back(keys[i]);
 			TableSizes.push_back(key_count);
 		}
-		else
-		{
+		else {
 			int max_size = 255 * (key_count - 1) + 1;
 			Tables.reserve(off + max_size);
 			// ImU32 last = keys[0];
 			// Tables.push_back(last);
 			// int n = 1;
-			for (int i = 0; i < key_count - 1; ++i)
-			{
-				for (int s = 0; s < 255; ++s)
-				{
+			for (int i = 0; i < key_count - 1; ++i) {
+				for (int s = 0; s < 255; ++s) {
 					ImU32 a = keys[i];
 					ImU32 b = keys[i + 1];
 					ImU32 c = ImMixU32(a, b, s);
@@ -499,8 +443,7 @@ struct ImPlotColormapData
 		}
 	}
 
-	void RebuildTables()
-	{
+	void RebuildTables() {
 		Tables.resize(0);
 		TableSizes.resize(0);
 		TableOffsets.resize(0);
@@ -508,51 +451,40 @@ struct ImPlotColormapData
 			_AppendTable(i);
 	}
 
-	inline bool           IsQual(ImPlotColormap cmap) const
-	{
+	inline bool           IsQual(ImPlotColormap cmap) const {
 		return Quals[cmap];
 	}
-	inline const char* GetName(ImPlotColormap cmap) const
-	{
+	inline const char* GetName(ImPlotColormap cmap) const {
 		return cmap < Count ? Text.Buf.Data + TextOffsets[cmap] : NULL;
 	}
-	inline ImPlotColormap GetIndex(const char* name) const
-	{
+	inline ImPlotColormap GetIndex(const char* name) const {
 		ImGuiID key = ImHashStr(name); return Map.GetInt(key, -1);
 	}
 
-	inline const ImU32* GetKeys(ImPlotColormap cmap) const
-	{
+	inline const ImU32* GetKeys(ImPlotColormap cmap) const {
 		return &Keys[KeyOffsets[cmap]];
 	}
-	inline int            GetKeyCount(ImPlotColormap cmap) const
-	{
+	inline int            GetKeyCount(ImPlotColormap cmap) const {
 		return KeyCounts[cmap];
 	}
-	inline ImU32          GetKeyColor(ImPlotColormap cmap, int idx) const
-	{
+	inline ImU32          GetKeyColor(ImPlotColormap cmap, int idx) const {
 		return Keys[KeyOffsets[cmap] + idx];
 	}
-	inline void           SetKeyColor(ImPlotColormap cmap, int idx, ImU32 value)
-	{
+	inline void           SetKeyColor(ImPlotColormap cmap, int idx, ImU32 value) {
 		Keys[KeyOffsets[cmap] + idx] = value; RebuildTables();
 	}
 
-	inline const ImU32* GetTable(ImPlotColormap cmap) const
-	{
+	inline const ImU32* GetTable(ImPlotColormap cmap) const {
 		return &Tables[TableOffsets[cmap]];
 	}
-	inline int            GetTableSize(ImPlotColormap cmap) const
-	{
+	inline int            GetTableSize(ImPlotColormap cmap) const {
 		return TableSizes[cmap];
 	}
-	inline ImU32          GetTableColor(ImPlotColormap cmap, int idx) const
-	{
+	inline ImU32          GetTableColor(ImPlotColormap cmap, int idx) const {
 		return Tables[TableOffsets[cmap] + idx];
 	}
 
-	inline ImU32 LerpTable(ImPlotColormap cmap, float t) const
-	{
+	inline ImU32 LerpTable(ImPlotColormap cmap, float t) const {
 		int off = TableOffsets[cmap];
 		int siz = TableSizes[cmap];
 		int idx = Quals[cmap] ? ImClamp((int) (siz * t), 0, siz - 1) : (int) ((siz - 1) * t + 0.5f);
@@ -562,18 +494,15 @@ struct ImPlotColormapData
 };
 
 // ImPlotPoint with positive/negative error values
-struct ImPlotPointError
-{
+struct ImPlotPointError {
 	double X, Y, Neg, Pos;
-	ImPlotPointError(double x, double y, double neg, double pos)
-	{
+	ImPlotPointError(double x, double y, double neg, double pos) {
 		X = x; Y = y; Neg = neg; Pos = pos;
 	}
 };
 
 // Interior plot label/annotation
-struct ImPlotAnnotation
-{
+struct ImPlotAnnotation {
 	ImVec2 Pos;
 	ImVec2 Offset;
 	ImU32  ColorBg;
@@ -583,20 +512,17 @@ struct ImPlotAnnotation
 };
 
 // Collection of plot labels
-struct ImPlotAnnotationCollection
-{
+struct ImPlotAnnotationCollection {
 
 	ImVector<ImPlotAnnotation> Annotations;
 	ImGuiTextBuffer            TextBuffer;
 	int                        Size;
 
-	ImPlotAnnotationCollection()
-	{
+	ImPlotAnnotationCollection() {
 		Reset();
 	}
 
-	void AppendV(const ImVec2& pos, const ImVec2& off, ImU32 bg, ImU32 fg, bool clamp, const char* fmt, va_list args) IM_FMTLIST(7)
-	{
+	void AppendV(const ImVec2& pos, const ImVec2& off, ImU32 bg, ImU32 fg, bool clamp, const char* fmt, va_list args) IM_FMTLIST(7) {
 		ImPlotAnnotation an;
 		an.Pos = pos; an.Offset = off;
 		an.ColorBg = bg; an.ColorFg = fg;
@@ -609,29 +535,25 @@ struct ImPlotAnnotationCollection
 		Size++;
 	}
 
-	void Append(const ImVec2& pos, const ImVec2& off, ImU32 bg, ImU32 fg, bool clamp, const char* fmt, ...) IM_FMTARGS(7)
-	{
+	void Append(const ImVec2& pos, const ImVec2& off, ImU32 bg, ImU32 fg, bool clamp, const char* fmt, ...) IM_FMTARGS(7) {
 		va_list args;
 		va_start(args, fmt);
 		AppendV(pos, off, bg, fg, clamp, fmt, args);
 		va_end(args);
 	}
 
-	const char* GetText(int idx)
-	{
+	const char* GetText(int idx) {
 		return TextBuffer.Buf.Data + Annotations[idx].TextOffset;
 	}
 
-	void Reset()
-	{
+	void Reset() {
 		Annotations.shrink(0);
 		TextBuffer.Buf.shrink(0);
 		Size = 0;
 	}
 };
 
-struct ImPlotTag
-{
+struct ImPlotTag {
 	ImAxis Axis;
 	double Value;
 	ImU32  ColorBg;
@@ -639,20 +561,17 @@ struct ImPlotTag
 	int    TextOffset;
 };
 
-struct ImPlotTagCollection
-{
+struct ImPlotTagCollection {
 
 	ImVector<ImPlotTag> Tags;
 	ImGuiTextBuffer     TextBuffer;
 	int                 Size;
 
-	ImPlotTagCollection()
-	{
+	ImPlotTagCollection() {
 		Reset();
 	}
 
-	void AppendV(ImAxis axis, double value, ImU32 bg, ImU32 fg, const char* fmt, va_list args) IM_FMTLIST(6)
-	{
+	void AppendV(ImAxis axis, double value, ImU32 bg, ImU32 fg, const char* fmt, va_list args) IM_FMTLIST(6) {
 		ImPlotTag tag;
 		tag.Axis = axis;
 		tag.Value = value;
@@ -666,21 +585,18 @@ struct ImPlotTagCollection
 		Size++;
 	}
 
-	void Append(ImAxis axis, double value, ImU32 bg, ImU32 fg, const char* fmt, ...) IM_FMTARGS(6)
-	{
+	void Append(ImAxis axis, double value, ImU32 bg, ImU32 fg, const char* fmt, ...) IM_FMTARGS(6) {
 		va_list args;
 		va_start(args, fmt);
 		AppendV(axis, value, bg, fg, fmt, args);
 		va_end(args);
 	}
 
-	const char* GetText(int idx)
-	{
+	const char* GetText(int idx) {
 		return TextBuffer.Buf.Data + Tags[idx].TextOffset;
 	}
 
-	void Reset()
-	{
+	void Reset() {
 		Tags.shrink(0);
 		TextBuffer.Buf.shrink(0);
 		Size = 0;
@@ -688,8 +604,7 @@ struct ImPlotTagCollection
 };
 
 // Tick mark info
-struct ImPlotTick
-{
+struct ImPlotTick {
 	double PlotPos;
 	float  PixelPos;
 	ImVec2 LabelSize;
@@ -698,8 +613,7 @@ struct ImPlotTick
 	bool   ShowLabel;
 	int    Level;
 
-	ImPlotTick(double value, bool major, bool show_label)
-	{
+	ImPlotTick(double value, bool major, bool show_label) {
 		PlotPos = value;
 		Major = major;
 		ShowLabel = show_label;
@@ -709,23 +623,19 @@ struct ImPlotTick
 };
 
 // Collection of ticks
-struct ImPlotTickCollection
-{
+struct ImPlotTickCollection {
 	ImVector<ImPlotTick> Ticks;
 	ImGuiTextBuffer      TextBuffer;
 	ImVec2               MaxSize;
 	ImVec2               LateSize;
 	int                  Size;
 
-	ImPlotTickCollection()
-	{
+	ImPlotTickCollection() {
 		Reset();
 	}
 
-	const ImPlotTick& Append(const ImPlotTick& tick)
-	{
-		if (tick.ShowLabel)
-		{
+	const ImPlotTick& Append(const ImPlotTick& tick) {
+		if (tick.ShowLabel) {
 			MaxSize.x = tick.LabelSize.x > MaxSize.x ? tick.LabelSize.x : MaxSize.x;
 			MaxSize.y = tick.LabelSize.y > MaxSize.y ? tick.LabelSize.y : MaxSize.y;
 		}
@@ -734,11 +644,9 @@ struct ImPlotTickCollection
 		return Ticks.back();
 	}
 
-	const ImPlotTick& Append(double value, bool major, bool show_label, ImPlotFormatter formatter, void* data)
-	{
+	const ImPlotTick& Append(double value, bool major, bool show_label, ImPlotFormatter formatter, void* data) {
 		ImPlotTick tick(value, major, show_label);
-		if (show_label && formatter != NULL)
-		{
+		if (show_label && formatter != NULL) {
 			char buff[IMPLOT_LABEL_MAX_SIZE];
 			tick.TextOffset = TextBuffer.size();
 			formatter(tick.PlotPos, buff, sizeof(buff), data);
@@ -748,25 +656,21 @@ struct ImPlotTickCollection
 		return Append(tick);
 	}
 
-	const char* GetText(int idx) const
-	{
+	const char* GetText(int idx) const {
 		return TextBuffer.Buf.Data + Ticks[idx].TextOffset;
 	}
 
-	void OverrideSize(const ImVec2& size)
-	{
+	void OverrideSize(const ImVec2& size) {
 		MaxSize.x = size.x > MaxSize.x ? size.x : MaxSize.x;
 		MaxSize.y = size.y > MaxSize.y ? size.y : MaxSize.y;
 	}
 
-	void OverrideSizeLate(const ImVec2& size)
-	{
+	void OverrideSizeLate(const ImVec2& size) {
 		LateSize.x = size.x > LateSize.x ? size.x : LateSize.x;
 		LateSize.y = size.y > LateSize.y ? size.y : LateSize.y;
 	}
 
-	void Reset()
-	{
+	void Reset() {
 		Ticks.shrink(0);
 		TextBuffer.Buf.shrink(0);
 		MaxSize = LateSize;
@@ -776,8 +680,7 @@ struct ImPlotTickCollection
 };
 
 // Axis state information that must persist after EndPlot
-struct ImPlotAxis
-{
+struct ImPlotAxis {
 	ImGuiID              ID;
 	ImPlotAxisFlags      Flags;
 	ImPlotAxisFlags      PreviousFlags;
@@ -808,8 +711,7 @@ struct ImPlotAxis
 	bool                 Hovered;
 	bool                 Held;
 
-	ImPlotAxis()
-	{
+	ImPlotAxis() {
 		Flags = PreviousFlags = ImPlotAxisFlags_None;
 		Range.Min = 0;
 		Range.Max = 1;
@@ -829,8 +731,7 @@ struct ImPlotAxis
 		ShowDefaultTicks = true;
 	}
 
-	inline void Reset()
-	{
+	inline void Reset() {
 		Enabled = false;
 		LabelOffset = -1;
 		HasFormatSpec = false;
@@ -844,8 +745,7 @@ struct ImPlotAxis
 		Ticks.Reset();
 	}
 
-	inline bool SetMin(double _min, bool force = false)
-	{
+	inline bool SetMin(double _min, bool force = false) {
 		if (!force && IsLockedMin())
 			return false;
 		_min = ImConstrainNan(ImConstrainInf(_min));
@@ -861,8 +761,7 @@ struct ImPlotAxis
 		return true;
 	};
 
-	inline bool SetMax(double _max, bool force = false)
-	{
+	inline bool SetMax(double _max, bool force = false) {
 		if (!force && IsLockedMax())
 			return false;
 		_max = ImConstrainNan(ImConstrainInf(_max));
@@ -878,8 +777,7 @@ struct ImPlotAxis
 		return true;
 	};
 
-	inline void SetRange(double v1, double v2)
-	{
+	inline void SetRange(double v1, double v2) {
 		Range.Min = ImMin(v1, v2);
 		Range.Max = ImMax(v1, v2);
 		Constrain();
@@ -888,13 +786,11 @@ struct ImPlotAxis
 		UpdateTransformCache();
 	}
 
-	inline void SetRange(const ImPlotRange& range)
-	{
+	inline void SetRange(const ImPlotRange& range) {
 		SetRange(range.Min, range.Max);
 	}
 
-	inline void SetAspect(double unit_per_pix)
-	{
+	inline void SetAspect(double unit_per_pix) {
 		double new_size = unit_per_pix * PixelSize();
 		double delta = (new_size - Range.Size()) * 0.5f;
 		if (IsLocked())
@@ -907,27 +803,22 @@ struct ImPlotAxis
 			SetRange(Range.Min - delta, Range.Max + delta);
 	}
 
-	inline float PixelSize() const
-	{
+	inline float PixelSize() const {
 		return ImAbs(PixelMax - PixelMin);
 	}
 
-	inline double GetAspect() const
-	{
+	inline double GetAspect() const {
 		return Range.Size() / PixelSize();
 	}
 
-	inline void Constrain()
-	{
+	inline void Constrain() {
 		Range.Min = ImConstrainNan(ImConstrainInf(Range.Min));
 		Range.Max = ImConstrainNan(ImConstrainInf(Range.Max));
-		if (IsLog())
-		{
+		if (IsLog()) {
 			Range.Min = ImConstrainLog(Range.Min);
 			Range.Max = ImConstrainLog(Range.Max);
 		}
-		if (IsTime())
-		{
+		if (IsTime()) {
 			Range.Min = ImConstrainTime(Range.Min);
 			Range.Max = ImConstrainTime(Range.Max);
 		}
@@ -935,27 +826,22 @@ struct ImPlotAxis
 			Range.Max = Range.Min + DBL_EPSILON;
 	}
 
-	inline void UpdateTransformCache()
-	{
+	inline void UpdateTransformCache() {
 		LinM = (PixelMax - PixelMin) / Range.Size();
 		LogD = IsLog() ? ImLog10(Range.Max / Range.Min) : 0;
 	}
 
-	inline double PixelsToPlot(float pix) const
-	{
+	inline double PixelsToPlot(float pix) const {
 		double plt = (pix - PixelMin) / LinM + Range.Min;
-		if (IsLog())
-		{
+		if (IsLog()) {
 			double t = (plt - Range.Min) / Range.Size();
 			plt = ImPow(10, t * LogD) * Range.Min;
 		}
 		return plt;
 	}
 
-	inline float PlotToPixels(double plt) const
-	{
-		if (IsLog())
-		{
+	inline float PlotToPixels(double plt) const {
+		if (IsLog()) {
 			plt = plt <= 0.0 ? IMPLOT_LOG_ZERO : plt;
 			double t = ImLog10(plt / Range.Min) / LogD;
 			plt = ImLerp(Range.Min, Range.Max, (float) t);
@@ -963,28 +849,23 @@ struct ImPlotAxis
 		return (float) (PixelMin + LinM * (plt - Range.Min));
 	}
 
-	inline void ExtendFit(double v)
-	{
-		if (!ImNanOrInf(v) && !(IsLog() && v <= 0))
-		{
+	inline void ExtendFit(double v) {
+		if (!ImNanOrInf(v) && !(IsLog() && v <= 0)) {
 			FitExtents.Min = v < FitExtents.Min ? v : FitExtents.Min;
 			FitExtents.Max = v > FitExtents.Max ? v : FitExtents.Max;
 		}
 	}
 
-	inline void ExtendFitWith(ImPlotAxis& alt, double v, double v_alt)
-	{
+	inline void ExtendFitWith(ImPlotAxis& alt, double v, double v_alt) {
 		if (ImHasFlag(Flags, ImPlotAxisFlags_RangeFit) && !alt.Range.Contains(v_alt))
 			return;
-		if (!ImNanOrInf(v) && !(IsLog() && v <= 0))
-		{
+		if (!ImNanOrInf(v) && !(IsLog() && v <= 0)) {
 			FitExtents.Min = v < FitExtents.Min ? v : FitExtents.Min;
 			FitExtents.Max = v > FitExtents.Max ? v : FitExtents.Max;
 		}
 	}
 
-	inline void ApplyFit(float padding)
-	{
+	inline void ApplyFit(float padding) {
 		const double ext_size = FitExtents.Size() * 0.5;
 		FitExtents.Min -= ext_size * padding;
 		FitExtents.Max += ext_size * padding;
@@ -992,8 +873,7 @@ struct ImPlotAxis
 			Range.Min = FitExtents.Min;
 		if (!IsLockedMax() && !ImNanOrInf(FitExtents.Max))
 			Range.Max = FitExtents.Max;
-		if (ImAlmostEqual(Range.Min, Range.Max))
-		{
+		if (ImAlmostEqual(Range.Min, Range.Max)) {
 			Range.Max += 0.5;
 			Range.Min -= 0.5;
 		}
@@ -1001,170 +881,131 @@ struct ImPlotAxis
 		UpdateTransformCache();
 	}
 
-	inline bool HasLabel()          const
-	{
+	inline bool HasLabel()          const {
 		return LabelOffset != -1 && !ImHasFlag(Flags, ImPlotAxisFlags_NoLabel);
 	}
-	inline bool HasGridLines()      const
-	{
+	inline bool HasGridLines()      const {
 		return !ImHasFlag(Flags, ImPlotAxisFlags_NoGridLines);
 	}
-	inline bool HasTickLabels()     const
-	{
+	inline bool HasTickLabels()     const {
 		return !ImHasFlag(Flags, ImPlotAxisFlags_NoTickLabels);
 	}
-	inline bool HasTickMarks()      const
-	{
+	inline bool HasTickMarks()      const {
 		return !ImHasFlag(Flags, ImPlotAxisFlags_NoTickMarks);
 	}
-	inline bool WillRender()        const
-	{
+	inline bool WillRender()        const {
 		return HasGridLines() || HasTickLabels() || HasTickMarks();
 	}
-	inline bool IsOpposite()        const
-	{
+	inline bool IsOpposite()        const {
 		return ImHasFlag(Flags, ImPlotAxisFlags_Opposite);
 	}
-	inline bool IsInverted()        const
-	{
+	inline bool IsInverted()        const {
 		return ImHasFlag(Flags, ImPlotAxisFlags_Invert);
 	}
-	inline bool IsForeground()      const
-	{
+	inline bool IsForeground()      const {
 		return ImHasFlag(Flags, ImPlotAxisFlags_Foreground);
 	}
-	inline bool IsAutoFitting()     const
-	{
+	inline bool IsAutoFitting()     const {
 		return ImHasFlag(Flags, ImPlotAxisFlags_AutoFit);
 	}
-	inline bool CanInitFit()        const
-	{
+	inline bool CanInitFit()        const {
 		return !ImHasFlag(Flags, ImPlotAxisFlags_NoInitialFit) && !HasRange && !LinkedMin && !LinkedMax;
 	}
-	inline bool IsRangeLocked()     const
-	{
+	inline bool IsRangeLocked()     const {
 		return HasRange && RangeCond == ImPlotCond_Always;
 	}
-	inline bool IsLockedMin()       const
-	{
+	inline bool IsLockedMin()       const {
 		return !Enabled || IsRangeLocked() || ImHasFlag(Flags, ImPlotAxisFlags_LockMin);
 	}
-	inline bool IsLockedMax()       const
-	{
+	inline bool IsLockedMax()       const {
 		return !Enabled || IsRangeLocked() || ImHasFlag(Flags, ImPlotAxisFlags_LockMax);
 	}
-	inline bool IsLocked()          const
-	{
+	inline bool IsLocked()          const {
 		return IsLockedMin() && IsLockedMax();
 	}
-	inline bool IsInputLockedMin()  const
-	{
+	inline bool IsInputLockedMin()  const {
 		return IsLockedMin() || IsAutoFitting();
 	}
-	inline bool IsInputLockedMax()  const
-	{
+	inline bool IsInputLockedMax()  const {
 		return IsLockedMax() || IsAutoFitting();
 	}
-	inline bool IsInputLocked()     const
-	{
+	inline bool IsInputLocked()     const {
 		return IsLocked() || IsAutoFitting();
 	}
-	inline bool IsTime()            const
-	{
+	inline bool IsTime()            const {
 		return ImHasFlag(Flags, ImPlotAxisFlags_Time);
 	}
-	inline bool IsLog()             const
-	{
+	inline bool IsLog()             const {
 		return ImHasFlag(Flags, ImPlotAxisFlags_LogScale);
 	}
-	inline bool HasMenus()          const
-	{
+	inline bool HasMenus()          const {
 		return !ImHasFlag(Flags, ImPlotAxisFlags_NoMenus);
 	}
 
-	void PushLinks()
-	{
-		if (LinkedMin)
-		{
+	void PushLinks() {
+		if (LinkedMin) {
 			*LinkedMin = Range.Min;
 		}
-		if (LinkedMax)
-		{
+		if (LinkedMax) {
 			*LinkedMax = Range.Max;
 		}
 	}
 
-	void PullLinks()
-	{
-		if (LinkedMin)
-		{
+	void PullLinks() {
+		if (LinkedMin) {
 			SetMin(*LinkedMin, true);
 		}
-		if (LinkedMax)
-		{
+		if (LinkedMax) {
 			SetMax(*LinkedMax, true);
 		}
 	}
 };
 
 // Align plots group data
-struct ImPlotAlignmentData
-{
+struct ImPlotAlignmentData {
 	bool  Vertical;
 	float PadA;
 	float PadB;
 	float PadAMax;
 	float PadBMax;
-	ImPlotAlignmentData()
-	{
+	ImPlotAlignmentData() {
 		Vertical = true;
 		PadA = PadB = PadAMax = PadBMax = 0;
 	}
-	void Begin()
-	{
+	void Begin() {
 		PadAMax = PadBMax = 0;
 	}
-	void Update(float& pad_a, float& pad_b, float& delta_a, float& delta_b)
-	{
+	void Update(float& pad_a, float& pad_b, float& delta_a, float& delta_b) {
 		float bak_a = pad_a; float bak_b = pad_b;
-		if (PadAMax < pad_a)
-		{
+		if (PadAMax < pad_a) {
 			PadAMax = pad_a;
 		}
-		if (PadBMax < pad_b)
-		{
+		if (PadBMax < pad_b) {
 			PadBMax = pad_b;
 		}
-		if (pad_a < PadA)
-		{
+		if (pad_a < PadA) {
 			pad_a = PadA; delta_a = pad_a - bak_a;
 		}
-		else
-		{
+		else {
 			delta_a = 0;
 		}
-		if (pad_b < PadB)
-		{
+		if (pad_b < PadB) {
 			pad_b = PadB; delta_b = pad_b - bak_b;
 		}
-		else
-		{
+		else {
 			delta_b = 0;
 		}
 	}
-	void End()
-	{
+	void End() {
 		PadA = PadAMax; PadB = PadBMax;
 	}
-	void Reset()
-	{
+	void Reset() {
 		PadA = PadB = PadAMax = PadBMax = 0;
 	}
 };
 
 // State information for Plot items
-struct ImPlotItem
-{
+struct ImPlotItem {
 	ImGuiID      ID;
 	ImU32        Color;
 	ImRect       LegendHoverRect;
@@ -1173,8 +1014,7 @@ struct ImPlotItem
 	bool         LegendHovered;
 	bool         SeenThisFrame;
 
-	ImPlotItem()
-	{
+	ImPlotItem() {
 		ID = 0;
 		NameOffset = -1;
 		Show = true;
@@ -1182,15 +1022,13 @@ struct ImPlotItem
 		LegendHovered = false;
 	}
 
-	~ImPlotItem()
-	{
+	~ImPlotItem() {
 		ID = 0;
 	}
 };
 
 // Holds Legend state
-struct ImPlotLegend
-{
+struct ImPlotLegend {
 	ImPlotLegendFlags Flags;
 	ImPlotLegendFlags PreviousFlags;
 	ImPlotLocation    Location;
@@ -1202,82 +1040,66 @@ struct ImPlotLegend
 	bool              Held;
 	bool              CanGoInside;
 
-	ImPlotLegend()
-	{
+	ImPlotLegend() {
 		Flags = PreviousFlags = ImPlotLegendFlags_None;
 		CanGoInside = true;
 		Hovered = Held = false;
 		Location = ImPlotLocation_NorthWest;
 	}
 
-	void Reset()
-	{
+	void Reset() {
 		Indices.shrink(0); Labels.Buf.shrink(0);
 	}
 };
 
 // Holds Items and Legend data
-struct ImPlotItemGroup
-{
+struct ImPlotItemGroup {
 	ImGuiID            ID;
 	ImPlotLegend       Legend;
 	ImPool<ImPlotItem> ItemPool;
 	int                ColormapIdx;
 
-	ImPlotItemGroup()
-	{
+	ImPlotItemGroup() {
 		ColormapIdx = 0;
 	}
 
-	int         GetItemCount() const
-	{
+	int         GetItemCount() const {
 		return ItemPool.GetBufSize();
 	}
-	ImGuiID     GetItemID(const char* label_id)
-	{
+	ImGuiID     GetItemID(const char* label_id) {
 		return ImGui::GetID(label_id); /* GetIDWithSeed */
 	}
-	ImPlotItem* GetItem(ImGuiID id)
-	{
+	ImPlotItem* GetItem(ImGuiID id) {
 		return ItemPool.GetByKey(id);
 	}
-	ImPlotItem* GetItem(const char* label_id)
-	{
+	ImPlotItem* GetItem(const char* label_id) {
 		return GetItem(GetItemID(label_id));
 	}
-	ImPlotItem* GetOrAddItem(ImGuiID id)
-	{
+	ImPlotItem* GetOrAddItem(ImGuiID id) {
 		return ItemPool.GetOrAddByKey(id);
 	}
-	ImPlotItem* GetItemByIndex(int i)
-	{
+	ImPlotItem* GetItemByIndex(int i) {
 		return ItemPool.GetByIndex(i);
 	}
-	int         GetItemIndex(ImPlotItem* item)
-	{
+	int         GetItemIndex(ImPlotItem* item) {
 		return ItemPool.GetIndex(item);
 	}
-	int         GetLegendCount() const
-	{
+	int         GetLegendCount() const {
 		return Legend.Indices.size();
 	}
-	ImPlotItem* GetLegendItem(int i)
-	{
+	ImPlotItem* GetLegendItem(int i) {
 		return ItemPool.GetByIndex(Legend.Indices[i]);
 	}
-	const char* GetLegendLabel(int i)
-	{
+	const char* GetLegendLabel(int i) {
 		return Legend.Labels.Buf.Data + GetLegendItem(i)->NameOffset;
 	}
-	void        Reset()
-	{
+	void        Reset() {
 		ItemPool.Clear(); Legend.Reset(); ColormapIdx = 0;
 	}
 };
 
 // Holds Plot state information that must persist after EndPlot
-struct ImPlotPlot
-{
+struct ImPlotPlot {
 	ImGuiID              ID;
 	ImPlotFlags          Flags;
 	ImPlotFlags          PreviousFlags;
@@ -1305,8 +1127,7 @@ struct ImPlotPlot
 	bool                 Selected;
 	bool                 ContextLocked;
 
-	ImPlotPlot()
-	{
+	ImPlotPlot() {
 		Flags = PreviousFlags = ImPlotFlags_None;
 		for (int i = 0; i < IMPLOT_NUM_X_AXES; ++i)
 			XAxis(i).Vertical = false;
@@ -1323,102 +1144,82 @@ struct ImPlotPlot
 		Hovered = Held = Selected = Selecting = ContextLocked = false;
 	}
 
-	inline bool IsInputLocked() const
-	{
-		for (int i = 0; i < IMPLOT_NUM_X_AXES; ++i)
-		{
+	inline bool IsInputLocked() const {
+		for (int i = 0; i < IMPLOT_NUM_X_AXES; ++i) {
 			if (!XAxis(i).IsInputLocked())
 				return false;
 		}
-		for (int i = 0; i < IMPLOT_NUM_Y_AXES; ++i)
-		{
+		for (int i = 0; i < IMPLOT_NUM_Y_AXES; ++i) {
 			if (!YAxis(i).IsInputLocked())
 				return false;
 		}
 		return true;
 	}
 
-	inline void ClearTextBuffer()
-	{
+	inline void ClearTextBuffer() {
 		TextBuffer.Buf.shrink(0);
 	}
 
-	inline void SetTitle(const char* title)
-	{
-		if (title && ImGui::FindRenderedTextEnd(title, NULL) != title)
-		{
+	inline void SetTitle(const char* title) {
+		if (title && ImGui::FindRenderedTextEnd(title, NULL) != title) {
 			TitleOffset = TextBuffer.size();
 			TextBuffer.append(title, title + strlen(title) + 1);
 		}
-		else
-		{
+		else {
 			TitleOffset = -1;
 		}
 	}
-	inline bool HasTitle() const
-	{
+	inline bool HasTitle() const {
 		return TitleOffset != -1 && !ImHasFlag(Flags, ImPlotFlags_NoTitle);
 	}
-	inline const char* GetTitle() const
-	{
+	inline const char* GetTitle() const {
 		return TextBuffer.Buf.Data + TitleOffset;
 	}
 
-	inline       ImPlotAxis& XAxis(int i)
-	{
+	inline       ImPlotAxis& XAxis(int i) {
 		return Axes[ImAxis_X1 + i];
 	}
-	inline const ImPlotAxis& XAxis(int i) const
-	{
+	inline const ImPlotAxis& XAxis(int i) const {
 		return Axes[ImAxis_X1 + i];
 	}
-	inline       ImPlotAxis& YAxis(int i)
-	{
+	inline       ImPlotAxis& YAxis(int i) {
 		return Axes[ImAxis_Y1 + i];
 	}
-	inline const ImPlotAxis& YAxis(int i) const
-	{
+	inline const ImPlotAxis& YAxis(int i) const {
 		return Axes[ImAxis_Y1 + i];
 	}
 
-	inline int EnabledAxesX()
-	{
+	inline int EnabledAxesX() {
 		int cnt = 0;
 		for (int i = 0; i < IMPLOT_NUM_X_AXES; ++i)
 			cnt += XAxis(i).Enabled;
 		return cnt;
 	}
 
-	inline int EnabledAxesY()
-	{
+	inline int EnabledAxesY() {
 		int cnt = 0;
 		for (int i = 0; i < IMPLOT_NUM_Y_AXES; ++i)
 			cnt += YAxis(i).Enabled;
 		return cnt;
 	}
 
-	inline void SetAxisLabel(ImPlotAxis& axis, const char* label)
-	{
-		if (label && ImGui::FindRenderedTextEnd(label, NULL) != label)
-		{
+	inline void SetAxisLabel(ImPlotAxis& axis, const char* label) {
+		if (label && ImGui::FindRenderedTextEnd(label, NULL) != label) {
 			axis.LabelOffset = TextBuffer.size();
 			TextBuffer.append(label, label + strlen(label) + 1);
 		}
-		else
-		{
+		else {
 			axis.LabelOffset = -1;
 		}
 	}
 
-	inline const char* GetAxisLabel(const ImPlotAxis& axis) const
-	{
+	inline const char* GetAxisLabel(const ImPlotAxis& axis) const {
 		return TextBuffer.Buf.Data + axis.LabelOffset;
 	}
 };
 
 // Holds subplot data that must persist afer EndSubplot
-struct ImPlotSubplot
-{
+struct ImPlotSubplot {
 	ImGuiID                       ID;
 	ImPlotSubplotFlags            Flags;
 	ImPlotSubplotFlags            PreviousFlags;
@@ -1439,8 +1240,7 @@ struct ImPlotSubplot
 	bool                          FrameHovered;
 	bool                          HasTitle;
 
-	ImPlotSubplot()
-	{
+	ImPlotSubplot() {
 		Rows = Cols = CurrentIdx = 0;
 		FrameHovered = false;
 		Items.Legend.Location = ImPlotLocation_North;
@@ -1451,8 +1251,7 @@ struct ImPlotSubplot
 };
 
 // Temporary data storage for upcoming plot
-struct ImPlotNextPlotData
-{
+struct ImPlotNextPlotData {
 	ImPlotCond  RangeCond[ImAxis_COUNT];
 	ImPlotRange Range[ImAxis_COUNT];
 	bool        HasRange[ImAxis_COUNT];
@@ -1460,15 +1259,12 @@ struct ImPlotNextPlotData
 	double* LinkedMin[ImAxis_COUNT];
 	double* LinkedMax[ImAxis_COUNT];
 
-	ImPlotNextPlotData()
-	{
+	ImPlotNextPlotData() {
 		Reset();
 	}
 
-	void Reset()
-	{
-		for (int i = 0; i < ImAxis_COUNT; ++i)
-		{
+	void Reset() {
+		for (int i = 0; i < ImAxis_COUNT; ++i) {
 			HasRange[i] = false;
 			Fit[i] = false;
 			LinkedMin[i] = LinkedMax[i] = NULL;
@@ -1478,8 +1274,7 @@ struct ImPlotNextPlotData
 };
 
 // Temporary data storage for upcoming item
-struct ImPlotNextItemData
-{
+struct ImPlotNextItemData {
 	ImVec4       Colors[5]; // ImPlotCol_Line, ImPlotCol_Fill, ImPlotCol_MarkerOutline, ImPlotCol_MarkerFill, ImPlotCol_ErrorBar
 	float        LineWeight;
 	ImPlotMarker Marker;
@@ -1497,12 +1292,10 @@ struct ImPlotNextItemData
 	bool         HasHidden;
 	bool         Hidden;
 	ImPlotCond   HiddenCond;
-	ImPlotNextItemData()
-	{
+	ImPlotNextItemData() {
 		Reset();
 	}
-	void Reset()
-	{
+	void Reset() {
 		for (int i = 0; i < 5; ++i)
 			Colors[i] = IMPLOT_AUTO_COL;
 		LineWeight = MarkerSize = MarkerWeight = FillAlpha = ErrorBarSize = ErrorBarWeight = DigitalBitHeight = DigitalBitGap = IMPLOT_AUTO;
@@ -1512,8 +1305,7 @@ struct ImPlotNextItemData
 };
 
 // Holds state information that must persist between calls to BeginPlot()/EndPlot()
-struct ImPlotContext
-{
+struct ImPlotContext {
 // Plot States
 	ImPool<ImPlotPlot>    Plots;
 	ImPool<ImPlotSubplot> Subplots;
@@ -1567,8 +1359,7 @@ struct ImPlotContext
 // No guarantee of forward compatibility here!
 //-----------------------------------------------------------------------------
 
-namespace ImPlot
-{
+namespace ImPlot {
 
 //-----------------------------------------------------------------------------
 // [SECTION] Context Utils
@@ -1602,8 +1393,7 @@ namespace ImPlot
 	//-----------------------------------------------------------------------------
 
 	// Lock Setup and call SetupFinish if necessary.
-	static inline void SetupLock()
-	{
+	static inline void SetupLock() {
 		if (!GImPlot->CurrentPlot->SetupLocked)
 			SetupFinish();
 		GImPlot->CurrentPlot->SetupLocked = true;
@@ -1642,10 +1432,8 @@ namespace ImPlot
 	//-----------------------------------------------------------------------------
 
 	// Returns true if any enabled axis is locked from user input.
-	static inline bool AnyAxesInputLocked(ImPlotAxis* axes, int count)
-	{
-		for (int i = 0; i < count; ++i)
-		{
+	static inline bool AnyAxesInputLocked(ImPlotAxis* axes, int count) {
+		for (int i = 0; i < count; ++i) {
 			if (axes[i].Enabled && axes[i].IsInputLocked())
 				return true;
 		}
@@ -1653,30 +1441,24 @@ namespace ImPlot
 	}
 
 	// Returns true if all enabled axes are locked from user input.
-	static inline bool AllAxesInputLocked(ImPlotAxis* axes, int count)
-	{
-		for (int i = 0; i < count; ++i)
-		{
+	static inline bool AllAxesInputLocked(ImPlotAxis* axes, int count) {
+		for (int i = 0; i < count; ++i) {
 			if (axes[i].Enabled && !axes[i].IsInputLocked())
 				return false;
 		}
 		return true;
 	}
 
-	static inline bool AnyAxesHeld(ImPlotAxis* axes, int count)
-	{
-		for (int i = 0; i < count; ++i)
-		{
+	static inline bool AnyAxesHeld(ImPlotAxis* axes, int count) {
+		for (int i = 0; i < count; ++i) {
 			if (axes[i].Enabled && axes[i].Held)
 				return true;
 		}
 		return false;
 	}
 
-	static inline bool AnyAxesHovered(ImPlotAxis* axes, int count)
-	{
-		for (int i = 0; i < count; ++i)
-		{
+	static inline bool AnyAxesHovered(ImPlotAxis* axes, int count) {
+		for (int i = 0; i < count; ++i) {
 			if (axes[i].Enabled && axes[i].Hovered)
 				return true;
 		}
@@ -1684,8 +1466,7 @@ namespace ImPlot
 	}
 
 	// Gets the XY scale for the current plot and y-axis (TODO)
-	static inline ImPlotScale GetCurrentScale()
-	{
+	static inline ImPlotScale GetCurrentScale() {
 		ImPlotPlot& plot = *GetCurrentPlot();
 		ImPlotAxis& x = plot.Axes[plot.CurrentX];
 		ImPlotAxis& y = plot.Axes[plot.CurrentY];
@@ -1700,30 +1481,26 @@ namespace ImPlot
 	}
 
 	// Returns true if the user has requested data to be fit.
-	static inline bool FitThisFrame()
-	{
+	static inline bool FitThisFrame() {
 		return GImPlot->CurrentPlot->FitThisFrame;
 	}
 
 	// Extends the current plot's axes so that it encompasses a vertical line at x
-	static inline void FitPointX(double x)
-	{
+	static inline void FitPointX(double x) {
 		ImPlotPlot& plot = *GetCurrentPlot();
 		ImPlotAxis& x_axis = plot.Axes[plot.CurrentX];
 		x_axis.ExtendFit(x);
 	}
 
 	// Extends the current plot's axes so that it encompasses a horizontal line at y
-	static inline void FitPointY(double y)
-	{
+	static inline void FitPointY(double y) {
 		ImPlotPlot& plot = *GetCurrentPlot();
 		ImPlotAxis& y_axis = plot.Axes[plot.CurrentY];
 		y_axis.ExtendFit(y);
 	}
 
 	// Extends the current plot's axes so that it encompasses point p
-	static inline void FitPoint(const ImPlotPoint& p)
-	{
+	static inline void FitPoint(const ImPlotPoint& p) {
 		ImPlotPlot& plot = *GetCurrentPlot();
 		ImPlotAxis& x_axis = plot.Axes[plot.CurrentX];
 		ImPlotAxis& y_axis = plot.Axes[plot.CurrentY];
@@ -1732,8 +1509,7 @@ namespace ImPlot
 	}
 
 	// Returns true if two ranges overlap
-	static inline bool RangesOverlap(const ImPlotRange& r1, const ImPlotRange& r2)
-	{
+	static inline bool RangesOverlap(const ImPlotRange& r1, const ImPlotRange& r2) {
 		return r1.Min <= r2.Max && r2.Min <= r1.Max;
 	}
 
@@ -1779,31 +1555,26 @@ namespace ImPlot
 	//-----------------------------------------------------------------------------
 
 	// Get styling data for next item (call between Begin/EndItem)
-	static inline const ImPlotNextItemData& GetItemData()
-	{
+	static inline const ImPlotNextItemData& GetItemData() {
 		return GImPlot->NextItemData;
 	}
 
 // Returns true if a color is set to be automatically determined
-	static inline bool IsColorAuto(const ImVec4& col)
-	{
+	static inline bool IsColorAuto(const ImVec4& col) {
 		return col.w == -1;
 	}
 // Returns true if a style color is set to be automaticaly determined
-	static inline bool IsColorAuto(ImPlotCol idx)
-	{
+	static inline bool IsColorAuto(ImPlotCol idx) {
 		return IsColorAuto(GImPlot->Style.Colors[idx]);
 	}
 // Returns the automatically deduced style color
 	IMPLOT_API ImVec4 GetAutoColor(ImPlotCol idx);
 
 	// Returns the style color whether it is automatic or custom set
-	static inline ImVec4 GetStyleColorVec4(ImPlotCol idx)
-	{
+	static inline ImVec4 GetStyleColorVec4(ImPlotCol idx) {
 		return IsColorAuto(idx) ? GetAutoColor(idx) : GImPlot->Style.Colors[idx];
 	}
-	static inline ImU32  GetStyleColorU32(ImPlotCol idx)
-	{
+	static inline ImU32  GetStyleColorU32(ImPlotCol idx) {
 		return ImGui::ColorConvertFloat4ToU32(GetStyleColorVec4(idx));
 	}
 
@@ -1812,29 +1583,24 @@ namespace ImPlot
 	// Draws multiline horizontal text centered.
 	IMPLOT_API void AddTextCentered(ImDrawList* DrawList, ImVec2 top_center, ImU32 col, const char* text_begin, const char* text_end = NULL);
 	// Calculates the size of vertical text
-	static inline ImVec2 CalcTextSizeVertical(const char* text)
-	{
+	static inline ImVec2 CalcTextSizeVertical(const char* text) {
 		ImVec2 sz = ImGui::CalcTextSize(text);
 		return ImVec2(sz.y, sz.x);
 	}
 	// Returns white or black text given background color
-	static inline ImU32 CalcTextColor(const ImVec4& bg)
-	{
+	static inline ImU32 CalcTextColor(const ImVec4& bg) {
 		return (bg.x * 0.299f + bg.y * 0.587f + bg.z * 0.114f) > 0.5f ? IM_COL32_BLACK : IM_COL32_WHITE;
 	}
-	static inline ImU32 CalcTextColor(ImU32 bg)
-	{
+	static inline ImU32 CalcTextColor(ImU32 bg) {
 		return CalcTextColor(ImGui::ColorConvertU32ToFloat4(bg));
 	}
 // Lightens or darkens a color for hover
-	static inline ImU32 CalcHoverColor(ImU32 col)
-	{
+	static inline ImU32 CalcHoverColor(ImU32 col) {
 		return ImMixU32(col, CalcTextColor(col), 32);
 	}
 
 // Clamps a label position so that it fits a rect defined by Min/Max
-	static inline ImVec2 ClampLabelPos(ImVec2 pos, const ImVec2& size, const ImVec2& Min, const ImVec2& Max)
-	{
+	static inline ImVec2 ClampLabelPos(ImVec2 pos, const ImVec2& size, const ImVec2& Min, const ImVec2& Max) {
 		if (pos.x < Min.x)              pos.x = Min.x;
 		if (pos.y < Min.y)              pos.y = Min.y;
 		if ((pos.x + size.x) > Max.x)   pos.x = Max.x - size.x;
@@ -1859,29 +1625,24 @@ namespace ImPlot
 	// Rounds x to powers of 2,5 and 10 for generating axis labels (from Graphics Gems 1 Chapter 11.2)
 	IMPLOT_API double NiceNum(double x, bool round);
 	// Computes order of magnitude of double.
-	static inline int OrderOfMagnitude(double val)
-	{
+	static inline int OrderOfMagnitude(double val) {
 		return val == 0 ? 0 : (int) (floor(log10(fabs(val))));
 	}
 // Returns the precision required for a order of magnitude.
-	static inline int OrderToPrecision(int order)
-	{
+	static inline int OrderToPrecision(int order) {
 		return order > 0 ? 0 : 1 - order;
 	}
 // Returns a floating point precision to use given a value
-	static inline int Precision(double val)
-	{
+	static inline int Precision(double val) {
 		return OrderToPrecision(OrderOfMagnitude(val));
 	}
 // Round a value to a given precision
-	static inline double RoundTo(double val, int prec)
-	{
+	static inline double RoundTo(double val, int prec) {
 		double p = pow(10, (double) prec); return floor(val * p + 0.5) / p;
 	}
 
 // Returns the intersection point of two lines A and B (assumes they are not parallel!)
-	static inline ImVec2 Intersection(const ImVec2& a1, const ImVec2& a2, const ImVec2& b1, const ImVec2& b2)
-	{
+	static inline ImVec2 Intersection(const ImVec2& a1, const ImVec2& a2, const ImVec2& b1, const ImVec2& b2) {
 		float v1 = (a1.x * a2.y - a1.y * a2.x);  float v2 = (b1.x * b2.y - b1.y * b2.x);
 		float v3 = ((a1.x - a2.x) * (b1.y - b2.y) - (a1.y - a2.y) * (b1.x - b2.x));
 		return ImVec2((v1 * (b1.x - b2.x) - v2 * (a1.x - a2.x)) / v3, (v1 * (b1.y - b2.y) - v2 * (a1.y - a2.y)) / v3);
@@ -1889,35 +1650,31 @@ namespace ImPlot
 
 	// Fills a buffer with n samples linear interpolated from vmin to vmax
 	template <typename T>
-	void FillRange(ImVector<T>& buffer, int n, T vmin, T vmax)
-	{
+	void FillRange(ImVector<T>& buffer, int n, T vmin, T vmax) {
 		buffer.resize(n);
 		T step = (vmax - vmin) / (n - 1);
-		for (int i = 0; i < n; ++i)
-		{
+		for (int i = 0; i < n; ++i) {
 			buffer[i] = vmin + i * step;
 		}
 	}
 
 	// Calculate histogram bin counts and widths
 	template <typename T>
-	static inline void CalculateBins(const T* values, int count, ImPlotBin meth, const ImPlotRange& range, int& bins_out, double& width_out)
-	{
-		switch (meth)
-		{
-		case ImPlotBin_Sqrt:
-		bins_out = (int) ceil(sqrt(count));
-		break;
-		case ImPlotBin_Sturges:
-		bins_out = (int) ceil(1.0 + log2(count));
-		break;
-		case ImPlotBin_Rice:
-		bins_out = (int) ceil(2 * cbrt(count));
-		break;
-		case ImPlotBin_Scott:
-		width_out = 3.49 * ImStdDev(values, count) / cbrt(count);
-		bins_out = (int) round(range.Size() / width_out);
-		break;
+	static inline void CalculateBins(const T* values, int count, ImPlotBin meth, const ImPlotRange& range, int& bins_out, double& width_out) {
+		switch (meth) {
+			case ImPlotBin_Sqrt:
+				bins_out = (int) ceil(sqrt(count));
+				break;
+			case ImPlotBin_Sturges:
+				bins_out = (int) ceil(1.0 + log2(count));
+				break;
+			case ImPlotBin_Rice:
+				bins_out = (int) ceil(2 * cbrt(count));
+				break;
+			case ImPlotBin_Scott:
+				width_out = 3.49 * ImStdDev(values, count) / cbrt(count);
+				bins_out = (int) round(range.Size() / width_out);
+				break;
 		}
 		width_out = range.Size() / bins_out;
 	}
@@ -1927,13 +1684,11 @@ namespace ImPlot
 	//-----------------------------------------------------------------------------
 
 	// Returns true if year is leap year (366 days long)
-	static inline bool IsLeapYear(int year)
-	{
+	static inline bool IsLeapYear(int year) {
 		return  year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
 	}
 	// Returns the number of days in a month, accounting for Feb. leap years. #month is zero indexed.
-	static inline int GetDaysInMonth(int year, int month)
-	{
+	static inline int GetDaysInMonth(int year, int month) {
 		static const int days[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 		return  days[month] + (int) (month == 1 && IsLeapYear(year));
 	}

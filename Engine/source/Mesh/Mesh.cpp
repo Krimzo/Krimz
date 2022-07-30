@@ -2,8 +2,7 @@
 #include "Render/Render.h"
 
 
-static physx::PxTriangleMesh* CookMesh(PxCooking* cooking, PxPhysics* physics, const std::vector<kl::vertex>& vertices)
-{
+static physx::PxTriangleMesh* CookMesh(PxCooking* cooking, PxPhysics* physics, const std::vector<kl::vertex>& vertices) {
 	PxTriangleMeshDesc meshDescriptor;
 	meshDescriptor.points.count = uint(vertices.size());
 	meshDescriptor.points.stride = uint(sizeof(kl::vertex));
@@ -16,13 +15,11 @@ static physx::PxTriangleMesh* CookMesh(PxCooking* cooking, PxPhysics* physics, c
 	return physics->createTriangleMesh(cookedBuffer);
 }
 
-Krimz::Mesh::Mesh(const std::string& name, kl::ref<kl::gpu> gpu, PxCooking* cooking, PxPhysics* physics, const std::vector<kl::vertex>& vertices) : Named(Named::Type::Mesh, name), m_GPU(gpu), vertices(vertices)
-{
+Krimz::Mesh::Mesh(const std::string& name, kl::ref<kl::gpu> gpu, PxCooking* cooking, PxPhysics* physics, const std::vector<kl::vertex>& vertices) : Named(Named::Type::Mesh, name), m_GPU(gpu), vertices(vertices) {
 	buffer = gpu->newVertexBuffer(vertices);
 	cooked = CookMesh(cooking, physics, vertices);
 }
-Krimz::Mesh::~Mesh()
-{
+Krimz::Mesh::~Mesh() {
 	m_GPU->destroy(buffer);
 	cooked->release();
 }
