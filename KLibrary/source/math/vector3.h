@@ -21,7 +21,8 @@ namespace kl
 
 namespace kl
 {
-	template<typename T> struct vector3
+	template<typename T>
+	struct vector3
 	{
 		union
 		{
@@ -44,37 +45,50 @@ namespace kl
 		};
 
 		vector3()
-		{
-		}
-		vector3(const T& a) : x(a), y(a), z(a)
-		{
-		}
-		vector3(const T& x, const T& y, const T& z) : x(x), y(y), z(z)
-		{
-		}
-		vector3(const kl::vector2<T>& v, const T& z) : x(v.x), y(v.y), z(z)
-		{
-		}
-		vector3(const T& x, const kl::vector2<T>& v) : x(x), y(v.x), z(v.y)
-		{
-		}
-		vector3(const kl::color& col) : x(toFloatColor(col.r)), y(toFloatColor(col.g)), z(toFloatColor(col.b))
+			: x(), y(), z()
 		{
 		}
 
-			  // Getters
+		template<typename T0, typename T1, typename T2>
+		vector3(const T0& x, const T1& y, const T2& z)
+			: x(T(x)), y(T(y)), z(T(z))
+		{
+		}
+
+		template<typename T0>
+		vector3(const kl::vector2<T>& v, const T0& z)
+			: x(v.x), y(v.y), z(T(z))
+		{
+		}
+
+		template<typename T0>
+		vector3(const T0& x, const kl::vector2<T>& v)
+			: x(T(x)), y(v.x), z(v.y)
+		{
+		}
+
+		vector3(const kl::color& col)
+			: x(toFloatColor(col.r)), y(toFloatColor(col.g)), z(toFloatColor(col.b))
+		{
+		}
+
+		// Getters
 		T& operator[](uint64 ind)
 		{
 			return data[ind];
 		}
+
 		const T& operator[](uint64 ind) const
 		{
 			return data[ind];
 		}
-		template<typename T0> operator kl::vector3<T0>() const
+
+		template<typename T0>
+		operator kl::vector3<T0>() const
 		{
 			return { T0(x), T0(y), T0(z) };
 		}
+
 		operator kl::color() const
 		{
 			return { toByteColor(x), toByteColor(y), toByteColor(z) };
@@ -157,7 +171,7 @@ namespace kl
 		// Division
 		void divide(const T& val, kl::vector3<T>& out) const
 		{
-			const double recVal = 1.0 / val;
+			const float recVal = 1.0f / val;
 			for (int i = 0; i < 3; i++)
 			{
 				out[i] = T(data[i] * recVal);
@@ -312,12 +326,13 @@ namespace kl
 		kl::vector3<T> reflect(const kl::vector3<T>& vec) const
 		{
 			const kl::vector3<T> normal = vec.normalize();
-			return (*this) - (normal * dot(normal) * 2.0);
+			return (*this) - (normal * dot(normal) * 2.0f);
 		}
 	};
 
 	// std::cout
-	template<typename T> inline std::ostream& operator<<(std::ostream& stream, const kl::vector3<T>& obj)
+	template<typename T>
+	inline std::ostream& operator<<(std::ostream& stream, const kl::vector3<T>& obj)
 	{
 		stream << std::fixed << std::setprecision(2);
 		stream << "(" << obj.x << ", " << obj.y << ", " << obj.z << ")";

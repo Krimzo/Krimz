@@ -23,6 +23,12 @@ namespace kl
 		float speed = 2.0f;
 		float sens = 0.1f;
 
+		template<typename T>
+		void resize(const kl::vector2<T>& size)
+		{
+			aspect = float(size.x) / float(size.y);
+		}
+
 		void forward(const kl::float3& dir);
 		kl::float3 forward() const;
 		kl::float3 right() const;

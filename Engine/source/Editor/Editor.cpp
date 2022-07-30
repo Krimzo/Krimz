@@ -26,7 +26,7 @@ void Krimz::Editor::start()
 
 	bind(kl::make<Scene>());
 
-#ifndef _DEBUG
+#ifdef NDEBUG
 	kl::console::hide();
 #endif
 

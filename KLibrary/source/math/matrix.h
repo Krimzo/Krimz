@@ -10,7 +10,8 @@
 
 namespace kl
 {
-	template<typename T, uint64 W, uint64 H> struct matrix : public std::array<T, W* H> {
+	template<typename T, uint64 W, uint64 H>
+	struct matrix : public std::array<T, W* H> {
 
 		matrix() : std::array<T, W* H>()
 		{
@@ -21,7 +22,8 @@ namespace kl
 		}
 
 		// Getter
-		template<typename T0> operator kl::matrix<T0, W, H>() const
+		template<typename T0>
+		operator kl::matrix<T0, W, H>() const
 		{
 			kl::matrix<T0, W, H> temp;
 			for (uint64 i = 0; i < (W * H); i++)
@@ -87,7 +89,8 @@ namespace kl
 		{
 			multiply(val, *this);
 		}
-		template<uint64 S> void multiply(const kl::matrix<T, S, W>& obj, kl::matrix<T, S, H>& out) const
+		template<uint64 S>
+		void multiply(const kl::matrix<T, S, W>& obj, kl::matrix<T, S, H>& out) const
 		{
 			for (uint64 y = 0; y < H; y++)
 			{
@@ -101,13 +104,15 @@ namespace kl
 				}
 			}
 		}
-		template<uint64 S> kl::matrix<T, S, H> operator*(const kl::matrix<T, S, W>& obj) const
+		template<uint64 S>
+		kl::matrix<T, S, H> operator*(const kl::matrix<T, S, W>& obj) const
 		{
 			kl::matrix<T, S, H> temp;
 			multiply(obj, temp);
 			return temp;
 		}
-		template<uint64 S> void operator*=(const kl::matrix<T, S, W>& obj)
+		template<uint64 S>
+		void operator*=(const kl::matrix<T, S, W>& obj)
 		{
 			*this = (*this) * obj;
 		}
@@ -346,7 +351,7 @@ namespace kl
 				const T det = determinant();
 				if (det)
 				{
-					out = adjoint() * T(1.0 / det);
+					out = adjoint() * T(1.0f / det);
 					return true;
 				}
 			}
@@ -361,7 +366,8 @@ namespace kl
 	};
 
 	// std::cout
-	template<typename T, uint64 W, uint64 H> inline std::ostream& operator<<(std::ostream& stream, const kl::matrix<T, W, H>& mat)
+	template<typename T, uint64 W, uint64 H>
+	inline std::ostream& operator<<(std::ostream& stream, const kl::matrix<T, W, H>& mat)
 	{
 		uint64 maxLenghts[W] = {};
 		std::string outputData[W * H] = {};

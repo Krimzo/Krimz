@@ -1,7 +1,7 @@
 #include "Light/Ambient.h"
 
 
-Krimz::Light::Ambient::Ambient() : m_Color(0.1f)
+Krimz::Light::Ambient::Ambient() : m_Color(0.1f, 0.1f, 0.1f, 0.1f)
 {
 }
 

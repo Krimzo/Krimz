@@ -20,12 +20,12 @@ namespace kl
 		double_buffer(const double_buffer&) = delete;
 		void operator=(const double_buffer&) = delete;
 
-		kl::uint2 size();
+		kl::uint2 size() const;
 
-		kl::image* getBB();
+		kl::image* bbuffer();
 
-		void draw(kl::window& win);
-		void operator>>(kl::window& win);
+		void draw(kl::window& window);
+		void operator>>(kl::window& window);
 
 		void swap();
 	};

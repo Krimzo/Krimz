@@ -37,11 +37,11 @@ void kl::mouse::move(const kl::int2& pos)
 
 kl::float2 kl::mouse::normalize(const kl::uint2& frameSize) const
 {
-	kl::float2 pos(
+	kl::float2 result = {
 		float(position.x) / frameSize.x,
 		float(frameSize.y - position.y) / frameSize.y
-	);
-	pos *= 2.0f;
-	pos -= 1.0f;
-	return pos;
+	};
+	result *= 2.0f;
+	result -= kl::float2(1.0f, 1.0f);
+	return result;
 }

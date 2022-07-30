@@ -18,14 +18,18 @@ kl::ray::ray(const kl::camera& cam, const kl::float2& ndc) : ray(cam.position, c
 
 bool kl::ray::intersect(const kl::plane& plane, kl::float3* outInter) const
 {
-	const float dnDot = direction.dot(plane.normal);
-	if (dnDot != 0.0f)
+	const float denom = plane.normal.normalize().dot(direction.normalize());
+	if (std::abs(denom) > 0.0001f)
 	{
-		if (outInter)
+		const float t = (plane.point - origin).dot(plane.normal) / denom;
+		if (t >= 0.0f)
 		{
-			*outInter = origin - direction * ((origin - plane.point).dot(plane.normal) / dnDot);
+			if (outInter)
+			{
+				*outInter = origin + direction * t;
+			}
+			return true;
 		}
-		return true;
 	}
 	return false;
 }

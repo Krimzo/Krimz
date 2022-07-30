@@ -14,17 +14,17 @@ namespace Krimz
 	namespace Render
 	{
 
-		inline kl::uint2 targetSize = 100;
-		inline kl::dx::view::target targetView = nullptr;
-		inline kl::dx::view::shader shaderView = nullptr;
+		//inline kl::uint2 targetSize = { 100, 100 };
+		//inline kl::dx::view::target targetView = nullptr;
+		//inline kl::dx::view::shader shaderView = nullptr;
 
-		void Shadows();
-		void FixViewport();
-		void Skybox();
-		void Entities();
-		void Outline();
-		void Collider();
-		void Gizmo();
-		void GUI();
+		//void Shadows();
+		//void FixViewport();
+		//void Skybox();
+		//void Entities();
+		//void Outline();
+		//void Collider();
+		//void Gizmo();
+		//void GUI();
 	}
 }

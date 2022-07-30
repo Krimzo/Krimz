@@ -40,6 +40,7 @@ namespace kl
 			((std::osyncstream(std::cout) << arg0) << ... << args) << END;
 		}
 	}
+
 	template<const wchar END = L'\n', typename Arg0, typename... Args>
 	inline void wprint(const Arg0& arg0, const Args&... args)
 	{
@@ -60,7 +61,9 @@ namespace kl
 		kl::print(ss, args...);
 		return ss.str();
 	}
-	template<typename... Args> inline std::wstring wformat(const Args&... args)
+
+	template<typename... Args>
+	inline std::wstring wformat(const Args&... args)
 	{
 		std::wstringstream ss;
 		kl::wprint(ss, args...);

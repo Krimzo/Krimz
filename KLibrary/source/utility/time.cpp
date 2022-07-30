@@ -8,26 +8,30 @@ int64 kl::time::get()
 	QueryPerformanceCounter(&time);
 	return time.QuadPart;
 }
+
 int64 kl::time::frequency()
 {
 	LARGE_INTEGER frequency = {};
 	QueryPerformanceFrequency(&frequency);
 	return frequency.QuadPart;
 }
-double kl::time::calculate(int64 start, int64 end)
+
+float kl::time::calculate(int64 start, int64 end)
 {
-	static const double recFrequency = 1.0 / kl::time::frequency();
+	static const float recFrequency = 1.0f / kl::time::frequency();
 	return (end - start) * recFrequency;
 }
-double kl::time::interval()
+
+float kl::time::interval()
 {
 	static int64 startTime = kl::time::get();
 	const int64 endTime = kl::time::get();
-	const double elapsedTime = kl::time::calculate(startTime, endTime);
+	const float elapsedTime = kl::time::calculate(startTime, endTime);
 	startTime = endTime;
 	return elapsedTime;
 }
-void kl::time::wait(double seconds)
+
+void kl::time::wait(float seconds)
 {
 	const int64 startTime = kl::time::get();
 	int64 endTime = kl::time::get();
@@ -36,7 +40,8 @@ void kl::time::wait(double seconds)
 		endTime = kl::time::get();
 	}
 }
-bool kl::time::sleep(double seconds)
+
+bool kl::time::sleep(float seconds)
 {
 	HANDLE timer = CreateWaitableTimerA(nullptr, true, nullptr);
 	if (!timer)
@@ -57,14 +62,14 @@ bool kl::time::sleep(double seconds)
 	return true;
 }
 
-std::ostream& operator<<(std::ostream& stream, const kl::time::date& date)
+std::ostream& kl::time::operator<<(std::ostream& stream, const kl::time::date& date)
 {
 	stream << date.year <<
-		"." << date.month <<
-		"." << date.day <<
-		"-" << date.hour <<
-		":" << date.minute <<
-		":" << date.second;
+		'.' << date.month <<
+		'.' << date.day <<
+		' ' << date.hour <<
+		':' << date.minute <<
+		':' << date.second;
 	return stream;
 }
 
@@ -77,22 +82,19 @@ kl::timer::timer()
 	m_ElapsedStart = now;
 }
 
+void kl::timer::reset()
+{
+	newInterval();
+	newElapsed();
+}
+
 void kl::timer::newInterval()
 {
 	m_IntervalStart = m_IntervalEnd;
 	m_IntervalEnd = kl::time::get();
 }
 
-double kl::timer::interval()
-{
-	return kl::time::calculate(m_IntervalStart, m_IntervalEnd);
-}
-
 void kl::timer::newElapsed()
 {
 	m_ElapsedStart = kl::time::get();
-}
-double kl::timer::elapsed() const
-{
-	return kl::time::calculate(m_ElapsedStart, kl::time::get());
 }

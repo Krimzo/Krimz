@@ -40,11 +40,15 @@ namespace kl
 
 		int send(const void* data, uint byteSize) const;
 		int receive(void* buff, uint byteSize) const;
-		template<typename T> int send(const T& obj) const
+
+		template<typename T>
+		int send(const T& obj) const
 		{
 			return send(&obj, sizeof(T));
 		}
-		template<typename T> int receive(T& obj) const
+
+		template<typename T>
+		int receive(T& obj) const
 		{
 			return receive(&obj, sizeof(T));
 		}

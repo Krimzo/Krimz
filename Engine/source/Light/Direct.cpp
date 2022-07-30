@@ -101,8 +101,8 @@ kl::mat4 Krimz::Light::Direct::matrix(const kl::camera& cam, uint ind) const
 
 	const kl::mat4 view = kl::mat4::lookAt(centroid - m_Direction, centroid, { 0.0f, 1.0f, 0.0f });
 
-	kl::float3 minp = FLT_MAX;
-	kl::float3 maxp = -FLT_MAX;
+	kl::float3 minp = { FLT_MAX, FLT_MAX, FLT_MAX };
+	kl::float3 maxp = { -FLT_MAX, -FLT_MAX, -FLT_MAX };
 	for (auto& corn : frustumCorners)
 	{
 		const kl::float4 lightCorn = view * corn;

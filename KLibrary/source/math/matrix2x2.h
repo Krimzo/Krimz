@@ -6,7 +6,8 @@
 
 namespace kl
 {
-	template<typename T> struct matrix2x2 : public kl::matrix<T, 2, 2>
+	template<typename T>
+	struct matrix2x2 : public kl::matrix<T, 2, 2>
 	{
 		matrix2x2()
 		{

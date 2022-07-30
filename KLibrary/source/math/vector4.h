@@ -5,7 +5,8 @@
 
 namespace kl
 {
-	template<typename T> struct vector4
+	template<typename T>
+	struct vector4
 	{
 		union
 		{
@@ -25,46 +26,68 @@ namespace kl
 		};
 
 		vector4()
-		{
-		}
-		vector4(const T& a) : x(a), y(a), z(a), w(a)
-		{
-		}
-		vector4(const T& x, const T& y, const T& z, const T& w) : x(x), y(y), z(z), w(w)
-		{
-		}
-		vector4(const kl::vector3<T>& v, const T& w) : x(v.x), y(v.y), z(v.z), w(w)
-		{
-		}
-		vector4(const T& x, const kl::vector3<T>& v) : x(x), y(v.x), z(v.y), w(v.z)
-		{
-		}
-		vector4(const kl::vector2<T>& v, const T& z, const T& w) : x(v.x), y(v.y), z(z), w(w)
-		{
-		}
-		vector4(const T& x, const kl::vector2<T>& v, const T& w) : x(x), y(v.x), z(v.y), w(w)
-		{
-		}
-		vector4(const T& x, const T& y, const kl::vector2<T>& v) : x(x), y(y), z(v.x), w(v.y)
-		{
-		}
-		vector4(const kl::color& col) : x(toFloatColor(col.r)), y(toFloatColor(col.g)), z(toFloatColor(col.b)), w(toFloatColor(col.a))
+			: x(), y(), z(), w()
 		{
 		}
 
-			  // Getters
+		template<typename T0, typename T1, typename T2, typename T3>
+		vector4(const T0& x, const T1& y, const T2& z, const T3& w)
+			: x(T(x)), y(T(y)), z(T(z)), w(T(w))
+		{
+		}
+
+		template<typename T0>
+		vector4(const kl::vector3<T>& v, const T0& w)
+			: x(v.x), y(v.y), z(v.z), w(T(w))
+		{
+		}
+
+		template<typename T0>
+		vector4(const T0& x, const kl::vector3<T>& v)
+			: x(T(x)), y(v.x), z(v.y), w(v.z)
+		{
+		}
+
+		template<typename T0, typename T1>
+		vector4(const kl::vector2<T>& v, const T0& z, const T1& w)
+			: x(v.x), y(v.y), z(T(z)), w(T(w))
+		{
+		}
+
+		template<typename T0, typename T1>
+		vector4(const T0& x, const kl::vector2<T>& v, const T1& w)
+			: x(T(x)), y(v.x), z(v.y), w(T(w))
+		{
+		}
+
+		template<typename T0, typename T1>
+		vector4(const T0& x, const T1& y, const kl::vector2<T>& v)
+			: x(T(x)), y(T(y)), z(v.x), w(v.y)
+		{
+		}
+
+		vector4(const kl::color& col)
+			: x(toFloatColor(col.r)), y(toFloatColor(col.g)), z(toFloatColor(col.b)), w(toFloatColor(col.a))
+		{
+		}
+
+		// Getters
 		T& operator[](uint64 ind)
 		{
 			return data[ind];
 		}
+
 		const T& operator[](uint64 ind) const
 		{
 			return data[ind];
 		}
-		template<typename T0> operator kl::vector4<T0>() const
+
+		template<typename T0>
+		operator kl::vector4<T0>() const
 		{
 			return { T0(x), T0(y), T0(z), T0(w) };
 		}
+
 		operator kl::color() const
 		{
 			return { toByteColor(x), toByteColor(y), toByteColor(z), toByteColor(w) };
@@ -147,7 +170,7 @@ namespace kl
 		// Division
 		void divide(const T& val, kl::vector4<T>& out) const
 		{
-			const double recVal = 1.0 / val;
+			const float recVal = 1.0f / val;
 			for (int i = 0; i < 4; i++)
 			{
 				out[i] = T(data[i] * recVal);
@@ -269,7 +292,8 @@ namespace kl
 	};
 
 	// std::cout
-	template<typename T> inline std::ostream& operator<<(std::ostream& stream, const kl::vector4<T>& obj)
+	template<typename T>
+	inline std::ostream& operator<<(std::ostream& stream, const kl::vector4<T>& obj)
 	{
 		stream << std::fixed << std::setprecision(2);
 		stream << "(" << obj.x << ", " << obj.y << ", " << obj.z << ", " << obj.w << ")";

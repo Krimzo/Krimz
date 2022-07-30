@@ -11,11 +11,11 @@ namespace kl
 	{
 		int64 get();
 		int64 frequency();
-		double calculate(int64 start, int64 end);
+		float calculate(int64 start, int64 end);
 
-		double interval();
-		void wait(double seconds);
-		bool sleep(double seconds);
+		float interval();
+		void wait(float seconds);
+		bool sleep(float seconds);
 
 		struct date
 		{
@@ -39,10 +39,10 @@ namespace kl
 				minute = now.tm_min;
 				second = now.tm_sec;
 			}
-
-			friend std::ostream& operator<<(std::ostream& stream, const date& date);
 		};
-	};
+
+		std::ostream& operator<<(std::ostream& stream, const date& date);
+	}
 
 	class timer
 	{
@@ -53,10 +53,22 @@ namespace kl
 	public:
 		timer();
 
+		void reset();
+
 		void newInterval();
-		double interval();
+
+		template<typename T = float>
+		T interval() const
+		{
+			return T(kl::time::calculate(m_IntervalStart, m_IntervalEnd));
+		}
 
 		void newElapsed();
-		double elapsed() const;
+
+		template<typename T = float>
+		T elapsed() const
+		{
+			return T(kl::time::calculate(m_ElapsedStart, kl::time::get()));
+		}
 	};
 }

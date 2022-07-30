@@ -1,2 +1,2 @@
-# My C++ library
+# Krimz C++ library
 Mostly focused on Win32 and DirectX.

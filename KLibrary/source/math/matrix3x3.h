@@ -6,9 +6,9 @@
 
 namespace kl
 {
-	template<typename T> struct matrix3x3 : public kl::matrix<T, 3, 3>
+	template<typename T>
+	struct matrix3x3 : public kl::matrix<T, 3, 3>
 	{
-
 		matrix3x3()
 		{
 		}
@@ -22,7 +22,7 @@ namespace kl
 		{
 		}
 
-			  // Translation matrix
+		// Translation matrix
 		static kl::matrix3x3<T> translation(const kl::vector2<T>& val)
 		{
 			kl::matrix3x3<T> temp;
@@ -52,7 +52,6 @@ namespace kl
 			temp[4] = val.y;
 			return temp;
 		}
-
 	};
 }
 

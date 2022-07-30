@@ -18,7 +18,7 @@
 
 kl::image::image()
 {
-	resize(0);
+	resize({});
 }
 kl::image::image(const kl::uint2& size, const kl::color& color)
 {
@@ -81,7 +81,7 @@ kl::image kl::image::rect(kl::uint2 a, kl::uint2 b) const
 		std::swap(a.y, b.y);
 	}
 	kl::image temp(b - a);
-	for (kl::uint2 pos = 0; pos.y < temp.height(); pos.y++)
+	for (kl::uint2 pos; pos.y < temp.height(); pos.y++)
 	{
 		for (pos.x = 0; pos.x < temp.width(); pos.x++)
 		{
@@ -332,7 +332,7 @@ void kl::image::drawCircle(const kl::int2& a, const kl::int2& b, const kl::color
 
 void kl::image::drawImage(const kl::int2& pos, const kl::image& img, bool mixAlpha)
 {
-	for (kl::uint2 coords = 0; coords.y < img.height(); coords.y++)
+	for (kl::uint2 coords; coords.y < img.height(); coords.y++)
 	{
 		for (coords.x = 0; coords.x < img.width(); coords.x++)
 		{
@@ -352,7 +352,7 @@ std::string kl::image::ascii(const kl::int2& frameSize) const
 {
 	const kl::int2 incr = m_Size / frameSize;
 	std::stringstream frame;
-	for (kl::int2 pos = 0; pos.y < frameSize.y; pos.y++)
+	for (kl::int2 pos; pos.y < frameSize.y; pos.y++)
 	{
 		for (pos.x = 0; pos.x < frameSize.x; pos.x++)
 		{

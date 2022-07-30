@@ -46,8 +46,8 @@ LRESULT CALLBACK kl::window::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	switch (msg)
 	{
 	case WM_SIZE:
-	resize(kl::int2(LOWORD(lParam), HIWORD(lParam)));
-	break;
+		resize(kl::int2(LOWORD(lParam), HIWORD(lParam)));
+		break;
 	}
 	return DefWindowProcA(hwnd, msg, wParam, lParam);
 }
@@ -67,55 +67,55 @@ void kl::window::handleMessage(MSG& msg)
 	{
 #ifdef KL_USING_IMGUI
 	case WM_CHAR:
-	if (*(short*) &msg.lParam > 1)
-	{
-		ImGui::GetIO().AddInputCharacter(uint(msg.wParam));
-	}
-	break;
+		if (*(short*) &msg.lParam > 1)
+		{
+			ImGui::GetIO().AddInputCharacter(uint(msg.wParam));
+		}
+		break;
 #endif
 
 	case WM_KEYDOWN:
-	keys.update(msg.wParam, true);
-	break;
+		keys.update(msg.wParam, true);
+		break;
 
 	case WM_KEYUP:
-	keys.update(msg.wParam, false);
-	break;
+		keys.update(msg.wParam, false);
+		break;
 
 	case WM_LBUTTONDOWN:
-	mouse.lmb.update(true);
-	break;
+		mouse.lmb.update(true);
+		break;
 
 	case WM_LBUTTONUP:
-	mouse.lmb.update(false);
-	break;
+		mouse.lmb.update(false);
+		break;
 
 	case WM_MBUTTONDOWN:
-	mouse.mmb.update(true);
-	break;
+		mouse.mmb.update(true);
+		break;
 
 	case WM_MBUTTONUP:
-	mouse.mmb.update(false);
-	break;
+		mouse.mmb.update(false);
+		break;
 
 	case WM_RBUTTONDOWN:
-	mouse.rmb.update(true);
-	break;
+		mouse.rmb.update(true);
+		break;
 
 	case WM_RBUTTONUP:
-	mouse.rmb.update(false);
-	break;
+		mouse.rmb.update(false);
+		break;
 
 	case WM_MOUSEMOVE:
-	mouse.position = kl::int2(GET_X_LPARAM(msg.lParam), GET_Y_LPARAM(msg.lParam));
-	break;
+		mouse.position = kl::int2(GET_X_LPARAM(msg.lParam), GET_Y_LPARAM(msg.lParam));
+		break;
 
 	case WM_MOUSEWHEEL:
-	mouse.scroll += GET_WHEEL_DELTA_WPARAM(msg.wParam) / 120;
-	break;
+		mouse.scroll += GET_WHEEL_DELTA_WPARAM(msg.wParam) / 120;
+		break;
 
 	default:
-	DispatchMessageA(&msg);
-	break;
+		DispatchMessageA(&msg);
+		break;
 	}
 }
