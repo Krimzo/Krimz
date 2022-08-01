@@ -15,7 +15,6 @@
 
 namespace kl {
 	class video {
-	private:
 		IMFSourceReader* m_Reader = nullptr;
 
 	public:
@@ -25,17 +24,17 @@ namespace kl {
 		void operator=(const kl::video&) = delete;
 		~video();
 
+		operator bool() const;
+
 		void open(const std::string& filePath);
 		void close();
-		bool isOpen() const;
 
-		uint64 byteSize() const;
+		uint64 size() const;
 		float duration() const;
 
-		float frameRate() const;
-		float frameTime() const;
-		uint64 frameCount() const;
-		kl::uint2 frameSize() const;
-		bool getFrame(kl::image& out);
+		float fps() const;
+		uint count() const;
+		kl::uint2 scale() const;
+		bool get(kl::image& out);
 	};
 }

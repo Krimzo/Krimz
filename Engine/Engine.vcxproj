@@ -31,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\GUI\GUISection.h" />
+    <ClInclude Include="source\GUI\Sections\GUISections.h" />
     <ClInclude Include="source\Light\Ambient.h" />
     <ClInclude Include="source\Material\MaterialComponent.h" />
     <ClInclude Include="source\Transform\Transform.h" />
@@ -65,6 +66,14 @@
     <ClCompile Include="source\Entity\Entity.cpp" />
     <ClCompile Include="source\Game\Game.cpp" />
     <ClCompile Include="source\GUI\GUISection.cpp" />
+    <ClCompile Include="source\GUI\Sections\GUISectionExplorer.cpp" />
+    <ClCompile Include="source\GUI\Sections\GUISectionLogView.cpp" />
+    <ClCompile Include="source\GUI\Sections\GUISectionMainMenu.cpp" />
+    <ClCompile Include="source\GUI\Sections\GUISectionPerformance.cpp" />
+    <ClCompile Include="source\GUI\Sections\GUISectionProperties.cpp" />
+    <ClCompile Include="source\GUI\Sections\GUISections.cpp" />
+    <ClCompile Include="source\GUI\Sections\GUISectionScene.cpp" />
+    <ClCompile Include="source\GUI\Sections\GUISectionViewport.cpp" />
     <ClCompile Include="source\Light\Ambient.cpp" />
     <ClCompile Include="source\Logger\Logger.cpp" />
     <ClCompile Include="source\Physics\Physical.cpp" />

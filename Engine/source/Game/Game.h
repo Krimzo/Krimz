@@ -9,10 +9,10 @@
 namespace Krimz {
 	class Game {
 	protected:
-		kl::window m_Window = {};
-		kl::timer m_Timer = {};
-		Physics m_Physics = {};
-		Renderer m_Renderer = {};
+		kl::window m_Window;
+		kl::timer m_Timer;
+		Physics m_Physics;
+		Renderer m_Renderer;
 
 		kl::ref<Scene> m_Scene;
 
@@ -27,5 +27,7 @@ namespace Krimz {
 		~Game();
 
 		void bind(kl::ref<Scene> scene);
+
+		void run();
 	};
 }

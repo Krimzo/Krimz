@@ -102,6 +102,9 @@
     <ClInclude Include="source\Light\Ambient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\GUI\Sections\GUISections.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Krimz.cpp">
@@ -186,6 +189,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\GUI\GUISection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\Sections\GUISections.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\Sections\GUISectionMainMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\Sections\GUISectionScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\Sections\GUISectionViewport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\Sections\GUISectionExplorer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\Sections\GUISectionLogView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\Sections\GUISectionPerformance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GUI\Sections\GUISectionProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

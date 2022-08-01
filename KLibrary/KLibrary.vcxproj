@@ -214,7 +214,7 @@
     <ClCompile Include="source\window\keys.cpp" />
     <ClCompile Include="source\window\mouse.cpp" />
     <ClCompile Include="source\window\window.cpp" />
-    <ClCompile Include="source\window\window_private.cpp" />
+    <ClCompile Include="source\window\window_handler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\gpu\dx_types.h" />

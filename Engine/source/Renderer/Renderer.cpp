@@ -17,6 +17,12 @@ void Krimz::Renderer::initalize(kl::window& window) {
 	m_GPU = kl::make<kl::gpu>(window);
 }
 
+void Krimz::Renderer::resize(const kl::uint2& newSize) {
+	if (m_GPU && newSize.x > 0 && newSize.y > 0) {
+		m_GPU->regenInternal(newSize);
+	}
+}
+
 void Krimz::Renderer::bind(kl::ref<Scene> scene) {
 	m_Scene = scene;
 }

@@ -8,12 +8,12 @@
 
 namespace Krimz {
 	class Editor {
-		kl::window m_Window = {};
-		kl::timer m_Timer = {};
-		Logger m_Logger = {};
-		Physics m_Physics = {};
-		Renderer m_Renderer = {};
-		GUIRenderer m_GUIRenderer = {};
+		kl::window m_Window;
+		kl::timer m_Timer;
+		Logger m_Logger;
+		Physics m_Physics;
+		Renderer m_Renderer;
+		GUIRenderer m_GUIRenderer;
 
 		kl::ref<Scene> m_Scene;
 
@@ -28,5 +28,7 @@ namespace Krimz {
 		~Editor();
 
 		void bind(kl::ref<Scene> scene);
+
+		void run();
 	};
 }

@@ -10,17 +10,23 @@ Krimz::GUIRenderer::GUIRenderer() {
 }
 
 Krimz::GUIRenderer::~GUIRenderer() {
-	ImGui_ImplDX11_Shutdown();
-	ImGui_ImplWin32_Shutdown();
+	if (m_DirectXInitalized) {
+		ImGui_ImplDX11_Shutdown();
+	}
+	if (m_WinApiInitialized) {
+		ImGui_ImplWin32_Shutdown();
+	}
 	ImPlot::DestroyContext();
 	ImGui::DestroyContext();
 }
 
 void Krimz::GUIRenderer::initialize(kl::window& window) {
 	ImGui_ImplWin32_Init(window);
+	m_WinApiInitialized = true;
 }
 void Krimz::GUIRenderer::initialize(kl::gpu& gpu) {
 	ImGui_ImplDX11_Init(gpu.dev(), gpu.con());
+	m_DirectXInitalized = true;
 }
 
 void Krimz::GUIRenderer::loadKrimzTheme() {
@@ -108,14 +114,33 @@ void Krimz::GUIRenderer::loadKrimzTheme() {
 	io.Fonts->AddFontFromFileTTF("resource/fonts/Balsamiq.ttf", 15);
 }
 
-void Krimz::GUIRenderer::bind(kl::ref<Scene> scene) {
-	m_Scene = scene;
+void Krimz::GUIRenderer::add(kl::ref<GUIRenderable> renderable) {
+	m_Renderables.push_back(renderable);
+}
+
+void Krimz::GUIRenderer::remove(kl::ref<GUIRenderable> renderable) {
+	for (auto index = m_Renderables.begin(); index != m_Renderables.end(); index++) {
+		if (*index == renderable) {
+			m_Renderables.erase(index--);
+		}
+	}
+}
+
+void Krimz::GUIRenderer::clear() {
+	m_Renderables.clear();
 }
 
 void Krimz::GUIRenderer::render() {
-	if (m_Scene) {
-		for (auto& entity : *m_Scene) {
-			entity->gui_render();
+	if (m_WinApiInitialized && m_DirectXInitalized) {
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+
+		for (auto& renderable : m_Renderables) {
+			renderable->gui_render();
 		}
+
+		ImGui::Render();
+		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 	}
 }

@@ -2,5 +2,6 @@
 
 
 int main() {
-	Krimz::Editor edtior = Krimz::Editor({ 1600, 900 });
+	Krimz::Editor editor = { { 1600, 900 } };
+	editor.run();
 }

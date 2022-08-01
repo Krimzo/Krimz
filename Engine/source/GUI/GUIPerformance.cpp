@@ -4,7 +4,7 @@
 
 static std::vector<float> frameHistory(30);
 
-double GetMaxVal() {
+static double GetMaxVal() {
 	double maxVal = -1.0;
 	for (auto& ref : frameHistory) {
 		if (ref > maxVal) {

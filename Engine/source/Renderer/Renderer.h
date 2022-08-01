@@ -22,6 +22,9 @@ namespace Krimz {
 		kl::gpu& gpu();
 
 		void initalize(kl::window& window);
+
+		void resize(const kl::uint2& newSize);
+
 		void bind(kl::ref<Scene> scene);
 
 		void color(const kl::color& color);

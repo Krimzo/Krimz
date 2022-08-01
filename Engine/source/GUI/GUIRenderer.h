@@ -12,7 +12,9 @@
 
 namespace Krimz {
 	class GUIRenderer {
-		kl::ref<Scene> m_Scene;
+		std::vector<kl::ref<GUIRenderable>> m_Renderables;
+		bool m_WinApiInitialized = false;
+		bool m_DirectXInitalized = false;
 
 	public:
 		GUIRenderer();
@@ -25,7 +27,9 @@ namespace Krimz {
 
 		void loadKrimzTheme();
 
-		void bind(kl::ref<Scene> scene);
+		void add(kl::ref<GUIRenderable> renderable);
+		void remove(kl::ref<GUIRenderable> renderable);
+		void clear();
 
 		void render();
 	};
